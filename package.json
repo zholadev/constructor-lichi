@@ -5,7 +5,7 @@
   "author": "Zholaman Zhumanov",
   "description": "Проект создан для создание главной страницы дизайна для сайта www.lichi.com",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4043",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -39,8 +39,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "14.2.5",
@@ -52,6 +52,7 @@
     "postcss": "^8",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.1.0"
   }
 }

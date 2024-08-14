@@ -1,3 +1,224 @@
 {
-  "extends": "next/core-web-vitals"
+  // Определяем среду выполнения: браузер и ECMAScript 2021
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  // Этот файл является корневым для конфигурации
+  "root": true,
+  // Используемые правила наследования
+  "extends": [
+    "plugin:react/jsx-runtime", // Правила для JSX без необходимости импорта React
+    "plugin:react-hooks/recommended", // Правила для хуков
+    "plugin:import/recommended", // Правила для импортов
+    "airbnb", // Правила стиля AirBnb
+    "next", // Правила для Next.js
+    "next/core-web-vitals", // Правила для Core Web Vitals
+    "plugin:jsx-a11y/recommended", // Правила доступности для JSX
+    "plugin:prettier/recommended", // Правила для интеграции Prettier
+    "plugin:@typescript-eslint/recommended" // Правила для TypeScript с ESLint
+  ],
+  // Используемый парсер для TypeScript
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    // Включаем возможности ECMAScript, включая JSX
+    "ecmaFeatures": { "jsx": true },
+    // Используемая версия ECMAScript
+    "ecmaVersion": "latest",
+    // Используем модули
+    "sourceType": "module"
+    // Для использования файла tsconfig.json, можно указать:
+    // "project": "./tsconfig.json"
+  },
+  // Подключаемые плагины
+  "plugins": ["react", "prettier", "@typescript-eslint"],
+  // Правила для линтинга
+  "rules": {
+    "prefer-const": "off",
+    // Правила Prettier
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": false, // Используем двойные кавычки
+        "tabWidth": 4, // Ширина табуляции
+        "semi": true, // Требование точки с запятой
+        "endOfLine": "auto", // Автоопределение конца строки
+        "trailingComma": "es5", // Запятая в конце списка
+        "useTabs": true // Используем пробелы, не табуляцию
+        // Дополнительные настройки Prettier, если необходимо
+      }
+
+      // Конфиг для рефакторинга в IDE при сейве. Включить нужное
+      //       {
+      //   "editor.formatOnSave": true,
+      //   "[javascript]": {
+      //     "editor.formatOnSave": false
+      //   },
+      //   "[javascriptreact]": {
+      //     "editor.formatOnSave": false
+      //   },
+      //   "[typescript]": {
+      //     "editor.formatOnSave": false
+      //   },
+      //   "[typescriptreact]": {
+      //     "editor.formatOnSave": false
+      //   },
+      //   "editor.codeActionsOnSave": {
+      //     "source.fixAll.eslint": true
+      //   }
+      // }
+    ],
+    // Отключаем правило "props spreading" для JSX
+    "react/jsx-props-no-spreading": "off",
+
+    // Правило для проверки предупреждающих комментариев. Добавить еще правила
+    "no-warning-comments": [
+      "error",
+      {
+        "terms": ["todo", "fixme", "xxx"],
+        "location": "start"
+      }
+    ],
+
+    // camelcase - Добавляем исключения для разрешенных имен
+    "camelcase": [
+      "off",
+      {
+        "allow": [
+          "api_data",
+          "ocp_id",
+          "user_data",
+          "chat_options",
+          "is_disabled",
+          "rejection_reason",
+          "_id"
+        ]
+      }
+    ],
+    "react/require-default-props": [0],
+
+    // quotes - Используем двойные кавычки
+    "quotes": ["error", "double"],
+
+    // Переносим данные в обьекте на след строку
+//    "object-curly-newline": ["error", { "minProperties": 2 }],
+
+    // Отключаем правило для отображения имен компонентов
+    "react/display-name": "off",
+    // Запрещаем использование console.log, кроме warn и error
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    // Отключаем проверку определения функциональных компонентов
+    "react/function-component-definition": "off",
+    // Отключаем правило проверки ассоциированного контрола для label
+    "jsx-a11y/label-has-associated-control": "off",
+    // Отключаем правило для использования ключей в массивах
+    "react/no-array-index-key": "off",
+    // Отключаем правило исчерпывающих зависимостей хуков
+    "react-hooks/exhaustive-deps": "off",
+    // Отключаем правило для проверки статических событий
+    "jsx-a11y/no-static-element-interactions": [
+      "error",
+      {
+        "handlers": ["onKeyPress", "onKeyDown", "onKeyUp"],
+        "allowExpressionValues": true
+      }
+    ],
+    // Заменяем конкатенацию строк на использование шаблонных литералов
+    "prefer-template": "error",
+    // Разрешаем использование JSX в файлах с расширениями .js и .jsx
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    // Отключаем правило проверки событий click и key events
+    "jsx-a11y/click-events-have-key-events": "off",
+    // Отключаем правило проверки propTypes
+    "react/prop-types": 0,
+
+    // Управляемые компоненты в React - согласованность.
+    "react/no-unused-state": "error",
+
+    // Отсутствие дополнительных преобразований логических значений.
+    "no-extra-boolean-cast": "error",
+
+    // Деструктуризация объектов и краткие свойства.
+    "object-shorthand": ["error", "always"],
+    "prefer-destructuring": ["error", { "object": true, "array": true }],
+    "no-param-reassign": "off",
+    // Правила для импортов
+    "import/extensions": [
+      "off",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+
+    "import/no-useless-path-segments": [
+      "off",
+      {
+        "noUselessIndex": true
+      }
+    ],
+    "no-html-link-for-pages": "off",
+    "import/no-cycle": "off", // Проверка на циклические импорты
+    "import/no-unresolved": "off", // Отключаем проверку неразрешенных импортов
+    "import/prefer-default-export": [
+      "off",
+      { "target": "single" } // Разрешаем не использовать export default
+    ],
+
+    // Отключаем правило для next.js из-за ошибки
+    "@next/next/no-img-element": "off",
+
+    // Правила для TypeScript
+
+    // Отключаем правило запрета использования any
+    "@typescript-eslint/no-explicit-any": "off",
+
+    // Правило для неиспользуемых переменных и аргументов
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
+    ],
+
+    // Отключаем правило явного указания типов для экспортируемых функций и методов
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+
+    // Предупреждение для пустых интерфейсов
+    "@typescript-eslint/no-empty-interface": [
+      "error",
+      {
+        "allowSingleExtends": true
+      }
+    ],
+
+    // Предупреждение для использования // @ts-ignore
+    "@typescript-eslint/ban-ts-comment": "warn",
+
+    // Запрет на использование переменных до их объявления
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": true,
+        "classes": false,
+        "variables": false,
+        "allowNamedExports": false
+      }
+    ]
+  },
+
+  // Переопределения правил для TypeScript файлов
+  "overrides": [
+    {
+      // Включаем правило явного указания типов для экспортируемых функций и методов
+      "files": ["*.ts", "*.mts", "*.cts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "error"
+      }
+    }
+  ]
 }

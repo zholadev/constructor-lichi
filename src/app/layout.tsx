@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "./normalize.css";
 import "./globals.css";
 import React from "react";
+import { Toaster } from "sonner";
+import ThemeProvider from "@/components/app/providers/ThemeProvider";
+import StoreProvider from "@/components/app/providers/StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +20,20 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>): React.JSX.Element {
 	return (
-		<html lang="en">
-			<body className={inter.className}>{children}</body>
-		</html>
+		<StoreProvider>
+			<html lang="en">
+				<Toaster />
+				<body className={inter.className}>
+					<ThemeProvider
+						enableSystem
+						disableTransitionOnChange
+						attribute="class"
+						defaultTheme="light"
+					>
+						{children}
+					</ThemeProvider>
+				</body>
+			</html>
+		</StoreProvider>
 	);
 }

@@ -30,10 +30,16 @@ export const apiMethodSchemaListShops = async (): Promise<
  * @created 14.08.2024
  * @description Метод для получения список страниц
  */
-export const apiMethodSchemaListSchema = async (): Promise<
-	AxiosResponse | ResponseObject
-> => {
-	return sendApiPostRequest(API.schema.list);
+export const apiMethodSchemaListData = async (
+	page: string
+): Promise<AxiosResponse | ResponseObject> => {
+	const formData = new FormData();
+
+	if (page) {
+		formData.append("page", page);
+	}
+
+	return sendApiPostRequest(API.schema.list, formData, "constructor_hp");
 };
 
 /**
@@ -63,10 +69,19 @@ export const apiMethodSchemaGetById = async (): Promise<
  * @created 14.08.2024
  * @description Метод для удаления страницы по ID
  */
-export const apiMethodSchemaDelete = async (): Promise<
-	AxiosResponse | ResponseObject
-> => {
-	return sendApiPostRequest(API.schema.deleteSchema);
+export const apiMethodSchemaDelete = async (
+	id: string
+): Promise<AxiosResponse | ResponseObject> => {
+	const formData = new FormData();
+
+	if (id) {
+		formData.append("id", id);
+	}
+	return sendApiPostRequest(
+		API.schema.deleteSchema,
+		formData,
+		"constructor_hp"
+	);
 };
 
 /**
@@ -85,10 +100,15 @@ export const apiMethodSchemaCopy = async (): Promise<
  * @created 14.08.2024
  * @description Метод для создания новой страницы
  */
-export const apiMethodSchemaCreate = async (): Promise<
-	AxiosResponse | ResponseObject
-> => {
-	return sendApiPostRequest(API.schema.create);
+export const apiMethodSchemaCreate = async (
+	name: string
+): Promise<AxiosResponse | ResponseObject> => {
+	const formData = new FormData();
+
+	if (name) {
+		formData.append("name", name);
+	}
+	return sendApiPostRequest(API.schema.create, formData, "constructor_hp");
 };
 
 /**

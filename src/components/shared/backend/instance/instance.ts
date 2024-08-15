@@ -5,23 +5,28 @@ import { errorInstance } from "../error/error-instance";
 import { ResponseObject } from "../types/api-types";
 
 /**
+ * @todo refactoring global base url
+ */
+
+/**
  * @author Zholaman Zhumanov
  * @description Настройки axios
  * @type {AxiosInstance}
  */
 const axiosInstance: AxiosInstance = axios.create({
-	baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+	baseURL: "https://app3.lichishop.com/api/",
 	withCredentials: false,
-	headers: {
-		"User-Agent":
-			"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-	},
+	// headers: {
+	// 	"User-Agent":
+	// 		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+	// },
 	timeout: 5000,
 });
 
 export async function sendApiPostRequest(
 	url: string,
-	formDataAdd?: FormData
+	formDataAdd?: FormData,
+	do_type: string = "constructor_fm"
 ): Promise<AxiosResponse | ResponseObject> {
 	try {
 		let formData = new FormData();
@@ -33,7 +38,7 @@ export async function sendApiPostRequest(
 		}
 
 		formData.append("app", "site_admin");
-		formData.append("do", `constructor_fm${url}`);
+		formData.append("do", `${do_type}${url}`);
 		formData.append(
 			"USER_DATA",
 			"S3sRASJrGAt0e3ZzTFF2CWEbbw15HwcTIzkOChJjDDAfPSJtEgQAbnh7fnABC3Z2CW95aEIHdQ5sDHMdBC06YVVNIScFbl5nECxzcBIx"

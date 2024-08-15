@@ -20,7 +20,7 @@ const dictionaries: Record<string, IDictionaryFile> = {
 export const getDictionary = (
 	locale: string,
 	file: string = "common"
-): Promise<any> => {
+): Record<string, unknown> => {
 	const fileLoader = dictionaries[locale]?.[file];
 	if (fileLoader) {
 		return fileLoader();

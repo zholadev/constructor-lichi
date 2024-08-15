@@ -9,3 +9,5 @@ export interface ResponseObject {
 	status?: number;
 	message_fail: string;
 }
+
+export type ThemeType = "light" | "dark" | "system";

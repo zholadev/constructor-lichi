@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ISchemaListData } from "@/components/shared/types/interface";
+import { TypeMethodSchema } from "@/components/shared/types/types";
 
 interface stateSlice {
 	schemaListData: ISchemaListData;
 	schemaListApiLoading: boolean;
 	schemaListApiParamsPage: number | string;
-	schemaListRemoveId: number;
+	schemaListApiParamsId: number;
+	schemaListApiType: TypeMethodSchema;
 }
 
 const initialState: stateSlice = {
@@ -21,7 +23,8 @@ const initialState: stateSlice = {
 	},
 	schemaListApiLoading: false,
 	schemaListApiParamsPage: 1,
-	schemaListRemoveId: 0,
+	schemaListApiParamsId: 0,
+	schemaListApiType: "initial",
 };
 
 export const schemaListSlice = createSlice({
@@ -46,8 +49,17 @@ export const schemaListSlice = createSlice({
 		) => {
 			state.schemaListApiParamsPage = action.payload;
 		},
-		schemaListRemoveIdReducer: (state, action: PayloadAction<number>) => {
-			state.schemaListRemoveId = action.payload;
+		schemaListApiParamsIdReducer: (
+			state,
+			action: PayloadAction<number>
+		) => {
+			state.schemaListApiParamsId = action.payload;
+		},
+		schemaListApiTypeReducer: (
+			state,
+			action: PayloadAction<TypeMethodSchema>
+		) => {
+			state.schemaListApiType = action.payload;
 		},
 	},
 });
@@ -56,6 +68,7 @@ export const {
 	schemaListDataReducer,
 	schemaListApiLoadingReducer,
 	schemaListApiParamsPageReducer,
-	schemaListRemoveIdReducer,
+	schemaListApiParamsIdReducer,
+	schemaListApiTypeReducer,
 } = schemaListSlice.actions;
 export default schemaListSlice.reducer;

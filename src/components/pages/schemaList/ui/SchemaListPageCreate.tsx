@@ -85,7 +85,9 @@ const SchemaListPageCreate: React.FC = (): React.JSX.Element => {
 			<Button onClick={toggleDialogHandle}>Создать страницу</Button>
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader>
-					<DialogTitle className={cn("text-md")}>Создать новую страницу</DialogTitle>
+					<DialogTitle className={cn("text-md")}>
+						Создать новую страницу
+					</DialogTitle>
 				</DialogHeader>
 				<div className="flex items-center mb-3 mt-4 space-x-2">
 					<Form {...form}>
@@ -123,7 +125,9 @@ const SchemaListPageCreate: React.FC = (): React.JSX.Element => {
 								<Button
 									disabled={loading}
 									type="submit"
-									className={cn("flex items-center gap-2 text-xs")}
+									className={cn(
+										"flex items-center gap-2 text-xs"
+									)}
 								>
 									{loading && (
 										<ReloadIcon className="mr-2 h-4 w-4 animate-spin" />

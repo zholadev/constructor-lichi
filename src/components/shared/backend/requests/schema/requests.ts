@@ -89,10 +89,15 @@ export const apiMethodSchemaDelete = async (
  * @created 14.08.2024
  * @description Метод для копирования страницы по ID
  */
-export const apiMethodSchemaCopy = async (): Promise<
-	AxiosResponse | ResponseObject
-> => {
-	return sendApiPostRequest(API.schema.copy);
+export const apiMethodSchemaCopy = async (
+	id: string
+): Promise<AxiosResponse | ResponseObject> => {
+	const formData = new FormData();
+
+	if (id) {
+		formData.append("id", id);
+	}
+	return sendApiPostRequest(API.schema.copy, formData, "constructor_hp");
 };
 
 /**

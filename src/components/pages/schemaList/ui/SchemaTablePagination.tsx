@@ -74,7 +74,7 @@ const SchemaTablePagination: React.FC<Props> = ({
 			<div className="flex md:items-center md:flex-row flex-col gap-4">
 				<div className={cn("flex items-center flex-row gap-3")}>
 					<div className="flex w-[100px] items-center text-sm font-medium">
-						Page {pageValue} of {maxPage}
+						{pageValue} / {maxPage}
 					</div>
 
 					<div className="flex items-center space-x-2">

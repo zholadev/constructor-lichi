@@ -15,11 +15,12 @@ import {
 import { Badge } from "@/components/shared/shadcn/ui/badge";
 import { format } from "date-fns";
 import { Button } from "@/components/shared/shadcn/ui/button";
-import { ArrowRightIcon, TrashIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, CopyIcon, TrashIcon } from "@radix-ui/react-icons";
 import { cn } from "@/components/lib/utils";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import SchemaListRemove from "@/components/pages/schemaList/ui/SchemaListRemove";
+import SchemaListRemoveCopy from "@/components/pages/schemaList/ui/SchemaListRemoveCopy";
+import { TypeMethodSchema } from "@/components/shared/types/types";
 import SchemaTablePagination from "./SchemaTablePagination";
 
 interface Props {
@@ -43,14 +44,18 @@ interface Props {
 const SchemaListTableData: React.FC<Props> = (props) => {
 	const { data, pagination, pageValue, changePageHandle } = props;
 
-	const { dialogRemovePageAction, schemaListRemoveIdAction } =
-		useDispatchAction();
+	const {
+		dialogRemovePageAction,
+		schemaListApiParamsIdAction,
+		schemaListApiTypeAction,
+	} = useDispatchAction();
 
 	const { dialogRemovePage } = useAppSelector((state) => state.dialog);
 
-	const toggleDialogHandle = (id: number) => {
+	const toggleDialogHandle = (id: number, typeMethod: TypeMethodSchema) => {
 		dialogRemovePageAction(!dialogRemovePage);
-		schemaListRemoveIdAction(id);
+		schemaListApiParamsIdAction(id);
+		schemaListApiTypeAction(typeMethod);
 	};
 
 	if (!data) {
@@ -71,6 +76,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 							<TableHead>Дата создания</TableHead>
 							<TableHead>Автор</TableHead>
 							<TableHead>Действия</TableHead>
+							<TableHead />
 							<TableHead />
 							<TableHead />
 						</TableRow>
@@ -132,10 +138,27 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 										}
 										disabled={page.hp_active.length > 0}
 										onClick={() => {
-											toggleDialogHandle(page.hp_id);
+											toggleDialogHandle(
+												page.hp_id,
+												"remove"
+											);
 										}}
 									>
 										<TrashIcon />
+									</Button>
+								</TableCell>
+								<TableCell>
+									<Button
+										variant="outline"
+										className="flex items-center gap-1 text-xs"
+										onClick={() => {
+											toggleDialogHandle(
+												page.hp_id,
+												"copy"
+											);
+										}}
+									>
+										<CopyIcon />
 									</Button>
 								</TableCell>
 								<TableCell>
@@ -160,7 +183,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 				/>
 			)}
 
-			<SchemaListRemove />
+			<SchemaListRemoveCopy />
 		</div>
 	);
 };

@@ -15,11 +15,13 @@ import { IGetApiParams } from "@/components/shared/types/interface";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useFetchSchemaListData from "@/components/shared/hooks/useFetchSchemaListData";
-import { apiMethodSchemaDelete } from "@/components/shared/backend/requests/schema/requests";
+import {
+	apiMethodSchemaCopy,
+	apiMethodSchemaDelete,
+} from "@/components/shared/backend/requests/schema/requests";
 import PaperRemoveIcon from "@/components/shared/uikit/lottleIcons/PaperRemoveIcon";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-
-interface Props {}
+import DocLottle from "@/components/shared/uikit/lottleIcons/DocLottle";
 
 /**
  * @author Zholaman Zhumanov
@@ -29,43 +31,53 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const SchemaListRemove: React.FC<Props> = (props) => {
-	const {} = props;
-
+const SchemaListRemoveCopy: React.FC = () => {
 	const { apiFetchHandler, loading } = useApiRequest();
 
 	const toastMessage = useToastMessage();
 
-	const { dialogRemovePageAction, schemaListRemoveIdAction } = useDispatchAction();
+	const {
+		dialogRemovePageAction,
+		schemaListApiParamsIdAction,
+		schemaListApiTypeAction,
+	} = useDispatchAction();
 
 	const fetchSchemaListData = useFetchSchemaListData();
 
 	const { dialogRemovePage } = useAppSelector((state) => state.dialog);
-	const { schemaListRemoveId } = useAppSelector((state) => state.schemaList);
+	const { schemaListApiParamsId, schemaListApiType } = useAppSelector(
+		(state) => state.schemaList
+	);
 
 	const toggleDialogHandle = () => dialogRemovePageAction(!dialogRemovePage);
 
 	const onSubmit = async () => {
-		if (!schemaListRemoveId) {
+		if (!schemaListApiParamsId) {
 			toastMessage("Отсутствует Id страницы", "error");
 			return;
 		}
+		if (schemaListApiType === "initial") {
+			toastMessage("Не выбран тип метода", "error");
+			return;
+		}
 		await apiFetchHandler(
-			apiMethodSchemaDelete,
+			schemaListApiType === "copy"
+				? apiMethodSchemaCopy
+				: apiMethodSchemaDelete,
 			false,
 			{
 				onGetData: (params: IGetApiParams) => {
 					if (params.success) {
 						toggleDialogHandle();
 						fetchSchemaListData();
-						schemaListRemoveIdAction(0);
+						schemaListApiParamsIdAction(0);
+						schemaListApiTypeAction("initial");
 					}
 				},
 			},
-			[schemaListRemoveId]
+			[schemaListApiParamsId]
 		);
 	};
 
@@ -74,12 +86,18 @@ const SchemaListRemove: React.FC<Props> = (props) => {
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader>
 					<DialogTitle className={cn("text-sm text-center")}>
-						Вы действительно хотите удалить страницу?
+						{schemaListApiType === "copy"
+							? "Вы уверены, что хотите сделать копию этой страницы?"
+							: "Вы действительно хотите удалить страницу?"}
 					</DialogTitle>
 				</DialogHeader>
 				<div className="flex items-center flex-col mb-3 mt-4 space-x-2">
 					<div className={cn("mb-3.5")}>
-						<PaperRemoveIcon />
+						{schemaListApiType === "copy" ? (
+							<DocLottle />
+						) : (
+							<PaperRemoveIcon />
+						)}
 					</div>
 					<DialogFooter className="sm:justify-center w-full">
 						<DialogClose asChild>
@@ -110,4 +128,4 @@ const SchemaListRemove: React.FC<Props> = (props) => {
 	);
 };
 
-export default SchemaListRemove;
+export default SchemaListRemoveCopy;

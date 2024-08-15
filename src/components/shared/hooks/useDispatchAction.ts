@@ -6,10 +6,12 @@ import {
 import { ISchemaListData } from "@/components/shared/types/interface";
 import {
 	schemaListApiLoadingReducer,
+	schemaListApiParamsIdReducer,
 	schemaListApiParamsPageReducer,
+	schemaListApiTypeReducer,
 	schemaListDataReducer,
-	schemaListRemoveIdReducer,
 } from "@/components/app/store/features/schemaListSlice";
+import { TypeMethodSchema } from "@/components/shared/types/types";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -28,7 +30,9 @@ export default function useDispatchAction(): any {
 			dispatch(schemaListApiLoadingReducer(value)),
 		schemaListApiParamsPageAction: (value: number | string) =>
 			dispatch(schemaListApiParamsPageReducer(value)),
-		schemaListRemoveIdAction: (value: number) =>
-			dispatch(schemaListRemoveIdReducer(value)),
+		schemaListApiParamsIdAction: (value: number) =>
+			dispatch(schemaListApiParamsIdReducer(value)),
+		schemaListApiTypeAction: (value: TypeMethodSchema) =>
+			dispatch(schemaListApiTypeReducer(value)),
 	};
 }

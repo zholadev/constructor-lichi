@@ -4,11 +4,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 interface stateSlice {
 	dialogCreatePage: boolean;
 	dialogRemovePage: boolean;
+	dialogActivatePage: boolean;
 }
 
 const initialState: stateSlice = {
 	dialogCreatePage: false,
 	dialogRemovePage: false,
+	dialogActivatePage: false,
 };
 
 export const dialogSlice = createSlice({
@@ -21,9 +23,15 @@ export const dialogSlice = createSlice({
 		dialogRemovePageReducer: (state, action: PayloadAction<boolean>) => {
 			state.dialogRemovePage = action.payload;
 		},
+		dialogActivatePageReducer: (state, action: PayloadAction<boolean>) => {
+			state.dialogActivatePage = action.payload;
+		},
 	},
 });
 
-export const { dialogCreatePageReducer, dialogRemovePageReducer } =
-	dialogSlice.actions;
+export const {
+	dialogCreatePageReducer,
+	dialogRemovePageReducer,
+	dialogActivatePageReducer,
+} = dialogSlice.actions;
 export default dialogSlice.reducer;

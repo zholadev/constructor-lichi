@@ -11,7 +11,8 @@ import { sendApiPostRequest } from "../../instance/instance";
 export const apiMethodSchemaLangList = async (): Promise<
 	AxiosResponse | ResponseObject
 > => {
-	return sendApiPostRequest(API.schema.langList);
+	const formData = new FormData();
+	return sendApiPostRequest(API.schema.langList, formData, "constructor_get");
 };
 
 /**
@@ -22,7 +23,8 @@ export const apiMethodSchemaLangList = async (): Promise<
 export const apiMethodSchemaListShops = async (): Promise<
 	AxiosResponse | ResponseObject
 > => {
-	return sendApiPostRequest(API.schema.getShops);
+	const formData = new FormData();
+	return sendApiPostRequest(API.schema.getShops, formData, "constructor_hp");
 };
 
 /**
@@ -121,10 +123,19 @@ export const apiMethodSchemaCreate = async (
  * @created 14.08.2024
  * @description Метод для активации страницы
  */
-export const apiMethodSchemaSetActive = async (): Promise<
-	AxiosResponse | ResponseObject
-> => {
-	return sendApiPostRequest(API.schema.setActive);
+export const apiMethodSchemaSetActive = async (
+	use: string[],
+	id: string
+): Promise<AxiosResponse | ResponseObject> => {
+	const formData = new FormData();
+
+	if (use) {
+		formData.append("use", JSON.stringify(use));
+	}
+	if (id) {
+		formData.append("id", id);
+	}
+	return sendApiPostRequest(API.schema.setActive, formData, "constructor_hp");
 };
 
 /**

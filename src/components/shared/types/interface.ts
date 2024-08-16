@@ -45,3 +45,14 @@ export interface ISchemaListData {
 	data: ISchemaListItem[];
 	pagination: ISchemaListPagination;
 }
+
+export interface IShopsListDataItem {
+	id: string;
+	name: string;
+}
+
+export interface ILangListDataItem {
+	id: string;
+	name: string;
+	is_active: number;
+}

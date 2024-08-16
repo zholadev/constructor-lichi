@@ -6,6 +6,7 @@ import React from "react";
 import { Toaster } from "sonner";
 import ThemeProvider from "@/components/app/providers/ThemeProvider";
 import StoreProvider from "@/components/app/providers/StoreProvider";
+import ApiDataProvider from "@/components/app/providers/ApiDataProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,19 +22,21 @@ export default function RootLayout({
 }>): React.JSX.Element {
 	return (
 		<StoreProvider>
-			<html lang="en">
-				<Toaster />
-				<body className={inter.className}>
-					<ThemeProvider
-						enableSystem
-						disableTransitionOnChange
-						attribute="class"
-						defaultTheme="light"
-					>
-						{children}
-					</ThemeProvider>
-				</body>
-			</html>
+			<ApiDataProvider>
+				<html lang="en">
+					<Toaster />
+					<body className={inter.className}>
+						<ThemeProvider
+							enableSystem
+							disableTransitionOnChange
+							attribute="class"
+							defaultTheme="light"
+						>
+							{children}
+						</ThemeProvider>
+					</body>
+				</html>
+			</ApiDataProvider>
 		</StoreProvider>
 	);
 }

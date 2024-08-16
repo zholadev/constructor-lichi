@@ -21,6 +21,7 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import SchemaListRemoveCopy from "@/components/pages/schemaList/ui/SchemaListRemoveCopy";
 import { TypeMethodSchema } from "@/components/shared/types/types";
+import SchemaListPageActivate from "@/components/pages/schemaList/ui/SchemaListPageActivate";
 import SchemaTablePagination from "./SchemaTablePagination";
 
 interface Props {
@@ -48,14 +49,25 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 		dialogRemovePageAction,
 		schemaListApiParamsIdAction,
 		schemaListApiTypeAction,
+		dialogActivatePageAction,
 	} = useDispatchAction();
 
-	const { dialogRemovePage } = useAppSelector((state) => state.dialog);
+	const { dialogRemovePage, dialogActivatePage } = useAppSelector(
+		(state) => state.dialog
+	);
 
-	const toggleDialogHandle = (id: number, typeMethod: TypeMethodSchema) => {
+	const toggleRemoveCopyDialogHandle = (
+		id: number,
+		typeMethod: TypeMethodSchema
+	) => {
 		dialogRemovePageAction(!dialogRemovePage);
 		schemaListApiParamsIdAction(id);
 		schemaListApiTypeAction(typeMethod);
+	};
+
+	const toggleActivateDialogHandle = (id: number) => {
+		dialogActivatePageAction(!dialogActivatePage);
+		schemaListApiParamsIdAction(id);
 	};
 
 	if (!data) {
@@ -84,7 +96,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 					<TableBody>
 						{data.map((page: ISchemaListItem) => (
 							<TableRow key={page.hp_guid}>
-								<TableCell className="font-medium">
+								<TableCell className="font-medium text-muted-foreground">
 									{page.hp_id}
 								</TableCell>
 								<TableCell className="font-medium">
@@ -119,6 +131,12 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 												? "bg-green-400 w-[140px]"
 												: "w-[140px]")
 										}
+										onClick={() =>
+											toggleActivateDialogHandle(
+												page.hp_id
+											)
+										}
+										disabled={page.hp_active.length > 0}
 									>
 										{page.hp_active.length > 0
 											? "Активен"
@@ -138,7 +156,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 										}
 										disabled={page.hp_active.length > 0}
 										onClick={() => {
-											toggleDialogHandle(
+											toggleRemoveCopyDialogHandle(
 												page.hp_id,
 												"remove"
 											);
@@ -152,7 +170,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 										variant="outline"
 										className="flex items-center gap-1 text-xs"
 										onClick={() => {
-											toggleDialogHandle(
+											toggleRemoveCopyDialogHandle(
 												page.hp_id,
 												"copy"
 											);
@@ -184,6 +202,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 			)}
 
 			<SchemaListRemoveCopy />
+			<SchemaListPageActivate />
 		</div>
 	);
 };

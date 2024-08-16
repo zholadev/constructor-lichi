@@ -47,7 +47,7 @@ const SchemaListPage: React.FC<Props> = (props) => {
 					"mt-5 mb-10 flex items-center justify-between gap-10"
 				)}
 			>
-				<h2>Lichi Constructor</h2>
+				<h2 className={cn("uppercase")}>Lichi | Constructor</h2>
 
 				<div className={cn("flex items-center gap-3 ")}>
 					<SchemaListPageCreate />

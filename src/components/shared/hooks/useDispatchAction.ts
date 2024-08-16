@@ -1,9 +1,14 @@
 import { useAppDispatch } from "@/components/app/store/hooks/hooks";
 import {
+	dialogActivatePageReducer,
 	dialogCreatePageReducer,
 	dialogRemovePageReducer,
 } from "@/components/app/store/features/dialogSlice";
-import { ISchemaListData } from "@/components/shared/types/interface";
+import {
+	ILangListDataItem,
+	ISchemaListData,
+	IShopsListDataItem,
+} from "@/components/shared/types/interface";
 import {
 	schemaListApiLoadingReducer,
 	schemaListApiParamsIdReducer,
@@ -12,6 +17,10 @@ import {
 	schemaListDataReducer,
 } from "@/components/app/store/features/schemaListSlice";
 import { TypeMethodSchema } from "@/components/shared/types/types";
+import {
+	languageDataReducer,
+	shopsDataReducer,
+} from "@/components/app/store/features/appSlice";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -22,6 +31,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogCreatePageReducer(value)),
 		dialogRemovePageAction: (value: boolean) =>
 			dispatch(dialogRemovePageReducer(value)),
+		dialogActivatePageAction: (value: boolean) =>
+			dispatch(dialogActivatePageReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>
@@ -34,5 +45,11 @@ export default function useDispatchAction(): any {
 			dispatch(schemaListApiParamsIdReducer(value)),
 		schemaListApiTypeAction: (value: TypeMethodSchema) =>
 			dispatch(schemaListApiTypeReducer(value)),
+
+		// Site actions
+		languageDataAction: (data: ILangListDataItem[]) =>
+			dispatch(languageDataReducer(data)),
+		shopsDataAction: (data: IShopsListDataItem[]) =>
+			dispatch(shopsDataReducer(data)),
 	};
 }

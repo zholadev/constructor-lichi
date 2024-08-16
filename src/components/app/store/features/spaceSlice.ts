@@ -19,7 +19,7 @@ const initialState: stateSlice = {
 	spaceModePreviewShop: "ru",
 	spaceModeDeviceType: "pc",
 	spaceModeDeviceFrame: "desktop",
-	spaceModeTemplateType: "default",
+	spaceModeTemplateType: "page",
 };
 
 export const spaceSlice = createSlice({

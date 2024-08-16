@@ -55,7 +55,10 @@ const SchemaListPageCreate: React.FC = (): React.JSX.Element => {
 
 	const { dialogCreatePage } = useAppSelector((state) => state.dialog);
 
-	const toggleDialogHandle = () => dialogCreatePageAction(!dialogCreatePage);
+	const toggleDialogHandle = () => {
+		dialogCreatePageAction(!dialogCreatePage);
+		form.reset();
+	};
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -73,6 +76,7 @@ const SchemaListPageCreate: React.FC = (): React.JSX.Element => {
 					if (params.success) {
 						toggleDialogHandle();
 						fetchSchemaListData();
+						form.reset();
 					}
 				},
 			},

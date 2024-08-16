@@ -64,8 +64,10 @@ const SchemaListPageActivate: React.FC<Props> = (props) => {
 		(state) => state.schemaList
 	);
 
-	const toggleDialogHandle = () =>
+	const toggleDialogHandle = () => {
 		dialogActivatePageAction(!dialogActivatePage);
+		form.reset();
+	};
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -75,7 +77,6 @@ const SchemaListPageActivate: React.FC<Props> = (props) => {
 	});
 
 	const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-		console.log("data", data.countries);
 		await apiFetchHandler(
 			apiMethodSchemaSetActive,
 			false,
@@ -84,6 +85,7 @@ const SchemaListPageActivate: React.FC<Props> = (props) => {
 					if (params.success) {
 						toggleDialogHandle();
 						fetchSchemaListData();
+						form.reset();
 					}
 				},
 			},

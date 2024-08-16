@@ -4,22 +4,22 @@ import { TemplateType, ThemeSpaceMode } from "@/components/shared/types/types";
 
 interface stateSlice {
 	spaceTemplateData: unknown;
-	modeTheme: ThemeSpaceMode;
-	modeLanguage: string;
-	modePreviewShop: string;
-	modeDeviceType: string;
-	modeDeviceFrame: string;
-	modeTemplateType: TemplateType;
+	spaceModeTheme: ThemeSpaceMode;
+	spaceModeLanguage: string;
+	spaceModePreviewShop: string;
+	spaceModeDeviceType: string;
+	spaceModeDeviceFrame: string;
+	spaceModeTemplateType: TemplateType;
 }
 
 const initialState: stateSlice = {
 	spaceTemplateData: {},
-	modeTheme: "light",
-	modeLanguage: "ru",
-	modePreviewShop: "ru",
-	modeDeviceType: "pc",
-	modeDeviceFrame: "desktop",
-	modeTemplateType: "default",
+	spaceModeTheme: "light",
+	spaceModeLanguage: "ru",
+	spaceModePreviewShop: "ru",
+	spaceModeDeviceType: "pc",
+	spaceModeDeviceFrame: "desktop",
+	spaceModeTemplateType: "default",
 };
 
 export const spaceSlice = createSlice({
@@ -29,37 +29,40 @@ export const spaceSlice = createSlice({
 		spaceTemplateDataReducer: (state, action: PayloadAction<unknown>) => {
 			state.spaceTemplateData = action.payload;
 		},
-		modeThemeReducer: (state, action: PayloadAction<ThemeSpaceMode>) => {
-			state.modeTheme = action.payload;
+		spaceModeThemeReducer: (
+			state,
+			action: PayloadAction<ThemeSpaceMode>
+		) => {
+			state.spaceModeTheme = action.payload;
 		},
-		modeLanguageReducer: (state, action: PayloadAction<string>) => {
-			state.modeLanguage = action.payload;
+		spaceModeLanguageReducer: (state, action: PayloadAction<string>) => {
+			state.spaceModeLanguage = action.payload;
 		},
-		modePreviewShopReducer: (state, action: PayloadAction<string>) => {
-			state.modePreviewShop = action.payload;
+		spaceModePreviewShopReducer: (state, action: PayloadAction<string>) => {
+			state.spaceModePreviewShop = action.payload;
 		},
-		modeDeviceTypeReducer: (state, action: PayloadAction<string>) => {
-			state.modeDeviceType = action.payload;
+		spaceModeDeviceTypeReducer: (state, action: PayloadAction<string>) => {
+			state.spaceModeDeviceType = action.payload;
 		},
-		modeDeviceFrameReducer: (state, action: PayloadAction<string>) => {
-			state.modeDeviceFrame = action.payload;
+		spaceModeDeviceFrameReducer: (state, action: PayloadAction<string>) => {
+			state.spaceModeDeviceFrame = action.payload;
 		},
-		modeTemplateTypeReducer: (
+		spaceModeTemplateTypeReducer: (
 			state,
 			action: PayloadAction<TemplateType>
 		) => {
-			state.modeTemplateType = action.payload;
+			state.spaceModeTemplateType = action.payload;
 		},
 	},
 });
 
 export const {
 	spaceTemplateDataReducer,
-	modeThemeReducer,
-	modeLanguageReducer,
-	modePreviewShopReducer,
-	modeDeviceTypeReducer,
-	modeDeviceFrameReducer,
-	modeTemplateTypeReducer,
+	spaceModeThemeReducer,
+	spaceModeLanguageReducer,
+	spaceModePreviewShopReducer,
+	spaceModeDeviceTypeReducer,
+	spaceModeDeviceFrameReducer,
+	spaceModeTemplateTypeReducer,
 } = spaceSlice.actions;
 export default spaceSlice.reducer;

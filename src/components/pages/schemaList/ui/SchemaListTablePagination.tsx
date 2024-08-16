@@ -24,7 +24,7 @@ interface Props {
  * @returns {JSX.Element}
  * @constructor
  */
-const SchemaTablePagination: React.FC<Props> = ({
+const SchemaListTablePagination: React.FC<Props> = ({
 	changePageHandle,
 	pageValue,
 	maxPage,
@@ -120,4 +120,4 @@ const SchemaTablePagination: React.FC<Props> = ({
 	);
 };
 
-export default SchemaTablePagination;
+export default SchemaListTablePagination;

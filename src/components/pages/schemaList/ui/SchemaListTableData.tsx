@@ -22,7 +22,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import SchemaListRemoveCopy from "@/components/pages/schemaList/ui/SchemaListRemoveCopy";
 import { TypeMethodSchema } from "@/components/shared/types/types";
 import SchemaListPageActivate from "@/components/pages/schemaList/ui/SchemaListPageActivate";
-import SchemaTablePagination from "./SchemaTablePagination";
+import SchemaListTablePagination from "./SchemaListTablePagination";
 
 interface Props {
 	pagination: ISchemaListPagination;
@@ -194,7 +194,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 			</div>
 
 			{pagination.max_page > 1 && (
-				<SchemaTablePagination
+				<SchemaListTablePagination
 					pageValue={pageValue || pagination.page}
 					changePageHandle={changePageHandle}
 					maxPage={pagination.max_page}

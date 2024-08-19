@@ -22,6 +22,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import SchemaListRemoveCopy from "@/components/pages/schemaList/ui/SchemaListRemoveCopy";
 import { TypeMethodSchema } from "@/components/shared/types/types";
 import SchemaListPageActivate from "@/components/pages/schemaList/ui/SchemaListPageActivate";
+import SchemaListSelectPlatform from "@/components/pages/schemaList/ui/SchemaListSelectPlatform";
 import SchemaListTablePagination from "./SchemaListTablePagination";
 
 interface Props {
@@ -50,11 +51,14 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 		schemaListApiParamsIdAction,
 		schemaListApiTypeAction,
 		dialogActivatePageAction,
+		dialogPlatformTypeAction,
 	} = useDispatchAction();
 
-	const { dialogRemovePage, dialogActivatePage } = useAppSelector(
-		(state) => state.dialog
-	);
+	const { dialogRemovePage, dialogActivatePage, dialogPlatformType } =
+		useAppSelector((state) => state.dialog);
+
+	const toggleDialogPlatformHandle = () =>
+		dialogPlatformTypeAction(!dialogPlatformType);
 
 	const toggleRemoveCopyDialogHandle = (
 		id: number,
@@ -182,6 +186,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 								<TableCell>
 									<Button
 										variant="secondary"
+										onClick={toggleDialogPlatformHandle}
 										className="flex items-center gap-1 text-xs"
 									>
 										Перейти <ArrowRightIcon />
@@ -201,6 +206,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 				/>
 			)}
 
+			<SchemaListSelectPlatform />
 			<SchemaListRemoveCopy />
 			<SchemaListPageActivate />
 		</div>

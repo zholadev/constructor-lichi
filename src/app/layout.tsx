@@ -32,7 +32,7 @@ export default function RootLayout({
 							attribute="class"
 							defaultTheme="light"
 						>
-							{children}
+							<main className="min-h-screen">{children}</main>
 						</ThemeProvider>
 					</body>
 				</html>

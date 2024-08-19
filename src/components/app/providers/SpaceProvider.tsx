@@ -1,6 +1,7 @@
 import React from "react";
 
 interface Props {
+	children: React.ReactNode;
 }
 
 /**
@@ -15,9 +16,9 @@ interface Props {
  * @constructor
  */
 const SpaceProvider: React.FC<Props> = (props) => {
-    const {} = props;
+	const { children } = props;
 
-    return <div/>;
+	return children;
 };
 
 export default SpaceProvider;

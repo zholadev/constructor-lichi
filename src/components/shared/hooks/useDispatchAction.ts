@@ -2,6 +2,7 @@ import { useAppDispatch } from "@/components/app/store/hooks/hooks";
 import {
 	dialogActivatePageReducer,
 	dialogCreatePageReducer,
+	dialogPlatformTypeReducer,
 	dialogRemovePageReducer,
 } from "@/components/app/store/features/dialogSlice";
 import {
@@ -16,11 +17,27 @@ import {
 	schemaListApiTypeReducer,
 	schemaListDataReducer,
 } from "@/components/app/store/features/schemaListSlice";
-import { TypeMethodSchema } from "@/components/shared/types/types";
+import {
+	DeviceType,
+	PlatformType,
+	TemplateType,
+	ThemeSpaceMode,
+	TypeMethodSchema,
+} from "@/components/shared/types/types";
 import {
 	languageDataReducer,
 	shopsDataReducer,
 } from "@/components/app/store/features/appSlice";
+import {
+	spaceModeDeviceFrameReducer,
+	spaceModeDeviceTypeReducer,
+	spaceModeLanguageReducer,
+	spaceModePlatformTypeReducer,
+	spaceModePreviewShopReducer,
+	spaceModeTemplateTypeReducer,
+	spaceModeThemeReducer,
+	spaceTemplateDataReducer,
+} from "@/components/app/store/features/spaceSlice";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -33,6 +50,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogRemovePageReducer(value)),
 		dialogActivatePageAction: (value: boolean) =>
 			dispatch(dialogActivatePageReducer(value)),
+		dialogPlatformTypeAction: (value: boolean) =>
+			dispatch(dialogPlatformTypeReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>
@@ -51,5 +70,23 @@ export default function useDispatchAction(): any {
 			dispatch(languageDataReducer(data)),
 		shopsDataAction: (data: IShopsListDataItem[]) =>
 			dispatch(shopsDataReducer(data)),
+
+		// Space actions
+		spaceModePlatformTypeAction: (value: PlatformType | null) =>
+			dispatch(spaceModePlatformTypeReducer(value)),
+		spaceTemplateDataAction: (schema: unknown) =>
+			dispatch(spaceTemplateDataReducer(schema)),
+		spaceModeThemeAction: (theme: ThemeSpaceMode) =>
+			dispatch(spaceModeThemeReducer(theme)),
+		spaceModeLanguageAction: (lang: string) =>
+			dispatch(spaceModeLanguageReducer(lang)),
+		spaceModePreviewShopAction: (value: string) =>
+			dispatch(spaceModePreviewShopReducer(value)),
+		spaceModeDeviceTypeAction: (value: DeviceType) =>
+			dispatch(spaceModeDeviceTypeReducer(value)),
+		spaceModeDeviceFrameAction: (value: string) =>
+			dispatch(spaceModeDeviceFrameReducer(value)),
+		spaceModeTemplateTypeAction: (value: TemplateType) =>
+			dispatch(spaceModeTemplateTypeReducer(value)),
 	};
 }

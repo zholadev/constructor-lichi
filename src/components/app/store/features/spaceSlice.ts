@@ -1,15 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { TemplateType, ThemeSpaceMode } from "@/components/shared/types/types";
+import {
+	DeviceType,
+	PlatformType,
+	TemplateType,
+	ThemeSpaceMode,
+} from "@/components/shared/types/types";
 
 interface stateSlice {
 	spaceTemplateData: unknown;
 	spaceModeTheme: ThemeSpaceMode;
 	spaceModeLanguage: string;
 	spaceModePreviewShop: string;
-	spaceModeDeviceType: string;
+	spaceModeDeviceType: DeviceType | null;
 	spaceModeDeviceFrame: string;
 	spaceModeTemplateType: TemplateType;
+	spaceModePlatformType: PlatformType | null;
 }
 
 const initialState: stateSlice = {
@@ -17,9 +23,10 @@ const initialState: stateSlice = {
 	spaceModeTheme: "light",
 	spaceModeLanguage: "ru",
 	spaceModePreviewShop: "ru",
-	spaceModeDeviceType: "pc",
+	spaceModeDeviceType: null,
 	spaceModeDeviceFrame: "desktop",
 	spaceModeTemplateType: "page",
+	spaceModePlatformType: null,
 };
 
 export const spaceSlice = createSlice({
@@ -41,7 +48,10 @@ export const spaceSlice = createSlice({
 		spaceModePreviewShopReducer: (state, action: PayloadAction<string>) => {
 			state.spaceModePreviewShop = action.payload;
 		},
-		spaceModeDeviceTypeReducer: (state, action: PayloadAction<string>) => {
+		spaceModeDeviceTypeReducer: (
+			state,
+			action: PayloadAction<DeviceType | null>
+		) => {
 			state.spaceModeDeviceType = action.payload;
 		},
 		spaceModeDeviceFrameReducer: (state, action: PayloadAction<string>) => {
@@ -52,6 +62,12 @@ export const spaceSlice = createSlice({
 			action: PayloadAction<TemplateType>
 		) => {
 			state.spaceModeTemplateType = action.payload;
+		},
+		spaceModePlatformTypeReducer: (
+			state,
+			action: PayloadAction<PlatformType | null>
+		) => {
+			state.spaceModePlatformType = action.payload;
 		},
 	},
 });
@@ -64,5 +80,6 @@ export const {
 	spaceModeDeviceTypeReducer,
 	spaceModeDeviceFrameReducer,
 	spaceModeTemplateTypeReducer,
+	spaceModePlatformTypeReducer,
 } = spaceSlice.actions;
 export default spaceSlice.reducer;

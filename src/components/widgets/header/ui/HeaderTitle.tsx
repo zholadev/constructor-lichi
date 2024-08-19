@@ -22,7 +22,7 @@ interface Props {
  * @constructor
  */
 const HeaderTitle: React.FC<Props> = (props) => {
-	const { title } = props;
+	const { title = "Page Title" } = props;
 
 	const router = useRouter();
 

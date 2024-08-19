@@ -27,7 +27,7 @@ const HeaderDeviceType: React.FC<Props> = (props) => {
 	const { spaceModeDeviceTypeAction } = useDispatchAction();
 
 	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
-	console.log("spaceModeDeviceType", spaceModeDeviceType)
+
 	const changeDeviceType = (value: DeviceType | null) => {
 		spaceModeDeviceTypeAction(value);
 	};

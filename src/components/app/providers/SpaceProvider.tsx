@@ -47,7 +47,6 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		spaceModePlatformType,
 		spaceTemplatePageId,
 	} = useAppSelector((state) => state.space);
-	console.log("spaceTemplateData", spaceTemplateData);
 
 	const fetchGetPageById = async () => {
 		await apiFetchHandler(

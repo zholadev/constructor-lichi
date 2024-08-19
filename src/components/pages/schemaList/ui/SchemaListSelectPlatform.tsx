@@ -24,8 +24,6 @@ import {
 import { PlatformType } from "@/components/shared/types/types";
 import { useRouter } from "next/navigation";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 19.08.2024
@@ -34,18 +32,18 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const SchemaListSelectPlatform: React.FC<Props> = (props) => {
-	const {} = props;
+const SchemaListSelectPlatform: React.FC = () => {
+	const router = useRouter();
 
 	const toastMessage = useToastMessage();
 
-	const router = useRouter();
-
-	const { dialogPlatformTypeAction, spaceModePlatformTypeAction } =
-		useDispatchAction();
+	const {
+		dialogPlatformTypeAction,
+		spaceModePlatformTypeAction,
+		spaceModeDeviceTypeAction,
+	} = useDispatchAction();
 
 	const { dialogPlatformType } = useAppSelector((state) => state.dialog);
 	const { spaceModePlatformType, spaceTemplatePageId } = useAppSelector(
@@ -59,7 +57,7 @@ const SchemaListSelectPlatform: React.FC<Props> = (props) => {
 
 	/**
 	 * @author Zholaman Zhumanov
-	 * @description Метод для подтверждения и перехода в страницу редактора
+	 * @description Метод для подтверждения и перехода в страницу редактора и назначение тип девайса
 	 */
 	const confirmPlatform = () => {
 		if (spaceModePlatformType === null) {
@@ -70,10 +68,27 @@ const SchemaListSelectPlatform: React.FC<Props> = (props) => {
 			router.push(
 				`/space?page_id=${spaceTemplatePageId}&platform=${spaceModePlatformType}`
 			);
-			toggleDialogHandle()
+			toggleDialogHandle();
+
+			switch (spaceModePlatformType) {
+				case "browser":
+					spaceModeDeviceTypeAction("desktop");
+					break;
+				case "app":
+					spaceModeDeviceTypeAction("mobile");
+					break;
+				default:
+					spaceModeDeviceTypeAction(null);
+					break;
+			}
 		}
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для выбора тип платформы
+	 * @param value
+	 */
 	const selectPlatform = (value: PlatformType | null) => {
 		spaceModePlatformTypeAction(value);
 	};

@@ -1,5 +1,4 @@
 import React from "react";
-import { cn } from "@/components/lib/utils";
 import HeaderToolbar from "@/components/widgets/header/ui/HeaderToolbar";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 

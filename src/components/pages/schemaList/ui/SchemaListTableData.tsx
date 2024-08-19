@@ -52,13 +52,16 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 		schemaListApiTypeAction,
 		dialogActivatePageAction,
 		dialogPlatformTypeAction,
+		spaceTemplatePageIdAction,
 	} = useDispatchAction();
 
 	const { dialogRemovePage, dialogActivatePage, dialogPlatformType } =
 		useAppSelector((state) => state.dialog);
 
-	const toggleDialogPlatformHandle = () =>
+	const toggleDialogPlatformHandle = (id: number) => {
 		dialogPlatformTypeAction(!dialogPlatformType);
+		spaceTemplatePageIdAction(id);
+	};
 
 	const toggleRemoveCopyDialogHandle = (
 		id: number,
@@ -186,7 +189,11 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 								<TableCell>
 									<Button
 										variant="secondary"
-										onClick={toggleDialogPlatformHandle}
+										onClick={() =>
+											toggleDialogPlatformHandle(
+												page.hp_id
+											)
+										}
 										className="flex items-center gap-1 text-xs"
 									>
 										Перейти <ArrowRightIcon />

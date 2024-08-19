@@ -16,6 +16,7 @@ interface stateSlice {
 	spaceModeDeviceFrame: string;
 	spaceModeTemplateType: TemplateType;
 	spaceModePlatformType: PlatformType | null;
+	spaceTemplatePageId: string | null;
 }
 
 const initialState: stateSlice = {
@@ -27,6 +28,7 @@ const initialState: stateSlice = {
 	spaceModeDeviceFrame: "desktop",
 	spaceModeTemplateType: "page",
 	spaceModePlatformType: null,
+	spaceTemplatePageId: null,
 };
 
 export const spaceSlice = createSlice({
@@ -69,6 +71,12 @@ export const spaceSlice = createSlice({
 		) => {
 			state.spaceModePlatformType = action.payload;
 		},
+		spaceTemplatePageIdReducer: (
+			state,
+			action: PayloadAction<string | null>
+		) => {
+			state.spaceTemplatePageId = action.payload;
+		},
 	},
 });
 
@@ -81,5 +89,6 @@ export const {
 	spaceModeDeviceFrameReducer,
 	spaceModeTemplateTypeReducer,
 	spaceModePlatformTypeReducer,
+	spaceTemplatePageIdReducer,
 } = spaceSlice.actions;
 export default spaceSlice.reducer;

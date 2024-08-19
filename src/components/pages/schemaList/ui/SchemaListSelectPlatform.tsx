@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
 	Dialog,
@@ -20,6 +22,7 @@ import {
 	TooltipTrigger,
 } from "@/components/shared/shadcn/ui/tooltip";
 import { PlatformType } from "@/components/shared/types/types";
+import { useRouter } from "next/navigation";
 
 interface Props {}
 
@@ -39,14 +42,20 @@ const SchemaListSelectPlatform: React.FC<Props> = (props) => {
 
 	const toastMessage = useToastMessage();
 
+	const router = useRouter();
+
 	const { dialogPlatformTypeAction, spaceModePlatformTypeAction } =
 		useDispatchAction();
 
 	const { dialogPlatformType } = useAppSelector((state) => state.dialog);
-	const { spaceModePlatformType } = useAppSelector((state) => state.space);
+	const { spaceModePlatformType, spaceTemplatePageId } = useAppSelector(
+		(state) => state.space
+	);
 
-	const toggleDialogHandle = () =>
+	const toggleDialogHandle = () => {
 		dialogPlatformTypeAction(!dialogPlatformType);
+		selectPlatform(null);
+	};
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -56,9 +65,16 @@ const SchemaListSelectPlatform: React.FC<Props> = (props) => {
 		if (spaceModePlatformType === null) {
 			toastMessage("Вы не выбрали платформу", "warning");
 		}
+
+		if (spaceModePlatformType && spaceTemplatePageId) {
+			router.push(
+				`/space?page_id=${spaceTemplatePageId}&platform=${spaceModePlatformType}`
+			);
+			toggleDialogHandle()
+		}
 	};
 
-	const selectPlatform = (value: PlatformType) => {
+	const selectPlatform = (value: PlatformType | null) => {
 		spaceModePlatformTypeAction(value);
 	};
 
@@ -71,7 +87,7 @@ const SchemaListSelectPlatform: React.FC<Props> = (props) => {
 					</DialogTitle>
 				</DialogHeader>
 				<div className="flex items-center flex-col mb-3 mt-4 space-x-2">
-					<div className={cn("flex gap-6 items-center mb-10")}>
+					<div className={cn("flex gap-4 items-center mb-10")}>
 						<TooltipProvider>
 							<Tooltip>
 								<TooltipTrigger asChild>
@@ -133,9 +149,7 @@ const SchemaListSelectPlatform: React.FC<Props> = (props) => {
 							onClick={confirmPlatform}
 							className={cn("flex items-center gap-2 text-xs")}
 						>
-							{spaceModePlatformType !== null
-								? "Перейти"
-								: "Выберите"}
+							Перейти
 						</Button>
 					</DialogFooter>
 				</div>

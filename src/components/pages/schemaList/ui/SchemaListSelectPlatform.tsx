@@ -87,7 +87,7 @@ const SchemaListSelectPlatform: React.FC<Props> = (props) => {
 					</DialogTitle>
 				</DialogHeader>
 				<div className="flex items-center flex-col mb-3 mt-4 space-x-2">
-					<div className={cn("flex gap-4 items-center mb-10")}>
+					<div className={cn("flex gap-2 items-center mb-10")}>
 						<TooltipProvider>
 							<Tooltip>
 								<TooltipTrigger asChild>

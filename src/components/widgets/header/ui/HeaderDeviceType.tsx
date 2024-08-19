@@ -4,6 +4,9 @@ import React from "react";
 import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { DesktopIcon, LaptopIcon, MobileIcon } from "@radix-ui/react-icons";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { DeviceType } from "@/components/shared/types/types";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
 interface Props {}
 
@@ -21,15 +24,40 @@ interface Props {}
 const HeaderDeviceType: React.FC<Props> = (props) => {
 	const {} = props;
 
+	const { spaceModeDeviceTypeAction } = useDispatchAction();
+
+	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
+
+	const changeDeviceType = (value: DeviceType | null) => {
+		spaceModeDeviceTypeAction(value);
+	};
+
 	return (
-		<div className={cn("flex items-center bg-secondary p-2")}>
-			<Button>
+		<div className={cn("flex items-center bg-secondary gap-2 p-2")}>
+			<Button
+				onClick={() => {
+					changeDeviceType("desktop");
+				}}
+				variant={
+					spaceModeDeviceType === "desktop" ? "default" : "ghost"
+				}
+			>
 				<DesktopIcon />
 			</Button>
-			<Button variant="ghost">
+			<Button
+				onClick={() => {
+					changeDeviceType("tablet");
+				}}
+				variant={spaceModeDeviceType === "tablet" ? "default" : "ghost"}
+			>
 				<LaptopIcon />
 			</Button>
-			<Button variant="ghost">
+			<Button
+				onClick={() => {
+					changeDeviceType("mobile");
+				}}
+				variant={spaceModeDeviceType === "mobile" ? "default" : "ghost"}
+			>
 				<MobileIcon />
 			</Button>
 		</div>

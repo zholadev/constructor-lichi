@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import HeaderToolbar from "@/components/widgets/header/ui/HeaderToolbar";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
 interface Props {}
 
@@ -18,7 +19,19 @@ interface Props {}
 const SpacePageContainer: React.FC<Props> = (props) => {
 	const {} = props;
 
-	return <HeaderToolbar />;
+	const {
+		spaceTemplateData,
+		spaceModeTheme,
+		spaceModeLanguage,
+		spaceModePreviewShop,
+		spaceModeDeviceType,
+		spaceModeDeviceFrame,
+		spaceModeTemplateType,
+		spaceModePlatformType,
+		spaceTemplatePageId,
+	} = useAppSelector((state) => state.space);
+
+	return <HeaderToolbar title={spaceTemplateData?.name} />;
 };
 
 export default SpacePageContainer;

@@ -6,7 +6,9 @@ import HeaderTitle from "@/components/widgets/header/ui/HeaderTitle";
 import HeaderDeviceType from "@/components/widgets/header/ui/HeaderDeviceType";
 import HeaderActionPanel from "@/components/widgets/header/ui/HeaderActionPanel";
 
-interface Props {}
+interface Props {
+	title: string;
+}
 
 /**
  * @author Zholaman Zhumanov
@@ -20,7 +22,7 @@ interface Props {}
  * @constructor
  */
 const HeaderToolbar: React.FC<Props> = (props) => {
-	const {} = props;
+	const { title } = props;
 
 	return (
 		<div
@@ -28,7 +30,7 @@ const HeaderToolbar: React.FC<Props> = (props) => {
 				"w-full h-[60px] border-b flex items-center justify-between px-4"
 			)}
 		>
-			<HeaderTitle title="Langding Page" />
+			<HeaderTitle title={title} />
 			<HeaderDeviceType />
 			<HeaderActionPanel />
 		</div>

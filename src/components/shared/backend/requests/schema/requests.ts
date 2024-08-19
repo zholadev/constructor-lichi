@@ -60,10 +60,15 @@ export const apiMethodSchemaSave = async (): Promise<
  * @created 14.08.2024
  * @description Метод для получения страницы по ID
  */
-export const apiMethodSchemaGetById = async (): Promise<
-	AxiosResponse | ResponseObject
-> => {
-	return sendApiPostRequest(API.schema.getById);
+export const apiMethodSchemaGetById = async (
+	id: string
+): Promise<AxiosResponse | ResponseObject> => {
+	const formData = new FormData();
+
+	if (id) {
+		formData.append("id", id);
+	}
+	return sendApiPostRequest(API.schema.getById, formData, "constructor_hp");
 };
 
 /**

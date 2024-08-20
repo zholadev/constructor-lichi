@@ -110,8 +110,8 @@ const SchemaListSelectPlatform: React.FC = () => {
 										type="button"
 										variant={
 											spaceModePlatformType === "browser"
-												? "outline"
-												: "ghost"
+												? "default"
+												: "outline"
 										}
 										className={cn("w-[90px] h-[90px]")}
 										onClick={() =>
@@ -134,8 +134,8 @@ const SchemaListSelectPlatform: React.FC = () => {
 										type="button"
 										variant={
 											spaceModePlatformType === "app"
-												? "outline"
-												: "ghost"
+												? "default"
+												: "outline"
 										}
 										onClick={() => selectPlatform("app")}
 										className={cn("w-[90px] h-[90px]")}

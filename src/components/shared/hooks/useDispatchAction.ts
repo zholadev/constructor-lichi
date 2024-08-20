@@ -35,7 +35,7 @@ import {
 	spaceModePlatformTypeReducer,
 	spaceModePreviewShopReducer,
 	spaceModeTemplateTypeReducer,
-	spaceModeThemeReducer,
+	spaceModeThemeReducer, spaceTemplateApiLoadingReducer,
 	spaceTemplateDataReducer, spaceTemplatePageIdReducer,
 } from "@/components/app/store/features/spaceSlice";
 
@@ -90,5 +90,7 @@ export default function useDispatchAction(): any {
 			dispatch(spaceModeTemplateTypeReducer(value)),
 		spaceTemplatePageIdAction: (value: string | null) =>
 			dispatch(spaceTemplatePageIdReducer(value)),
+		spaceTemplateApiLoadingAction: (value:boolean) =>
+			dispatch(spaceTemplateApiLoadingReducer(value)),
 	};
 }

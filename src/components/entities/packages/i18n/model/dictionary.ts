@@ -17,13 +17,13 @@ const dictionaries: Record<string, IDictionaryFile> = {
 	},
 };
 
-export const getDictionary = (
+export const getDictionary = async (
 	locale: string,
 	file: string = "common"
-): Record<string, unknown> => {
+): Promise<Record<string, unknown>> => {
 	const fileLoader = dictionaries[locale]?.[file];
 	if (fileLoader) {
-		return fileLoader();
+		return await fileLoader();
 	}
-	return dictionaries[locale]?.common();
+	return await dictionaries[locale]?.common();
 };

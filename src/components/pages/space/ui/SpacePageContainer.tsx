@@ -1,6 +1,10 @@
 import React from "react";
 import HeaderToolbar from "@/components/widgets/header/ui/HeaderToolbar";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import LeftToolbar from "@/components/components/toolbar/ui/LeftToolbar";
+import { cn } from "@/components/lib/utils";
+import WhiteBoard from "@/components/components/editor/ui/components/WhiteBoard";
+import RightToolbar from "@/components/components/toolbar/ui/RightToolbar";
 
 interface Props {}
 
@@ -30,7 +34,17 @@ const SpacePageContainer: React.FC<Props> = (props) => {
 		spaceTemplatePageId,
 	} = useAppSelector((state) => state.space);
 
-	return <HeaderToolbar title={spaceTemplateData?.name} />;
+	return (
+		<>
+			<HeaderToolbar title={spaceTemplateData?.name} />
+
+			<div className={cn("flex flex-row")}>
+				<LeftToolbar />
+				<WhiteBoard />
+				<RightToolbar />
+			</div>
+		</>
+	);
 };
 
 export default SpacePageContainer;

@@ -9,6 +9,7 @@ import {
 
 interface stateSlice {
 	spaceTemplateData: unknown;
+	spaceTemplateApiLoading: boolean;
 	spaceModeTheme: ThemeSpaceMode;
 	spaceModeLanguage: string;
 	spaceModePreviewShop: string;
@@ -29,6 +30,7 @@ const initialState: stateSlice = {
 	spaceModeTemplateType: "page",
 	spaceModePlatformType: null,
 	spaceTemplatePageId: null,
+	spaceTemplateApiLoading: false,
 };
 
 export const spaceSlice = createSlice({
@@ -77,6 +79,12 @@ export const spaceSlice = createSlice({
 		) => {
 			state.spaceTemplatePageId = action.payload;
 		},
+		spaceTemplateApiLoadingReducer: (
+			state,
+			action: PayloadAction<boolean>
+		) => {
+			state.spaceTemplateApiLoading = action.payload;
+		},
 	},
 });
 
@@ -90,5 +98,6 @@ export const {
 	spaceModeTemplateTypeReducer,
 	spaceModePlatformTypeReducer,
 	spaceTemplatePageIdReducer,
+	spaceTemplateApiLoadingReducer,
 } = spaceSlice.actions;
 export default spaceSlice.reducer;

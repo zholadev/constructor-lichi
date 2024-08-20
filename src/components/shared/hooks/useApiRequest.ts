@@ -82,6 +82,7 @@ function useApiRequest(): any {
 				if (loader) loader(true);
 			}
 
+			if (loader) loader(false);
 			setLoading(false);
 
 			return [];

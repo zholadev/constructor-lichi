@@ -26,7 +26,7 @@ interface Props {
 const SpaceProvider: React.FC<Props> = (props) => {
 	const { children } = props;
 
-	const { apiFetchHandler, loading } = useApiRequest();
+	const { apiFetchHandler } = useApiRequest();
 
 	const searchQuery = useSearchParams();
 
@@ -34,6 +34,8 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		spaceTemplatePageIdAction,
 		spaceModeTemplateTypeAction,
 		spaceTemplateDataAction,
+		spaceTemplateApiLoadingAction,
+		spaceModeDeviceTypeAction,
 	} = useDispatchAction();
 
 	const {
@@ -51,7 +53,7 @@ const SpaceProvider: React.FC<Props> = (props) => {
 	const fetchGetPageById = async () => {
 		await apiFetchHandler(
 			apiMethodSchemaGetById,
-			false,
+			spaceTemplateApiLoadingAction,
 			{
 				onGetData: (params: IGetApiParams) => {
 					if (params.success) {
@@ -67,6 +69,17 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		if (!spaceTemplatePageId) return;
 		fetchGetPageById();
 	}, [spaceTemplatePageId]);
+
+	useEffect(() => {
+		const getPlatformQuery = searchQuery.get("platform");
+		if (!spaceModeDeviceType) {
+			if (getPlatformQuery === "browser") {
+				spaceModeDeviceTypeAction("desktop");
+			} else if (getPlatformQuery === "app") {
+				spaceModeDeviceTypeAction("mobile");
+			}
+		}
+	}, [spaceModeDeviceType]);
 
 	/**
 	 * @author Zholaman Zhumanov

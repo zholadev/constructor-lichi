@@ -3,11 +3,7 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
-import {
-	MoonIcon,
-	PlayIcon,
-	SunIcon,
-} from "@radix-ui/react-icons";
+import { FileIcon, MoonIcon, PlayIcon, SunIcon } from "@radix-ui/react-icons";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
@@ -63,6 +59,10 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 					{spaceModeTheme === "dark" ? <MoonIcon /> : <SunIcon />}
 				</Label>
 			</div>
+
+			<Button type="button" className={cn("flex items-center gap-2")}>
+				<FileIcon /> Сохранить
+			</Button>
 		</div>
 	);
 };

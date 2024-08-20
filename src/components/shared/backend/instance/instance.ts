@@ -16,10 +16,6 @@ import { ResponseObject } from "../types/api-types";
 const axiosInstance: AxiosInstance = axios.create({
 	baseURL: "https://app3.lichishop.com/api/",
 	withCredentials: false,
-	// headers: {
-	// 	"User-Agent":
-	// 		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-	// },
 	timeout: 5000,
 });
 

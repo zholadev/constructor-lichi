@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true
+    reactStrictMode: true,
+    images: {
+        domains: ['static.lichi.com', 'https://static.lichi.com/', 'https://static.lichi.com', 'cdn3.lichi.com', 'https://images.unsplash.com', 'images.unsplash.com']
+    },
 };
 
 export default nextConfig;

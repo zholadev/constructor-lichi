@@ -5,6 +5,9 @@ import { dialogSlice } from "./features/dialogSlice";
 import { schemaListSlice } from "./features/schemaListSlice";
 import { appSlice } from "./features/appSlice";
 import { spaceSlice } from "./features/spaceSlice";
+import { folderSlice } from "./features/folderSlice";
+import { pathSlice } from "./features/pathSlice";
+import { boardSlice } from "./features/boardSlice";
 
 export const siteStore = (): EnhancedStore => {
 	return configureStore({
@@ -13,6 +16,9 @@ export const siteStore = (): EnhancedStore => {
 			schemaList: schemaListSlice.reducer,
 			app: appSlice.reducer,
 			space: spaceSlice.reducer,
+			folder: folderSlice.reducer,
+			path: pathSlice.reducer,
+			board: boardSlice.reducer,
 		},
 	});
 };

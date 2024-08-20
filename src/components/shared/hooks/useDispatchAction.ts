@@ -35,9 +35,18 @@ import {
 	spaceModePlatformTypeReducer,
 	spaceModePreviewShopReducer,
 	spaceModeTemplateTypeReducer,
-	spaceModeThemeReducer, spaceTemplateApiLoadingReducer,
-	spaceTemplateDataReducer, spaceTemplatePageIdReducer,
+	spaceModeThemeReducer,
+	spaceTemplateApiLoadingReducer,
+	spaceTemplateDataReducer,
+	spaceTemplatePageIdReducer,
 } from "@/components/app/store/features/spaceSlice";
+import {
+	getFolderDataReducer,
+	updateFolderCurrentItemReducer,
+	updateFolderLoaderReducer,
+} from "@/components/app/store/features/folderSlice";
+import { pathCurrentFolderReducer } from "@/components/app/store/features/pathSlice";
+import {getBorderDataReducer, updateBorderLoaderReducer} from "@/components/app/store/features/boardSlice";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -90,7 +99,19 @@ export default function useDispatchAction(): any {
 			dispatch(spaceModeTemplateTypeReducer(value)),
 		spaceTemplatePageIdAction: (value: string | null) =>
 			dispatch(spaceTemplatePageIdReducer(value)),
-		spaceTemplateApiLoadingAction: (value:boolean) =>
+		spaceTemplateApiLoadingAction: (value: boolean) =>
 			dispatch(spaceTemplateApiLoadingReducer(value)),
+
+		// FM actions
+		getFolderDataAction: (data: []) => dispatch(getFolderDataReducer(data)),
+		updateFolderLoaderAction: (value: boolean) =>
+			dispatch(updateFolderLoaderReducer(value)),
+		updateFolderCurrentItemAction: (value: boolean) =>
+			dispatch(updateFolderCurrentItemReducer(value)),
+		pathCurrentFolderAction: (value: string) =>
+			dispatch(pathCurrentFolderReducer(value)),
+		getBorderDataAction: (data: []) => dispatch(getBorderDataReducer(data)),
+		updateBorderLoaderAction: (value: boolean) =>
+			dispatch(updateBorderLoaderReducer(value)),
 	};
 }

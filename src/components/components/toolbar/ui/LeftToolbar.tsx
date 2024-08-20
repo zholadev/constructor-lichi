@@ -6,6 +6,7 @@ import {
 	TabsTrigger,
 } from "@/components/shared/shadcn/ui/tabs";
 import { cn } from "@/components/lib/utils";
+import BlockContainer from "@/components/components/blocks/ui/BlockContainer";
 
 interface Props {}
 
@@ -33,11 +34,15 @@ const LeftToolbar: React.FC<Props> = (props) => {
 					className={cn("w-full justify-start py-4 rounded-none")}
 				>
 					<TabsTrigger value="components">Компоненты</TabsTrigger>
+					<TabsTrigger value="elements">Элементы</TabsTrigger>
 					<TabsTrigger value="layers">Layer</TabsTrigger>
 				</TabsList>
 				<div className={cn("p-2")}>
 					<TabsContent value="components">
-						Make changes to your account here.
+						<BlockContainer />
+					</TabsContent>
+					<TabsContent value="elements">
+						Change your password here.
 					</TabsContent>
 					<TabsContent value="layers">
 						Change your password here.

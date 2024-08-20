@@ -1,7 +1,8 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { Progress } from "@/components/shared/shadcn/ui/progress";
 import { cn } from "@/components/lib/utils";
+import DeviceEmulatorContainer from "@/components/widgets/device/ui/DeviceEmulatorContainer";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
 interface Props {}
 
@@ -19,12 +20,7 @@ interface Props {}
 const WhiteBoard: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const [progress, setProgress] = React.useState(13);
-
-	React.useEffect(() => {
-		const timer = setTimeout(() => setProgress(66), 500);
-		return () => clearTimeout(timer);
-	}, []);
+	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
 
 	const { spaceTemplateApiLoading } = useAppSelector((state) => state.space);
 
@@ -33,11 +29,27 @@ const WhiteBoard: React.FC<Props> = (props) => {
 			className={cn(
 				"size-full flex items-center justify-center max-w-[360px]"
 			)}
-		>
-			<Progress value={progress} className="w-[60%]" />
-		</div>
+		/>
 	) : (
-		<div className={cn("w-full bg-secondary")} />
+		<div className={cn("w-full bg-secondary")}>
+			{spaceModeDeviceType === "desktop" ? (
+				<div />
+			) : spaceModeDeviceType === "mobile" ? (
+				<div className={cn("flex items-center justify-center mt-10")}>
+					<DeviceEmulatorContainer>
+						<div className={cn("overflow-y-auto")}>
+							<img
+								src="https://static.lichi.com/product/47770/51364bd7f027855fb6fab48c4c393afb.jpg?v=0_47770.0"
+								alt=""
+								className={cn("w-full block")}
+							/>
+
+							<Button>Text</Button>
+						</div>
+					</DeviceEmulatorContainer>
+				</div>
+			) : null}
+		</div>
 	);
 };
 

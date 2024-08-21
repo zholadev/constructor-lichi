@@ -46,7 +46,10 @@ import {
 	updateFolderLoaderReducer,
 } from "@/components/app/store/features/folderSlice";
 import { pathCurrentFolderReducer } from "@/components/app/store/features/pathSlice";
-import {getBorderDataReducer, updateBorderLoaderReducer} from "@/components/app/store/features/boardSlice";
+import {
+	getBorderDataReducer,
+	updateBorderLoaderReducer,
+} from "@/components/app/store/features/boardSlice";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();

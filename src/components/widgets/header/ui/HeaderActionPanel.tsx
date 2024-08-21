@@ -8,6 +8,7 @@ import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import {Eye, SaveIcon} from "lucide-react";
 
 interface Props {}
 
@@ -46,7 +47,7 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("flex items-center p-2 gap-4")}>
 			<Button variant="outline">
-				<PlayIcon />
+				<Eye />
 			</Button>
 
 			<div className="flex items-center space-x-2">
@@ -61,7 +62,7 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 			</div>
 
 			<Button type="button" className={cn("flex items-center gap-2")}>
-				<FileIcon /> Сохранить
+				<SaveIcon /> Сохранить
 			</Button>
 		</div>
 	);

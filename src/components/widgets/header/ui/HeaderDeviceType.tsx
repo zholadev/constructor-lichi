@@ -26,7 +26,9 @@ const HeaderDeviceType: React.FC<Props> = (props) => {
 
 	const { spaceModeDeviceTypeAction } = useDispatchAction();
 
-	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
+	const { spaceModeDeviceType, spaceModePlatformType } = useAppSelector(
+		(state) => state.space
+	);
 
 	const changeDeviceType = (value: DeviceType | null) => {
 		spaceModeDeviceTypeAction(value);
@@ -34,24 +36,30 @@ const HeaderDeviceType: React.FC<Props> = (props) => {
 
 	return (
 		<div className={cn("flex items-center bg-secondary gap-2 p-2")}>
-			<Button
-				onClick={() => {
-					changeDeviceType("desktop");
-				}}
-				variant={
-					spaceModeDeviceType === "desktop" ? "default" : "ghost"
-				}
-			>
-				<DesktopIcon />
-			</Button>
-			<Button
-				onClick={() => {
-					changeDeviceType("tablet");
-				}}
-				variant={spaceModeDeviceType === "tablet" ? "default" : "ghost"}
-			>
-				<LaptopIcon />
-			</Button>
+			{spaceModePlatformType === "browser" && (
+				<Button
+					onClick={() => {
+						changeDeviceType("desktop");
+					}}
+					variant={
+						spaceModeDeviceType === "desktop" ? "default" : "ghost"
+					}
+				>
+					<DesktopIcon />
+				</Button>
+			)}
+			{spaceModePlatformType === "browser" && (
+				<Button
+					onClick={() => {
+						changeDeviceType("tablet");
+					}}
+					variant={
+						spaceModeDeviceType === "tablet" ? "default" : "ghost"
+					}
+				>
+					<LaptopIcon />
+				</Button>
+			)}
 			<Button
 				onClick={() => {
 					changeDeviceType("mobile");

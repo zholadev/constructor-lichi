@@ -7,6 +7,8 @@ import {
 } from "@/components/shared/shadcn/ui/tabs";
 import { cn } from "@/components/lib/utils";
 import BlockContainer from "@/components/components/blocks/ui/BlockContainer";
+import BaseElementContainer from "@/components/components/elements/ui/BaseElementContainer";
+import SpecialElementContainer from "@/components/components/elements/ui/SpecialElementContainer";
 
 interface Props {}
 
@@ -35,20 +37,20 @@ const LeftToolbar: React.FC<Props> = (props) => {
 				>
 					<TabsTrigger value="components">Компоненты</TabsTrigger>
 					<TabsTrigger value="elements">Элементы</TabsTrigger>
-					<TabsTrigger value="layers">Layer</TabsTrigger>
+					<TabsTrigger value="layers">Навигатор</TabsTrigger>
 				</TabsList>
 				<div className={cn("p-2")}>
 					<TabsContent value="components">
 						<BlockContainer />
 					</TabsContent>
 					<TabsContent value="elements">
-						Change your password here.
+						<BaseElementContainer />
+						<SpecialElementContainer />
 					</TabsContent>
 					<TabsContent value="layers">
 						Change your password here.
 					</TabsContent>
 				</div>
-
 			</Tabs>
 		</div>
 	);

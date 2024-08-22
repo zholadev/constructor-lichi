@@ -52,7 +52,6 @@ const SchemaListSelectPlatform: React.FC = () => {
 
 	const toggleDialogHandle = () => {
 		dialogPlatformTypeAction(!dialogPlatformType);
-		selectPlatform(null);
 	};
 
 	/**
@@ -65,11 +64,6 @@ const SchemaListSelectPlatform: React.FC = () => {
 		}
 
 		if (spaceModePlatformType && spaceTemplatePageId) {
-			router.push(
-				`/space?page_id=${spaceTemplatePageId}&platform=${spaceModePlatformType}`
-			);
-			toggleDialogHandle();
-
 			switch (spaceModePlatformType) {
 				case "browser":
 					spaceModeDeviceTypeAction("desktop");
@@ -81,6 +75,12 @@ const SchemaListSelectPlatform: React.FC = () => {
 					spaceModeDeviceTypeAction(null);
 					break;
 			}
+
+			router.push(
+				`/space?page_id=${spaceTemplatePageId}&platform=${spaceModePlatformType}`
+			);
+
+			toggleDialogHandle();
 		}
 	};
 

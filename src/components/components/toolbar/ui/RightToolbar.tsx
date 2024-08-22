@@ -7,6 +7,7 @@ import {
 	TabsTrigger,
 } from "@/components/shared/shadcn/ui/tabs";
 import GalleryDialogContainer from "@/components/widgets/gallery/ui/GalleryDialogContainer";
+import DesignContent from "@/components/components/design/ui/DesignContent";
 
 interface Props {}
 
@@ -30,17 +31,20 @@ const RightToolbar: React.FC<Props> = (props) => {
 			style={{ height: "calc(100vh - 60px)" }}
 		>
 			<Tabs defaultValue="design" className="w-full">
-				<TabsList
-					className={cn("w-full justify-start py-4 rounded-none")}
-				>
-					<TabsTrigger value="design">Design</TabsTrigger>
-					<TabsTrigger value="prototype">Prototype</TabsTrigger>
-				</TabsList>
 				<div className={cn("p-2")}>
+					<TabsList
+						className={cn("w-full justify-start rounded-none")}
+					>
+						<TabsTrigger value="design">Design</TabsTrigger>
+						<TabsTrigger value="settings">Settings</TabsTrigger>
+					</TabsList>
+				</div>
+				<div className={cn("p-2 overflow-hidden")}>
 					<TabsContent value="design">
 						<GalleryDialogContainer />
+						<DesignContent />
 					</TabsContent>
-					<TabsContent value="prototype">
+					<TabsContent value="settings">
 						Prototype Content
 					</TabsContent>
 				</div>

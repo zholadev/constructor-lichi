@@ -5,6 +5,7 @@ import { cn } from "@/components/lib/utils";
 import { ArrowLeftIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { useRouter } from "next/navigation";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
 interface Props {
 	title: string;
@@ -24,12 +25,17 @@ interface Props {
 const HeaderTitle: React.FC<Props> = (props) => {
 	const { title = "Page Title" } = props;
 
+	const { spaceModePlatformTypeAction } = useDispatchAction();
+
 	const router = useRouter();
 
 	return (
 		<div className={cn("text-sm flex items-center gap-2")}>
 			<Button
-				onClick={() => router.push("/")}
+				onClick={() => {
+					router.push("/");
+					spaceModePlatformTypeAction(null);
+				}}
 				tabIndex={0}
 				type="button"
 				variant="outline"

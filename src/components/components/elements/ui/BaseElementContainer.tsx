@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/components/lib/utils";
 import { MousePointerClick, Timer, Type } from "lucide-react";
 import ElementWrapper from "@/components/components/elements/ui/ElementWrapper";
@@ -27,7 +28,49 @@ const elementData: IBaseElementData[] = [
 		name: "Timer",
 		icon: <Timer />,
 	},
+	{
+		id: 1,
+		name: "Button",
+		icon: <MousePointerClick />,
+	},
+	{
+		id: 2,
+		name: "Text",
+		icon: <Type />,
+	},
+	{
+		id: 3,
+		name: "Timer",
+		icon: <Timer />,
+	},
+	{
+		id: 1,
+		name: "Button",
+		icon: <MousePointerClick />,
+	},
+	{
+		id: 2,
+		name: "Text",
+		icon: <Type />,
+	},
+	{
+		id: 3,
+		name: "Timer",
+		icon: <Timer />,
+	},
 ];
+
+const cardVariants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: (i: number) => ({
+		opacity: 1,
+		y: 0,
+		transition: {
+			delay: i * 0.125, // Задержка для каждой карточки
+			duration: 0.5,
+		},
+	}),
+};
 
 /**
  * @author Zholaman Zhumanov
@@ -45,9 +88,16 @@ const BaseElementContainer: React.FC<Props> = (props) => {
 
 	return (
 		<ul className={cn("list-none grid grid-cols-3 gap-1 mb-7")}>
-			{elementData.map((item) => {
+			{elementData.map((item, index) => {
 				return (
-					<li key={item.id}>
+					<motion.li
+						custom={index}
+						initial="hidden"
+						animate="visible"
+						whileHover={{ scale: 1.05 }}
+						variants={cardVariants}
+						key={item.id}
+					>
 						<ElementWrapper>
 							<div className={cn("absolute top-8")}>
 								{item.icon}
@@ -61,7 +111,7 @@ const BaseElementContainer: React.FC<Props> = (props) => {
 								{item.name}
 							</span>
 						</ElementWrapper>
-					</li>
+					</motion.li>
 				);
 			})}
 		</ul>

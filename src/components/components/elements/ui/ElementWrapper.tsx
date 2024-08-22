@@ -22,7 +22,7 @@ const ElementWrapper: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				"w-full h-[100px] rounded-md relative hover:bg-secondary transition-all duration-75 text-sm cursor-pointer border mb-2 flex items-center justify-center flex-col"
+				"w-full h-[100px] rounded-md relative hover:bg-secondary transition-all duration-75 text-sm cursor-pointer border flex items-center justify-center flex-col"
 			)}
 		>
 			{children}

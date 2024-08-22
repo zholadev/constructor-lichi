@@ -36,7 +36,11 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		spaceTemplateDataAction,
 		spaceTemplateApiLoadingAction,
 		spaceModeDeviceTypeAction,
+		spaceModePlatformTypeAction,
 	} = useDispatchAction();
+
+	const getPlatformQuery = searchQuery.get("platform");
+	const getPageIdQuery = searchQuery.get("page_id");
 
 	const {
 		spaceTemplateData,
@@ -71,7 +75,6 @@ const SpaceProvider: React.FC<Props> = (props) => {
 	}, [spaceTemplatePageId]);
 
 	useEffect(() => {
-		const getPlatformQuery = searchQuery.get("platform");
 		if (!spaceModeDeviceType) {
 			if (getPlatformQuery === "browser") {
 				spaceModeDeviceTypeAction("desktop");
@@ -79,24 +82,25 @@ const SpaceProvider: React.FC<Props> = (props) => {
 				spaceModeDeviceTypeAction("mobile");
 			}
 		}
-	}, [spaceModeDeviceType]);
-
+	}, [spaceModeDeviceType, getPlatformQuery]);
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Настройки нужных данных
 	 */
 	useEffect(() => {
-		const getPageIdQuery = searchQuery.get("page_id");
-		const getPlatformQuery = searchQuery.get("platform");
-
 		if (!spaceTemplatePageId && getPageIdQuery) {
 			spaceTemplatePageIdAction(getPageIdQuery);
 		}
 
 		if (!spaceModePlatformType && getPlatformQuery) {
-			spaceModeTemplateTypeAction(getPlatformQuery);
+			spaceModePlatformTypeAction(getPlatformQuery);
 		}
-	}, [spaceTemplatePageId, spaceModePlatformType]);
+	}, [
+		spaceTemplatePageId,
+		spaceModePlatformType,
+		getPageIdQuery,
+		getPlatformQuery,
+	]);
 
 	return children;
 };

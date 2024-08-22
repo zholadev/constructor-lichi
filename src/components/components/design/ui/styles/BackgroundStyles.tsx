@@ -9,7 +9,7 @@ interface IStylesValues {
 	backgroundColor: string;
 }
 
-type StylesValues = "backgroundColor";
+type StylesKeys = "backgroundColor";
 
 interface Props {
 	onStyleChange?: (values: IStylesValues) => void;
@@ -43,7 +43,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 	 * @param value
 	 * @param type
 	 */
-	const onChangeStyleHandle = (value: string, type: StylesValues) => {
+	const onChangeStyleHandle = (value: string, type: StylesKeys) => {
 		try {
 			if (!value) {
 				toastMessage("ValueError: value is not defined", "error");

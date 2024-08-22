@@ -19,7 +19,6 @@ import {
 	CornerTopRightIcon,
 } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/shared/shadcn/ui/checkbox";
-import { Corner } from "@radix-ui/react-scroll-area";
 
 interface Props {
 	onSizeChange?: (newSize: number) => void;
@@ -309,67 +308,6 @@ const BorderStyles: React.FC<Props> = (props) => {
 				<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
 					Color
 				</Label>
-				<div
-					className={cn(
-						"grid grid-cols-6 justify-between bg-secondary border p-2 rounded-md"
-					)}
-				>
-					<button
-						onClick={() => {
-							onChangeSizeHandle("#000000", "borderColor");
-						}}
-						type="button"
-						className={cn(
-							"outline-0 border-0 bg-black rounded-full w-[20px] h-[20px]"
-						)}
-					/>
-					<button
-						onClick={() => {
-							onChangeSizeHandle("#ffffff", "borderColor");
-						}}
-						type="button"
-						className={cn(
-							"outline-0 border bg-white rounded-full w-[20px] h-[20px]"
-						)}
-					/>
-					<button
-						onClick={() => {
-							onChangeSizeHandle("#808080", "borderColor");
-						}}
-						type="button"
-						className={cn(
-							"outline-0 border bg-gray-500 rounded-full w-[20px] h-[20px]"
-						)}
-					/>
-					<button
-						onClick={() => {
-							onChangeSizeHandle("#FF0000", "borderColor");
-						}}
-						type="button"
-						className={cn(
-							"outline-0 border bg-red-600 rounded-full w-[20px] h-[20px]"
-						)}
-					/>
-					<button
-						onClick={() => {
-							onChangeSizeHandle("#0000FF", "borderColor");
-						}}
-						type="button"
-						className={cn(
-							"outline-0 border bg-blue-600 rounded-full w-[20px] h-[20px]"
-						)}
-					/>
-					<button
-						onClick={() => {
-							onChangeSizeHandle("#008000", "borderColor");
-						}}
-						type="button"
-						className={cn(
-							"outline-0 border bg-green-600 rounded-full w-[20px] h-[20px]"
-						)}
-					/>
-				</div>
-
 				<div
 					className={cn(
 						"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"

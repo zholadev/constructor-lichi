@@ -69,7 +69,7 @@ const GalleryFolderNav: React.FC<Props> = (props) => {
 
 	return (
 		<aside className="h-screen sticky top-0 border-r">
-			<div className="w-full h-[50px] flex items-center justify-between border-b px-3">
+			<div className="w-full h-[60px] flex items-center justify-between border-b px-3">
 				<Button
 					onClick={toggleDialogCreateDirectory}
 					variant="ghost"
@@ -81,7 +81,10 @@ const GalleryFolderNav: React.FC<Props> = (props) => {
 			{loading ? (
 				renderLoadingSkeletons()
 			) : (
-				<div className="w-[350px] h-[80%] overflow-y-scroll">
+				<div
+					className="w-[350px] overflow-y-auto"
+					style={{ height: "calc(700 - 50px)" }}
+				>
 					<Tree data={folderData} />
 				</div>
 			)}

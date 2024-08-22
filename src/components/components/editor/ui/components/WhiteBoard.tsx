@@ -3,6 +3,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import DeviceEmulatorContainer from "@/components/widgets/device/ui/DeviceEmulatorContainer";
 import { Button } from "@/components/shared/shadcn/ui/button";
+import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 
 interface Props {}
 
@@ -27,11 +28,17 @@ const WhiteBoard: React.FC<Props> = (props) => {
 	return spaceTemplateApiLoading ? (
 		<div
 			className={cn(
-				"size-full flex items-center justify-center max-w-[360px]"
+				"p-3 size-full flex flex-col items-center justify-center w-full"
 			)}
-		/>
+		>
+			<Skeleton className="h-[290px] w-full mb-4" />
+			<Skeleton className="h-[290px] w-full mb-4" />
+			<Skeleton className="h-[290px] w-full mb-4" />
+			<Skeleton className="h-[290px] w-full mb-4" />
+			<Skeleton className="h-[290px] w-full mb-4" />
+		</div>
 	) : (
-		<div className={cn("w-full bg-secondary")}>
+		<div className={cn("w-full bg-secondary h-full overflow-y-auto")}>
 			{spaceModeDeviceType === "desktop" ? (
 				<div />
 			) : spaceModeDeviceType === "mobile" ? (

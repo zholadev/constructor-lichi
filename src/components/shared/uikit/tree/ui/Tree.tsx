@@ -24,7 +24,7 @@ interface Props {
  * @constructor
  */
 const Tree: React.FC<Props> = (props) => {
-	const { data } = props;
+	const { data = [] } = props;
 
 	const [activePath, setActivePath] = useState<string>("");
 

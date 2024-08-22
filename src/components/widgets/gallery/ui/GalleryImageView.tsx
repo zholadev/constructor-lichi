@@ -51,24 +51,18 @@ const GalleryImageView: React.FC<Props> = (props) => {
 	const { pathCurrentFolder } = useAppSelector((state) => state.path);
 
 	const fetchBoardImageData = async () => {
-		try {
-			await apiFetchHandler(
-				apiMethodGet,
-				updateBorderLoaderAction,
-				{
-					onGetData: (params: IGetApiParams) => {
-						if (params.success) {
-							getBorderDataAction(params.data.files);
-						}
-					},
+		await apiFetchHandler(
+			apiMethodGet,
+			updateBorderLoaderAction,
+			{
+				onGetData: (params: IGetApiParams) => {
+					if (params.success) {
+						getBorderDataAction(params.data.files);
+					}
 				},
-				[pathCurrentFolder]
-			);
-		} catch (error) {
-			if (error instanceof Error) {
-				console.error(error);
-			}
-		}
+			},
+			[pathCurrentFolder]
+		);
 	};
 
 	useEffect(() => {
@@ -76,7 +70,10 @@ const GalleryImageView: React.FC<Props> = (props) => {
 	}, [pathCurrentFolder, folderData]);
 
 	return (
-		<div className={cn("w-full h-full flex flex-col pb-20")}>
+		<div
+			className={cn("w-full overflow-y-auto flex flex-col pb-20")}
+			style={{ height: "calc(700px - 50px)" }}
+		>
 			{boardData.length === 0 && (
 				<div
 					className={cn(
@@ -110,7 +107,11 @@ const GalleryImageView: React.FC<Props> = (props) => {
 					<Skeleton className="h-[290px] w-full" />
 				</div>
 			) : (
-				<ul className={cn("lg:columns-3 md:columns-2 columns-1 gap-4")}>
+				<ul
+					className={cn(
+						"lg:columns-3 md:columns-2 columns-1 py-2 px-2 gap-4 bg-secondary"
+					)}
+				>
 					{boardData?.map((data: IDataItem, index: number) => (
 						<li key={index} className={cn("h-auto")}>
 							<GalleryCard
@@ -118,6 +119,7 @@ const GalleryImageView: React.FC<Props> = (props) => {
 								url={data?.url}
 								alt={data?.name}
 								path={data.path}
+								index={index}
 								size={data.size}
 								title={data.name}
 								publicUrl={data.public_url}

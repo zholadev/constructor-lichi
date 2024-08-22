@@ -36,7 +36,7 @@ const GalleryDialogContainer: React.FC<Props> = (props) => {
 				<DialogHeader>
 					<DialogTitle>Media Gallery</DialogTitle>
 				</DialogHeader>
-				<div className="w-full flex flex-row h-[60vh] overflow-hidden">
+				<div className="w-full flex flex-row h-full gap-4 max-h-[600px] overflow-hidden">
 					<GalleryFolderNav />
 					<GalleryImageView />
 				</div>

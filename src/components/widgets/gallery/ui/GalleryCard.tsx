@@ -37,11 +37,6 @@ interface Props {
 	publicUrl: string;
 }
 
-const ZoomImage = dynamic(
-	() => import("@/components/shared/uikit/zoom/ui/ZoomImage"),
-	{ ssr: false }
-);
-
 /**
  * @author Zholaman Zhumanov
  * @created 11.06.2024
@@ -54,7 +49,7 @@ const ZoomImage = dynamic(
  * @constructor
  */
 const GalleryCard: React.FC<Props> = (props) => {
-	const { src, alt, url, path, size, title, publicUrl } = props;
+	const { src, alt, url, path, size, title, publicUrl, index } = props;
 
 	const imgRef = useRef<any>(null);
 
@@ -142,7 +137,7 @@ const GalleryCard: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				"delay-75 hover:shadow-md mb-4 relative overflow-hidden break-inside-avoid h-auto rounded-md"
+				"delay-75 hover:shadow-md mb-4 bg-white border p-3 relative overflow-hidden break-inside-avoid h-auto rounded-md"
 			)}
 		>
 			<div className={cn("relative")}>
@@ -255,7 +250,7 @@ const GalleryCard: React.FC<Props> = (props) => {
 					// </ZoomImage>
 				)}
 
-				<h3 className={cn("absolute top-1.5 left-2 text-white")}>
+				<h3 className={cn("py-2")}>
 					{title}
 				</h3>
 			</div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { cn } from "@/components/lib/utils";
@@ -15,12 +15,6 @@ import {
 	AlignVerticalSpaceBetween,
 } from "lucide-react";
 
-interface Props {
-	onStyleChange?: (value: unknown) => void;
-	styles?: React.CSSProperties;
-	hideTitle?: boolean;
-}
-
 type JustifyContent =
 	| "flex-start"
 	| "flex-end"
@@ -34,6 +28,12 @@ type AlignItems = "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
 interface IStylesValues {
 	justifyContent: JustifyContent;
 	alignItems: AlignItems;
+}
+
+interface Props {
+	onStyleChange?: (values: IStylesValues) => void;
+	styles?: React.CSSProperties;
+	hideTitle?: boolean;
 }
 
 /**
@@ -74,10 +74,16 @@ const LayoutStyles: React.FC<Props> = (props) => {
 			}
 
 			setStylesValues((size) => {
-				return {
+				const updateValues = {
 					...size,
 					[key]: value,
 				};
+
+				if (onStyleChange) {
+					onStyleChange(updateValues);
+				}
+
+				return updateValues;
 			});
 		} catch (error) {
 			if (error instanceof Error) {
@@ -114,6 +120,16 @@ const LayoutStyles: React.FC<Props> = (props) => {
 		{ value: "center", icon: <AlignCenterVertical /> },
 		{ value: "flex-end", icon: <AlignEndVertical /> },
 	];
+
+	useEffect(() => {
+		if (styles) {
+			setStylesValues({
+				justifyContent:
+					(styles.justifyContent as JustifyContent) || "flex-start",
+				alignItems: (styles.alignItems as AlignItems) || "flex-start",
+			});
+		}
+	}, [styles]);
 
 	return (
 		<div className={cn("w-full flex flex-col")}>

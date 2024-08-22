@@ -27,7 +27,7 @@ const RightToolbar: React.FC<Props> = (props) => {
 
 	return (
 		<div
-			className={cn("w-[400px] border")}
+			className={cn("w-[420px] border")}
 			style={{ height: "calc(100vh - 60px)" }}
 		>
 			<Tabs defaultValue="design" className="w-full">
@@ -39,12 +39,23 @@ const RightToolbar: React.FC<Props> = (props) => {
 						<TabsTrigger value="settings">Settings</TabsTrigger>
 					</TabsList>
 				</div>
-				<div className={cn("p-2 overflow-hidden")}>
-					<TabsContent value="design">
+				<div
+					className={cn("p-2 overflow-hidden")}
+					style={{ height: "calc(100vh - 60px)" }}
+				>
+					<TabsContent
+						value="design"
+						className={cn("overflow-y-auto")}
+						style={{ height: "calc(100vh - 120px)" }}
+					>
 						<GalleryDialogContainer />
 						<DesignContent />
 					</TabsContent>
-					<TabsContent value="settings">
+					<TabsContent
+						value="settings"
+						className={cn("overflow-y-auto")}
+						style={{ height: "calc(100vh - 60px)" }}
+					>
 						Prototype Content
 					</TabsContent>
 				</div>

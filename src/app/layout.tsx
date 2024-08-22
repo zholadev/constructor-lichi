@@ -23,7 +23,7 @@ export default function RootLayout({
 	return (
 		<StoreProvider>
 			<ApiDataProvider>
-				<html lang="en">
+				<html lang="en" className="overflow-hidden">
 					<Toaster />
 					<body className={inter.className}>
 						<ThemeProvider

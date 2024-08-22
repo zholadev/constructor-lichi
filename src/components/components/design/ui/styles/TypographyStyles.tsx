@@ -421,14 +421,32 @@ const TypographyStyles: React.FC<Props> = (props) => {
 					>
 						Color
 					</Label>
-					<Input
-						type="color"
-						defaultValue={stylesValues.color}
-						className={cn("mt-2")}
-						onChange={(e) => {
-							onChangeSizeHandle(e.target.value, "color");
-						}}
-					/>
+
+					<div
+						className={cn(
+							"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
+						)}
+					>
+						<Input
+							className={cn("border-0 p-0")}
+							defaultValue={stylesValues.color}
+							type="color"
+							onChange={(e) => {
+								onChangeSizeHandle(e.target.value, "color");
+							}}
+						/>
+
+						<Input
+							className={cn(
+								"col-span-2 border-0 focus-visible:ring-0"
+							)}
+							defaultValue={stylesValues.color}
+							type="text"
+							onChange={(e) => {
+								onChangeSizeHandle(e.target.value, "color");
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>

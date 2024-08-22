@@ -34,7 +34,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 	const toastMessage = useToastMessage();
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({
-		backgroundColor: "transparent",
+		backgroundColor: "#000000",
 	});
 
 	/**
@@ -75,17 +75,37 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 					>
 						Background Color
 					</Label>
-					<Input
-						className={cn("mt-2")}
-						value={stylesValues.backgroundColor}
-						type="color"
-						onChange={(e) => {
-							onChangeSizeHandle(
-								e.target.value,
-								"backgroundColor"
-							);
-						}}
-					/>
+					<div
+						className={cn(
+							"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
+						)}
+					>
+						<Input
+							className={cn("border-0 p-0")}
+							value={stylesValues.backgroundColor}
+							type="color"
+							onChange={(e) => {
+								onChangeSizeHandle(
+									e.target.value,
+									"backgroundColor"
+								);
+							}}
+						/>
+
+						<Input
+							className={cn(
+								"col-span-2 border-0 focus-visible:ring-0"
+							)}
+							value={stylesValues.backgroundColor}
+							type="text"
+							onChange={(e) => {
+								onChangeSizeHandle(
+									e.target.value,
+									"backgroundColor"
+								);
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>

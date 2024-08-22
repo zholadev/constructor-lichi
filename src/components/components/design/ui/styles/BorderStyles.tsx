@@ -6,12 +6,20 @@ import { Slider } from "@/components/shared/shadcn/ui/slider";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import {
+	BorderAllIcon,
+	BorderBottomIcon,
+	BorderLeftIcon,
+	BorderNoneIcon,
+	BorderRightIcon,
+	BorderTopIcon,
 	CornerBottomLeftIcon,
 	CornerBottomRightIcon,
+	CornersIcon,
 	CornerTopLeftIcon,
 	CornerTopRightIcon,
 } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/shared/shadcn/ui/checkbox";
+import { Corner } from "@radix-ui/react-scroll-area";
 
 interface Props {
 	onSizeChange?: (newSize: number) => void;
@@ -46,7 +54,7 @@ type SizeValues =
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo Tooltip, type self, refactoring
  * @fixme
  * @param props
  * @constructor
@@ -199,6 +207,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 						"flex flex-row gap-2 items-center border rounded-md pl-2"
 					)}
 				>
+					<CornersIcon width={30} height={30} />
 					<Slider
 						defaultValue={sizeValues.borderRadius}
 						max={20}
@@ -361,10 +370,26 @@ const BorderStyles: React.FC<Props> = (props) => {
 					/>
 				</div>
 
-				<div>
+				<div
+					className={cn(
+						"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
+					)}
+				>
 					<Input
-						type="color"
+						className={cn("border-0 p-0")}
 						defaultValue={sizeValues.borderColor}
+						type="color"
+						onChange={(e) => {
+							onChangeSizeHandle(e.target.value, "borderColor");
+						}}
+					/>
+
+					<Input
+						className={cn(
+							"col-span-2 border-0 focus-visible:ring-0"
+						)}
+						defaultValue={sizeValues.borderColor}
+						type="text"
 						onChange={(e) => {
 							onChangeSizeHandle(e.target.value, "borderColor");
 						}}
@@ -378,33 +403,57 @@ const BorderStyles: React.FC<Props> = (props) => {
 				>
 					<button
 						type="button"
-						className={cn("border w-[30px] h-[30px]")}
-						style={{ borderColor: sizeValues.borderColor }}
-					/>
+						className={cn(
+							"border w-[30px] h-[30px] flex justify-center items-center"
+						)}
+					>
+						<BorderAllIcon width={20} height={20} />
+					</button>
 
 					<button
 						type="button"
-						className={cn("border w-[30px] h-[30px]")}
-						style={{ borderBottomColor: sizeValues.borderColor }}
-					/>
+						className={cn(
+							"border w-[30px] h-[30px] flex justify-center items-center"
+						)}
+					>
+						<BorderBottomIcon width={20} height={20} />
+					</button>
 
 					<button
 						type="button"
-						className={cn("border w-[30px] h-[30px]")}
-						style={{ borderTopColor: sizeValues.borderColor }}
-					/>
+						className={cn(
+							"border w-[30px] h-[30px] flex justify-center items-center"
+						)}
+					>
+						<BorderTopIcon width={20} height={20} />
+					</button>
 
 					<button
 						type="button"
-						className={cn("border w-[30px] h-[30px]")}
-						style={{ borderLeftColor: sizeValues.borderColor }}
-					/>
+						className={cn(
+							"border w-[30px] h-[30px] flex justify-center items-center"
+						)}
+					>
+						<BorderLeftIcon width={20} height={20} />
+					</button>
 
 					<button
 						type="button"
-						className={cn("border w-[30px] h-[30px]")}
-						style={{ borderRightColor: sizeValues.borderColor }}
-					/>
+						className={cn(
+							"border w-[30px] h-[30px] flex justify-center items-center"
+						)}
+					>
+						<BorderRightIcon width={20} height={20} />
+					</button>
+
+					<button
+						type="button"
+						className={cn(
+							"border w-[30px] h-[30px] flex justify-center items-center"
+						)}
+					>
+						<BorderNoneIcon width={20} height={20} />
+					</button>
 				</div>
 
 				<div className={cn("w-full flex items-center gap-5 flex-row")}>

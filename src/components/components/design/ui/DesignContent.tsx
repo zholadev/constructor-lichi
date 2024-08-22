@@ -10,6 +10,8 @@ import {
 import BorderStyles from "@/components/components/design/ui/styles/BorderStyles";
 import BackgroundStyles from "@/components/components/design/ui/styles/BackgroundStyles";
 import TypographyStyles from "@/components/components/design/ui/styles/TypographyStyles";
+import LayoutStyles from "@/components/components/design/ui/styles/LayoutStyles";
+import SpacingStyles from "@/components/components/design/ui/styles/SpacingStyles";
 
 interface Props {}
 
@@ -28,43 +30,55 @@ const DesignContent: React.FC<Props> = (props) => {
 	const {} = props;
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([
-		"item1",
-		"item2",
-		"item3",
-		"item4",
-		"item5",
+		"position",
+		"size",
+		"border",
+		"fill",
+		"spacing",
 	]);
 
 	return (
-		<div className={cn("w-full p-3 overflow-y-auto")}>
+		<div className={cn("w-full p-3")}>
 			<Accordion
 				type="multiple"
 				className="w-full"
 				value={defaultExpanded}
 				onValueChange={setExpanded}
 			>
-				<AccordionItem value="item1">
+				<AccordionItem value="position">
+					<AccordionTrigger>Position</AccordionTrigger>
+					<AccordionContent>
+						<LayoutStyles hideTitle />
+					</AccordionContent>
+				</AccordionItem>
+				<AccordionItem value="size">
 					<AccordionTrigger>Size</AccordionTrigger>
 					<AccordionContent>
 						<SizeStyles hideTitle />
 					</AccordionContent>
 				</AccordionItem>
-				<AccordionItem value="item2">
+				<AccordionItem value="spacing">
+					<AccordionTrigger>Spacing</AccordionTrigger>
+					<AccordionContent>
+						<SpacingStyles hideTitle />
+					</AccordionContent>
+				</AccordionItem>
+				<AccordionItem value="border">
 					<AccordionTrigger>Border</AccordionTrigger>
 					<AccordionContent>
 						<BorderStyles hideTitle />
 					</AccordionContent>
 				</AccordionItem>
-				<AccordionItem value="item3">
-					<AccordionTrigger>Fill</AccordionTrigger>
-					<AccordionContent>
-						<BackgroundStyles hideTitle />
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="item4">
+				<AccordionItem value="typography">
 					<AccordionTrigger>Typography</AccordionTrigger>
 					<AccordionContent>
 						<TypographyStyles hideTitle />
+					</AccordionContent>
+				</AccordionItem>
+				<AccordionItem value="fill">
+					<AccordionTrigger>Fill</AccordionTrigger>
+					<AccordionContent>
+						<BackgroundStyles hideTitle />
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>

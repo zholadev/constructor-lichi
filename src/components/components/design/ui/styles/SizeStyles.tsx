@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
-interface Props {
-	onSizeChange?: (newSize: number) => void;
-	styles?: React.CSSProperties;
-	hideTitle?: boolean;
-}
-
-interface ISizeValues {
+interface IStyleValues {
 	width: number;
 	height: number;
 }
 
-type SizeValues = "width" | "height";
+type StyleKeys = keyof IStyleValues;
+
+interface Props {
+	onStyleChange?: (value: IStyleValues) => void;
+	styles?: React.CSSProperties;
+	hideTitle?: boolean;
+}
 
 /**
  * @author Zholaman Zhumanov
@@ -30,11 +30,11 @@ type SizeValues = "width" | "height";
  * @constructor
  */
 const SizeStyles: React.FC<Props> = (props) => {
-	const { onSizeChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle } = props;
 
 	const toastMessage = useToastMessage();
 
-	const [sizeValues, setSizeValues] = useState<ISizeValues>({
+	const [sizeValues, setSizeValues] = useState<IStyleValues>({
 		width: 0,
 		height: 0,
 	});
@@ -45,28 +45,32 @@ const SizeStyles: React.FC<Props> = (props) => {
 	 * @param value
 	 * @param type
 	 */
-	const onChangeSizeHandle = (value: string, type: SizeValues) => {
+	const onChangeSizeHandle = (value: string, type: StyleKeys) => {
 		try {
-			switch (type) {
-				case "width":
-					setSizeValues((size) => {
-						return {
-							...size,
-							width: parseFloat(value),
-						};
-					});
-					break;
-				case "height":
-					setSizeValues((size) => {
-						return {
-							...size,
-							height: parseFloat(value),
-						};
-					});
-					break;
-				default:
-					toastMessage("TypeError: type is not defined", "error");
+			if (!value) {
+				toastMessage("ValueError: value is not defined", "error");
+				return;
 			}
+
+			if (!type) {
+				toastMessage("TypeError: type is not defined", "error");
+				return;
+			}
+
+			const newValue = parseFloat(value);
+
+			setSizeValues((size) => {
+				const newUpdateValues = {
+					...size,
+					[type]: newValue,
+				};
+
+				if (onStyleChange) {
+					onStyleChange(newUpdateValues);
+				}
+
+				return newUpdateValues;
+			});
 		} catch (error) {
 			if (error instanceof Error) {
 				errorHandler("sizeStyles", "onChangeSizeHandle", error);
@@ -74,44 +78,42 @@ const SizeStyles: React.FC<Props> = (props) => {
 		}
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Назначаем дефолтные настройки
+	 */
+	useEffect(() => {
+		setSizeValues({
+			width: styles?.width ? parseFloat(styles.width.toString()) : 0,
+			height: styles?.height ? parseFloat(styles.height.toString()) : 0,
+		});
+	}, [styles]);
+
 	return (
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Size</h3>}
 			<div className={cn("w-full grid grid-cols-2 gap-4 p-1")}>
-				<div>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Width
-					</Label>
-					<Input
-						className={cn("mt-2")}
-						value={sizeValues.width}
-						type="number"
-						placeholder="width"
-						onChange={(e) => {
-							onChangeSizeHandle(e.target.value, "width");
-						}}
-					/>
-				</div>
-				<div>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Height
-					</Label>
-					<Input
-						className={cn("mt-2")}
-						value={sizeValues.height}
-						type="number"
-						placeholder="height"
-						onChange={(e) => {
-							onChangeSizeHandle(e.target.value, "height");
-						}}
-					/>
-				</div>
+				{(["width", "height"] as StyleKeys[]).map((size, index) => {
+					return (
+						<div key={index}>
+							<Label
+								className={cn("uppercase")}
+								style={{ fontSize: "10px" }}
+							>
+								{size}
+							</Label>
+							<Input
+								className={cn("mt-2")}
+								value={sizeValues[size]}
+								type="number"
+								placeholder="width"
+								onChange={(e) => {
+									onChangeSizeHandle(e.target.value, size);
+								}}
+							/>
+						</div>
+					);
+				})}
 			</div>
 		</div>
 	);

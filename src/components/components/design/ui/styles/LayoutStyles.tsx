@@ -150,7 +150,7 @@ const LayoutStyles: React.FC<Props> = (props) => {
 			<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
 				Align-Items
 			</Label>
-			<div className={cn("w-full grid grid-cols-6 mt-2 gap-2")}>
+			<div className={cn("w-full grid grid-cols-6 mt-3 gap-2")}>
 				{alignItemsOptions.map((content) => {
 					return (
 						<button

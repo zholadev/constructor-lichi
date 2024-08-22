@@ -11,25 +11,18 @@ import {
 	PinTopIcon,
 } from "@radix-ui/react-icons";
 
+type SpacingType = "margin" | "padding";
+type Sides = "top" | "left" | "bottom" | "right";
+
 interface Props {
-	onSizeChange?: (newSize: number) => void;
+	onStyleChange?: (newSize: number) => void;
 	styles?: React.CSSProperties;
 	hideTitle?: boolean;
 }
 
-type JustifyContent =
-	| "flex-start"
-	| "flex-end"
-	| "center"
-	| "space-between"
-	| "space-around"
-	| "space-evenly";
-
-type AlignItems = "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
-
 interface IStylesValues {
-	justifyContent: JustifyContent;
-	alignItems: AlignItems;
+	margin: Record<Sides, number>;
+	padding: Record<Sides, number>;
 }
 
 /**
@@ -44,24 +37,33 @@ interface IStylesValues {
  * @constructor
  */
 const SpacingStyles: React.FC<Props> = (props) => {
-	const { onSizeChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle } = props;
 
 	const toastMessage = useToastMessage();
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({
-		justifyContent: "flex-start",
-		alignItems: "flex-start",
+		margin: { top: 0, left: 0, bottom: 0, right: 0 },
+		padding: { top: 0, left: 0, bottom: 0, right: 0 },
 	});
+
+	const iconMap = {
+		top: PinTopIcon,
+		bottom: PinBottomIcon,
+		left: PinLeftIcon,
+		right: PinRightIcon,
+	};
 
 	/**
 	 * @author Zholaman Zhumanov
-	 * @description Метод для обновления значение для размеров
+	 * @description Метод для обновления значение стилей
 	 * @param value
 	 * @param type
+	 * @param side
 	 */
 	const onChangeStylesHandle = (
-		value: JustifyContent,
-		type: JustifyContent
+		value: string,
+		type: SpacingType,
+		side: Sides
 	) => {
 		try {
 			if (!value) {
@@ -74,17 +76,54 @@ const SpacingStyles: React.FC<Props> = (props) => {
 				return;
 			}
 
+			const newValue = parseFloat(value);
+
 			setStylesValues((size) => {
-				return {
+				const newValueUpdate = {
 					...size,
-					[type]: value,
+					[type]: {
+						[side]: newValue,
+					},
 				};
+
+				if (onStyleChange) {
+					onStyleChange(newValue);
+				}
+
+				return newValueUpdate;
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				errorHandler("layoutStyles", "onChangeJustifyHandle", error);
 			}
 		}
+	};
+
+	const renderInputs = (type: SpacingType) => {
+		return (["top", "bottom", "left", "right"] as Sides[]).map((side) => {
+			const Icon = iconMap[side];
+			return (
+				<div
+					key={side}
+					className={cn(
+						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
+					)}
+				>
+					<Icon width={30} />
+					<Input
+						className={cn(
+							"border-0 text-right focus-visible:ring-0"
+						)}
+						value={stylesValues[type][side]}
+						type="number"
+						placeholder={`${side}`}
+						onChange={(e) =>
+							onChangeStylesHandle(e.target.value, type, side)
+						}
+					/>
+				</div>
+			);
+		});
 	};
 
 	return (
@@ -95,114 +134,14 @@ const SpacingStyles: React.FC<Props> = (props) => {
 				Margin (Outside)
 			</Label>
 			<div className={cn("w-full grid grid-cols-2 mt-2 gap-2 mb-6")}>
-				<div
-					className={cn(
-						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
-					)}
-				>
-					<PinTopIcon width={30} />
-					<Input
-						className={cn(
-							"border-0 text-right focus-visible:ring-0"
-						)}
-					/>
-				</div>
-
-				<div
-					className={cn(
-						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
-					)}
-				>
-					<PinBottomIcon width={30} />
-					<Input
-						className={cn(
-							"border-0 text-right focus-visible:ring-0"
-						)}
-					/>
-				</div>
-
-				<div
-					className={cn(
-						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
-					)}
-				>
-					<PinLeftIcon width={30} />
-					<Input
-						className={cn(
-							"border-0 text-right focus-visible:ring-0"
-						)}
-					/>
-				</div>
-
-				<div
-					className={cn(
-						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
-					)}
-				>
-					<PinRightIcon width={30} />
-					<Input
-						className={cn(
-							"border-0 text-right focus-visible:ring-0"
-						)}
-					/>
-				</div>
+				{renderInputs("margin")}
 			</div>
 
 			<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
 				Padding (Inside)
 			</Label>
 			<div className={cn("w-full grid grid-cols-2 mt-2 gap-2")}>
-				<div
-					className={cn(
-						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
-					)}
-				>
-					<PinTopIcon width={30} />
-					<Input
-						className={cn(
-							"border-0 text-right focus-visible:ring-0"
-						)}
-					/>
-				</div>
-
-				<div
-					className={cn(
-						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
-					)}
-				>
-					<PinBottomIcon width={30} />
-					<Input
-						className={cn(
-							"border-0 text-right focus-visible:ring-0"
-						)}
-					/>
-				</div>
-
-				<div
-					className={cn(
-						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
-					)}
-				>
-					<PinLeftIcon width={30} />
-					<Input
-						className={cn(
-							"border-0 text-right focus-visible:ring-0"
-						)}
-					/>
-				</div>
-
-				<div
-					className={cn(
-						"w-full flex flex-row items-center gap-2 border rounded-md p-1"
-					)}
-				>
-					<PinRightIcon width={30} />
-					<Input
-						className={cn(
-							"border-0 text-right focus-visible:ring-0"
-						)}
-					/>
-				</div>
+				{renderInputs("padding")}
 			</div>
 		</div>
 	);

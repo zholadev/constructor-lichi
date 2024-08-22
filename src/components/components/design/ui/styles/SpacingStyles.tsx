@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { cn } from "@/components/lib/utils";
@@ -14,15 +14,15 @@ import {
 type SpacingType = "margin" | "padding";
 type Sides = "top" | "left" | "bottom" | "right";
 
-interface Props {
-	onStyleChange?: (newSize: number) => void;
-	styles?: React.CSSProperties;
-	hideTitle?: boolean;
-}
-
 interface IStylesValues {
 	margin: Record<Sides, number>;
 	padding: Record<Sides, number>;
+}
+
+interface Props {
+	onStyleChange?: (values: IStylesValues) => void;
+	styles?: React.CSSProperties;
+	hideTitle?: boolean;
 }
 
 /**
@@ -78,19 +78,20 @@ const SpacingStyles: React.FC<Props> = (props) => {
 
 			const newValue = parseFloat(value);
 
-			setStylesValues((size) => {
-				const newValueUpdate = {
-					...size,
+			setStylesValues((prev) => {
+				const updateValues = {
+					...prev,
 					[type]: {
+						...prev[type],
 						[side]: newValue,
 					},
 				};
 
 				if (onStyleChange) {
-					onStyleChange(newValue);
+					onStyleChange(updateValues);
 				}
 
-				return newValueUpdate;
+				return updateValues;
 			});
 		} catch (error) {
 			if (error instanceof Error) {
@@ -125,6 +126,25 @@ const SpacingStyles: React.FC<Props> = (props) => {
 			);
 		});
 	};
+
+	useEffect(() => {
+		if (styles) {
+			setStylesValues({
+				margin: {
+					top: parseFloat(styles.marginTop?.toString() || "0"),
+					bottom: parseFloat(styles.marginBottom?.toString() || "0"),
+					left: parseFloat(styles.marginLeft?.toString() || "0"),
+					right: parseFloat(styles.marginRight?.toString() || "0"),
+				},
+				padding: {
+					top: parseFloat(styles.paddingTop?.toString() || "0"),
+					bottom: parseFloat(styles.paddingBottom?.toString() || "0"),
+					left: parseFloat(styles.paddingLeft?.toString() || "0"),
+					right: parseFloat(styles.paddingRight?.toString() || "0"),
+				},
+			});
+		}
+	}, [styles]);
 
 	return (
 		<div className={cn("w-full flex flex-col")}>

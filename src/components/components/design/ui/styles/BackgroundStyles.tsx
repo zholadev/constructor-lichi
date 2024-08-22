@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
-interface Props {
-	onSizeChange?: (newSize: number) => void;
-	styles?: React.CSSProperties;
-	hideTitle?: boolean;
-}
-
 interface IStylesValues {
 	backgroundColor: string;
 }
 
 type StylesValues = "backgroundColor";
+
+interface Props {
+	onStyleChange?: (values: IStylesValues) => void;
+	styles?: React.CSSProperties;
+	hideTitle?: boolean;
+}
 
 /**
  * @author Zholaman Zhumanov
@@ -29,7 +29,7 @@ type StylesValues = "backgroundColor";
  * @constructor
  */
 const BackgroundStyles: React.FC<Props> = (props) => {
-	const { onSizeChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle } = props;
 
 	const toastMessage = useToastMessage();
 
@@ -43,26 +43,39 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 	 * @param value
 	 * @param type
 	 */
-	const onChangeSizeHandle = (value: string, type: StylesValues) => {
+	const onChangeStyleHandle = (value: string, type: StylesValues) => {
 		try {
-			switch (type) {
-				case "backgroundColor":
-					setStylesValues((size) => {
-						return {
-							...size,
-							[type]: value,
-						};
-					});
-					break;
-				default:
-					toastMessage("TypeError: type is not defined", "error");
+			if (!value) {
+				toastMessage("ValueError: value is not defined", "error");
+				return;
 			}
+
+			setStylesValues((size) => {
+				const updateValues = {
+					...size,
+					[type]: value,
+				};
+
+				if (onStyleChange) {
+					onStyleChange(updateValues);
+				}
+
+				return updateValues;
+			});
 		} catch (error) {
 			if (error instanceof Error) {
-				errorHandler("sizeStyles", "onChangeSizeHandle", error);
+				errorHandler("sizeStyles", "onChangeStyleHandle", error);
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (styles) {
+			setStylesValues({
+				backgroundColor: styles.backgroundColor || "#000000",
+			});
+		}
+	}, [styles]);
 
 	return (
 		<div className={cn("w-full flex flex-col")}>
@@ -85,7 +98,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 							value={stylesValues.backgroundColor}
 							type="color"
 							onChange={(e) => {
-								onChangeSizeHandle(
+								onChangeStyleHandle(
 									e.target.value,
 									"backgroundColor"
 								);
@@ -99,7 +112,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 							value={stylesValues.backgroundColor}
 							type="text"
 							onChange={(e) => {
-								onChangeSizeHandle(
+								onChangeStyleHandle(
 									e.target.value,
 									"backgroundColor"
 								);

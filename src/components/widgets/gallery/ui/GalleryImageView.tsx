@@ -9,6 +9,9 @@ import { cn } from "@/components/lib/utils";
 import { IMAGES } from "@/components/shared/constants/images";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Button } from "@/components/shared/shadcn/ui/button";
+import { UploadIcon } from "@radix-ui/react-icons";
+import { FolderPlus } from "lucide-react";
 import GalleryCard from "./GalleryCard";
 
 interface Props {}
@@ -34,7 +37,7 @@ interface IDataItem {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @param props
  * @constructor
@@ -50,6 +53,19 @@ const GalleryImageView: React.FC<Props> = (props) => {
 	const { boardData } = useAppSelector((state) => state.board);
 	const { folderData } = useAppSelector((state) => state.folder);
 	const { pathCurrentFolder } = useAppSelector((state) => state.path);
+
+	const { dialogUploadFileAction } = useDispatchAction();
+
+	const { dialogCreateDirectoryAction } = useDispatchAction();
+
+	const { dialogCreateDirectory, dialogUploadFile } = useAppSelector(
+		(state) => state.dialog
+	);
+
+	const toggleDialogCreateDirectory = () =>
+		dialogCreateDirectoryAction(!dialogCreateDirectory);
+	const toggleDialogUploadFileAction = () =>
+		dialogUploadFileAction(!dialogUploadFile);
 
 	const fetchBoardImageData = async () => {
 		await apiFetchHandler(
@@ -77,7 +93,24 @@ const GalleryImageView: React.FC<Props> = (props) => {
 			)}
 			style={{ height: "calc(700px - 50px)" }}
 		>
-			{boardData.length === 0 && (
+			<div className={cn("w-full mb-10 h-auto mt-5 flex flex-col py-3")}>
+				<div className="w-full h-auto flex gap-3 border-b pb-3 justify-end px-3">
+					<Button
+						onClick={toggleDialogCreateDirectory}
+						variant="outline"
+						className="gap-2 text-xs"
+					>
+						Новая папка <FolderPlus />
+					</Button>
+					<Button
+						onClick={toggleDialogUploadFileAction}
+						className="gap-2 text-xs"
+					>
+						Загрузить <UploadIcon />
+					</Button>
+				</div>
+			</div>
+			{boardData.length === 0 && !loading && (
 				<div
 					className={cn(
 						"flex w-full h-full items-center justify-center"

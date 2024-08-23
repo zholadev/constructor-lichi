@@ -14,12 +14,14 @@ import SpecialElementContainer from "@/components/components/elements/ui/Special
 interface Props {}
 
 const slideLeft = {
-	hidden: { opacity: 0, x: "-100%" },
+	hidden: { opacity: 0, x: "-100%", visibility: "hidden", width: "0" },
 	visible: {
 		opacity: 1,
 		x: "0%",
+		visibility: "visible",
+		width: "400px",
 		transition: {
-			duration: .4,
+			duration: 0.4,
 		},
 	},
 };

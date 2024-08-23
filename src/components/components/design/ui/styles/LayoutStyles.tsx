@@ -147,7 +147,7 @@ const LayoutStyles: React.FC<Props> = (props) => {
 							className={cn(
 								"w-[30px] h-[30px] border flex items-center justify-center",
 								stylesValues.justifyContent === content.value
-									? "text-blue-500"
+									? "text-blue-400"
 									: ""
 							)}
 							onClick={() => {
@@ -175,7 +175,7 @@ const LayoutStyles: React.FC<Props> = (props) => {
 							className={cn(
 								"w-[30px] h-[30px] border flex items-center justify-center",
 								stylesValues.alignItems === content.value
-									? "text-blue-500"
+									? "text-blue-400"
 									: ""
 							)}
 							onClick={() => {

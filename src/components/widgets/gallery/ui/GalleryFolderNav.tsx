@@ -56,19 +56,19 @@ const GalleryFolderNav: React.FC<Props> = (props) => {
 	}, []);
 
 	const renderLoadingSkeletons = () => (
-		<div className="flex w-[350px] items-center flex-col gap-3">
+		<div className="flex w-full items-center py-3 flex-col gap-3">
 			{Array(10)
 				.fill(0)
 				.map((_, index) => (
 					<div key={index} className="mb-2">
-						<Skeleton className="h-[30px] w-[350px]" />
+						<Skeleton className="h-[30px] min-w-[250px] w-full" />
 					</div>
 				))}
 		</div>
 	);
 
 	return (
-		<aside className="h-full top-0 border-r overflow-hidden">
+		<aside className="h-full max-w-[350px] w-full min-w-[200px] border-r overflow-hidden">
 			<div className="w-full h-[50px] flex items-center justify-between border-b py-1">
 				<Button
 					onClick={toggleDialogCreateDirectory}
@@ -82,7 +82,7 @@ const GalleryFolderNav: React.FC<Props> = (props) => {
 				renderLoadingSkeletons()
 			) : (
 				<div
-					className="w-[350px] overflow-y-auto py-3"
+					className="w-full overflow-y-auto py-3"
 					style={{ height: "calc(100% - 60px)" }}
 				>
 					<Tree data={folderData} />

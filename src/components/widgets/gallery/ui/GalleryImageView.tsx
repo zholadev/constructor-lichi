@@ -117,7 +117,7 @@ const GalleryImageView: React.FC<Props> = (props) => {
 				>
 					{boardData?.map((data: IDataItem, index: number) => (
 						<motion.li
-							whileHover={{ scale: 1.05 }}
+							whileHover={{ scale: 1.03 }}
 							key={index}
 							className={cn("h-auto cursor-pointer")}
 						>

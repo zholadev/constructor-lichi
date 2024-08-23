@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { IMAGES } from "@/components/shared/constants/images";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import RemoveObject from "@/components/widgets/gallery/ui/RemoveObject";
 
 interface Props {
 	label: string;
@@ -39,8 +40,8 @@ const TreeItem: React.FC<Props> = (props) => {
 	return (
 		<div className="pl-2 w-auto">
 			<div
-				className={`mb-4 ${
-					isOpen ? "text-orange-500" : "text-gray-800"
+				className={`mb-4 flex items-center justify-between gap-1 ${
+					isOpen ? "text-blue-400" : "text-gray-800"
 				} font-medium`}
 			>
 				<div
@@ -64,7 +65,7 @@ const TreeItem: React.FC<Props> = (props) => {
 					)}
 					<span>{label}</span>
 				</div>
-				{/* <RemoveObject path={path} type="folder" /> */}
+				<RemoveObject path={path} type="folder" />
 			</div>
 			<motion.div
 				initial={false}

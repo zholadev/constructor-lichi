@@ -1,18 +1,11 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import {
-	CopyIcon,
-	DotsHorizontalIcon,
-	DownloadIcon,
-	ReloadIcon,
-} from "@radix-ui/react-icons";
+import { DotsHorizontalIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Trash2Icon } from "lucide-react";
 import { IGetApiParams } from "@/components/shared/types/interface";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import {
 	apiMethodRemove,
@@ -56,48 +49,12 @@ const GalleryCard: React.FC<Props> = (props) => {
 	const { getFolderDataAction, updateFolderLoaderAction } =
 		useDispatchAction();
 
-	const toastMessage = useToastMessage();
-
 	const { loading, apiFetchHandler } = useApiRequest();
 
 	const [popoverParams, setPopoverParams] = useState<boolean>(false);
 	const [loader, setLoader] = useState<boolean>(false);
 
 	const togglePopover = () => setPopoverParams(!popoverParams);
-
-	const copyToClipboard = useCallback(
-		(text: string) => {
-			navigator.clipboard
-				.writeText(text)
-				.then(() => {
-					toastMessage("Ссылка скопирована в буфер обмена!", "info");
-				})
-				.catch((err) => {
-					console.error("Ошибка при копировании: ", err);
-				});
-		},
-		[url, publicUrl]
-	);
-
-	const handleDownloadImage = (): void => {
-		try {
-			const link = document.createElement("a");
-			const downloadLink = url.split("/");
-
-			link.href = url;
-			link.target = "_blank";
-			link.download = downloadLink[downloadLink.length - 1];
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			toastMessage("Картинка успешно загружена!", "success");
-		} catch (error) {
-			if (error instanceof Error) {
-				console.error("Ошибка при скачивание фото: ", error);
-				toastMessage("Ошибка при скачивание фото!", "error");
-			}
-		}
-	};
 
 	const getTreeData = async () => {
 		await apiFetchHandler(
@@ -141,93 +98,47 @@ const GalleryCard: React.FC<Props> = (props) => {
 			)}
 		>
 			<div className={cn("relative")}>
-				{/* <div className={cn("absolute top-5 right-5 z-30")}> */}
-				{/*	<Popover open={popoverParams} onOpenChange={togglePopover}> */}
-				{/*		<PopoverTrigger> */}
-				{/*			<div */}
-				{/*				className={cn( */}
-				{/*					"w-[30px] h-[30px] bg-secondary rounded-full flex justify-center items-center" */}
-				{/*				)} */}
-				{/*			> */}
-				{/*				<DotsHorizontalIcon /> */}
-				{/*			</div> */}
-				{/*		</PopoverTrigger> */}
-				{/*		<PopoverContent className={cn("w-max")}> */}
-				{/*			<div */}
-				{/*				className={cn( */}
-				{/*					"flex flex-row items-center gap-3 justify-between" */}
-				{/*				)} */}
-				{/*			> */}
-				{/*				<div className={cn("text-xs")}> */}
-				{/*					<h3>{byteToMbConverter(size)}</h3> */}
-				{/*				</div> */}
-				{/*				<div className={cn("border-r w-1 h-full")} /> */}
-
-				{/*				<Button */}
-				{/*					onClick={() => { */}
-				{/*						handleDownloadImage(); */}
-				{/*						togglePopover(); */}
-				{/*					}} */}
-				{/*					variant="outline" */}
-				{/*					className={cn( */}
-				{/*						"flex items-center flex-row gap-3" */}
-				{/*					)} */}
-				{/*				> */}
-				{/*					<DownloadIcon /> */}
-				{/*				</Button> */}
-				{/*				<Button */}
-				{/*					disabled={loading} */}
-				{/*					onClick={fetchRemoveImage} */}
-				{/*					variant="destructive" */}
-				{/*					className={cn( */}
-				{/*						"flex items-center flex-row gap-3" */}
-				{/*					)} */}
-				{/*				> */}
-				{/*					{loading ? ( */}
-				{/*						<ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> */}
-				{/*					) : ( */}
-				{/*						<Trash2Icon /> */}
-				{/*					)} */}
-				{/*				</Button> */}
-				{/*			</div> */}
-
-				{/*			<div className={cn("flex gap-3 mt-2 flex-col")}> */}
-				{/*				<Button */}
-				{/*					onClick={() => { */}
-				{/*						copyToClipboard(url); */}
-				{/*						togglePopover(); */}
-				{/*					}} */}
-				{/*					variant="outline" */}
-				{/*					className={cn("gap-3")} */}
-				{/*				> */}
-				{/*					local <CopyIcon /> */}
-				{/*				</Button> */}
-
-				{/*				<Button */}
-				{/*					onClick={() => { */}
-				{/*						copyToClipboard(publicUrl); */}
-				{/*						togglePopover(); */}
-				{/*					}} */}
-				{/*					variant="outline" */}
-				{/*					className={cn("gap-3")} */}
-				{/*				> */}
-				{/*					prod <CopyIcon /> */}
-				{/*				</Button> */}
-
-				{/*				<Button */}
-				{/*					onClick={() => { */}
-				{/*						copyToClipboard(path); */}
-				{/*						togglePopover(); */}
-				{/*					}} */}
-				{/*					variant="outline" */}
-				{/*					className={cn("gap-3")} */}
-				{/*				> */}
-				{/*					path <CopyIcon /> */}
-				{/*				</Button> */}
-				{/*			</div> */}
-				{/*		</PopoverContent> */}
-				{/*	</Popover> */}
-				{/* </div> */}
+				<div className={cn("absolute top-5 right-5 z-30")}>
+					<Popover open={popoverParams} onOpenChange={togglePopover}>
+						<PopoverTrigger>
+							<div
+								className={cn(
+									"w-[25px] h-[25px] bg-secondary rounded-full flex justify-center items-center"
+								)}
+							>
+								<DotsHorizontalIcon />
+							</div>
+						</PopoverTrigger>
+						<PopoverContent className={cn("w-max")}>
+							<div
+								className={cn(
+									"flex flex-row items-center gap-3 justify-between"
+								)}
+							>
+								<Button
+									disabled={loading}
+									onClick={fetchRemoveImage}
+									variant="destructive"
+									className={cn(
+										"flex items-center flex-row gap-3"
+									)}
+								>
+									{loading ? (
+										<ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+									) : (
+										<div
+											className={cn(
+												"flex items-center gap-1 flex-row"
+											)}
+										>
+											<Trash2Icon /> <span>Удалить</span>
+										</div>
+									)}
+								</Button>
+							</div>
+						</PopoverContent>
+					</Popover>
+				</div>
 				{!loader ? (
 					<AspectRatio ratio={9 / 16} className="bg-muted">
 						<Image
@@ -239,7 +150,6 @@ const GalleryCard: React.FC<Props> = (props) => {
 						/>
 					</AspectRatio>
 				) : (
-					// <ZoomImage>
 					<img
 						src={src}
 						ref={imgRef}
@@ -247,12 +157,9 @@ const GalleryCard: React.FC<Props> = (props) => {
 						className="rounded-md object-cover w-full max-w-full h-full align-middle inline-block"
 						loading="lazy"
 					/>
-					// </ZoomImage>
 				)}
 
-				<h3 className={cn("py-2")}>
-					{title}
-				</h3>
+				<h3 className={cn("py-2")}>{title}</h3>
 			</div>
 		</div>
 	);

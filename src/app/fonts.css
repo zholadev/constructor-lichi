@@ -1,0 +1,226 @@
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/static/fonts/FuturaPT');
+    src: url('/static/fonts/FuturaPT?#iefix') format('embedded-opentype'),
+    url('/static/fonts/FuturaPT/FuturaPT-Bold.woff2') format('woff2'),
+    url('/static/fonts/FuturaPT/FuturaPT-Bold.woff') format('woff'),
+    url('/static/fonts/FuturaPT/FuturaPT-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/static/fonts/FuturaPT/FuturaPT-Heavy.eot');
+    src: url('/static/fonts/FuturaPT/FuturaPT-Heavy.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/FuturaPT/FuturaPT-Heavy.woff2') format('woff2'),
+    url('/static/fonts/FuturaPT/FuturaPT-Heavy.woff') format('woff'),
+    url('/static/fonts/FuturaPT/FuturaPT-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/static/fonts/FuturaPT/FuturaPT-Medium.eot');
+    src: url('/static/fonts/FuturaPT/FuturaPT-Medium.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/FuturaPT/FuturaPT-Medium.woff2') format('woff2'),
+    url('/static/fonts/FuturaPT/FuturaPT-Medium.woff') format('woff'),
+    url('/static/fonts/FuturaPT/FuturaPT-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/static/fonts/FuturaPT/FuturaPT-Book.eot');
+    src: url('/static/fonts/FuturaPT/FuturaPT-Book.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/FuturaPT/FuturaPT-Book.woff2') format('woff2'),
+    url('/static/fonts/FuturaPT/FuturaPT-Book.woff') format('woff'),
+    url('/static/fonts/FuturaPT/FuturaPT-Book.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/static/fonts/FuturaPT/FuturaPT-Light.eot');
+    src: url('/static/fonts/FuturaPT/FuturaPT-Light.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/FuturaPT/FuturaPT-Light.woff2') format('woff2'),
+    url('/static/fonts/FuturaPT/FuturaPT-Light.woff') format('woff'),
+    url('/static/fonts/FuturaPT/FuturaPT-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodoni Cyrillic';
+    src: url('/static/fonts/Bodoni/partial/Bodoni-Cyrillic.woff2') format('woff2');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodoni Cyrillic';
+    src: url('/static/fonts/Bodoni/partial/Bodoni-Cyrillic-f.woff2') format('woff2');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bodoni Cyrillic';
+    src: url('/static/fonts/Bodoni/partial/Bodoni-Cyrillic-s.woff2') format('woff2');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Helvetica Bold';
+    src: url('/static/fonts/Helvetica/Helvetica-Bold.eot');
+    src: url('/static/fonts/Helvetica/Helvetica-Bold.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/Helvetica/Helvetica-Bold') format('woff2'),
+    url('/static/fonts/Helvetica/Helvetica-Bold.woff') format('woff'),
+    url('/static/fonts/Helvetica/Helvetica-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AnastasiaScript';
+    src: url('/static/fonts/AnastasiaScript/anastasiascript.eot');
+    src: url('/static/fonts/AnastasiaScript/anastasiascript.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/AnastasiaScript/anastasiascript.woff2') format('woff2'),
+    url('/static/fonts/AnastasiaScript/anastasiascript.woff') format('woff'),
+    url('/static/fonts/AnastasiaScript/anastasiascript.otf') format('opentype'),
+    url('/static/fonts/AnastasiaScript/anastasiascript.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'No Name';
+    src: url('/static/fonts/no_name_37/11693.eot');
+    src: url('/static/fonts/no_name_37/11693.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/no_name_37/11693.woff2') format('woff2'),
+    url('/static/fonts/no_name_37/11693.woff') format('woff'),
+    url('/static/fonts/no_name_37/11693.otf') format('opentype'),
+    url('/static/fonts/no_name_37/11693.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Dubai Light';
+    src: url('/static/fonts/dubai_light/dubai_light.eot');
+    src: url('/static/fonts/dubai_light/dubai_light.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/dubai_light/dubai_light.woff2') format('woff2'),
+    url('/static/fonts/dubai_light/dubai_light.woff') format('woff'),
+    url('/static/fonts/dubai_light/dubai_light.otf') format('opentype'),
+    url('/static/fonts/dubai_light/dubai_light.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Venski Sad One';
+    src: url('/static/fonts/VenskiSadOne/VenskiSadOne.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AndatinoScript';
+    src: url('/static/fonts/AndantinoScript/andantino_script.ttf') format('truetype');
+    src: url('/static/fonts/AndantinoScript/andantino_script.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/AndantinoScript/andantino_script.woff2') format('woff2'),
+    url('/static/fonts/AndantinoScript/andantino_script.woff') format('woff'),
+    url('/static/fonts/AndantinoScript/andantino_script.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cormorant-Light';
+    src: url('/static/fonts/Cormorant-Light-Italic/Cormorant-LightItalic.ttf') format('truetype');
+    src: url('/static/fonts/Cormorant-Light-Italic/Cormorant-LightItalic.ttf') format('embedded-opentype'),
+    url('/static/fonts/Cormorant-Light-Italic/Cormorant-LightItalic.woff') format('woff'),
+    url('/static/fonts/Cormorant-Light-Italic/Cormorant-LightItalic.otf') format('opentype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cinzel';
+    src: url('/static/fonts/Cinzel/cinzel_bold.ttf') format('truetype'),
+    url('/static/fonts/Cinzel/cinzel_bold.woff') format('woff'),
+    url('/static/fonts/Cinzel/cinzel_bold.otf') format('opentype'),
+    url('/static/fonts/Cinzel/cinzel_bold.eot') format('embedded-opentype'),
+    url('/static/fonts/Cinzel/cinzel_bold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cinzel';
+    src: url('/static/fonts/Cinzel/cinzel_regular.ttf') format('truetype'),
+    url('/static/fonts/Cinzel/cinzel_regular.woff') format('woff'),
+    url('/static/fonts/Cinzel/cinzel_regular.otf') format('opentype'),
+    url('/static/fonts/Cinzel/cinzel_regular.eot') format('embedded-opentype'),
+    url('/static/fonts/Cinzel/cinzel_regular.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'CormorantGaramond';
+    src: url('/static/fonts/CormorantGaramond/CormorantGaramond-Bold.ttf') format('truetype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Bold.ttf') format('embedded-opentype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Bold.woff2') format('woff2'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Bold.otf') format('opentype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Bold.woff') format('woff');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'CormorantGaramond';
+    src: url('/static/fonts/CormorantGaramond/CormorantGaramond-Italic.ttf') format('truetype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Italic.ttf') format('embedded-opentype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Italic.woff2') format('woff2'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Italic.otf') format('opentype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Italic.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'CormorantGaramond';
+    src: url('/static/fonts/CormorantGaramond/CormorantGaramond-Regular.ttf') format('truetype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Regular.ttf') format('embedded-opentype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Regular.woff2') format('woff2'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Regular.otf') format('opentype'),
+    url('/static/fonts/CormorantGaramond/CormorantGaramond-Regular.woff') format('woff');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lace';
+    src: url('/static/fonts/Lace/Lace.ttf') format('truetype'),
+    url('/static/fonts/Lace/Lace.ttf') format('embedded-opentype'),
+    url('/static/fonts/Lace/Lace.woff2') format('woff2'),
+    url('/static/fonts/Lace/Lace.otf') format('opentype'),
+    url('/static/fonts/Lace/Lace.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}

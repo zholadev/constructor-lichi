@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./normalize.css";
+import "./fonts.css";
 import "./globals.css";
 import React from "react";
 import { Toaster } from "sonner";

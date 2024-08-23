@@ -30,11 +30,7 @@ const DesignContent: React.FC<Props> = (props) => {
 	const {} = props;
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([
-		"position",
-		"size",
-		"border",
-		"fill",
-		"spacing",
+		"typography"
 	]);
 
 	return (

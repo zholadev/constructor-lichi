@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { CSSProperties, useMemo, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
@@ -9,7 +9,6 @@ import {
 	SelectContent,
 	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
@@ -20,16 +19,26 @@ import {
 	TextAlignLeftIcon,
 	TextAlignRightIcon,
 } from "@radix-ui/react-icons";
-import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
+import { ItalicIcon, UnderlineIcon } from "lucide-react";
 
-interface Props {
-	onSizeChange?: (newSize: number) => void;
-	styles?: React.CSSProperties;
-	hideTitle?: boolean;
-}
+type FontFamilyTypes =
+	| "Futura PT"
+	| "Bodoni Cyrillic"
+	| "Helvetica Bold"
+	| "AnastasiaScript"
+	| "No Name"
+	| "Dubai Light"
+	| "Venski Sad One"
+	| "AndatinoScript"
+	| "Cormorant-Light"
+	| "Cinzel"
+	| "CormorantGaramond"
+	| "Lace";
 
+type FontStylesType = "italic" | "normal";
 type FontUnits = "px" | "em" | "rem" | "%";
 type TextAlign = "left" | "center" | "right" | "justify";
+type TextDecoration = "underline" | "initial";
 type FontWeights =
 	| "100"
 	| "200"
@@ -40,24 +49,142 @@ type FontWeights =
 	| "700"
 	| "800"
 	| "900"
-	| "bold";
+	| "bold"
+	| "normal";
 
 interface IStylesValues {
-	fontFamily: string;
+	fontFamily: FontFamilyTypes;
 	fontSize: number;
 	textAlign: TextAlign;
 	unit: FontUnits;
 	fontWeight: FontWeights;
 	color: string;
+	fontStyle: FontStylesType;
+	textDecoration: TextDecoration;
 }
 
-type StylesValues =
-	| "fontFamily"
-	| "fontSize"
-	| "textAlign"
-	| "unit"
-	| "fontWeight"
-	| "color";
+type StylesValues = keyof IStylesValues;
+
+interface IFontFamilyData {
+	name: FontFamilyTypes;
+	value: FontFamilyTypes;
+	fontWeights: FontWeights[];
+	fontStyles?: FontStylesType[];
+}
+
+interface IFontStyleData {
+	name: FontStylesType;
+	icon: React.ReactNode;
+}
+
+interface Props {
+	onStyleChange?: (values: CSSProperties) => void;
+	styles?: React.CSSProperties;
+	hideTitle?: boolean;
+}
+
+const fontStyleData: IFontStyleData[] = [
+	{
+		name: "italic",
+		icon: <ItalicIcon width={15} height={15} />,
+	},
+];
+
+const fontFamilyData: IFontFamilyData[] = [
+	{
+		name: "Futura PT",
+		value: "Futura PT",
+		fontWeights: ["300", "400", "500", "900", "bold"],
+		fontStyles: [],
+	},
+	{
+		name: "Bodoni Cyrillic",
+		value: "Bodoni Cyrillic",
+		fontWeights: [],
+		fontStyles: [],
+	},
+	{
+		name: "Helvetica Bold",
+		value: "Helvetica Bold",
+		fontWeights: ["700"],
+		fontStyles: [],
+	},
+	{
+		name: "AnastasiaScript",
+		value: "AnastasiaScript",
+		fontWeights: [],
+		fontStyles: [],
+	},
+	{
+		name: "No Name",
+		value: "No Name",
+		fontWeights: [],
+		fontStyles: [],
+	},
+	{
+		name: "Dubai Light",
+		value: "Dubai Light",
+		fontWeights: [],
+		fontStyles: [],
+	},
+	{
+		name: "Venski Sad One",
+		value: "Venski Sad One",
+		fontWeights: [],
+		fontStyles: [],
+	},
+	{
+		name: "AndatinoScript",
+		value: "AndatinoScript",
+		fontWeights: [],
+		fontStyles: [],
+	},
+	{
+		name: "Cormorant-Light",
+		value: "Cormorant-Light",
+		fontWeights: [],
+		fontStyles: [],
+	},
+	{
+		name: "Cinzel",
+		value: "Cinzel",
+		fontWeights: ["400", "700"],
+		fontStyles: [],
+	},
+	{
+		name: "CormorantGaramond",
+		value: "CormorantGaramond",
+		fontWeights: ["400", "700"],
+		fontStyles: ["italic"],
+	},
+	{
+		name: "Lace",
+		value: "Lace",
+		fontWeights: [],
+		fontStyles: [],
+	},
+];
+
+const textAlignOptions: Array<{ value: TextAlign; icon: React.ReactNode }> = [
+	{
+		value: "left",
+		icon: <TextAlignLeftIcon width={20} height={20} />,
+	},
+	{
+		value: "center",
+		icon: <TextAlignCenterIcon width={20} height={20} />,
+	},
+	{
+		value: "right",
+		icon: <TextAlignRightIcon width={20} height={20} />,
+	},
+	{
+		value: "justify",
+		icon: <TextAlignJustifyIcon width={20} height={20} />,
+	},
+];
+
+const unitOptions: FontUnits[] = ["px", "em", "rem", "%"];
 
 /**
  * @author Zholaman Zhumanov
@@ -71,7 +198,7 @@ type StylesValues =
  * @constructor
  */
 const TypographyStyles: React.FC<Props> = (props) => {
-	const { onSizeChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle } = props;
 
 	const toastMessage = useToastMessage();
 
@@ -82,128 +209,75 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		unit: "px",
 		fontWeight: "400",
 		color: "#000000",
+		fontStyle: "normal",
+		textDecoration: "initial",
 	});
+
+	const currentFontWeight: FontWeights[] = useMemo(() => {
+		const findData = fontFamilyData.filter(
+			(font) => font.name === stylesValues.fontFamily
+		)?.[0];
+
+		if (!findData) {
+			return [];
+		}
+
+		return findData.fontWeights;
+	}, [stylesValues, fontFamilyData]);
+
+	const currentFontStyles: IFontStyleData[] = useMemo(() => {
+		const findData = fontFamilyData.filter(
+			(font) => font.name === stylesValues.fontFamily
+		)?.[0];
+
+		if (!findData) {
+			return [];
+		}
+
+		return fontStyleData.filter((fontStyle) => {
+			return findData.fontStyles?.includes(fontStyle.name);
+		});
+	}, [stylesValues, fontStyleData]);
 
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления значение для размеров
+	 * @param key
 	 * @param value
-	 * @param type
 	 */
-	const onChangeSizeHandle = (value: string, type: StylesValues) => {
-		try {
-			switch (type) {
-				case "fontFamily":
-					setStylesValues((size) => {
-						return {
-							...size,
-							[type]: value,
-						};
-					});
-					break;
-				case "fontSize":
-					setStylesValues((size) => {
-						return {
-							...size,
-							[type]: parseFloat(value),
-						};
-					});
-					break;
-				case "color":
-					setStylesValues((size) => {
-						return {
-							...size,
-							[type]: parseFloat(value),
-						};
-					});
-					break;
-				default:
-					toastMessage("TypeError: type is not defined", "error");
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				errorHandler("sizeStyles", "onChangeSizeHandle", error);
-			}
-		}
-	};
-
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод для обновления значение для unit размеров
-	 * @param value
-	 * @param type
-	 */
-	const onChangeUnitHandle = (value: FontUnits, type: StylesValues) => {
-		try {
-			switch (type) {
-				case "unit":
-					setStylesValues((size) => {
-						return {
-							...size,
-							[type]: value,
-						};
-					});
-					break;
-				default:
-					toastMessage("TypeError: type is not defined", "error");
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				errorHandler("sizeStyles", "onChangeSizeHandle", error);
-			}
-		}
-	};
-
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод для обновления значение для unit размеров
-	 * @param value
-	 * @param type
-	 */
-	const onChangeAlignHandle = (value: TextAlign, type: StylesValues) => {
-		try {
-			switch (type) {
-				case "textAlign":
-					setStylesValues((size) => {
-						return {
-							...size,
-							[type]: value,
-						};
-					});
-					break;
-				default:
-					toastMessage("TypeError: type is not defined", "error");
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				errorHandler("sizeStyles", "onChangeSizeHandle", error);
-			}
-		}
-	};
-
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод для обновления значение для unit размеров
-	 * @param value
-	 * @param type
-	 */
-	const onChangeFontWeightHandle = (
-		value: FontWeights,
-		type: StylesValues
+	const onChangeStyleHandle = (
+		key: StylesValues,
+		value:
+			| FontFamilyTypes
+			| FontStylesType
+			| FontWeights
+			| FontUnits
+			| TextAlign
+			| TextDecoration
+			| number
+			| string
 	) => {
 		try {
-			switch (type) {
-				case "fontWeight":
-					setStylesValues((size) => {
-						return {
-							...size,
-							[type]: value,
-						};
-					});
-					break;
-				default:
-					toastMessage("TypeError: type is not defined", "error");
+			if (!value || !key) {
+				toastMessage(
+					`Error: ${!value ? "key" : "value"} is not defined`,
+					"error"
+				);
+				return;
 			}
+
+			setStylesValues((size) => {
+				const updateValues = {
+					...size,
+					[key]: value,
+				};
+
+				if (onStyleChange) {
+					onStyleChange(updateValues);
+				}
+
+				return updateValues;
+			});
 		} catch (error) {
 			if (error instanceof Error) {
 				errorHandler("sizeStyles", "onChangeSizeHandle", error);
@@ -227,7 +301,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							defaultValue={stylesValues.fontFamily}
 							value={stylesValues.fontFamily}
 							onValueChange={(value) =>
-								onChangeSizeHandle(value, "fontFamily")
+								onChangeStyleHandle("fontFamily", value)
 							}
 						>
 							<SelectTrigger className="w-full">
@@ -235,20 +309,16 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectLabel>Fruits</SelectLabel>
-									<SelectItem value="apple">Apple</SelectItem>
-									<SelectItem value="banana">
-										Banana
-									</SelectItem>
-									<SelectItem value="blueberry">
-										Blueberry
-									</SelectItem>
-									<SelectItem value="grapes">
-										Grapes
-									</SelectItem>
-									<SelectItem value="pineapple">
-										Pineapple
-									</SelectItem>
+									{fontFamilyData.map((font, index) => {
+										return (
+											<SelectItem
+												key={index}
+												value={font.value}
+											>
+												{font.name}
+											</SelectItem>
+										);
+									})}
 								</SelectGroup>
 							</SelectContent>
 						</Select>
@@ -269,9 +339,9 @@ const TypographyStyles: React.FC<Props> = (props) => {
 								className={cn("w-full")}
 								defaultValue={stylesValues.fontSize}
 								onChange={(e) => {
-									onChangeSizeHandle(
-										e.target.value,
-										"fontSize"
+									onChangeStyleHandle(
+										"fontSize",
+										e.target.value
 									);
 								}}
 							/>
@@ -280,8 +350,8 @@ const TypographyStyles: React.FC<Props> = (props) => {
 						<Select
 							defaultValue={stylesValues.unit}
 							value={stylesValues.unit}
-							onValueChange={(value: FontUnits) =>
-								onChangeUnitHandle(value, "unit")
+							onValueChange={(value) =>
+								onChangeStyleHandle("unit", value)
 							}
 						>
 							<SelectTrigger className="w-full">
@@ -289,10 +359,13 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectItem value="px">px</SelectItem>
-									<SelectItem value="em">em</SelectItem>
-									<SelectItem value="rem">rem</SelectItem>
-									<SelectItem value="%">%</SelectItem>
+									{unitOptions.map((unit) => {
+										return (
+											<SelectItem value={unit} key={unit}>
+												{unit}
+											</SelectItem>
+										);
+									})}
 								</SelectGroup>
 							</SelectContent>
 						</Select>
@@ -308,10 +381,11 @@ const TypographyStyles: React.FC<Props> = (props) => {
 
 					<div className={cn("grid grid-cols-3 gap-2 mt-2")}>
 						<Select
+							disabled={currentFontWeight.length === 0}
 							defaultValue={stylesValues.fontWeight}
 							value={stylesValues.fontWeight}
-							onValueChange={(value: FontWeights) =>
-								onChangeFontWeightHandle(value, "fontWeight")
+							onValueChange={(value) =>
+								onChangeStyleHandle("fontWeight", value)
 							}
 						>
 							<SelectTrigger className="w-full">
@@ -319,52 +393,69 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectItem value="100">100</SelectItem>
-									<SelectItem value="200">200</SelectItem>
-									<SelectItem value="300">300</SelectItem>
-									<SelectItem value="400">400</SelectItem>
-									<SelectItem value="500">500</SelectItem>
-									<SelectItem value="600">600</SelectItem>
-									<SelectItem value="700">700</SelectItem>
-									<SelectItem value="800">800</SelectItem>
-									<SelectItem value="900">900</SelectItem>
-									<SelectItem value="bold">bold</SelectItem>
+									{currentFontWeight.map((fontWeight) => {
+										return (
+											<SelectItem
+												key={fontWeight}
+												value={fontWeight}
+											>
+												{fontWeight}
+											</SelectItem>
+										);
+									})}
 								</SelectGroup>
 							</SelectContent>
 						</Select>
 
 						<div className={cn("col-span-2")}>
-							<div className={cn("grid grid-cols-3 gap-2")}>
-								<Button
-									variant="outline"
-									onClick={() =>
-										onChangeAlignHandle("left", "textAlign")
-									}
-								>
-									<BoldIcon />
-								</Button>
+							<div className={cn("grid grid-cols-4 gap-1")}>
+								{currentFontStyles.map((fontStyle, index) => {
+									return (
+										<Button
+											variant="outline"
+											key={index}
+											onClick={() =>
+												onChangeStyleHandle(
+													"fontStyle",
+													stylesValues.fontStyle ===
+														fontStyle.name
+														? "normal"
+														: fontStyle.name
+												)
+											}
+											className={cn(
+												"p-0",
+												stylesValues.fontStyle ===
+													fontStyle.name
+													? "text-blue-400"
+													: ""
+											)}
+										>
+											{fontStyle.icon}
+										</Button>
+									);
+								})}
 
 								<Button
 									variant="outline"
 									onClick={() =>
-										onChangeAlignHandle(
-											"center",
-											"textAlign"
+										onChangeStyleHandle(
+											"textDecoration",
+											stylesValues.textDecoration ===
+												"underline"
+												? "initial"
+												: "underline"
 										)
 									}
+									className={cn(
+										"p-0",
+										stylesValues.textDecoration ===
+											"underline"
+											? "text-blue-400"
+											: ""
+									)}
 								>
-									<ItalicIcon />
-								</Button>
-								<Button
-									variant="outline"
-									onClick={() =>
-										onChangeAlignHandle(
-											"right",
-											"textAlign"
-										)
-									}
-								>
-									<UnderlineIcon />
+									<UnderlineIcon width={15} height={15} />
 								</Button>
 							</div>
 						</div>
@@ -379,39 +470,28 @@ const TypographyStyles: React.FC<Props> = (props) => {
 						Text Align
 					</Label>
 					<div className={cn("grid grid-cols-4 gap-2 mt-2")}>
-						<Button
-							variant="outline"
-							onClick={() =>
-								onChangeAlignHandle("left", "textAlign")
-							}
-						>
-							<TextAlignLeftIcon />
-						</Button>
-
-						<Button
-							variant="outline"
-							onClick={() =>
-								onChangeAlignHandle("center", "textAlign")
-							}
-						>
-							<TextAlignCenterIcon />
-						</Button>
-						<Button
-							variant="outline"
-							onClick={() =>
-								onChangeAlignHandle("right", "textAlign")
-							}
-						>
-							<TextAlignRightIcon />
-						</Button>
-						<Button
-							variant="outline"
-							onClick={() =>
-								onChangeAlignHandle("justify", "textAlign")
-							}
-						>
-							<TextAlignJustifyIcon />
-						</Button>
+						{textAlignOptions.map((align) => {
+							return (
+								<Button
+									key={align.value}
+									variant="outline"
+									onClick={() =>
+										onChangeStyleHandle(
+											"textAlign",
+											align.value
+										)
+									}
+									className={cn(
+										"p-0",
+										stylesValues.textAlign === align.value
+											? "text-blue-400"
+											: ""
+									)}
+								>
+									{align.icon}
+								</Button>
+							);
+						})}
 					</div>
 				</div>
 				<div className={cn("w-full")}>
@@ -432,7 +512,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							defaultValue={stylesValues.color}
 							type="color"
 							onChange={(e) => {
-								onChangeSizeHandle(e.target.value, "color");
+								onChangeStyleHandle("color", e.target.value);
 							}}
 						/>
 
@@ -443,7 +523,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							defaultValue={stylesValues.color}
 							type="text"
 							onChange={(e) => {
-								onChangeSizeHandle(e.target.value, "color");
+								onChangeStyleHandle("color", e.target.value);
 							}}
 						/>
 					</div>

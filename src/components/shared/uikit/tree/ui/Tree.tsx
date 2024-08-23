@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { cn } from "@/components/lib/utils";
 import TreeItem from "./TreeItem";
 
 interface TreeNode {
@@ -46,11 +45,7 @@ const Tree: React.FC<Props> = (props) => {
 		</TreeItem>
 	);
 
-	return (
-		<div>
-			{data.map((treeNode) => renderTree(treeNode))}
-		</div>
-	);
+	return data.map((treeNode) => renderTree(treeNode));
 };
 
 export default Tree;

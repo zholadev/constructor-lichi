@@ -37,14 +37,14 @@ const TreeItem: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<div className="ml-3">
+		<div className="pl-2 w-auto">
 			<div
-				className={`flex items-center cursor-pointer justify-between gap-4 space-x-2 mb-4 ${
+				className={`mb-4 ${
 					isOpen ? "text-orange-500" : "text-gray-800"
 				} font-medium`}
 			>
 				<div
-					className="flex w-full items-center cursor-pointer space-x-2 mb-2"
+					className="flex w-auto gap-1 items-center cursor-pointer mb-2"
 					onClick={handleClick}
 				>
 					{isOpen ? (
@@ -71,7 +71,7 @@ const TreeItem: React.FC<Props> = (props) => {
 				animate={{ height: isOpen ? "auto" : 0 }}
 				style={{ overflow: "hidden" }}
 				transition={{ duration: 0.3 }}
-				className="ml-4"
+				className="pl-2"
 			>
 				{isOpen && children}
 			</motion.div>

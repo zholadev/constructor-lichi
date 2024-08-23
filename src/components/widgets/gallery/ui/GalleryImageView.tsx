@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import { cn } from "@/components/lib/utils";
 import { IMAGES } from "@/components/shared/constants/images";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import GalleryCard from "./GalleryCard";
 
 interface Props {}
@@ -71,7 +72,9 @@ const GalleryImageView: React.FC<Props> = (props) => {
 
 	return (
 		<div
-			className={cn("w-full overflow-y-auto flex flex-col pb-20")}
+			className={cn(
+				"w-full bg-secondary overflow-y-auto flex flex-col pb-20"
+			)}
 			style={{ height: "calc(700px - 50px)" }}
 		>
 			{boardData.length === 0 && (
@@ -109,22 +112,25 @@ const GalleryImageView: React.FC<Props> = (props) => {
 			) : (
 				<ul
 					className={cn(
-						"lg:columns-3 md:columns-2 columns-1 py-2 px-2 gap-4 bg-secondary"
+						"lg:columns-3 md:columns-2 columns-1 py-2 px-2 gap-4"
 					)}
 				>
 					{boardData?.map((data: IDataItem, index: number) => (
-						<li key={index} className={cn("h-auto")}>
+						<motion.li
+							whileHover={{ scale: 1.05 }}
+							key={index}
+							className={cn("h-auto cursor-pointer")}
+						>
 							<GalleryCard
 								src={data?.url}
 								url={data?.url}
 								alt={data?.name}
 								path={data.path}
-								index={index}
 								size={data.size}
 								title={data.name}
 								publicUrl={data.public_url}
 							/>
-						</li>
+						</motion.li>
 					))}
 				</ul>
 			)}

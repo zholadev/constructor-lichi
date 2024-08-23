@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
@@ -9,7 +9,6 @@ import {
 	BorderAllIcon,
 	BorderBottomIcon,
 	BorderLeftIcon,
-	BorderNoneIcon,
 	BorderRightIcon,
 	BorderTopIcon,
 	CornerBottomLeftIcon,
@@ -20,14 +19,10 @@ import {
 } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/shared/shadcn/ui/checkbox";
 
-interface Props {
-	onSizeChange?: (newSize: number) => void;
-	styles?: React.CSSProperties;
-	hideTitle?: boolean;
-}
+type BorderStyleType = "solid" | "dashed" | "dotted";
 
-interface ISizeValues {
-	borderWith: number[];
+interface IStyleValues {
+	borderWidth: number[];
 	borderTopLeftRadius: number;
 	borderBottomLeftRadius: number;
 	borderTopRightRadius: number;
@@ -35,17 +30,140 @@ interface ISizeValues {
 	borderRadius: number[];
 	borderColor: string;
 	borderEnabled: boolean;
+	borderStyle: BorderStyleType;
+	borderAll: boolean;
+	borderLeft: boolean;
+	borderRight: boolean;
+	borderTop: boolean;
+	borderBottom: boolean;
 }
 
-type SizeValues =
-	| "borderWith"
+type StyleKeys =
+	| "borderWidth"
 	| "borderTopLeftRadius"
 	| "borderBottomLeftRadius"
 	| "borderTopRightRadius"
 	| "borderBottomRightRadius"
 	| "borderRadius"
 	| "borderColor"
-	| "borderEnabled";
+	| "borderEnabled"
+	| "borderStyle"
+	| "borderAll"
+	| "borderLeft"
+	| "borderRight"
+	| "borderTop"
+	| "borderBottom";
+
+interface Props {
+	onStyleChange?: (value: unknown) => void;
+	styles?: React.CSSProperties;
+	hideTitle?: boolean;
+}
+
+const parseBorderStyle = (border: string) => {
+	const parts = border.split(" ");
+	return {
+		borderWidth: parseFloat(parts[0]),
+		borderStyle: parts[1],
+		borderColor: parts[2],
+	};
+};
+
+const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
+	const defaultValues = {
+		borderWidth: [1],
+		borderBottomLeftRadius: 0,
+		borderBottomRightRadius: 0,
+		borderTopLeftRadius: 0,
+		borderTopRightRadius: 0,
+		borderRadius: [0],
+		borderColor: "#000000",
+		borderEnabled: false,
+		borderStyle: "solid",
+		borderAll: true,
+		borderLeft: false,
+		borderRight: false,
+		borderTop: false,
+		borderBottom: false,
+	};
+
+	const isBorderStyle =
+		styles?.border ||
+		styles?.borderLeft ||
+		styles?.borderTop ||
+		styles?.borderBottom ||
+		styles?.borderRight;
+
+	if (isBorderStyle) {
+		const { borderWidth, borderStyle, borderColor } = parseBorderStyle(
+			isBorderStyle.toString()
+		);
+		defaultValues.borderWidth = [borderWidth];
+		defaultValues.borderStyle = borderStyle;
+		defaultValues.borderColor = borderColor;
+	}
+
+	if (styles?.border) {
+		defaultValues.borderAll = true;
+		defaultValues.borderLeft = false;
+		defaultValues.borderRight = false;
+		defaultValues.borderTop = false;
+		defaultValues.borderBottom = false;
+	} else if (styles?.borderLeft) {
+		defaultValues.borderAll = false;
+		defaultValues.borderLeft = true;
+		defaultValues.borderRight = false;
+		defaultValues.borderTop = false;
+		defaultValues.borderBottom = false;
+	} else if (styles?.borderRight) {
+		defaultValues.borderAll = false;
+		defaultValues.borderLeft = false;
+		defaultValues.borderRight = true;
+		defaultValues.borderTop = false;
+		defaultValues.borderBottom = false;
+	} else if (styles?.borderTop) {
+		defaultValues.borderAll = false;
+		defaultValues.borderLeft = false;
+		defaultValues.borderRight = false;
+		defaultValues.borderTop = true;
+		defaultValues.borderBottom = false;
+	} else if (styles?.borderBottom) {
+		defaultValues.borderAll = false;
+		defaultValues.borderLeft = false;
+		defaultValues.borderRight = false;
+		defaultValues.borderTop = false;
+		defaultValues.borderBottom = true;
+	}
+
+	if (styles?.borderRadius) {
+		const borderRadius = parseFloat(styles?.borderRadius.toString());
+		defaultValues.borderRadius = [borderRadius];
+	}
+
+	if (styles?.borderTopLeftRadius) {
+		defaultValues.borderTopLeftRadius = parseFloat(
+			styles?.borderTopLeftRadius.toString()
+		);
+	}
+
+	if (styles?.borderBottomLeftRadius) {
+		defaultValues.borderBottomLeftRadius = parseFloat(
+			styles?.borderBottomLeftRadius.toString()
+		);
+	}
+	if (styles?.borderTopRightRadius) {
+		defaultValues.borderTopRightRadius = parseFloat(
+			styles?.borderTopRightRadius.toString()
+		);
+	}
+	if (styles?.borderBottomLeftRadius) {
+		defaultValues.borderBottomLeftRadius = parseFloat(
+			styles?.borderBottomLeftRadius.toString()
+		);
+	}
+
+	return defaultValues;
+};
 
 /**
  * @author Zholaman Zhumanov
@@ -59,12 +177,12 @@ type SizeValues =
  * @constructor
  */
 const BorderStyles: React.FC<Props> = (props) => {
-	const { onSizeChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle } = props;
 
 	const toastMessage = useToastMessage();
 
-	const [sizeValues, setSizeValues] = useState<ISizeValues>({
-		borderWith: [1],
+	const [styleValues, setStyleValues] = useState<IStyleValues>({
+		borderWidth: [1],
 		borderBottomLeftRadius: 0,
 		borderBottomRightRadius: 0,
 		borderTopLeftRadius: 0,
@@ -72,40 +190,113 @@ const BorderStyles: React.FC<Props> = (props) => {
 		borderRadius: [0],
 		borderColor: "#000000",
 		borderEnabled: false,
+		borderStyle: "solid",
+		borderAll: true,
+		borderLeft: false,
+		borderRight: false,
+		borderTop: false,
+		borderBottom: false,
 	});
 
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления значение для размеров
+	 * @param key
 	 * @param value
-	 * @param type
 	 */
-	const onChangeSizeHandle = (value: number[] | string, type: SizeValues) => {
+	const onChangeStyleHandle = (
+		key: StyleKeys,
+		value: number[] | number | string | boolean
+	) => {
 		try {
-			if (!type) {
-				toastMessage("TypeError: type is not defined", "error");
+			if (!key) {
+				toastMessage("TypeError: key is not defined", "error");
 			}
 
-			if (type === "borderRadius") {
-				setSizeValues((size) => {
-					return {
-						...size,
-						borderRadius: value,
-						borderBottomLeftRadius: value,
-						borderBottomRightRadius: value,
-						borderTopLeftRadius: value,
-						borderTopRightRadius: value,
-					};
-				});
-				return;
+			const updatedValues = { ...styleValues, [key]: value };
+
+			if (key === "borderRadius") {
+				updatedValues.borderTopLeftRadius = value as number;
+				updatedValues.borderTopRightRadius = value as number;
+				updatedValues.borderBottomLeftRadius = value as number;
+				updatedValues.borderBottomRightRadius = value as number;
 			}
 
-			setSizeValues((size) => {
-				return {
-					...size,
-					[type]: value,
+			if (
+				key === "borderBottomRightRadius" ||
+				key === "borderTopLeftRadius" ||
+				key === "borderTopRightRadius" ||
+				key === "borderBottomLeftRadius"
+			) {
+				updatedValues.borderRadius = [0];
+			}
+
+			if (
+				key === "borderAll" ||
+				key === "borderRight" ||
+				key === "borderLeft" ||
+				key === "borderTop" ||
+				key === "borderBottom"
+			) {
+				updatedValues.borderAll = key === "borderAll";
+				updatedValues.borderRight = key === "borderRight";
+				updatedValues.borderLeft = key === "borderLeft";
+				updatedValues.borderTop = key === "borderTop";
+				updatedValues.borderBottom = key === "borderBottom";
+			}
+
+			setStyleValues(updatedValues);
+
+			if (onStyleChange) {
+				const getBorderType = () => {
+					if (updatedValues.borderAll) return "border";
+					if (updatedValues.borderRight) return "borderRight";
+					if (updatedValues.borderLeft) return "borderLeft";
+					if (updatedValues.borderTop) return "borderTop";
+					if (updatedValues.borderBottom) return "borderBottom";
+					return "border";
 				};
-			});
+
+				const borderType = getBorderType();
+
+				const getBorderOptions = `${updatedValues.borderWidth}px ${updatedValues.borderStyle} ${updatedValues.borderColor}`;
+
+				const borderRadiusCorner = {
+					...{
+						...(updatedValues.borderTopLeftRadius &&
+							!updatedValues.borderRadius[0] && {
+								borderTopLeftRadius: `${updatedValues.borderTopLeftRadius}px`,
+							}),
+					},
+					...{
+						...(updatedValues.borderTopRightRadius &&
+							!updatedValues.borderRadius[0] && {
+								borderTopRightRadius: `${updatedValues.borderTopRightRadius}px`,
+							}),
+					},
+					...{
+						...(updatedValues.borderBottomLeftRadius &&
+							!updatedValues.borderRadius[0] && {
+								borderBottomLeftRadius: `${updatedValues.borderBottomLeftRadius}px`,
+							}),
+					},
+					...{
+						...(updatedValues.borderBottomRightRadius &&
+							!updatedValues.borderRadius[0] && {
+								borderBottomRightRadius: `${updatedValues.borderBottomRightRadius}px`,
+							}),
+					},
+				};
+
+				const buildBorderStyles = {
+					...(borderType && { [borderType]: getBorderOptions }),
+					...(updatedValues.borderRadius[0] && {
+						borderRadius: `${updatedValues.borderRadius[0]}px`,
+					}),
+					...borderRadiusCorner,
+				};
+				onStyleChange(buildBorderStyles);
+			}
 		} catch (error) {
 			if (error instanceof Error) {
 				errorHandler("sizeStyles", "onChangeSizeHandle", error);
@@ -113,30 +304,78 @@ const BorderStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод для обновления значение для размеров
-	 * @param value
-	 * @param type
-	 */
-	const onChangeBorderToggleHandle = (value: boolean, type: SizeValues) => {
-		try {
-			if (!type) {
-				toastMessage("TypeError: type is not defined", "error");
-			}
+	const cornerOptions: Array<{
+		value: StyleKeys;
+		icon: React.ReactNode;
+		float: "left" | "right";
+	}> = [
+		{
+			value: "borderTopLeftRadius",
+			icon: <CornerTopLeftIcon width={30} height={30} />,
+			float: "left",
+		},
+		{
+			value: "borderTopRightRadius",
+			icon: <CornerTopRightIcon width={30} height={30} />,
+			float: "right",
+		},
+		{
+			value: "borderBottomLeftRadius",
+			icon: <CornerBottomLeftIcon width={30} height={30} />,
+			float: "left",
+		},
+		{
+			value: "borderBottomRightRadius",
+			icon: <CornerBottomRightIcon width={30} height={30} />,
+			float: "right",
+		},
+	];
 
-			setSizeValues((size) => {
-				return {
-					...size,
-					[type]: value,
-				};
-			});
-		} catch (error) {
-			if (error instanceof Error) {
-				errorHandler("sizeStyles", "onChangeSizeHandle", error);
-			}
-		}
-	};
+	const borderOptions: Array<{ value: StyleKeys; icon: React.ReactNode }> = [
+		{
+			value: "borderAll",
+			icon: <BorderAllIcon width={20} height={20} />,
+		},
+		{
+			value: "borderBottom",
+			icon: <BorderBottomIcon width={20} height={20} />,
+		},
+		{
+			value: "borderTop",
+			icon: <BorderTopIcon width={20} height={20} />,
+		},
+		{
+			value: "borderLeft",
+			icon: <BorderLeftIcon width={20} height={20} />,
+		},
+		{
+			value: "borderRight",
+			icon: <BorderRightIcon width={20} height={20} />,
+		},
+	];
+
+	const borderStyleOptions: Array<{
+		value: StyleKeys;
+		type: BorderStyleType;
+	}> = [
+		{
+			value: "borderStyle",
+			type: "solid",
+		},
+		{
+			value: "borderStyle",
+			type: "dashed",
+		},
+		{
+			value: "borderStyle",
+			type: "dotted",
+		},
+	];
+
+	useEffect(() => {
+		const defaultStyles = computeInitialStyles(styles);
+		setStyleValues(defaultStyles);
+	}, [styles]);
 
 	return (
 		<div className={cn("w-full flex flex-col")}>
@@ -155,14 +394,11 @@ const BorderStyles: React.FC<Props> = (props) => {
 					</Label>
 
 					<div className={cn("flex flex-row items-center gap-2")}>
-						<span>{sizeValues.borderEnabled ? "ON" : "OFF"}</span>
+						<span>{styleValues.borderEnabled ? "ON" : "OFF"}</span>
 						<Checkbox
-							defaultChecked={sizeValues.borderEnabled}
+							defaultChecked={styleValues.borderEnabled}
 							onCheckedChange={(value: boolean) => {
-								onChangeBorderToggleHandle(
-									value,
-									"borderEnabled"
-								);
+								onChangeStyleHandle("borderEnabled", value);
 							}}
 						/>
 					</div>
@@ -179,11 +415,11 @@ const BorderStyles: React.FC<Props> = (props) => {
 						Width
 					</Label>
 					<Slider
-						defaultValue={sizeValues.borderWith}
+						defaultValue={styleValues.borderWidth}
 						max={20}
 						step={1}
 						onValueChange={(value) => {
-							onChangeSizeHandle(value, "borderWith");
+							onChangeStyleHandle("borderWidth", value);
 						}}
 					/>
 					<Input
@@ -191,9 +427,9 @@ const BorderStyles: React.FC<Props> = (props) => {
 						minLength={1}
 						type="number"
 						className={cn("w-[60px] border-0 focus-visible:ring-0")}
-						value={sizeValues.borderWith?.[0]}
+						value={styleValues.borderWidth?.[0]}
 						onChange={(e) => {
-							onChangeSizeHandle(e.target.value, "borderWith");
+							onChangeStyleHandle("borderWidth", e.target.value);
 						}}
 					/>
 				</div>
@@ -208,101 +444,58 @@ const BorderStyles: React.FC<Props> = (props) => {
 				>
 					<CornersIcon width={30} height={30} />
 					<Slider
-						defaultValue={sizeValues.borderRadius}
+						defaultValue={styleValues.borderRadius}
 						max={20}
 						step={1}
 						onValueChange={(value) => {
-							onChangeSizeHandle(value, "borderRadius");
+							onChangeStyleHandle("borderRadius", value);
 						}}
 					/>
 					<Input
 						maxLength={20}
 						minLength={1}
+						type="number"
 						className={cn("w-[60px] border-0 focus-visible:ring-0")}
-						value={sizeValues.borderRadius?.[0]}
+						value={styleValues.borderRadius?.[0]}
+						onChange={(e) => {
+							const convertToValueNumber = parseFloat(
+								e.target.value
+							);
+							onChangeStyleHandle("borderRadius", [
+								convertToValueNumber,
+							]);
+						}}
 					/>
 				</div>
 				<div className={cn("grid grid-cols-2 gap-4")}>
-					<div
-						className={cn(
-							"flex flex-row items-center border rounded-md pl-1"
-						)}
-					>
-						<CornerTopLeftIcon width={30} height={30} />
-						<Input
-							className={cn(
-								"border-0 text-right focus-visible:ring-0"
-							)}
-							value={sizeValues.borderTopLeftRadius}
-							type="number"
-							placeholder="height"
-							onChange={(e) => {
-								onChangeSizeHandle(
-									e.target.value,
-									"borderTopLeftRadius"
-								);
-							}}
-						/>
-					</div>
-					<div
-						className={cn(
-							"flex flex-row items-center border rounded-md pr-1"
-						)}
-					>
-						<Input
-							className={cn("border-0 focus-visible:ring-0")}
-							value={sizeValues.borderTopRightRadius}
-							type="number"
-							placeholder="height"
-							onChange={(e) => {
-								onChangeSizeHandle(
-									e.target.value,
-									"borderTopRightRadius"
-								);
-							}}
-						/>
-						<CornerTopRightIcon width={30} height={30} />
-					</div>
-					<div
-						className={cn(
-							"flex flex-row items-center border rounded-md pl-1"
-						)}
-					>
-						<CornerBottomLeftIcon width={30} height={30} />
-						<Input
-							className={cn(
-								"border-0 text-right focus-visible:ring-0"
-							)}
-							value={sizeValues.borderBottomLeftRadius}
-							type="number"
-							placeholder="height"
-							onChange={(e) => {
-								onChangeSizeHandle(
-									e.target.value,
-									"borderBottomLeftRadius"
-								);
-							}}
-						/>
-					</div>
-					<div
-						className={cn(
-							"flex flex-row items-center border rounded-md pr-1"
-						)}
-					>
-						<Input
-							className={cn("border-0 focus-visible:ring-0")}
-							value={sizeValues.borderBottomRightRadius}
-							type="number"
-							placeholder="height"
-							onChange={(e) => {
-								onChangeSizeHandle(
-									e.target.value,
-									"borderBottomRightRadius"
-								);
-							}}
-						/>
-						<CornerBottomRightIcon width={30} height={30} />
-					</div>
+					{cornerOptions.map((corner, index) => {
+						return (
+							<div
+								key={index}
+								className={cn(
+									"flex flex-row items-center border rounded-md pl-1"
+								)}
+							>
+								{corner.float === "left" && corner.icon}
+								<Input
+									className={cn(
+										`border-0 text-${corner.float} focus-visible:ring-0`
+									)}
+									value={styleValues[corner.value].toString()}
+									type="number"
+									onChange={(e) => {
+										const convertToValueNumber = parseFloat(
+											e.target.value
+										);
+										onChangeStyleHandle(corner.value, [
+											convertToValueNumber,
+										]);
+									}}
+								/>
+								{corner.float === "right" && corner.icon}
+							</div>
+						);
+					})}
 				</div>
 
 				<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
@@ -315,10 +508,10 @@ const BorderStyles: React.FC<Props> = (props) => {
 				>
 					<Input
 						className={cn("border-0 p-0")}
-						defaultValue={sizeValues.borderColor}
+						defaultValue={styleValues.borderColor}
 						type="color"
 						onChange={(e) => {
-							onChangeSizeHandle(e.target.value, "borderColor");
+							onChangeStyleHandle("borderColor", e.target.value);
 						}}
 					/>
 
@@ -326,10 +519,10 @@ const BorderStyles: React.FC<Props> = (props) => {
 						className={cn(
 							"col-span-2 border-0 focus-visible:ring-0"
 						)}
-						defaultValue={sizeValues.borderColor}
+						defaultValue={styleValues.borderColor}
 						type="text"
 						onChange={(e) => {
-							onChangeSizeHandle(e.target.value, "borderColor");
+							onChangeStyleHandle("borderColor", e.target.value);
 						}}
 					/>
 				</div>
@@ -339,109 +532,57 @@ const BorderStyles: React.FC<Props> = (props) => {
 						"w-full flex items-center gap-2 flex-row justify-between"
 					)}
 				>
-					<button
-						type="button"
-						className={cn(
-							"border w-[30px] h-[30px] flex justify-center items-center"
-						)}
-					>
-						<BorderAllIcon width={20} height={20} />
-					</button>
-
-					<button
-						type="button"
-						className={cn(
-							"border w-[30px] h-[30px] flex justify-center items-center"
-						)}
-					>
-						<BorderBottomIcon width={20} height={20} />
-					</button>
-
-					<button
-						type="button"
-						className={cn(
-							"border w-[30px] h-[30px] flex justify-center items-center"
-						)}
-					>
-						<BorderTopIcon width={20} height={20} />
-					</button>
-
-					<button
-						type="button"
-						className={cn(
-							"border w-[30px] h-[30px] flex justify-center items-center"
-						)}
-					>
-						<BorderLeftIcon width={20} height={20} />
-					</button>
-
-					<button
-						type="button"
-						className={cn(
-							"border w-[30px] h-[30px] flex justify-center items-center"
-						)}
-					>
-						<BorderRightIcon width={20} height={20} />
-					</button>
-
-					<button
-						type="button"
-						className={cn(
-							"border w-[30px] h-[30px] flex justify-center items-center"
-						)}
-					>
-						<BorderNoneIcon width={20} height={20} />
-					</button>
+					{borderOptions.map((border, index) => {
+						return (
+							<button
+								key={index}
+								type="button"
+								className={cn(
+									"border w-[30px] h-[30px] flex justify-center items-center",
+									styleValues[border.value]
+										? "text-blue-400"
+										: ""
+								)}
+								onClick={() => {
+									onChangeStyleHandle(
+										border.value,
+										!styleValues[border.value]
+									);
+								}}
+							>
+								{border.icon}
+							</button>
+						);
+					})}
 				</div>
 
 				<div className={cn("w-full flex items-center gap-5 flex-row")}>
-					<div
-						className={cn(
-							"w-[30px] h-[30px] flex items-center justify-center cursor-pointer"
-						)}
-					>
-						<button
-							type="button"
-							className={cn(
-								"border border-dashed cursor-pointer w-full h-[1px]"
-							)}
-							style={{
-								borderBottomColor: sizeValues.borderColor,
-							}}
-						/>
-					</div>
-
-					<div
-						className={cn(
-							"w-[30px] h-[30px] flex items-center justify-center cursor-pointer"
-						)}
-					>
-						<button
-							type="button"
-							className={cn(
-								"border border-solid cursor-pointer w-full h-[1px]"
-							)}
-							style={{
-								borderBottomColor: sizeValues.borderColor,
-							}}
-						/>
-					</div>
-
-					<div
-						className={cn(
-							"w-[30px] h-[30px] flex items-center justify-center cursor-pointer"
-						)}
-					>
-						<button
-							type="button"
-							className={cn(
-								"border border-dotted cursor-pointer w-full h-[1px]"
-							)}
-							style={{
-								borderBottomColor: sizeValues.borderColor,
-							}}
-						/>
-					</div>
+					{borderStyleOptions.map((border, index) => {
+						return (
+							<div
+								key={index}
+								className={cn(
+									"w-[30px] h-[30px] flex items-center justify-center cursor-pointer"
+								)}
+								onClick={() => {
+									onChangeStyleHandle(
+										"borderStyle",
+										border.type
+									);
+								}}
+							>
+								<button
+									type="button"
+									className={cn(
+										`border border-${border.type} cursor-pointer w-full h-[1px] border-black`,
+										styleValues.borderStyle === border.type
+											? "border-blue-400"
+											: ""
+									)}
+								/>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 		</div>

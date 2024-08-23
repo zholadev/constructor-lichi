@@ -39,7 +39,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 
 	/**
 	 * @author Zholaman Zhumanov
-	 * @description Метод для обновления значение для размеров
+	 * @description Метод для обновления значение для стилей
 	 * @param value
 	 * @param type
 	 */

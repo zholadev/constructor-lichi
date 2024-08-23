@@ -16,6 +16,8 @@ import {
 	CornersIcon,
 	CornerTopLeftIcon,
 	CornerTopRightIcon,
+	MinusIcon,
+	PlusIcon,
 } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/shared/shadcn/ui/checkbox";
 
@@ -101,6 +103,7 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 		defaultValues.borderWidth = [borderWidth];
 		defaultValues.borderStyle = borderStyle;
 		defaultValues.borderColor = borderColor;
+		defaultValues.borderEnabled = true;
 	}
 
 	if (styles?.border) {
@@ -171,7 +174,7 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
  * @description
  * @last-updated
  * @update-description
- * @todo Tooltip, type self, refactoring
+ * @todo Tooltip, refactoring, toggle logic border for component
  * @fixme
  * @param props
  * @constructor
@@ -373,7 +376,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 	];
 
 	useEffect(() => {
-		const defaultStyles = computeInitialStyles(styles);
+		const defaultStyles = computeInitialStyles();
 		setStyleValues(defaultStyles);
 	}, [styles]);
 
@@ -383,24 +386,24 @@ const BorderStyles: React.FC<Props> = (props) => {
 			<div className={cn("w-full grid grid-cols-1 gap-4 p-1")}>
 				<div
 					className={cn(
-						"flex flex-row gap-2 items-center justify-between"
+						"flex flex-row gap-2 items-center justify-end"
 					)}
 				>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Enabled
-					</Label>
-
 					<div className={cn("flex flex-row items-center gap-2")}>
-						<span>{styleValues.borderEnabled ? "ON" : "OFF"}</span>
-						<Checkbox
-							defaultChecked={styleValues.borderEnabled}
-							onCheckedChange={(value: boolean) => {
-								onChangeStyleHandle("borderEnabled", value);
-							}}
-						/>
+						<label className="cursor-pointer flex items-center">
+							<Checkbox
+								defaultChecked={styleValues.borderEnabled}
+								onCheckedChange={(value: boolean) => {
+									onChangeStyleHandle("borderEnabled", value);
+								}}
+								className="hidden"
+							/>
+							{styleValues.borderEnabled ? (
+								<MinusIcon className="w-5 h-5" />
+							) : (
+								<PlusIcon className="w-5 h-5" />
+							)}
+						</label>
 					</div>
 				</div>
 				<div

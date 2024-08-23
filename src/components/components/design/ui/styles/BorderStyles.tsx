@@ -64,13 +64,13 @@ const parseBorderStyle = (border: string) => {
 	const parts = border.split(" ");
 	return {
 		borderWidth: parseFloat(parts[0]),
-		borderStyle: parts[1],
+		borderStyle: parts[1] as BorderStyleType,
 		borderColor: parts[2],
 	};
 };
 
 const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
-	const defaultValues = {
+	const defaultValues: IStyleValues = {
 		borderWidth: [1],
 		borderBottomLeftRadius: 0,
 		borderBottomRightRadius: 0,
@@ -136,29 +136,29 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 	}
 
 	if (styles?.borderRadius) {
-		const borderRadius = parseFloat(styles?.borderRadius.toString());
+		const borderRadius = parseFloat(styles.borderRadius.toString());
 		defaultValues.borderRadius = [borderRadius];
 	}
 
 	if (styles?.borderTopLeftRadius) {
 		defaultValues.borderTopLeftRadius = parseFloat(
-			styles?.borderTopLeftRadius.toString()
+			styles.borderTopLeftRadius.toString()
 		);
 	}
 
 	if (styles?.borderBottomLeftRadius) {
 		defaultValues.borderBottomLeftRadius = parseFloat(
-			styles?.borderBottomLeftRadius.toString()
+			styles.borderBottomLeftRadius.toString()
 		);
 	}
 	if (styles?.borderTopRightRadius) {
 		defaultValues.borderTopRightRadius = parseFloat(
-			styles?.borderTopRightRadius.toString()
+			styles.borderTopRightRadius.toString()
 		);
 	}
 	if (styles?.borderBottomLeftRadius) {
 		defaultValues.borderBottomLeftRadius = parseFloat(
-			styles?.borderBottomLeftRadius.toString()
+			styles.borderBottomLeftRadius.toString()
 		);
 	}
 

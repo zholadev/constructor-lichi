@@ -2,16 +2,19 @@ import React from "react";
 import {
 	Dialog,
 	DialogContent,
-	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from "@/components/shared/shadcn/ui/dialog";
-import { Button } from "@/components/shared/shadcn/ui/button";
 import GalleryFolderNav from "@/components/widgets/gallery/ui/GalleryFolderNav";
 import GalleryImageView from "@/components/widgets/gallery/ui/GalleryImageView";
+import { IGalleryImageItem } from "@/components/shared/types/interface";
 
-interface Props {}
+interface Props {
+	toggleExpanded: boolean;
+	toggleExpandedHandle: () => void;
+	getImage: (data: IGalleryImageItem | null) => void;
+	activeImage: IGalleryImageItem | null;
+}
 
 /**
  * @author Zholaman Zhumanov
@@ -19,26 +22,27 @@ interface Props {}
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @param props
  * @constructor
  */
 const GalleryDialogContainer: React.FC<Props> = (props) => {
-	const {} = props;
+	const { toggleExpanded, toggleExpandedHandle, getImage, activeImage } =
+		props;
 
 	return (
-		<Dialog>
-			<DialogTrigger asChild>
-				<Button variant="outline">Add Image</Button>
-			</DialogTrigger>
+		<Dialog open={toggleExpanded} onOpenChange={toggleExpandedHandle}>
 			<DialogContent className="w-full max-w-[1200px]">
 				<DialogHeader>
 					<DialogTitle>Media Gallery</DialogTitle>
 				</DialogHeader>
 				<div className="w-full flex flex-row h-full gap-4 max-h-[600px] overflow-hidden">
 					<GalleryFolderNav />
-					<GalleryImageView />
+					<GalleryImageView
+						getImage={getImage}
+						activeImage={activeImage}
+					/>
 				</div>
 			</DialogContent>
 		</Dialog>

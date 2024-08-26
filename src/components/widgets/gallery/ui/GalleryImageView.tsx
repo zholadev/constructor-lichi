@@ -3,7 +3,10 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { apiMethodGet } from "@/components/shared/backend/requests/file/requests";
-import { IGetApiParams } from "@/components/shared/types/interface";
+import {
+	IGalleryImageItem,
+	IGetApiParams,
+} from "@/components/shared/types/interface";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import { cn } from "@/components/lib/utils";
 import { IMAGES } from "@/components/shared/constants/images";
@@ -14,21 +17,9 @@ import { UploadIcon } from "@radix-ui/react-icons";
 import { FolderPlus } from "lucide-react";
 import GalleryCard from "./GalleryCard";
 
-interface Props {}
-
-interface IDataItem {
-	url: string;
-	size: number;
-	created: number;
-	extension: string;
-	info: {
-		width: number;
-		height: number;
-		luminance: number;
-	};
-	name: string;
-	path: string;
-	public_url: string;
+interface Props {
+	getImage: (data: IGalleryImageItem) => void;
+	activeImage: IGalleryImageItem | null;
 }
 
 /**
@@ -43,7 +34,7 @@ interface IDataItem {
  * @constructor
  */
 const GalleryImageView: React.FC<Props> = (props) => {
-	const {} = props;
+	const { getImage, activeImage } = props;
 
 	const { updateBorderLoaderAction, getBorderDataAction } =
 		useDispatchAction();
@@ -148,23 +139,29 @@ const GalleryImageView: React.FC<Props> = (props) => {
 						"lg:columns-3 md:columns-2 columns-1 py-2 px-2 gap-4"
 					)}
 				>
-					{boardData?.map((data: IDataItem, index: number) => (
-						<motion.li
-							whileHover={{ scale: 1.03 }}
-							key={index}
-							className={cn("h-auto cursor-pointer")}
-						>
-							<GalleryCard
-								src={data?.url}
-								url={data?.url}
-								alt={data?.name}
-								path={data.path}
-								size={data.size}
-								title={data.name}
-								publicUrl={data.public_url}
-							/>
-						</motion.li>
-					))}
+					{boardData?.map(
+						(data: IGalleryImageItem, index: number) => (
+							<motion.li
+								whileHover={{ scale: 1.03 }}
+								key={index}
+								onClick={() => {
+									getImage(data);
+								}}
+								className={cn("h-auto cursor-pointer")}
+							>
+								<GalleryCard
+									src={data?.url}
+									url={data?.url}
+									alt={data?.name}
+									path={data.path}
+									size={data.size}
+									title={data.name}
+									publicUrl={data.public_url}
+									activeImage={activeImage?.url === data.url}
+								/>
+							</motion.li>
+						)
+					)}
 				</ul>
 			)}
 		</div>

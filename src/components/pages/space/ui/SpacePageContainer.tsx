@@ -7,6 +7,7 @@ import WhiteBoard from "@/components/components/editor/ui/components/WhiteBoard"
 import RightToolbar from "@/components/components/toolbar/ui/RightToolbar";
 import DialogCreateDirectory from "@/components/widgets/gallery/ui/dialog/ui/DialogCreateDirectory";
 import DialogUploadFile from "@/components/widgets/gallery/ui/dialog/ui/DialogUploadFile";
+import GalleryDialogContainer from "@/components/widgets/gallery/ui/GalleryDialogContainer";
 
 interface Props {}
 
@@ -48,6 +49,7 @@ const SpacePageContainer: React.FC<Props> = (props) => {
 
 			<DialogCreateDirectory />
 			<DialogUploadFile />
+			<GalleryDialogContainer />
 		</>
 	);
 };

@@ -1,9 +1,12 @@
 import { useAppDispatch } from "@/components/app/store/hooks/hooks";
 import {
-	dialogActivatePageReducer, dialogCreateDirectoryReducer,
+	dialogActivatePageReducer,
+	dialogCreateDirectoryReducer,
 	dialogCreatePageReducer,
+	dialogFileManagerReducer,
 	dialogPlatformTypeReducer,
-	dialogRemovePageReducer, dialogUploadFileReducer,
+	dialogRemovePageReducer,
+	dialogUploadFileReducer,
 } from "@/components/app/store/features/dialogSlice";
 import {
 	ILangListDataItem,
@@ -68,6 +71,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogCreateDirectoryReducer(value)),
 		dialogUploadFileAction: (value: boolean) =>
 			dispatch(dialogUploadFileReducer(value)),
+		dialogFileManagerAction: (value: boolean) =>
+			dispatch(dialogFileManagerReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>

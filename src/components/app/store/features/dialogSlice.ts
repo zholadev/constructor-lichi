@@ -8,6 +8,7 @@ interface stateSlice {
 	dialogPlatformType: boolean;
 	dialogCreateDirectory: boolean;
 	dialogUploadFile: boolean;
+	dialogFileManager: boolean;
 }
 
 const initialState: stateSlice = {
@@ -17,6 +18,7 @@ const initialState: stateSlice = {
 	dialogPlatformType: false,
 	dialogCreateDirectory: false,
 	dialogUploadFile: false,
+	dialogFileManager: false,
 };
 
 export const dialogSlice = createSlice({
@@ -44,6 +46,9 @@ export const dialogSlice = createSlice({
 		dialogUploadFileReducer: (state, action: PayloadAction<boolean>) => {
 			state.dialogUploadFile = action.payload;
 		},
+		dialogFileManagerReducer: (state, action: PayloadAction<boolean>) => {
+			state.dialogFileManager = action.payload;
+		},
 	},
 });
 
@@ -54,5 +59,6 @@ export const {
 	dialogPlatformTypeReducer,
 	dialogUploadFileReducer,
 	dialogCreateDirectoryReducer,
+	dialogFileManagerReducer,
 } = dialogSlice.actions;
 export default dialogSlice.reducer;

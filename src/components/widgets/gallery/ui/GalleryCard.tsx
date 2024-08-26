@@ -23,11 +23,12 @@ import { AspectRatio } from "@/components/shared/shadcn/ui/aspect-ratio";
 interface Props {
 	src: string;
 	alt: string;
-	url: string;
+	url?: string;
 	path: string;
-	size: number;
+	size?: number;
 	title: string;
-	publicUrl: string;
+	publicUrl?: string;
+	activeImage: boolean;
 }
 
 /**
@@ -42,7 +43,7 @@ interface Props {
  * @constructor
  */
 const GalleryCard: React.FC<Props> = (props) => {
-	const { src, alt, url, path, size, title, publicUrl, index } = props;
+	const { src, alt, path, title, activeImage } = props;
 
 	const imgRef = useRef<any>(null);
 
@@ -94,7 +95,8 @@ const GalleryCard: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				"delay-75 hover:shadow-md mb-4 bg-white border p-3 relative overflow-hidden break-inside-avoid h-auto rounded-md"
+				"delay-75 hover:shadow-md mb-4 bg-white border p-3 relative overflow-hidden break-inside-avoid h-auto rounded-md",
+				activeImage ? "border-blue-400 border" : ""
 			)}
 		>
 			<div className={cn("relative")}>
@@ -150,13 +152,17 @@ const GalleryCard: React.FC<Props> = (props) => {
 						/>
 					</AspectRatio>
 				) : (
-					<img
-						src={src}
-						ref={imgRef}
-						alt={alt}
-						className="rounded-md object-cover w-full max-w-full h-full align-middle inline-block"
-						loading="lazy"
-					/>
+					<AspectRatio ratio={5 / 4}>
+						<img
+							src={src}
+							ref={imgRef}
+							alt={alt}
+							className={cn(
+								"object-contain w-full max-w-full h-full align-middle inline-block"
+							)}
+							loading="lazy"
+						/>
+					</AspectRatio>
 				)}
 
 				<h3 className={cn("py-2")}>{title}</h3>

@@ -8,6 +8,7 @@ import {
 } from "@/components/shared/shadcn/ui/tabs";
 import GalleryDialogContainer from "@/components/widgets/gallery/ui/GalleryDialogContainer";
 import DesignContent from "@/components/components/design/ui/DesignContent";
+import SettingContainer from "@/components/components/design/ui/SettingContainer";
 
 interface Props {}
 
@@ -48,7 +49,6 @@ const RightToolbar: React.FC<Props> = (props) => {
 						className={cn("overflow-y-auto")}
 						style={{ height: "calc(100vh - 120px)" }}
 					>
-						<GalleryDialogContainer />
 						<DesignContent />
 					</TabsContent>
 					<TabsContent
@@ -56,7 +56,7 @@ const RightToolbar: React.FC<Props> = (props) => {
 						className={cn("overflow-y-auto")}
 						style={{ height: "calc(100vh - 60px)" }}
 					>
-						Prototype Content
+						<SettingContainer />
 					</TabsContent>
 				</div>
 			</Tabs>

@@ -12,6 +12,14 @@ import BackgroundStyles from "@/components/components/design/ui/styles/Backgroun
 import TypographyStyles from "@/components/components/design/ui/styles/TypographyStyles";
 import LayoutStyles from "@/components/components/design/ui/styles/LayoutStyles";
 import SpacingStyles from "@/components/components/design/ui/styles/SpacingStyles";
+import {Palette, Type} from "lucide-react";
+import {
+	BorderAllIcon,
+	ColorWheelIcon,
+	LayoutIcon,
+	PaddingIcon,
+	SizeIcon,
+} from "@radix-ui/react-icons";
 
 interface Props {}
 
@@ -30,7 +38,7 @@ const DesignContent: React.FC<Props> = (props) => {
 	const {} = props;
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([
-		"typography"
+		"typography",
 	]);
 
 	return (
@@ -42,37 +50,67 @@ const DesignContent: React.FC<Props> = (props) => {
 				onValueChange={setExpanded}
 			>
 				<AccordionItem value="position">
-					<AccordionTrigger>Position</AccordionTrigger>
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={15} height={15} />
+							<span>Position</span>
+						</div>
+					</AccordionTrigger>
 					<AccordionContent>
 						<LayoutStyles hideTitle />
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="size">
-					<AccordionTrigger>Size</AccordionTrigger>
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<SizeIcon width={15} height={15} />
+							<span>Size</span>
+						</div>
+					</AccordionTrigger>
 					<AccordionContent>
 						<SizeStyles hideTitle />
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="spacing">
-					<AccordionTrigger>Spacing</AccordionTrigger>
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<PaddingIcon width={15} height={15} />
+							<span>Spacing</span>
+						</div>
+					</AccordionTrigger>
 					<AccordionContent>
 						<SpacingStyles hideTitle />
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="border">
-					<AccordionTrigger>Border</AccordionTrigger>
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-2")}>
+							<BorderAllIcon width={15} height={15} />
+							<span>Border</span>
+						</div>
+					</AccordionTrigger>
 					<AccordionContent>
 						<BorderStyles hideTitle />
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="typography">
-					<AccordionTrigger>Typography</AccordionTrigger>
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<Type width={20} height={20} />
+							<span>Typography</span>
+						</div>
+					</AccordionTrigger>
 					<AccordionContent>
 						<TypographyStyles hideTitle />
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="fill">
-					<AccordionTrigger>Fill</AccordionTrigger>
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<Palette width={20} height={20} />
+							<span>Fill</span>
+						</div>
+					</AccordionTrigger>
 					<AccordionContent>
 						<BackgroundStyles hideTitle />
 					</AccordionContent>

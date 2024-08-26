@@ -56,3 +56,19 @@ export interface ILangListDataItem {
 	name: string;
 	is_active: number;
 }
+
+export interface IGalleryImageItem {
+	url: string;
+	size: number;
+	created: number;
+	extension: string;
+	info: {
+		width: number;
+		height: number;
+		luminance: number;
+	};
+	name: string;
+	path: string;
+	public_url: string;
+}
+

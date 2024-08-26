@@ -7,7 +7,9 @@ import {
 	AccordionTrigger,
 } from "@/components/shared/shadcn/ui/accordion";
 import ImageSetting from "@/components/components/design/ui/settings/ImageSetting";
-import { ImageIcon } from "@radix-ui/react-icons";
+import { ImageIcon, SliderIcon } from "@radix-ui/react-icons";
+import { GalleryHorizontalEnd } from "lucide-react";
+import SwiperSetting from "@/components/components/design/ui/settings/SwiperSetting";
 
 interface Props {}
 
@@ -25,7 +27,10 @@ interface Props {}
 const SettingContainer: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const [defaultExpanded, setExpanded] = React.useState<string[]>(["image"]);
+	const [defaultExpanded, setExpanded] = React.useState<string[]>([
+		"image",
+		"swiper",
+	]);
 
 	return (
 		<div className={cn("w-full p-3")}>
@@ -37,13 +42,32 @@ const SettingContainer: React.FC<Props> = (props) => {
 			>
 				<AccordionItem value="image">
 					<AccordionTrigger>
-						<div className={cn("w-full flex flex-row items-center gap-2")}>
+						<div
+							className={cn(
+								"w-full flex flex-row items-center gap-2"
+							)}
+						>
 							<ImageIcon />
 							Image
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<ImageSetting hideTitle />
+						<ImageSetting />
+					</AccordionContent>
+				</AccordionItem>
+				<AccordionItem value="swiper">
+					<AccordionTrigger>
+						<div
+							className={cn(
+								"w-full flex flex-row items-center gap-2"
+							)}
+						>
+							<GalleryHorizontalEnd />
+							Slider
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<SwiperSetting />
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>

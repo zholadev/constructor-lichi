@@ -305,7 +305,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							}
 						>
 							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Выбериту шрифт" />
+								<SelectValue placeholder="Выберите шрифт" />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>

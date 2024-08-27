@@ -13,7 +13,7 @@ import { IMAGES } from "@/components/shared/constants/images";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/shared/shadcn/ui/button";
-import { UploadIcon } from "@radix-ui/react-icons";
+import { HomeIcon, UploadIcon } from "@radix-ui/react-icons";
 import { FolderPlus } from "lucide-react";
 import GalleryCard from "./GalleryCard";
 
@@ -36,8 +36,11 @@ interface Props {
 const GalleryImageView: React.FC<Props> = (props) => {
 	const { getImage, activeImage } = props;
 
-	const { updateBorderLoaderAction, getBorderDataAction } =
-		useDispatchAction();
+	const {
+		updateBorderLoaderAction,
+		getBorderDataAction,
+		pathCurrentFolderAction,
+	} = useDispatchAction();
 
 	const { apiFetchHandler, loading } = useApiRequest();
 
@@ -84,21 +87,33 @@ const GalleryImageView: React.FC<Props> = (props) => {
 			)}
 			style={{ height: "calc(700px - 50px)" }}
 		>
-			<div className={cn("w-full mb-10 h-auto mt-5 flex flex-col py-3")}>
-				<div className="w-full h-auto flex gap-3 border-b pb-3 justify-end px-3">
+			<div className={cn("w-full mb-10 h-auto mt-5 py-3")}>
+				<div className="w-full h-auto flex gap-3 border-b pb-3 justify-between px-3">
 					<Button
-						onClick={toggleDialogCreateDirectory}
 						variant="outline"
 						className="gap-2 text-xs"
+						onClick={() => {
+							pathCurrentFolderAction("/");
+						}}
 					>
-						Новая папка <FolderPlus />
+						Главная <HomeIcon />
 					</Button>
-					<Button
-						onClick={toggleDialogUploadFileAction}
-						className="gap-2 text-xs"
-					>
-						Загрузить <UploadIcon />
-					</Button>
+
+					<div className={cn("flex items-center gap-2")}>
+						<Button
+							onClick={toggleDialogCreateDirectory}
+							variant="outline"
+							className="gap-2 text-xs"
+						>
+							Новая папка <FolderPlus />
+						</Button>
+						<Button
+							onClick={toggleDialogUploadFileAction}
+							className="gap-2 text-xs"
+						>
+							Загрузить <UploadIcon />
+						</Button>
+					</div>
 				</div>
 			</div>
 			{boardData.length === 0 && !loading && (

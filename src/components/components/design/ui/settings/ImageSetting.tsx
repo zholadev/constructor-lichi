@@ -1,10 +1,10 @@
 import React from "react";
-import GalleryDialogContainer from "@/components/widgets/gallery/ui/GalleryDialogContainer";
 import Image from "next/image";
-import { Button } from "@/components/shared/shadcn/ui/button";
-import { ImageIcon } from "@radix-ui/react-icons";
-import { IGalleryImageItem } from "@/components/shared/types/interface";
 import { cn } from "@/components/lib/utils";
+import { ImageIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/shared/shadcn/ui/button";
+import { IGalleryImageItem } from "@/components/shared/types/interface";
+import GalleryDialogContainer from "@/components/widgets/gallery/ui/GalleryDialogContainer";
 
 interface Props {
 	imageSrc?: IGalleryImageItem;
@@ -42,16 +42,22 @@ const ImageSetting: React.FC<Props> = (props) => {
 					<ImageIcon width={30} height={30} />
 				</Button>
 			) : (
-				<Image
-					src={currentImage.url}
-					alt=""
-					width={240}
-					height={240}
-					onClick={toggleExpandedHandle}
+				<div
 					className={cn(
-						"w-full block cursor-pointer object-cover mb-2"
+						"hover:opacity-70 duration-120 ease-in-out transition-opacity"
 					)}
-				/>
+				>
+					<Image
+						src={currentImage.url}
+						alt=""
+						width={240}
+						height={240}
+						onClick={toggleExpandedHandle}
+						className={cn(
+							"w-full block cursor-pointer object-cover mb-2"
+						)}
+					/>
+				</div>
 			)}
 
 			<div className={cn("w-full mt-3")}>

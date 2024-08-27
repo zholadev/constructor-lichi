@@ -19,7 +19,7 @@ interface ILinkSetting {
 }
 
 interface Props {
-	onSendParams: (params: ILinkSetting) => void;
+	onSendParams?: (params: ILinkSetting) => void;
 	defaultParams: ILinkSetting;
 }
 
@@ -56,7 +56,7 @@ const LinkSetting: React.FC<Props> = (props) => {
 			});
 			urlSchema.parse(value);
 			setError(null);
-			onSendParams({ url: value });
+			if (onSendParams) onSendParams({ url: value });
 		} catch (error) {
 			if (error instanceof z.ZodError) {
 				setError(error.errors[0].message); // В случае ошибки показываем сообщение

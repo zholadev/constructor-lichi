@@ -7,10 +7,16 @@ import {
 	AccordionTrigger,
 } from "@/components/shared/shadcn/ui/accordion";
 import ImageSetting from "@/components/components/design/ui/settings/ImageSetting";
-import { ImageIcon, Link1Icon, SliderIcon } from "@radix-ui/react-icons";
+import {
+	ImageIcon,
+	Link1Icon,
+	SliderIcon,
+	VideoIcon,
+} from "@radix-ui/react-icons";
 import { GalleryHorizontalEnd } from "lucide-react";
 import SwiperSetting from "@/components/components/design/ui/settings/SwiperSetting";
 import LinkSetting from "@/components/components/design/ui/settings/LinkSetting";
+import VideoSetting from "@/components/components/design/ui/settings/VideoSetting";
 
 interface Props {}
 
@@ -31,6 +37,7 @@ const SettingContainer: React.FC<Props> = (props) => {
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([
 		"image",
 		// "swiper",
+		"video",
 		"link",
 	]);
 
@@ -57,6 +64,23 @@ const SettingContainer: React.FC<Props> = (props) => {
 						<ImageSetting />
 					</AccordionContent>
 				</AccordionItem>
+				<AccordionItem value="video">
+					<AccordionTrigger>
+						<div
+							className={cn(
+								"w-full flex flex-row items-center gap-2"
+							)}
+						>
+							<VideoIcon width={20} height={20} />
+							Video
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<VideoSetting
+							defaultParams={{ poster: null, videoSrc: "" }}
+						/>
+					</AccordionContent>
+				</AccordionItem>
 				<AccordionItem value="link">
 					<AccordionTrigger>
 						<div
@@ -69,7 +93,7 @@ const SettingContainer: React.FC<Props> = (props) => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<LinkSetting />
+						<LinkSetting defaultParams={{ url: "" }} />
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="swiper">

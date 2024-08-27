@@ -6,7 +6,6 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/components/shared/shadcn/ui/tabs";
-import GalleryDialogContainer from "@/components/widgets/gallery/ui/GalleryDialogContainer";
 import DesignContent from "@/components/components/design/ui/DesignContent";
 import SettingContainer from "@/components/components/design/ui/SettingContainer";
 

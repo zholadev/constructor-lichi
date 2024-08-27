@@ -4,7 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { DotsHorizontalIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Trash2Icon } from "lucide-react";
-import { IGetApiParams } from "@/components/shared/types/interface";
+import {
+	IGalleryImageItem,
+	IGetApiParams,
+} from "@/components/shared/types/interface";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import {
@@ -23,12 +26,10 @@ import { AspectRatio } from "@/components/shared/shadcn/ui/aspect-ratio";
 interface Props {
 	src: string;
 	alt: string;
-	url?: string;
 	path: string;
-	size?: number;
 	title: string;
-	publicUrl?: string;
 	activeImage: boolean;
+	getImage: () => void;
 }
 
 /**
@@ -43,7 +44,7 @@ interface Props {
  * @constructor
  */
 const GalleryCard: React.FC<Props> = (props) => {
-	const { src, alt, path, title, activeImage } = props;
+	const { src, alt, path, title, activeImage, getImage } = props;
 
 	const imgRef = useRef<any>(null);
 
@@ -161,6 +162,9 @@ const GalleryCard: React.FC<Props> = (props) => {
 								"object-contain w-full max-w-full h-full align-middle inline-block"
 							)}
 							loading="lazy"
+							onClick={() => {
+								getImage();
+							}}
 						/>
 					</AspectRatio>
 				)}

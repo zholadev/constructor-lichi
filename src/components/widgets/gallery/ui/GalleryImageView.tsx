@@ -144,19 +144,16 @@ const GalleryImageView: React.FC<Props> = (props) => {
 							<motion.li
 								whileHover={{ scale: 1.03 }}
 								key={index}
-								onClick={() => {
-									getImage(data);
-								}}
 								className={cn("h-auto cursor-pointer")}
 							>
 								<GalleryCard
 									src={data?.url}
-									url={data?.url}
 									alt={data?.name}
 									path={data.path}
-									size={data.size}
+									getImage={() => {
+										getImage(data);
+									}}
 									title={data.name}
-									publicUrl={data.public_url}
 									activeImage={activeImage?.url === data.url}
 								/>
 							</motion.li>

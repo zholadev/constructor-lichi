@@ -1,10 +1,8 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { z } from "zod";
-
-interface Props {}
 
 const urlSchema = z
 	.string()
@@ -17,7 +15,12 @@ type URLSchema = z.infer<typeof urlSchema>;
 
 interface ILinkSetting {
 	url: URLSchema;
-	add: boolean;
+	add?: boolean;
+}
+
+interface Props {
+	onSendParams: (params: ILinkSetting) => void;
+	defaultParams: ILinkSetting;
 }
 
 /**
@@ -32,7 +35,7 @@ interface ILinkSetting {
  * @constructor
  */
 const LinkSetting: React.FC<Props> = (props) => {
-	const {} = props;
+	const { onSendParams, defaultParams } = props;
 
 	const [error, setError] = useState<string | null>(null);
 
@@ -53,6 +56,7 @@ const LinkSetting: React.FC<Props> = (props) => {
 			});
 			urlSchema.parse(value);
 			setError(null);
+			onSendParams({ url: value });
 		} catch (error) {
 			if (error instanceof z.ZodError) {
 				setError(error.errors[0].message); // В случае ошибки показываем сообщение
@@ -73,6 +77,13 @@ const LinkSetting: React.FC<Props> = (props) => {
 
 		setError(null);
 	};
+
+	useEffect(() => {
+		setLinkSetting({
+			url: defaultParams?.url,
+			add: !!defaultParams?.url,
+		});
+	}, [defaultParams]);
 
 	return (
 		<div className={cn("w-full py-2")}>

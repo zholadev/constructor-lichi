@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Label } from "@/components/shared/shadcn/ui/label";
-import { DotsHorizontalIcon, LoopIcon, PlayIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import {
 	ChevronsUp,

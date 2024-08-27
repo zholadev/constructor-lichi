@@ -5,10 +5,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { IGetApiParams } from "@/components/shared/types/interface";
 import { apiMethodTree } from "@/components/shared/backend/requests/file/requests";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
-import { Button } from "@/components/shared/shadcn/ui/button";
-import { FolderPlus } from "lucide-react";
 import Tree from "@/components/shared/uikit/tree/ui/Tree";
-import { cn } from "@/components/lib/utils";
 
 interface Props {}
 
@@ -26,17 +23,10 @@ interface Props {}
 const GalleryFolderNav: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const {
-		getFolderDataAction,
-		updateFolderLoaderAction,
-		dialogCreateDirectoryAction,
-	} = useDispatchAction();
+	const { getFolderDataAction, updateFolderLoaderAction } =
+		useDispatchAction();
 	const { apiFetchHandler, loading } = useApiRequest();
 	const { folderData } = useAppSelector((state) => state.folder);
-	const { dialogCreateDirectory } = useAppSelector((state) => state.dialog);
-
-	const toggleDialogCreateDirectory = () =>
-		dialogCreateDirectoryAction(!dialogCreateDirectory);
 
 	const getTreeDataInit = async () => {
 		await apiFetchHandler(

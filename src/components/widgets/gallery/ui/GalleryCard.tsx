@@ -95,12 +95,12 @@ const GalleryCard: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				"delay-75 hover:shadow-md mb-4 bg-white border p-3 relative overflow-hidden break-inside-avoid h-auto rounded-md",
+				"delay-75 hover:shadow-md mb-4 bg-white border py-3 relative overflow-hidden break-inside-avoid h-auto rounded-md",
 				activeImage ? "border-blue-400 border" : ""
 			)}
 		>
 			<div className={cn("relative")}>
-				<div className={cn("absolute top-5 right-5 z-30")}>
+				<div className={cn("absolute top-1 right-2 z-30")}>
 					<Popover open={popoverParams} onOpenChange={togglePopover}>
 						<PopoverTrigger>
 							<div
@@ -165,7 +165,7 @@ const GalleryCard: React.FC<Props> = (props) => {
 					</AspectRatio>
 				)}
 
-				<h3 className={cn("py-2")}>{title}</h3>
+				<h3 className={cn("p-2")}>{title}</h3>
 			</div>
 		</div>
 	);

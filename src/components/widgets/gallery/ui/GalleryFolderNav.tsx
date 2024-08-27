@@ -69,21 +69,12 @@ const GalleryFolderNav: React.FC<Props> = (props) => {
 
 	return (
 		<aside className="h-full max-w-[350px] w-full min-w-[200px] border-r overflow-hidden">
-			<div className="w-full h-[50px] flex items-center justify-between border-b py-1">
-				<Button
-					onClick={toggleDialogCreateDirectory}
-					variant="ghost"
-					className={cn("text-xs flex items-center gap-1 p-1")}
-				>
-					<FolderPlus /> <span>Добавить папку</span>
-				</Button>
-			</div>
 			{loading ? (
 				renderLoadingSkeletons()
 			) : (
 				<div
 					className="w-full overflow-y-auto py-3"
-					style={{ height: "calc(100% - 60px)" }}
+					style={{ height: "100%" }}
 				>
 					<Tree data={folderData} />
 				</div>

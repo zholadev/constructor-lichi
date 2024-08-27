@@ -9,6 +9,7 @@ import "react-device-frameset/styles/device-emulator.min.css";
 
 interface Props {
 	children: React.ReactNode;
+	devices: string[];
 }
 
 /**
@@ -23,10 +24,10 @@ interface Props {
  * @constructor
  */
 const DeviceEmulatorContainer: React.FC<Props> = (props) => {
-	const { children } = props;
+	const { children, devices } = props;
 
 	return (
-		<DeviceEmulator>
+		<DeviceEmulator banDevices={devices}>
 			{(deviceProps: DeviceFramesetProps) => (
 				<DeviceFrameset landscape={false} {...deviceProps}>
 					{children}

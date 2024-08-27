@@ -6,6 +6,7 @@ import { ArrowLeftIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { useRouter } from "next/navigation";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import HeaderDeviceType from "@/components/widgets/header/ui/HeaderDeviceType";
 
 interface Props {
 	title: string;
@@ -48,6 +49,8 @@ const HeaderTitle: React.FC<Props> = (props) => {
 					<Pencil2Icon />
 				</Button>
 			</div>
+
+			<HeaderDeviceType />
 		</div>
 	);
 };

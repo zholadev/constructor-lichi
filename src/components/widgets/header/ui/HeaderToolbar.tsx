@@ -3,7 +3,6 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import HeaderTitle from "@/components/widgets/header/ui/HeaderTitle";
-import HeaderDeviceType from "@/components/widgets/header/ui/HeaderDeviceType";
 import HeaderActionPanel from "@/components/widgets/header/ui/HeaderActionPanel";
 
 interface Props {
@@ -31,7 +30,6 @@ const HeaderToolbar: React.FC<Props> = (props) => {
 			)}
 		>
 			<HeaderTitle title={title} />
-			<HeaderDeviceType />
 			<HeaderActionPanel />
 		</div>
 	);

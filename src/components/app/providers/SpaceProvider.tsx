@@ -61,7 +61,7 @@ const SpaceProvider: React.FC<Props> = (props) => {
 			{
 				onGetData: (params: IGetApiParams) => {
 					if (params.success) {
-						spaceTemplateDataAction(params.data?.page);
+						// spaceTemplateDataAction(params.data?.page);
 					}
 				},
 			},

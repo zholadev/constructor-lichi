@@ -53,7 +53,7 @@ const RightToolbar: React.FC<Props> = (props) => {
 					<TabsContent
 						value="settings"
 						className={cn("overflow-y-auto")}
-						style={{ height: "calc(100vh - 60px)" }}
+						style={{ height: "calc(100vh - 100px)" }}
 					>
 						<SettingContainer />
 					</TabsContent>

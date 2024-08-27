@@ -6,9 +6,10 @@ import {
 	TemplateType,
 	ThemeSpaceMode,
 } from "@/components/shared/types/types";
+import { TemplateBaseSchema } from "@/components/shared/types/interface-components";
 
 interface stateSlice {
-	spaceTemplateData: unknown;
+	spaceTemplateData: TemplateBaseSchema[];
 	spaceTemplateApiLoading: boolean;
 	spaceModeTheme: ThemeSpaceMode;
 	spaceModeLanguage: string;
@@ -21,7 +22,7 @@ interface stateSlice {
 }
 
 const initialState: stateSlice = {
-	spaceTemplateData: {},
+	spaceTemplateData: [],
 	spaceModeTheme: "light",
 	spaceModeLanguage: "ru",
 	spaceModePreviewShop: "ru",
@@ -37,7 +38,10 @@ export const spaceSlice = createSlice({
 	name: "space",
 	initialState,
 	reducers: {
-		spaceTemplateDataReducer: (state, action: PayloadAction<unknown>) => {
+		spaceTemplateDataReducer: (
+			state,
+			action: PayloadAction<TemplateBaseSchema[]>
+		) => {
 			state.spaceTemplateData = action.payload;
 		},
 		spaceModeThemeReducer: (

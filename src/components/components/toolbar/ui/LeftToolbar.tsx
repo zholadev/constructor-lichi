@@ -18,7 +18,12 @@ import {
 
 interface Props {}
 
-const slideLeft = {
+interface ISideListMotion {
+	hidden: Record<string, unknown>;
+	visible: Record<string, unknown>;
+}
+
+const slideLeft: ISideListMotion = {
 	hidden: { opacity: 0, x: "-100%", visibility: "hidden", width: "0" },
 	visible: {
 		opacity: 1,

@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/components/app/store/hooks/hooks";
 import {
 	dialogActivatePageReducer,
+	dialogAddTemplateReducer,
 	dialogCreateDirectoryReducer,
 	dialogCreatePageReducer,
 	dialogFileManagerReducer,
@@ -53,6 +54,7 @@ import {
 	getBorderDataReducer,
 	updateBorderLoaderReducer,
 } from "@/components/app/store/features/boardSlice";
+import {TemplateBaseSchema} from "@/components/shared/types/interface-components";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -73,6 +75,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogUploadFileReducer(value)),
 		dialogFileManagerAction: (value: boolean) =>
 			dispatch(dialogFileManagerReducer(value)),
+		dialogAddTemplateAction: (value: boolean) =>
+			dispatch(dialogAddTemplateReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>
@@ -95,7 +99,7 @@ export default function useDispatchAction(): any {
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>
 			dispatch(spaceModePlatformTypeReducer(value)),
-		spaceTemplateDataAction: (schema: unknown) =>
+		spaceTemplateDataAction: (schema: TemplateBaseSchema[]) =>
 			dispatch(spaceTemplateDataReducer(schema)),
 		spaceModeThemeAction: (theme: ThemeSpaceMode) =>
 			dispatch(spaceModeThemeReducer(theme)),

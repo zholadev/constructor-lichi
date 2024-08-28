@@ -10,6 +10,8 @@ interface stateSlice {
 	dialogUploadFile: boolean;
 	dialogFileManager: boolean;
 	dialogAddTemplate: boolean;
+	dialogSaveSchema: boolean;
+	dialogRenameTitle: boolean;
 }
 
 const initialState: stateSlice = {
@@ -21,6 +23,8 @@ const initialState: stateSlice = {
 	dialogUploadFile: false,
 	dialogFileManager: false,
 	dialogAddTemplate: false,
+	dialogSaveSchema: false,
+	dialogRenameTitle: false,
 };
 
 export const dialogSlice = createSlice({
@@ -54,6 +58,12 @@ export const dialogSlice = createSlice({
 		dialogAddTemplateReducer: (state, action: PayloadAction<boolean>) => {
 			state.dialogAddTemplate = action.payload;
 		},
+		dialogSaveSchemaReducer: (state, action: PayloadAction<boolean>) => {
+			state.dialogSaveSchema = action.payload;
+		},
+		dialogRenameTitleReducer: (state, action: PayloadAction<boolean>) => {
+			state.dialogRenameTitle = action.payload;
+		},
 	},
 });
 
@@ -66,5 +76,7 @@ export const {
 	dialogCreateDirectoryReducer,
 	dialogFileManagerReducer,
 	dialogAddTemplateReducer,
+	dialogSaveSchemaReducer,
+	dialogRenameTitleReducer,
 } = dialogSlice.actions;
 export default dialogSlice.reducer;

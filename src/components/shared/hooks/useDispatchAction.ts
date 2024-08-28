@@ -6,7 +6,7 @@ import {
 	dialogCreatePageReducer,
 	dialogFileManagerReducer,
 	dialogPlatformTypeReducer,
-	dialogRemovePageReducer,
+	dialogRemovePageReducer, dialogRenameTitleReducer, dialogSaveSchemaReducer,
 	dialogUploadFileReducer,
 } from "@/components/app/store/features/dialogSlice";
 import {
@@ -54,7 +54,7 @@ import {
 	getBorderDataReducer,
 	updateBorderLoaderReducer,
 } from "@/components/app/store/features/boardSlice";
-import {TemplateBaseSchema} from "@/components/shared/types/interface-components";
+import { TemplateBaseSchema } from "@/components/shared/types/interface-components";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -77,6 +77,10 @@ export default function useDispatchAction(): any {
 			dispatch(dialogFileManagerReducer(value)),
 		dialogAddTemplateAction: (value: boolean) =>
 			dispatch(dialogAddTemplateReducer(value)),
+		dialogSaveSchemaAction: (value: boolean) =>
+			dispatch(dialogSaveSchemaReducer(value)),
+		dialogRenameTitleAction: (value: boolean) =>
+			dispatch(dialogRenameTitleReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>

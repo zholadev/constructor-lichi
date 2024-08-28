@@ -105,6 +105,8 @@ const LinkSetting: React.FC<Props> = (props) => {
 				</div>
 			</div>
 			<Input
+				value={linkSetting.url}
+				defaultValue={linkSetting.url}
 				placeholder="Введите ссылку"
 				disabled={!linkSetting.add}
 				onChange={onChangeEmail}

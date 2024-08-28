@@ -18,6 +18,9 @@ import {
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
 import { ILangListDataItem } from "@/components/shared/types/interface";
+import DialogContainer from "@/components/widgets/dialog/ui/DialogContainer";
+import SaveSchemaContent from "@/components/entities/schema/ui/SaveSchemaContent";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 interface Props {}
 
@@ -37,6 +40,8 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 
 	const { spaceModeThemeAction, spaceModeLanguageAction } =
 		useDispatchAction();
+
+	const dialog = useDialogAction();
 
 	const { languageData } = useAppSelector((state) => state.app);
 	const { spaceModeTheme, spaceModeDeviceType, spaceModeLanguage } =
@@ -63,7 +68,8 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 					"uppercase text-xs text-gray-600 w-auto flex items-center gap-3 flex-row"
 				)}
 			>
-				<span>{spaceModeDeviceType}</span> | <span>{spaceModeTheme}</span> | <span>{spaceModeLanguage}</span>
+				<span>{spaceModeDeviceType}</span> |{" "}
+				<span>{spaceModeTheme}</span> | <span>{spaceModeLanguage}</span>
 			</div>
 			<Button variant="outline">
 				<Eye />
@@ -102,9 +108,21 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 				</SelectContent>
 			</Select>
 
-			<Button type="button" className={cn("flex items-center gap-2")}>
+			<Button
+				onClick={() => dialog.dialogSaveSchema.toggle()}
+				type="button"
+				className={cn("flex items-center gap-2")}
+			>
 				<SaveIcon /> Сохранить
 			</Button>
+
+			<DialogContainer
+				open={dialog.dialogSaveSchema.open}
+				toggle={dialog.dialogSaveSchema.toggle}
+				title="Сохранить страницу"
+			>
+				<SaveSchemaContent />
+			</DialogContainer>
 		</div>
 	);
 };

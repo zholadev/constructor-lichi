@@ -1,3 +1,5 @@
+import {TemplateType} from "@/components/shared/types/types";
+
 export interface IGetApiParams {
 	data: any;
 	errorFields: [];
@@ -72,3 +74,8 @@ export interface IGalleryImageItem {
 	public_url: string;
 }
 
+export interface ITemplatePageType {
+	id: number;
+	name: string;
+	value: TemplateType;
+}

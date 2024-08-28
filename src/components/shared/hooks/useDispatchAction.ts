@@ -55,6 +55,11 @@ import {
 	updateBorderLoaderReducer,
 } from "@/components/app/store/features/boardSlice";
 import { TemplateBaseSchema } from "@/components/shared/types/interface-components";
+import {
+	editorSelectElementReducer,
+	editorSwiperAutoplayReducer,
+	editorVideoPlayReducer
+} from "@/components/app/store/features/editorSlice";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -99,6 +104,14 @@ export default function useDispatchAction(): any {
 			dispatch(languageDataReducer(data)),
 		shopsDataAction: (data: IShopsListDataItem[]) =>
 			dispatch(shopsDataReducer(data)),
+
+		// Editor actions
+		editorSelectElementAction: (value: unknown) =>
+			dispatch(editorSelectElementReducer(value)),
+		editorVideoPlayAction: (value: boolean) =>
+			dispatch(editorVideoPlayReducer(value)),
+		editorSwiperAutoplayAction: (value: boolean) =>
+			dispatch(editorSwiperAutoplayReducer(value)),
 
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>

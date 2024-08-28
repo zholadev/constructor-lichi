@@ -8,6 +8,7 @@ import { spaceSlice } from "./features/spaceSlice";
 import { folderSlice } from "./features/folderSlice";
 import { pathSlice } from "./features/pathSlice";
 import { boardSlice } from "./features/boardSlice";
+import { editorSlice } from "./features/editorSlice";
 
 export const siteStore = (): EnhancedStore => {
 	return configureStore({
@@ -19,6 +20,7 @@ export const siteStore = (): EnhancedStore => {
 			folder: folderSlice.reducer,
 			path: pathSlice.reducer,
 			board: boardSlice.reducer,
+			editor: editorSlice.reducer,
 		},
 	});
 };

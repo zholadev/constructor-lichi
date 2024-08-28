@@ -3,7 +3,7 @@ import {
 	dialogActivatePageReducer,
 	dialogAddTemplateReducer,
 	dialogCreateDirectoryReducer,
-	dialogCreatePageReducer,
+	dialogCreatePageReducer, dialogEditorSettingReducer,
 	dialogFileManagerReducer,
 	dialogPlatformTypeReducer,
 	dialogRemovePageReducer, dialogRenameTitleReducer, dialogSaveSchemaReducer,
@@ -86,6 +86,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogSaveSchemaReducer(value)),
 		dialogRenameTitleAction: (value: boolean) =>
 			dispatch(dialogRenameTitleReducer(value)),
+		dialogEditorSettingAction: (value: boolean) =>
+			dispatch(dialogEditorSettingReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>

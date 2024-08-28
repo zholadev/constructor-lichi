@@ -12,6 +12,7 @@ interface stateSlice {
 	dialogAddTemplate: boolean;
 	dialogSaveSchema: boolean;
 	dialogRenameTitle: boolean;
+	dialogEditorSetting: boolean;
 }
 
 const initialState: stateSlice = {
@@ -25,6 +26,7 @@ const initialState: stateSlice = {
 	dialogAddTemplate: false,
 	dialogSaveSchema: false,
 	dialogRenameTitle: false,
+	dialogEditorSetting: false,
 };
 
 export const dialogSlice = createSlice({
@@ -64,6 +66,9 @@ export const dialogSlice = createSlice({
 		dialogRenameTitleReducer: (state, action: PayloadAction<boolean>) => {
 			state.dialogRenameTitle = action.payload;
 		},
+		dialogEditorSettingReducer: (state, action: PayloadAction<boolean>) => {
+			state.dialogEditorSetting = action.payload;
+		},
 	},
 });
 
@@ -78,5 +83,6 @@ export const {
 	dialogAddTemplateReducer,
 	dialogSaveSchemaReducer,
 	dialogRenameTitleReducer,
+	dialogEditorSettingReducer,
 } = dialogSlice.actions;
 export default dialogSlice.reducer;

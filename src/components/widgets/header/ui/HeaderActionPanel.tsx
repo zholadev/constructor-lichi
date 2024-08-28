@@ -8,7 +8,7 @@ import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { Eye, SaveIcon } from "lucide-react";
+import { Eye, SaveIcon, SettingsIcon } from "lucide-react";
 import {
 	Select,
 	SelectContent,
@@ -21,6 +21,7 @@ import { ILangListDataItem } from "@/components/shared/types/interface";
 import DialogContainer from "@/components/widgets/dialog/ui/DialogContainer";
 import SaveSchemaContent from "@/components/entities/schema/ui/SaveSchemaContent";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import EditorSetting from "@/components/components/editor/ui/components/EditorSetting";
 
 interface Props {}
 
@@ -47,20 +48,6 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 	const { spaceModeTheme, spaceModeDeviceType, spaceModeLanguage } =
 		useAppSelector((state) => state.space);
 
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод для переключения режим темы для редактора
-	 * @param value
-	 */
-	const toggleModeThemeHandle = (value: boolean) => {
-		if (value) {
-			spaceModeThemeAction("dark");
-			return;
-		}
-
-		spaceModeThemeAction("light");
-	};
-
 	return (
 		<div className={cn("flex items-center p-2 gap-4")}>
 			<div
@@ -71,49 +58,25 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 				<span>{spaceModeDeviceType}</span> |{" "}
 				<span>{spaceModeTheme}</span> | <span>{spaceModeLanguage}</span>
 			</div>
+
 			<Button variant="outline">
 				<Eye />
 			</Button>
 
-			<div className="flex items-center space-x-2">
-				<Switch
-					id="theme-mode"
-					checked={spaceModeTheme === "dark"}
-					onCheckedChange={toggleModeThemeHandle}
-				/>
-				<Label htmlFor="theme-mode">
-					{spaceModeTheme === "dark" ? <MoonIcon /> : <SunIcon />}
-				</Label>
-			</div>
-
-			<Select
-				disabled={languageData.length === 0}
-				defaultValue={spaceModeLanguage}
-				value={spaceModeLanguage}
-				onValueChange={(value) => spaceModeLanguageAction(value)}
-			>
-				<SelectTrigger className="w-full">
-					<SelectValue placeholder="font weight" />
-				</SelectTrigger>
-				<SelectContent>
-					<SelectGroup>
-						{languageData.map((lang: ILangListDataItem) => {
-							return (
-								<SelectItem key={lang.id} value={lang.id}>
-									{lang.name}
-								</SelectItem>
-							);
-						})}
-					</SelectGroup>
-				</SelectContent>
-			</Select>
-
 			<Button
 				onClick={() => dialog.dialogSaveSchema.toggle()}
 				type="button"
-				className={cn("flex items-center gap-2")}
+				className={cn("flex items-center gap-2 text-xs")}
 			>
-				<SaveIcon /> Сохранить
+				<SaveIcon width={20} height={20} /> Сохранить
+			</Button>
+
+			<Button
+				onClick={() => dialog.dialogEditorSetting.toggle()}
+				type="button"
+				className={cn("flex items-center gap-2 text-xs")}
+			>
+				<SettingsIcon width={20} height={20} /> Настройки редактора
 			</Button>
 
 			<DialogContainer
@@ -122,6 +85,13 @@ const HeaderActionPanel: React.FC<Props> = (props) => {
 				title="Сохранить страницу"
 			>
 				<SaveSchemaContent />
+			</DialogContainer>
+
+			<DialogContainer
+				open={dialog.dialogEditorSetting.open}
+				toggle={dialog.dialogEditorSetting.toggle}
+			>
+				<EditorSetting />
 			</DialogContainer>
 		</div>
 	);

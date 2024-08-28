@@ -2,13 +2,12 @@ import React, { useEffect } from "react";
 import { IGalleryImageItem } from "@/components/shared/types/interface";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { cn } from "@/components/lib/utils";
-import { ImageIcon, PlayIcon } from "@radix-ui/react-icons";
+import { ImageIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import GalleryDialogContainer from "@/components/widgets/gallery/ui/GalleryDialogContainer";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
-import { GalleryThumbnails } from "lucide-react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 

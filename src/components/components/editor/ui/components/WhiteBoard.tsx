@@ -21,9 +21,7 @@ import BoardDraggingDisplay from "@/components/components/board/ui/BoardDragging
 const WhiteBoard: React.FC = () => {
 	const { spaceTemplateApiLoading } = useAppSelector((state) => state.space);
 
-	const { editorDisabledEdit, editorDraggingTemplate } = useAppSelector(
-		(state) => state.editor
-	);
+	const { editorDraggingTemplate } = useAppSelector((state) => state.editor);
 
 	if (spaceTemplateApiLoading) {
 		return (
@@ -32,7 +30,7 @@ const WhiteBoard: React.FC = () => {
 					"p-3 size-full flex flex-col items-center justify-center w-full"
 				)}
 			>
-				{Array.from({ length: 5 }).map((_, index) => (
+				{Array.from({ length: 4 }).map((_, index) => (
 					<Skeleton key={index} className="h-[290px] w-full mb-4" />
 				))}
 			</div>
@@ -40,13 +38,18 @@ const WhiteBoard: React.FC = () => {
 	}
 
 	return (
-		<div className={cn("w-full bg-secondary p-2 h-screen overflow-y-auto")}>
+		<div className={cn("w-full bg-secondary p-2 h-screen")}>
 			<BoardToolbar />
-			{editorDraggingTemplate ? (
-				<BoardDraggingDisplay />
-			) : (
-				<BoardDisplay />
-			)}
+			<div
+				style={{ height: "calc(100vh - 50px)" }}
+				className={cn("overflow-y-auto")}
+			>
+				{editorDraggingTemplate ? (
+					<BoardDraggingDisplay />
+				) : (
+					<BoardDisplay />
+				)}
+			</div>
 		</div>
 	);
 };

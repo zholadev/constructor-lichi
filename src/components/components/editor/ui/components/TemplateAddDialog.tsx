@@ -16,6 +16,7 @@ import { GalleryHorizontal } from "lucide-react";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { versionTemplate } from "@/components/app/versions/version-modules";
+import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 
 type BlockType = "block" | "swiper" | "initial";
 
@@ -34,6 +35,8 @@ const TemplateAddDialog: React.FC = () => {
 		useDispatchAction();
 
 	const toastMessage = useToastMessage();
+
+	const templateEvent = useTemplateEvent();
 
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
@@ -65,51 +68,54 @@ const TemplateAddDialog: React.FC = () => {
 	 * @description Функция который подтверждает добавление шаблона в доску
 	 */
 	const onConfirmHandle = () => {
-		if (blockType === "initial") {
-			toastMessage("Вы не выбрали тип блока!", "error");
-			return;
-		}
+		templateEvent.create(blockType, countColumn, toggleDialogHandle);
 
-		const createTemplateColumns = () => {
-			return Array(countColumn).fill("1fr").join(" ");
-		};
-
-		const styles = () => {
-			if (blockType === "block") {
-				return {
-					display:
-						countColumn > 1 && blockType === "block"
-							? "grid"
-							: "block",
-					gap: "2px",
-					gridTemplateColumns: createTemplateColumns(),
-					marginBottom: "2px",
-				};
-			}
-			return {
-				display: "block",
-				marginBottom: "2px",
-			};
-		};
-
-		const createChildren = () => {
-			return Array.from({ length: countColumn }, (_, index) => ({
-				id: uuidv4(),
-			}));
-		};
-
-		spaceTemplateDataAction([
-			...spaceTemplateData,
-			{
-				id: uuidv4(),
-				type: "container",
-				version: versionTemplate.version,
-				style: styles(),
-				components: createChildren(),
-			},
-		]);
-
-		toggleDialogHandle();
+		// if (blockType === "initial") {
+		// 	toastMessage("Вы не выбрали тип блока!", "error");
+		// 	return;
+		// }
+		//
+		// const createTemplateColumns = () => {
+		// 	return Array(countColumn).fill("1fr").join(" ");
+		// };
+		//
+		// const styles = () => {
+		// 	if (blockType === "block") {
+		// 		return {
+		// 			display:
+		// 				countColumn > 1 && blockType === "block"
+		// 					? "grid"
+		// 					: "block",
+		// 			gap: "2px",
+		// 			gridTemplateColumns: createTemplateColumns(),
+		// 			marginBottom: "2px",
+		// 		};
+		// 	}
+		// 	return {
+		// 		display: "block",
+		// 		marginBottom: "2px",
+		// 	};
+		// };
+		//
+		// const createChildren = () => {
+		// 	return Array.from({ length: countColumn }, (_, index) => ({
+		// 		id: uuidv4(),
+		// 		is_selected: false,
+		// 	}));
+		// };
+		//
+		// spaceTemplateDataAction([
+		// 	...spaceTemplateData,
+		// 	{
+		// 		id: uuidv4(),
+		// 		type: "container",
+		// 		version: versionTemplate.version,
+		// 		style: styles(),
+		// 		components: createChildren(),
+		// 	},
+		// ]);
+		//
+		// toggleDialogHandle();
 	};
 
 	return (

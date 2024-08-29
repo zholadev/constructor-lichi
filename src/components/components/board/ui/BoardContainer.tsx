@@ -6,10 +6,10 @@ import {
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from "@/components/shared/shadcn/ui/context-menu";
-import TemplateAddButton from "@/components/components/editor/ui/components/TemplateAddButton";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import BoardEmptyCard from "@/components/components/board/ui/BoardEmptyCard";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
+import TemplateAddButton from "@/components/components/editor/ui/components/TemplateAddButton";
 
 interface Props {}
 

@@ -6,6 +6,8 @@ interface stateSlice {
 	editorVideoPlay: boolean;
 	editorSwiperAutoplay: boolean;
 	editorSelectAddComponent: unknown;
+	editorDisabledEdit: boolean;
+	editorDraggingTemplate: boolean;
 }
 
 const initialState: stateSlice = {
@@ -13,6 +15,8 @@ const initialState: stateSlice = {
 	editorVideoPlay: false,
 	editorSwiperAutoplay: false,
 	editorSelectAddComponent: {},
+	editorDisabledEdit: false,
+	editorDraggingTemplate: false,
 };
 
 export const editorSlice = createSlice({
@@ -37,6 +41,15 @@ export const editorSlice = createSlice({
 		) => {
 			state.editorSelectAddComponent = action.payload;
 		},
+		editorDisabledEditReducer: (state, action: PayloadAction<boolean>) => {
+			state.editorDisabledEdit = action.payload;
+		},
+		editorDraggingTemplateReducer: (
+			state,
+			action: PayloadAction<boolean>
+		) => {
+			state.editorDraggingTemplate = action.payload;
+		},
 	},
 });
 
@@ -45,5 +58,7 @@ export const {
 	editorVideoPlayReducer,
 	editorSwiperAutoplayReducer,
 	editorSelectAddComponentReducer,
+	editorDisabledEditReducer,
+	editorDraggingTemplateReducer
 } = editorSlice.actions;
 export default editorSlice.reducer;

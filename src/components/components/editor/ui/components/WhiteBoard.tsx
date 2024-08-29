@@ -5,6 +5,8 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import BoardDisplay from "@/components/components/board/ui/BoardDisplay";
+import BoardToolbar from "@/components/components/board/ui/BoardToolbar";
+import BoardDraggingDisplay from "@/components/components/board/ui/BoardDraggingDisplay";
 
 /**
  * @author Zholaman Zhumanov
@@ -18,6 +20,10 @@ import BoardDisplay from "@/components/components/board/ui/BoardDisplay";
  */
 const WhiteBoard: React.FC = () => {
 	const { spaceTemplateApiLoading } = useAppSelector((state) => state.space);
+
+	const { editorDisabledEdit, editorDraggingTemplate } = useAppSelector(
+		(state) => state.editor
+	);
 
 	if (spaceTemplateApiLoading) {
 		return (
@@ -35,7 +41,12 @@ const WhiteBoard: React.FC = () => {
 
 	return (
 		<div className={cn("w-full bg-secondary p-2 h-screen overflow-y-auto")}>
-			<BoardDisplay />
+			<BoardToolbar />
+			{editorDraggingTemplate ? (
+				<BoardDraggingDisplay />
+			) : (
+				<BoardDisplay />
+			)}
 		</div>
 	);
 };

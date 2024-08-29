@@ -3,6 +3,7 @@ import { cn } from "@/components/lib/utils";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
 interface Props {
 	item: {
@@ -25,16 +26,19 @@ interface Props {
 const BoardEmptyCard: React.FC<Props> = (props) => {
 	const { item, template } = props;
 
+	const dialog = useDialogAction();
+
 	const { editorSelectAddComponentAction } = useDispatchAction();
 
-	const dialog = useDialogAction();
+	const { editorDisabledEdit } = useAppSelector((state) => state.editor);
 
 	return (
 		<div
 			className={cn(
-				"border w-full h-full hover:bg-[#bbf7d0] transition-all duration-100 cursor-pointer"
+				"border w-full h-full transition-all duration-100 cursor-pointer", !editorDisabledEdit ? "hover:bg-[#bbf7d0]" : ""
 			)}
 			onClick={() => {
+				if (editorDisabledEdit) return;
 				dialog.dialogAddComponent.toggle();
 				editorSelectAddComponentAction({ item, template });
 			}}

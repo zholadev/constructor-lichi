@@ -3,60 +3,33 @@ import { motion } from "framer-motion";
 import { cn } from "@/components/lib/utils";
 import { MousePointerClick, Timer, Type } from "lucide-react";
 import ElementWrapper from "@/components/components/elements/ui/ElementWrapper";
+import { IElementBase } from "@/components/shared/types/interface-components";
+import { versionElementBase } from "@/components/app/versions/version-modules";
 
-interface Props {}
-
-interface IBaseElementData {
-	id: number;
-	name: string;
-	icon: React.JSX.Element;
-}
-
-const elementData: IBaseElementData[] = [
+const elementData: IElementBase[] = [
 	{
 		id: 1,
+		type: "button",
 		name: "Button",
+		version: versionElementBase.button.version,
 		icon: <MousePointerClick />,
+		style: {},
 	},
 	{
 		id: 2,
+		type: "text",
 		name: "Text",
+		version: versionElementBase.text.version,
 		icon: <Type />,
+		style: {},
 	},
 	{
 		id: 3,
+		type: "timer",
 		name: "Timer",
+		version: versionElementBase.timer.version,
 		icon: <Timer />,
-	},
-	{
-		id: 1,
-		name: "Button",
-		icon: <MousePointerClick />,
-	},
-	{
-		id: 2,
-		name: "Text",
-		icon: <Type />,
-	},
-	{
-		id: 3,
-		name: "Timer",
-		icon: <Timer />,
-	},
-	{
-		id: 1,
-		name: "Button",
-		icon: <MousePointerClick />,
-	},
-	{
-		id: 2,
-		name: "Text",
-		icon: <Type />,
-	},
-	{
-		id: 3,
-		name: "Timer",
-		icon: <Timer />,
+		style: {},
 	},
 ];
 
@@ -80,12 +53,9 @@ const cardVariants = {
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const BaseElementContainer: React.FC<Props> = (props) => {
-	const {} = props;
-
+const BaseElementContainer: React.FC = () => {
 	return (
 		<ul className={cn("list-none grid grid-cols-3 gap-1 mb-7")}>
 			{elementData.map((item, index) => {
@@ -94,7 +64,6 @@ const BaseElementContainer: React.FC<Props> = (props) => {
 						custom={index}
 						initial="hidden"
 						animate="visible"
-						whileHover={{ scale: 1.05 }}
 						variants={cardVariants}
 						key={item.id}
 					>
@@ -105,7 +74,7 @@ const BaseElementContainer: React.FC<Props> = (props) => {
 
 							<span
 								className={cn(
-									"absolute text-center text-gray-400 text-sm bottom-2"
+									"absolute text-center text-gray-400 text-xs bottom-2"
 								)}
 							>
 								{item.name}

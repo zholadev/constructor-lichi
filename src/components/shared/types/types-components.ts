@@ -16,3 +16,4 @@ export type ComponentSpecialTypes =
 	| "saint_laurent_swiper";
 
 export type ElementBaseTypes = "button" | "text" | "timer";
+export type ElementBasenameTypes = "Button" | "Text" | "Timer";

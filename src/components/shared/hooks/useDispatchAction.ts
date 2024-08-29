@@ -58,8 +58,10 @@ import {
 	getBorderDataReducer,
 	updateBorderLoaderReducer,
 } from "@/components/app/store/features/boardSlice";
-import { TemplateBaseSchema } from "@/components/shared/types/interface-components";
+import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
 import {
+	editorDisabledEditReducer,
+	editorDraggingTemplateReducer,
 	editorSelectAddComponentReducer,
 	editorSelectElementReducer,
 	editorSwiperAutoplayReducer,
@@ -123,11 +125,15 @@ export default function useDispatchAction(): any {
 			dispatch(editorSwiperAutoplayReducer(value)),
 		editorSelectAddComponentAction: (value: unknown) =>
 			dispatch(editorSelectAddComponentReducer(value)),
+		editorDisabledEditAction: (value: boolean) =>
+			dispatch(editorDisabledEditReducer(value)),
+		editorDraggingTemplateAction: (value: boolean) =>
+			dispatch(editorDraggingTemplateReducer(value)),
 
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>
 			dispatch(spaceModePlatformTypeReducer(value)),
-		spaceTemplateDataAction: (schema: TemplateBaseSchema[]) =>
+		spaceTemplateDataAction: (schema: ITemplateBaseSchema[]) =>
 			dispatch(spaceTemplateDataReducer(schema)),
 		spaceModeThemeAction: (theme: ThemeSpaceMode) =>
 			dispatch(spaceModeThemeReducer(theme)),

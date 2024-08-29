@@ -8,6 +8,9 @@ import RightToolbar from "@/components/components/toolbar/ui/RightToolbar";
 import DialogCreateDirectory from "@/components/widgets/gallery/ui/dialog/ui/DialogCreateDirectory";
 import DialogUploadFile from "@/components/widgets/gallery/ui/dialog/ui/DialogUploadFile";
 import TemplateAddDialog from "@/components/components/editor/ui/components/TemplateAddDialog";
+import DialogContainer from "@/components/widgets/dialog/ui/DialogContainer";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import ComponentBaseContent from "@/components/entities/schema/ui/ComponentBaseContent";
 
 interface Props {}
 
@@ -25,17 +28,9 @@ interface Props {}
 const SpacePageContainer: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const {
-		spaceTemplateData,
-		spaceModeTheme,
-		spaceModeLanguage,
-		spaceModePreviewShop,
-		spaceModeDeviceType,
-		spaceModeDeviceFrame,
-		spaceModeTemplateType,
-		spaceModePlatformType,
-		spaceTemplatePageId,
-	} = useAppSelector((state) => state.space);
+	const dialog = useDialogAction();
+
+	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
 	return (
 		<>
@@ -47,6 +42,12 @@ const SpacePageContainer: React.FC<Props> = (props) => {
 				<RightToolbar />
 			</div>
 
+			<DialogContainer
+				open={dialog.dialogAddComponent.open}
+				toggle={dialog.dialogAddComponent.toggle}
+			>
+				<ComponentBaseContent />
+			</DialogContainer>
 			<DialogCreateDirectory />
 			<DialogUploadFile />
 			<TemplateAddDialog />

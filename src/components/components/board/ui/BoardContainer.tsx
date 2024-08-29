@@ -1,6 +1,5 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
-import { TemplateBaseSchema } from "@/components/shared/types/interface-components";
 import {
 	ContextMenu,
 	ContextMenuContent,
@@ -9,6 +8,8 @@ import {
 } from "@/components/shared/shadcn/ui/context-menu";
 import TemplateAddButton from "@/components/components/editor/ui/components/TemplateAddButton";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import BoardEmptyCard from "@/components/components/board/ui/BoardEmptyCard";
+import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
 
 interface Props {}
 
@@ -31,7 +32,7 @@ const BoardContainer: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("h-full overflow-y-auto")}>
 			{Object.values(spaceTemplateData).map(
-				(template: TemplateBaseSchema, index) => {
+				(template: ITemplateBaseSchema, index) => {
 					return (
 						<ContextMenu>
 							<ContextMenuTrigger>
@@ -46,11 +47,10 @@ const BoardContainer: React.FC<Props> = (props) => {
 								>
 									{template.components.map((item) => {
 										return (
-											<div
+											<BoardEmptyCard
+												item={item}
+												template={template}
 												key={item.id}
-												className={cn(
-													"border w-full hover:bg-secondary cursor-pointer"
-												)}
 											/>
 										);
 									})}

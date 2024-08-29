@@ -21,10 +21,13 @@ interface Props {}
 const WhiteBoard: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
-
-	const { spaceTemplateApiLoading } = useAppSelector((state) => state.space);
-
+	const { editorSelectAddComponent } = useAppSelector(
+		(state) => state.editor
+	);
+	const { spaceModeDeviceType, spaceTemplateApiLoading } = useAppSelector(
+		(state) => state.space
+	);
+	console.log("editorSelectAddComponent", editorSelectAddComponent);
 	if (spaceTemplateApiLoading) {
 		return (
 			<div

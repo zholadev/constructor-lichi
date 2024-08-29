@@ -1,12 +1,16 @@
 import { useAppDispatch } from "@/components/app/store/hooks/hooks";
 import {
 	dialogActivatePageReducer,
+	dialogAddComponentReducer,
 	dialogAddTemplateReducer,
 	dialogCreateDirectoryReducer,
-	dialogCreatePageReducer, dialogEditorSettingReducer,
+	dialogCreatePageReducer,
+	dialogEditorSettingReducer,
 	dialogFileManagerReducer,
 	dialogPlatformTypeReducer,
-	dialogRemovePageReducer, dialogRenameTitleReducer, dialogSaveSchemaReducer,
+	dialogRemovePageReducer,
+	dialogRenameTitleReducer,
+	dialogSaveSchemaReducer,
 	dialogUploadFileReducer,
 } from "@/components/app/store/features/dialogSlice";
 import {
@@ -56,9 +60,10 @@ import {
 } from "@/components/app/store/features/boardSlice";
 import { TemplateBaseSchema } from "@/components/shared/types/interface-components";
 import {
+	editorSelectAddComponentReducer,
 	editorSelectElementReducer,
 	editorSwiperAutoplayReducer,
-	editorVideoPlayReducer
+	editorVideoPlayReducer,
 } from "@/components/app/store/features/editorSlice";
 
 export default function useDispatchAction(): any {
@@ -88,6 +93,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogRenameTitleReducer(value)),
 		dialogEditorSettingAction: (value: boolean) =>
 			dispatch(dialogEditorSettingReducer(value)),
+		dialogAddComponentAction: (value: boolean) =>
+			dispatch(dialogAddComponentReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>
@@ -114,6 +121,8 @@ export default function useDispatchAction(): any {
 			dispatch(editorVideoPlayReducer(value)),
 		editorSwiperAutoplayAction: (value: boolean) =>
 			dispatch(editorSwiperAutoplayReducer(value)),
+		editorSelectAddComponentAction: (value: unknown) =>
+			dispatch(editorSelectAddComponentReducer(value)),
 
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>

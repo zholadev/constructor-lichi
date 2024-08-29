@@ -1,6 +1,6 @@
 export type TemplateBaseType = "container" | "swiper";
 
-export interface TemplateBaseSchema {
+export interface ITemplateBaseSchema {
 	id: string;
 	type: TemplateBaseType;
 	version: string;

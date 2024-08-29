@@ -5,12 +5,14 @@ interface stateSlice {
 	editorSelectElement: unknown;
 	editorVideoPlay: boolean;
 	editorSwiperAutoplay: boolean;
+	editorSelectAddComponent: unknown;
 }
 
 const initialState: stateSlice = {
 	editorSelectElement: false,
 	editorVideoPlay: false,
 	editorSwiperAutoplay: false,
+	editorSelectAddComponent: {},
 };
 
 export const editorSlice = createSlice({
@@ -29,6 +31,12 @@ export const editorSlice = createSlice({
 		) => {
 			state.editorSwiperAutoplay = action.payload;
 		},
+		editorSelectAddComponentReducer: (
+			state,
+			action: PayloadAction<unknown>
+		) => {
+			state.editorSelectAddComponent = action.payload;
+		},
 	},
 });
 
@@ -36,5 +44,6 @@ export const {
 	editorSelectElementReducer,
 	editorVideoPlayReducer,
 	editorSwiperAutoplayReducer,
+	editorSelectAddComponentReducer,
 } = editorSlice.actions;
 export default editorSlice.reducer;

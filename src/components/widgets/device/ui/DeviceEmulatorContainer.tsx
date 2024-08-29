@@ -1,14 +1,17 @@
-import React from "react";
+"use client";
+
+import React, { Suspense } from "react";
 import {
 	DeviceEmulator,
 	DeviceFrameset,
+	DeviceFramesetProps,
 } from "react-device-frameset";
 import "react-device-frameset/styles/marvel-devices.min.css";
 import "react-device-frameset/styles/device-emulator.min.css";
 
 interface Props {
 	children: React.ReactNode;
-	devices: string[];
+	devices?: string[];
 }
 
 /**
@@ -26,13 +29,13 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 	const { children, devices } = props;
 
 	return (
-		<DeviceEmulator banDevices={devices}>
-			{(deviceName: string) => (
-				<DeviceFrameset {...deviceName}>
-					{children}
-				</DeviceFrameset>
-			)}
-		</DeviceEmulator>
+		<Suspense fallback={<div>Идет загрузка доски!</div>}>
+			<DeviceEmulator banDevices={devices} defaultValue={devices[0]}>
+				{(props: DeviceFramesetProps) => (
+					<DeviceFrameset {...props}>{children}</DeviceFrameset>
+				)}
+			</DeviceEmulator>
+		</Suspense>
 	);
 };
 

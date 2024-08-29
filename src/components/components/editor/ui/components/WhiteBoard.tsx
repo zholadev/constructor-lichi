@@ -1,14 +1,8 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
-import DeviceEmulatorContainer from "@/components/widgets/device/ui/DeviceEmulatorContainer";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
-import BoardContainer from "@/components/components/board/ui/BoardContainer";
-import {
-	deviceLaptopBanList,
-	deviceMobileBanList,
-	deviceTabletBanList,
-} from "@/components/shared/constants/data";
+import BoardDisplay from "@/components/components/board/ui/BoardDisplay";
 
 /**
  * @author Zholaman Zhumanov
@@ -21,9 +15,7 @@ import {
  * @constructor
  */
 const WhiteBoard: React.FC = () => {
-	const { spaceModeDeviceType, spaceTemplateApiLoading } = useAppSelector(
-		(state) => state.space
-	);
+	const { spaceTemplateApiLoading } = useAppSelector((state) => state.space);
 
 	if (spaceTemplateApiLoading) {
 		return (
@@ -41,27 +33,7 @@ const WhiteBoard: React.FC = () => {
 
 	return (
 		<div className={cn("w-full bg-secondary p-2 h-screen overflow-y-auto")}>
-			{spaceModeDeviceType === "desktop" ? (
-				<BoardContainer />
-			) : spaceModeDeviceType === "laptop" ? (
-				<div className={cn("flex items-center justify-center mt-10")}>
-					<DeviceEmulatorContainer devices={deviceLaptopBanList}>
-						<BoardContainer />
-					</DeviceEmulatorContainer>
-				</div>
-			) : spaceModeDeviceType === "tablet" ? (
-				<div className={cn("flex items-center justify-center mt-10")}>
-					<DeviceEmulatorContainer devices={deviceTabletBanList}>
-						<BoardContainer />
-					</DeviceEmulatorContainer>
-				</div>
-			) : spaceModeDeviceType === "mobile" ? (
-				<div className={cn("flex items-center justify-center mt-10")}>
-					<DeviceEmulatorContainer devices={deviceMobileBanList}>
-						<BoardContainer />
-					</DeviceEmulatorContainer>
-				</div>
-			) : null}
+			<BoardDisplay />
 		</div>
 	);
 };

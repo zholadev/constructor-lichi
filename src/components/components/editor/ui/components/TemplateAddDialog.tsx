@@ -15,6 +15,7 @@ import { ImageIcon } from "@radix-ui/react-icons";
 import { GalleryHorizontal } from "lucide-react";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { versionTemplate } from "@/components/app/versions/version-modules";
 
 type BlockType = "block" | "swiper" | "initial";
 
@@ -102,7 +103,7 @@ const TemplateAddDialog: React.FC = () => {
 			{
 				id: uuidv4(),
 				type: "container",
-				version: "1.0.0",
+				version: versionTemplate.version,
 				style: styles(),
 				components: createChildren(),
 			},

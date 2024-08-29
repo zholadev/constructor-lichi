@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";

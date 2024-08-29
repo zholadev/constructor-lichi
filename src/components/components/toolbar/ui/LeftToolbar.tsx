@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
 	Tabs,
@@ -6,7 +8,6 @@ import {
 	TabsTrigger,
 } from "@/components/shared/shadcn/ui/tabs";
 import { cn } from "@/components/lib/utils";
-import { motion } from "framer-motion";
 import BlockContainer from "@/components/components/blocks/ui/BlockContainer";
 import BaseElementContainer from "@/components/components/elements/ui/BaseElementContainer";
 import SpecialElementContainer from "@/components/components/elements/ui/SpecialElementContainer";
@@ -16,26 +17,6 @@ import {
 	LayersIcon,
 } from "@radix-ui/react-icons";
 
-interface Props {}
-
-interface ISideListMotion {
-	hidden: Record<string, unknown>;
-	visible: Record<string, unknown>;
-}
-
-const slideLeft: ISideListMotion = {
-	hidden: { opacity: 0, x: "-100%", visibility: "hidden", width: "0" },
-	visible: {
-		opacity: 1,
-		x: "0%",
-		visibility: "visible",
-		width: "400px",
-		transition: {
-			duration: 0.4,
-		},
-	},
-};
-
 /**
  * @author Zholaman Zhumanov
  * @created 20.08.2024
@@ -44,17 +25,11 @@ const slideLeft: ISideListMotion = {
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const LeftToolbar: React.FC<Props> = (props) => {
-	const {} = props;
-
+const LeftToolbar: React.FC = () => {
 	return (
-		<motion.div
-			initial="hidden"
-			animate="visible"
-			variants={slideLeft}
+		<div
 			className={cn("w-[400px] border")}
 			style={{ height: "calc(100vh - 60px)" }}
 		>
@@ -66,7 +41,7 @@ const LeftToolbar: React.FC<Props> = (props) => {
 						<TabsTrigger value="components">
 							<div
 								className={cn(
-									"flex items-center flex-row gap-1"
+									"flex items-center text-xs flex-row gap-1"
 								)}
 							>
 								<Component1Icon />
@@ -76,7 +51,7 @@ const LeftToolbar: React.FC<Props> = (props) => {
 						<TabsTrigger value="elements">
 							<div
 								className={cn(
-									"flex items-center flex-row gap-1"
+									"flex items-center text-xs flex-row gap-1"
 								)}
 							>
 								<Component2Icon />
@@ -86,7 +61,7 @@ const LeftToolbar: React.FC<Props> = (props) => {
 						<TabsTrigger value="layers">
 							<div
 								className={cn(
-									"flex items-center flex-row gap-1"
+									"flex items-center text-xs flex-row gap-1"
 								)}
 							>
 								<LayersIcon />
@@ -108,7 +83,7 @@ const LeftToolbar: React.FC<Props> = (props) => {
 					</TabsContent>
 				</div>
 			</Tabs>
-		</motion.div>
+		</div>
 	);
 };
 

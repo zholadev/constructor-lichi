@@ -27,7 +27,7 @@ interface Props {
  * @constructor
  */
 const HeaderTitle: React.FC<Props> = (props) => {
-	const { title = "Page Title" } = props;
+	const { title = "Untitled" } = props;
 
 	const dialog = useDialogAction();
 	const { spaceModePlatformTypeAction } = useDispatchAction();
@@ -48,10 +48,10 @@ const HeaderTitle: React.FC<Props> = (props) => {
 				<ArrowLeftIcon />
 			</Button>
 			<div className={cn("flex items-center gap-3")}>
-				<span className={cn("text-gray-400")}>Page: </span> {title}
+				<span className={cn("text-gray-400")}>Страница: </span> {title}
 				<Button
 					type="button"
-					variant="outline"
+					variant="ghost"
 					size="icon"
 					onClick={() => dialog.dialogRenameTitle.toggle()}
 				>

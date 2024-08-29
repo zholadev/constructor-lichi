@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import HeaderToolbar from "@/components/widgets/header/ui/HeaderToolbar";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
@@ -12,8 +14,6 @@ import DialogContainer from "@/components/widgets/dialog/ui/DialogContainer";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import ComponentBaseContent from "@/components/entities/schema/ui/ComponentBaseContent";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 19.08.2024
@@ -22,12 +22,9 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const SpacePageContainer: React.FC<Props> = (props) => {
-	const {} = props;
-
+const SpacePageContainer: React.FC = () => {
 	const dialog = useDialogAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);

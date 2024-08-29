@@ -32,9 +32,9 @@ const BoardContainer: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("h-full overflow-y-auto")}>
 			{Object.values(spaceTemplateData).map(
-				(template: ITemplateBaseSchema, index) => {
+				(template: ITemplateBaseSchema, index: number) => {
 					return (
-						<ContextMenu>
+						<ContextMenu key={index}>
 							<ContextMenuTrigger>
 								<div
 									key={index}

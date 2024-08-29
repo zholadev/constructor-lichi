@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import {
@@ -8,6 +10,7 @@ import {
 } from "@/components/shared/shadcn/ui/tabs";
 import DesignContent from "@/components/components/design/ui/DesignContent";
 import SettingContainer from "@/components/components/design/ui/SettingContainer";
+import { Bolt, BookImage, Paintbrush } from "lucide-react";
 
 interface Props {}
 
@@ -35,9 +38,36 @@ const RightToolbar: React.FC<Props> = (props) => {
 					<TabsList
 						className={cn("w-full justify-start rounded-none")}
 					>
-						<TabsTrigger value="styles">Styles</TabsTrigger>
-						<TabsTrigger value="content">Content</TabsTrigger>
-						<TabsTrigger value="settings">Settings</TabsTrigger>
+						<TabsTrigger value="styles">
+							<div
+								className={cn(
+									"flex text-xs items-center flex-row gap-1"
+								)}
+							>
+								<Paintbrush width={15} height={15} />
+								<span>Стилизация</span>
+							</div>
+						</TabsTrigger>
+						<TabsTrigger value="content">
+							<div
+								className={cn(
+									"flex text-xs items-center flex-row gap-1"
+								)}
+							>
+								<BookImage width={15} height={15} />
+								<span>Контент</span>
+							</div>
+						</TabsTrigger>
+						<TabsTrigger value="settings">
+							<div
+								className={cn(
+									"flex text-xs items-center flex-row gap-1"
+								)}
+							>
+								<Bolt width={15} height={15} />
+								<span>Настройки</span>
+							</div>
+						</TabsTrigger>
 					</TabsList>
 				</div>
 				<div

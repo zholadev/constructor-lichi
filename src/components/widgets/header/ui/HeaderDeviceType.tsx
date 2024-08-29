@@ -36,7 +36,7 @@ const HeaderDeviceType: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<div className={cn("flex items-center bg-secondary gap-2 p-2")}>
+		<div className={cn("flex items-center gap-2 p-2")}>
 			{spaceModePlatformType === "browser" && (
 				<Button
 					onClick={() => {

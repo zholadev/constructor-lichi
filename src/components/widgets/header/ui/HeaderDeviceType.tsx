@@ -7,6 +7,7 @@ import { DesktopIcon, LaptopIcon, MobileIcon } from "@radix-ui/react-icons";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { DeviceType } from "@/components/shared/types/types";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import { Tablet } from "lucide-react";
 
 interface Props {}
 
@@ -51,13 +52,25 @@ const HeaderDeviceType: React.FC<Props> = (props) => {
 			{spaceModePlatformType === "browser" && (
 				<Button
 					onClick={() => {
+						changeDeviceType("laptop");
+					}}
+					variant={
+						spaceModeDeviceType === "laptop" ? "default" : "ghost"
+					}
+				>
+					<LaptopIcon />
+				</Button>
+			)}
+			{spaceModePlatformType === "browser" && (
+				<Button
+					onClick={() => {
 						changeDeviceType("tablet");
 					}}
 					variant={
 						spaceModeDeviceType === "tablet" ? "default" : "ghost"
 					}
 				>
-					<LaptopIcon />
+					<Tablet width={15} height={15} />
 				</Button>
 			)}
 			<Button

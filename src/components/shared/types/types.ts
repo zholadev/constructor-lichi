@@ -3,4 +3,4 @@ export type TypeMethodSchema = "remove" | "copy" | "initial";
 export type ThemeSpaceMode = "light" | "dark";
 export type TemplateType = "page" | "creative";
 export type PlatformType = "browser" | "app";
-export type DeviceType = "desktop" | "tablet" | "mobile";
+export type DeviceType = "desktop" | "laptop" | "tablet" | "mobile";

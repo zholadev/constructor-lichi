@@ -4,8 +4,11 @@ import { cn } from "@/components/lib/utils";
 import DeviceEmulatorContainer from "@/components/widgets/device/ui/DeviceEmulatorContainer";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import BoardContainer from "@/components/components/board/ui/BoardContainer";
-
-interface Props {}
+import {
+	deviceLaptopBanList,
+	deviceMobileBanList,
+	deviceTabletBanList,
+} from "@/components/shared/constants/data";
 
 /**
  * @author Zholaman Zhumanov
@@ -15,19 +18,13 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const WhiteBoard: React.FC<Props> = (props) => {
-	const {} = props;
-
-	const { editorSelectAddComponent } = useAppSelector(
-		(state) => state.editor
-	);
+const WhiteBoard: React.FC = () => {
 	const { spaceModeDeviceType, spaceTemplateApiLoading } = useAppSelector(
 		(state) => state.space
 	);
-	console.log("editorSelectAddComponent", editorSelectAddComponent);
+
 	if (spaceTemplateApiLoading) {
 		return (
 			<div
@@ -46,15 +43,21 @@ const WhiteBoard: React.FC<Props> = (props) => {
 		<div className={cn("w-full bg-secondary p-2 h-screen overflow-y-auto")}>
 			{spaceModeDeviceType === "desktop" ? (
 				<BoardContainer />
+			) : spaceModeDeviceType === "laptop" ? (
+				<div className={cn("flex items-center justify-center mt-10")}>
+					<DeviceEmulatorContainer devices={deviceLaptopBanList}>
+						<BoardContainer />
+					</DeviceEmulatorContainer>
+				</div>
 			) : spaceModeDeviceType === "tablet" ? (
 				<div className={cn("flex items-center justify-center mt-10")}>
-					<DeviceEmulatorContainer>
+					<DeviceEmulatorContainer devices={deviceTabletBanList}>
 						<BoardContainer />
 					</DeviceEmulatorContainer>
 				</div>
 			) : spaceModeDeviceType === "mobile" ? (
 				<div className={cn("flex items-center justify-center mt-10")}>
-					<DeviceEmulatorContainer>
+					<DeviceEmulatorContainer devices={deviceMobileBanList}>
 						<BoardContainer />
 					</DeviceEmulatorContainer>
 				</div>

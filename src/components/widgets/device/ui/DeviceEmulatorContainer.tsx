@@ -2,7 +2,6 @@ import React from "react";
 import {
 	DeviceEmulator,
 	DeviceFrameset,
-	DeviceFramesetProps,
 } from "react-device-frameset";
 import "react-device-frameset/styles/marvel-devices.min.css";
 import "react-device-frameset/styles/device-emulator.min.css";
@@ -28,8 +27,8 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 
 	return (
 		<DeviceEmulator banDevices={devices}>
-			{(deviceProps: DeviceFramesetProps) => (
-				<DeviceFrameset landscape={false} {...deviceProps}>
+			{(deviceName: string) => (
+				<DeviceFrameset {...deviceName}>
 					{children}
 				</DeviceFrameset>
 			)}

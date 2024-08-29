@@ -12,7 +12,7 @@ import BackgroundStyles from "@/components/components/design/ui/styles/Backgroun
 import TypographyStyles from "@/components/components/design/ui/styles/TypographyStyles";
 import LayoutStyles from "@/components/components/design/ui/styles/LayoutStyles";
 import SpacingStyles from "@/components/components/design/ui/styles/SpacingStyles";
-import {Palette, Type} from "lucide-react";
+import { Palette, Type } from "lucide-react";
 import {
 	BorderAllIcon,
 	ColorWheelIcon,
@@ -37,9 +37,7 @@ interface Props {}
 const DesignContent: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const [defaultExpanded, setExpanded] = React.useState<string[]>([
-		"typography",
-	]);
+	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	return (
 		<div className={cn("w-full p-3")}>
@@ -52,8 +50,8 @@ const DesignContent: React.FC<Props> = (props) => {
 				<AccordionItem value="position">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
-							<LayoutIcon width={15} height={15} />
-							<span>Position</span>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Position</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
@@ -63,8 +61,8 @@ const DesignContent: React.FC<Props> = (props) => {
 				<AccordionItem value="size">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
-							<SizeIcon width={15} height={15} />
-							<span>Size</span>
+							<SizeIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Size</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
@@ -74,8 +72,8 @@ const DesignContent: React.FC<Props> = (props) => {
 				<AccordionItem value="spacing">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
-							<PaddingIcon width={15} height={15} />
-							<span>Spacing</span>
+							<PaddingIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Spacing</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
@@ -85,8 +83,8 @@ const DesignContent: React.FC<Props> = (props) => {
 				<AccordionItem value="border">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-2")}>
-							<BorderAllIcon width={15} height={15} />
-							<span>Border</span>
+							<BorderAllIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Border</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
@@ -96,8 +94,8 @@ const DesignContent: React.FC<Props> = (props) => {
 				<AccordionItem value="typography">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
-							<Type width={20} height={20} />
-							<span>Typography</span>
+							<Type width={17} height={17} />
+							<span style={{ fontSize: "13px" }}>Typography</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
@@ -107,8 +105,8 @@ const DesignContent: React.FC<Props> = (props) => {
 				<AccordionItem value="fill">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
-							<Palette width={20} height={20} />
-							<span>Fill</span>
+							<Palette width={17} height={17} />
+							<span style={{ fontSize: "13px" }}>Fill</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>

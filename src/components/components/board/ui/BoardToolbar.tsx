@@ -7,8 +7,6 @@ import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 29.08.2024
@@ -17,18 +15,17 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const BoardToolbar: React.FC<Props> = (props) => {
-	const {} = props;
-
+const BoardToolbar: React.FC = () => {
 	const { editorDisabledEditAction, editorDraggingTemplateAction } =
 		useDispatchAction();
 
 	const { editorDisabledEdit, editorDraggingTemplate } = useAppSelector(
 		(state) => state.editor
 	);
+
+	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
 	const toggleEditorDraggingTemplateHandle = () => {
 		editorDraggingTemplateAction(!editorDraggingTemplate);
@@ -44,12 +41,17 @@ const BoardToolbar: React.FC<Props> = (props) => {
 			<Button
 				className={cn("")}
 				variant="ghost"
+				disabled={spaceTemplateData.length === 0}
 				onClick={toggleEditorDraggingTemplateHandle}
 			>
 				<DragHandleDots2Icon />
 			</Button>
 
-			<Button className={cn("")} variant="ghost">
+			<Button
+				className={cn("")}
+				variant="ghost"
+				disabled={spaceTemplateData.length === 0}
+			>
 				<TrashIcon />
 			</Button>
 		</div>

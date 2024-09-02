@@ -1,5 +1,4 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import {
@@ -14,8 +13,6 @@ import { cn } from "@/components/lib/utils";
 import { ImageIcon } from "@radix-ui/react-icons";
 import { GalleryHorizontal } from "lucide-react";
 import { Input } from "@/components/shared/shadcn/ui/input";
-import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import { versionTemplate } from "@/components/app/versions/version-modules";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 
 type BlockType = "block" | "swiper" | "initial";
@@ -31,15 +28,11 @@ type BlockType = "block" | "swiper" | "initial";
  * @constructor
  */
 const TemplateAddDialog: React.FC = () => {
-	const { dialogAddTemplateAction, spaceTemplateDataAction } =
-		useDispatchAction();
-
-	const toastMessage = useToastMessage();
+	const { dialogAddTemplateAction } = useDispatchAction();
 
 	const templateEvent = useTemplateEvent();
 
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
-	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
 	const [blockType, setBlockType] = React.useState<BlockType>("initial");
 	const [countColumn, setCountColumn] = React.useState<number>(1);
@@ -67,56 +60,8 @@ const TemplateAddDialog: React.FC = () => {
 	 * @author Zholaman Zhumanov
 	 * @description Функция который подтверждает добавление шаблона в доску
 	 */
-	const onConfirmHandle = () => {
+	const onConfirmHandle = () =>
 		templateEvent.create(blockType, countColumn, toggleDialogHandle);
-
-		// if (blockType === "initial") {
-		// 	toastMessage("Вы не выбрали тип блока!", "error");
-		// 	return;
-		// }
-		//
-		// const createTemplateColumns = () => {
-		// 	return Array(countColumn).fill("1fr").join(" ");
-		// };
-		//
-		// const styles = () => {
-		// 	if (blockType === "block") {
-		// 		return {
-		// 			display:
-		// 				countColumn > 1 && blockType === "block"
-		// 					? "grid"
-		// 					: "block",
-		// 			gap: "2px",
-		// 			gridTemplateColumns: createTemplateColumns(),
-		// 			marginBottom: "2px",
-		// 		};
-		// 	}
-		// 	return {
-		// 		display: "block",
-		// 		marginBottom: "2px",
-		// 	};
-		// };
-		//
-		// const createChildren = () => {
-		// 	return Array.from({ length: countColumn }, (_, index) => ({
-		// 		id: uuidv4(),
-		// 		is_selected: false,
-		// 	}));
-		// };
-		//
-		// spaceTemplateDataAction([
-		// 	...spaceTemplateData,
-		// 	{
-		// 		id: uuidv4(),
-		// 		type: "container",
-		// 		version: versionTemplate.version,
-		// 		style: styles(),
-		// 		components: createChildren(),
-		// 	},
-		// ]);
-		//
-		// toggleDialogHandle();
-	};
 
 	return (
 		<Dialog open={dialogAddTemplate} onOpenChange={toggleDialogHandle}>

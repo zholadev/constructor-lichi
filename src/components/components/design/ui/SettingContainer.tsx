@@ -34,12 +34,7 @@ interface Props {}
 const SettingContainer: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const [defaultExpanded, setExpanded] = React.useState<string[]>([
-		"image",
-		// "swiper",
-		"video",
-		"link",
-	]);
+	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	return (
 		<div className={cn("w-full p-3")}>

@@ -4,6 +4,19 @@ import { v4 as uuidv4 } from "uuid";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { versionTemplate } from "@/components/app/versions/version-modules";
+import {
+	IComponentBaseSchema,
+	ITemplateBaseSchema,
+} from "@/components/shared/types/interface-components";
+
+interface ITemplateEvent {
+	create: (
+		blockType: TemplateBlockType,
+		countColumn: number,
+		cb: () => void
+	) => void;
+	addComponent: (data: IComponentBaseSchema) => void;
+}
 
 /**
  * @author Zholaman Zhumanov
@@ -15,12 +28,39 @@ import { versionTemplate } from "@/components/app/versions/version-modules";
  * @fixme
  * @constructor
  */
-export default function useTemplateEvent(): any {
+export default function useTemplateEvent(): ITemplateEvent {
 	const toastMessage = useToastMessage();
 
 	const { spaceTemplateDataAction } = useDispatchAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
+	const { editorSelectAddComponent } = useAppSelector(
+		(state) => state.editor
+	);
+
+	const addComponent = (updateData: IComponentBaseSchema) => {
+		const selected = editorSelectAddComponent;
+
+		const data = spaceTemplateData.map((container: ITemplateBaseSchema) => {
+			if (container.id === selected.template.id) {
+				return {
+					...container,
+					components: container.components.map((component) => {
+						if (component.id === selected.item.id) {
+							return {
+								...component,
+								is_selected: true,
+								data: updateData,
+							};
+						}
+						return component;
+					}),
+				};
+			}
+			return container;
+		});
+		spaceTemplateDataAction(data);
+	};
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -71,5 +111,6 @@ export default function useTemplateEvent(): any {
 
 	return {
 		create,
+		addComponent,
 	};
 }

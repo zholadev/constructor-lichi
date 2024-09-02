@@ -11,8 +11,6 @@ import BoardEmptyCard from "@/components/components/board/ui/BoardEmptyCard";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
 import TemplateAddButton from "@/components/components/editor/ui/components/TemplateAddButton";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 27.08.2024
@@ -21,12 +19,9 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const BoardContainer: React.FC<Props> = (props) => {
-	const {} = props;
-
+const BoardContainer: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
 	return (
@@ -38,9 +33,7 @@ const BoardContainer: React.FC<Props> = (props) => {
 							<ContextMenuTrigger>
 								<div
 									key={index}
-									className={cn(
-										"border w-full h-80 bg-white"
-									)}
+									className={cn("border w-full h-80")}
 									style={{
 										...template.style,
 									}}

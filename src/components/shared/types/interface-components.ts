@@ -1,6 +1,7 @@
 import {
 	ComponentBaseTypes,
-	ComponentSwiperBaseTypes, ElementBasenameTypes,
+	ComponentSwiperBaseTypes,
+	ElementBasenameTypes,
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
 import React from "react";

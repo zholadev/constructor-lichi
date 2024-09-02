@@ -52,7 +52,7 @@ const BoardDraggingDisplay: React.FC<Props> = (props) => {
 		const { active, over } = event;
 
 		if (active.id !== over?.id) {
-			setItems((items) => {
+			setItems((items: ITemplateBaseSchema[]) => {
 				const oldIndex = items.findIndex(
 					(item) => item.id === active.id
 				);

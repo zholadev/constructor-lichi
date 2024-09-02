@@ -44,7 +44,7 @@ const BoardToolbar: React.FC = () => {
 				disabled={spaceTemplateData.length === 0}
 				onClick={toggleEditorDraggingTemplateHandle}
 			>
-				<DragHandleDots2Icon />
+				{editorDraggingTemplate ? "Назад" : <DragHandleDots2Icon />}
 			</Button>
 
 			<Button

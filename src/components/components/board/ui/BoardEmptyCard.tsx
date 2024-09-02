@@ -2,12 +2,16 @@ import React from "react";
 import { cn } from "@/components/lib/utils";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
+import {
+	IComponentBaseSchema,
+	ITemplateBaseSchema,
+} from "@/components/shared/types/interface-components";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
 interface Props {
 	item: {
 		id: string;
+		data?: IComponentBaseSchema;
 	};
 	template: ITemplateBaseSchema;
 }
@@ -35,7 +39,7 @@ const BoardEmptyCard: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				"border w-full h-full transition-all duration-100 cursor-pointer",
+				"border w-full h-full bg-white transition-all duration-100 cursor-pointer",
 				!editorDisabledEdit ? "hover:bg-[#bbf7d0]" : ""
 			)}
 			onClick={() => {
@@ -43,7 +47,9 @@ const BoardEmptyCard: React.FC<Props> = (props) => {
 				dialog.dialogAddComponent.toggle();
 				editorSelectAddComponentAction({ item, template });
 			}}
-		/>
+		>
+			{item.data?.type}
+		</div>
 	);
 };
 

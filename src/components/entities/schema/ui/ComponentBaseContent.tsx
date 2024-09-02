@@ -6,10 +6,10 @@ import Divider from "@/components/shared/uikit/divider/ui/Divider";
 import { IComponentBaseList } from "@/components/shared/types/interface-components";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
+import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
+import { componentBaseData } from "@/components/features/schema_data/component-data";
 
-interface Props {}
-
-const componentBaseData: IComponentBaseList[] = [
+const baseData: IComponentBaseList[] = [
 	{
 		id: 1,
 		type: "card",
@@ -76,11 +76,10 @@ const componentBaseData: IComponentBaseList[] = [
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const ComponentBaseContent: React.FC<Props> = (props) => {
-	const {} = props;
+const ComponentBaseContent: React.FC = () => {
+	const templateEvent = useTemplateEvent();
 
 	return (
 		<div className={cn("w-full")}>
@@ -92,11 +91,16 @@ const ComponentBaseContent: React.FC<Props> = (props) => {
 			<Divider spacing="large" />
 
 			<ul className={cn("p-0 m-0 list-none grid grid-cols-3 gap-2")}>
-				{componentBaseData.map((component) => {
+				{baseData.map((component) => {
 					return (
 						<li key={component.id}>
 							<Button
 								variant="outline"
+								onClick={() => {
+									templateEvent.addComponent(
+										componentBaseData[component.type]
+									);
+								}}
 								className={cn("w-full h-[150px]")}
 							>
 								{component.type}

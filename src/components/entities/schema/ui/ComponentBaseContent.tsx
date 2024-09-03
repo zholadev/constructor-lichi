@@ -7,7 +7,7 @@ import { IComponentBaseList } from "@/components/shared/types/interface-componen
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
-import { componentBaseData } from "@/components/features/schema_data/component-data";
+import useSchemaData from "@/components/shared/hooks/useSchemaData";
 
 const baseData: IComponentBaseList[] = [
 	{
@@ -81,6 +81,8 @@ const baseData: IComponentBaseList[] = [
 const ComponentBaseContent: React.FC = () => {
 	const templateEvent = useTemplateEvent();
 
+	const getSchemaComponent = useSchemaData();
+
 	return (
 		<div className={cn("w-full")}>
 			<h2 className={cn("text-sm mb-2")}>Компоненты</h2>
@@ -98,7 +100,7 @@ const ComponentBaseContent: React.FC = () => {
 								variant="outline"
 								onClick={() => {
 									templateEvent.addComponent(
-										componentBaseData[component.type]
+										getSchemaComponent(component.type)
 									);
 								}}
 								className={cn("w-full h-[150px]")}

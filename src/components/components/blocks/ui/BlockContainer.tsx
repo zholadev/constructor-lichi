@@ -63,7 +63,7 @@ const BlockContainer: React.FC<Props> = (props) => {
 					height={40}
 					className="mb-3 text-gray-500"
 				/>
-				<PlusIcon width={20} height={20}/>
+				<PlusIcon width={20} height={20} />
 			</Button>
 
 			<h3 className={cn("text-sm uppercase mb-4")}>Special</h3>
@@ -86,7 +86,7 @@ const BlockContainer: React.FC<Props> = (props) => {
 								{block.name}
 							</span>
 
-							<PlusIcon width={20} height={20}/>
+							<PlusIcon width={20} height={20} />
 						</Button>
 					);
 				})}

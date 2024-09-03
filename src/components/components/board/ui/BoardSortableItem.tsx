@@ -40,7 +40,7 @@ const BoardSortableItem: React.FC<Props> = (props) => {
 			}}
 			{...attributes}
 			{...listeners}
-			className={cn("border w-full h-80 bg-white hover:bg-[#e0f2fe]")}
+			className={cn("border w-full min-h-80 bg-white hover:bg-[#e0f2fe]")}
 		>
 			{children}
 		</div>

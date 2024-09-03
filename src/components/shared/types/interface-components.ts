@@ -13,7 +13,17 @@ export interface ITemplateBaseSchema {
 	type: TemplateBaseType;
 	version: string;
 	style: Record<string, unknown>;
-	components: Array<{ id: string }>;
+	components: Array<{
+		id: string;
+		data?: {
+			id: string;
+			type: ComponentBaseTypes;
+			version: string;
+			style: Record<string, unknown>;
+			elements: unknown;
+		};
+		is_selected: boolean;
+	}>;
 }
 
 export interface IComponentBaseList {
@@ -30,6 +40,11 @@ export interface IComponentBaseSchema {
 	version: string;
 	style: Record<string, unknown>;
 	elements: unknown;
+	content: {
+		photo: {
+			thumbnail: unknown;
+		},
+	};
 }
 
 export interface IComponentSwiperBase {

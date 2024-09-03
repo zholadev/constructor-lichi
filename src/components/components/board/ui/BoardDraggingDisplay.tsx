@@ -18,7 +18,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import BoardSortableItem from "@/components/components/board/ui/BoardSortableItem";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
-import BoardEmptyCard from "@/components/components/board/ui/BoardEmptyCard";
+import BaseComponentRender from "@/components/components/ui/base/BaseComponentRender";
 
 interface Props {}
 
@@ -85,10 +85,12 @@ const BoardDraggingDisplay: React.FC<Props> = (props) => {
 							>
 								{template.components.map((item) => {
 									return (
-										<BoardEmptyCard
-											item={item}
-											template={template}
+										<BaseComponentRender
 											key={item.id}
+											data={item?.data}
+											template={template}
+											type={item.data?.type}
+											currentItemData={item}
 										/>
 									);
 								})}

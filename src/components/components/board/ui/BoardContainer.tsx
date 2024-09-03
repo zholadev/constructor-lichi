@@ -7,9 +7,9 @@ import {
 	ContextMenuTrigger,
 } from "@/components/shared/shadcn/ui/context-menu";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import BoardEmptyCard from "@/components/components/board/ui/BoardEmptyCard";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
 import TemplateAddButton from "@/components/components/editor/ui/components/TemplateAddButton";
+import BaseComponentRender from "@/components/components/ui/base/BaseComponentRender";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,7 +23,7 @@ import TemplateAddButton from "@/components/components/editor/ui/components/Temp
  */
 const BoardContainer: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-
+	console.log("spaceTemplateData", spaceTemplateData)
 	return (
 		<div className={cn("h-full overflow-y-auto")}>
 			{Object.values(spaceTemplateData).map(
@@ -33,17 +33,19 @@ const BoardContainer: React.FC = () => {
 							<ContextMenuTrigger>
 								<div
 									key={index}
-									className={cn("border w-full h-80")}
+									className={cn("border w-full min-h-80")}
 									style={{
 										...template.style,
 									}}
 								>
 									{template.components.map((item) => {
 										return (
-											<BoardEmptyCard
-												item={item}
-												template={template}
+											<BaseComponentRender
 												key={item.id}
+												data={item?.data}
+												template={template}
+												type={item.data?.type}
+												currentItemData={item}
 											/>
 										);
 									})}

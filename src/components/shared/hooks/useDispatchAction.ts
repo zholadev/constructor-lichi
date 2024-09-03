@@ -60,6 +60,7 @@ import {
 } from "@/components/app/store/features/boardSlice";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
 import {
+	editorActiveElementReducer,
 	editorDisabledEditReducer,
 	editorDraggingTemplateReducer,
 	editorSelectAddComponentReducer,
@@ -129,6 +130,8 @@ export default function useDispatchAction(): any {
 			dispatch(editorDisabledEditReducer(value)),
 		editorDraggingTemplateAction: (value: boolean) =>
 			dispatch(editorDraggingTemplateReducer(value)),
+		editorActiveElementAction: (value: unknown) =>
+			dispatch(editorActiveElementReducer(value)),
 
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>

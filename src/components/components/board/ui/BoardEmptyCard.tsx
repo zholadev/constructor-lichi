@@ -9,9 +9,10 @@ import {
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
 interface Props {
-	item: {
+	currentItemData: {
 		id: string;
 		data?: IComponentBaseSchema;
+		is_selected?: boolean;
 	};
 	template: ITemplateBaseSchema;
 }
@@ -28,7 +29,7 @@ interface Props {
  * @constructor
  */
 const BoardEmptyCard: React.FC<Props> = (props) => {
-	const { item, template } = props;
+	const { currentItemData, template } = props;
 
 	const dialog = useDialogAction();
 
@@ -45,10 +46,13 @@ const BoardEmptyCard: React.FC<Props> = (props) => {
 			onClick={() => {
 				if (editorDisabledEdit) return;
 				dialog.dialogAddComponent.toggle();
-				editorSelectAddComponentAction({ item, template });
+				editorSelectAddComponentAction({
+					item: currentItemData,
+					template,
+				});
 			}}
 		>
-			{item.data?.type}
+			{currentItemData?.data?.type}
 		</div>
 	);
 };

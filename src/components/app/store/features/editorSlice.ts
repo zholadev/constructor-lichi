@@ -9,6 +9,8 @@ interface stateSlice {
 	editorDisabledEdit: boolean;
 	editorDraggingTemplate: boolean;
 	editorActiveElement: unknown;
+	editorPreviewMode: boolean;
+	editorRemoveTemplate: boolean;
 }
 
 const initialState: stateSlice = {
@@ -19,6 +21,8 @@ const initialState: stateSlice = {
 	editorDisabledEdit: false,
 	editorDraggingTemplate: false,
 	editorActiveElement: false,
+	editorPreviewMode: false,
+	editorRemoveTemplate: false,
 };
 
 export const editorSlice = createSlice({
@@ -55,6 +59,15 @@ export const editorSlice = createSlice({
 		editorActiveElementReducer: (state, action: PayloadAction<unknown>) => {
 			state.editorActiveElement = action.payload;
 		},
+		editorPreviewModeReducer: (state, action: PayloadAction<boolean>) => {
+			state.editorPreviewMode = action.payload;
+		},
+		editorRemoveTemplateReducer: (
+			state,
+			action: PayloadAction<boolean>
+		) => {
+			state.editorRemoveTemplate = action.payload;
+		},
 	},
 });
 
@@ -66,5 +79,7 @@ export const {
 	editorDisabledEditReducer,
 	editorDraggingTemplateReducer,
 	editorActiveElementReducer,
+	editorPreviewModeReducer,
+	editorRemoveTemplateReducer,
 } = editorSlice.actions;
 export default editorSlice.reducer;

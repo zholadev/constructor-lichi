@@ -16,6 +16,7 @@ interface ITemplateEvent {
 		cb: () => void
 	) => void;
 	addComponent: (data: IComponentBaseSchema) => void;
+	deleteContainer: (id: string) => void;
 }
 
 /**
@@ -109,8 +110,24 @@ export default function useTemplateEvent(): ITemplateEvent {
 		if (cb) cb();
 	};
 
+	const deleteContainer = (id: string) => {
+		if (!id) {
+			toastMessage(
+				"Произошла ошибка id не найдено, обратитесь разработчику",
+				"error"
+			);
+			return;
+		}
+
+		const filteredRemovedData = Object.values(
+			spaceTemplateData || {}
+		).filter((item) => item.id !== id);
+		spaceTemplateDataAction(filteredRemovedData);
+	};
+
 	return {
 		create,
 		addComponent,
+		deleteContainer,
 	};
 }

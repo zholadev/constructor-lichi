@@ -18,12 +18,14 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
  * @constructor
  */
 const BoardToolbar: React.FC = () => {
-	const { editorDisabledEditAction, editorDraggingTemplateAction } =
-		useDispatchAction();
+	const {
+		editorDisabledEditAction,
+		editorDraggingTemplateAction,
+		editorRemoveTemplateAction,
+	} = useDispatchAction();
 
-	const { editorDisabledEdit, editorDraggingTemplate } = useAppSelector(
-		(state) => state.editor
-	);
+	const { editorDisabledEdit, editorDraggingTemplate, editorRemoveTemplate } =
+		useAppSelector((state) => state.editor);
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
@@ -31,6 +33,9 @@ const BoardToolbar: React.FC = () => {
 		editorDraggingTemplateAction(!editorDraggingTemplate);
 		editorDisabledEditAction(!editorDisabledEdit);
 	};
+
+	const toggleEditorRemoveTemplateHandle = () =>
+		editorRemoveTemplateAction(!editorRemoveTemplate);
 
 	return (
 		<div
@@ -41,7 +46,7 @@ const BoardToolbar: React.FC = () => {
 			<Button
 				className={cn("")}
 				variant="ghost"
-				disabled={spaceTemplateData.length === 0}
+				disabled={spaceTemplateData.length < 2 || editorRemoveTemplate}
 				onClick={toggleEditorDraggingTemplateHandle}
 			>
 				{editorDraggingTemplate ? "Назад" : <DragHandleDots2Icon />}
@@ -50,9 +55,12 @@ const BoardToolbar: React.FC = () => {
 			<Button
 				className={cn("")}
 				variant="ghost"
-				disabled={spaceTemplateData.length === 0}
+				onClick={toggleEditorRemoveTemplateHandle}
+				disabled={
+					spaceTemplateData.length === 0 || editorDraggingTemplate
+				}
 			>
-				<TrashIcon />
+				{editorRemoveTemplate ? "Назад" : <TrashIcon />}
 			</Button>
 		</div>
 	);

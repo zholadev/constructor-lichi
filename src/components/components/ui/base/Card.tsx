@@ -3,11 +3,10 @@ import styles from "@/components/styles/card.module.sass";
 import { IComponentBaseSchema } from "@/components/shared/types/interface-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { cn } from "@/components/lib/utils";
-import {useAppSelector} from "@/components/app/store/hooks/hooks";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
 interface Props {
 	data: IComponentBaseSchema;
-	activeElement: boolean;
 }
 
 /**
@@ -22,14 +21,11 @@ interface Props {
  * @constructor
  */
 const Card: React.FC<Props> = (props) => {
-	const { data, activeElement } = props;
-	console.log(data);
+	const { data } = props;
 
 	const { editorActiveElementAction } = useDispatchAction();
 
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
-
-	console.log("editorActiveElement", editorActiveElement, data.id)
 
 	return (
 		<div

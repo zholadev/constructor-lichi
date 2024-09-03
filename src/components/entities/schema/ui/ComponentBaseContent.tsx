@@ -3,11 +3,11 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import Divider from "@/components/shared/uikit/divider/ui/Divider";
-import { IComponentBaseList } from "@/components/shared/types/interface-components";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import useSchemaData from "@/components/shared/hooks/useSchemaData";
+import { IComponentBaseList } from "@/components/shared/types/interface-templates";
 
 const baseData: IComponentBaseList[] = [
 	{

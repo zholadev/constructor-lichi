@@ -58,7 +58,6 @@ import {
 	getBorderDataReducer,
 	updateBorderLoaderReducer,
 } from "@/components/app/store/features/boardSlice";
-import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
 import {
 	editorActiveElementReducer,
 	editorDisabledEditReducer,
@@ -70,6 +69,8 @@ import {
 	editorSwiperAutoplayReducer,
 	editorVideoPlayReducer,
 } from "@/components/app/store/features/editorSlice";
+import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
+import { IActiveElement } from "@/components/shared/types/interface-editor";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -132,7 +133,7 @@ export default function useDispatchAction(): any {
 			dispatch(editorDisabledEditReducer(value)),
 		editorDraggingTemplateAction: (value: boolean) =>
 			dispatch(editorDraggingTemplateReducer(value)),
-		editorActiveElementAction: (value: unknown) =>
+		editorActiveElementAction: (value: IActiveElement) =>
 			dispatch(editorActiveElementReducer(value)),
 		editorPreviewModeAction: (value: boolean) =>
 			dispatch(editorPreviewModeReducer(value)),

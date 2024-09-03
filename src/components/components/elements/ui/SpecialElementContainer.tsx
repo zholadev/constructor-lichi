@@ -1,8 +1,13 @@
 import React from "react";
-import { MousePointerClick, Timer, Type } from "lucide-react";
-import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/shared/shadcn/ui/accordion";
+import { MousePointerClick } from "lucide-react";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@/components/shared/shadcn/ui/accordion";
 import ElementWrapper from "@/components/components/elements/ui/ElementWrapper";
-import {cn} from "@/components/lib/utils";
+import { cn } from "@/components/lib/utils";
 
 interface Props {}
 

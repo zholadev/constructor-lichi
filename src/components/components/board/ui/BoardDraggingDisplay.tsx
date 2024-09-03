@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
 	DndContext,
 	closestCenter,
@@ -18,9 +20,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import BoardSortableItem from "@/components/components/board/ui/BoardSortableItem";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
-import BaseComponentRender from "@/components/components/ui/base/BaseComponentRender";
-
-interface Props {}
+import BaseComponentRender from "@/components/components/ui/components/container/BaseComponentRender";
 
 /**
  * @author Zholaman Zhumanov
@@ -30,16 +30,17 @@ interface Props {}
  * @update-description
  * @todo refactoring
  * @fixme
- * @param props
  * @constructor
  */
-const BoardDraggingDisplay: React.FC<Props> = (props) => {
-	const {} = props;
-
+const BoardDraggingDisplay: React.FC = () => {
 	const { spaceTemplateDataAction } = useDispatchAction();
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
-	const [items, setItems] = useState(spaceTemplateData || []);
+	const [items, setItems] = useState<ITemplateBaseSchema[]>([]);
+
+	useEffect(() => {
+		setItems(spaceTemplateData || []);
+	}, [spaceTemplateData]);
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -48,22 +49,20 @@ const BoardDraggingDisplay: React.FC<Props> = (props) => {
 		})
 	);
 
-	function handleDragEnd(event: DragEndEvent) {
+	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 
-		if (active.id !== over?.id) {
-			setItems((items: ITemplateBaseSchema[]) => {
-				const oldIndex = items.findIndex(
-					(item) => item.id === active.id
-				);
-				const newIndex = items.findIndex(
-					(item) => item.id === over?.id
-				);
-				spaceTemplateDataAction(arrayMove(items, oldIndex, newIndex));
-				return arrayMove(items, oldIndex, newIndex);
-			});
+		if (over && active.id !== over.id) {
+			const oldIndex = items.findIndex((item) => item.id === active.id);
+			const newIndex = items.findIndex((item) => item.id === over.id);
+
+			if (oldIndex !== -1 && newIndex !== -1) {
+				const updatedItems = arrayMove(items, oldIndex, newIndex);
+				setItems(updatedItems);
+				spaceTemplateDataAction(updatedItems);
+			}
 		}
-	}
+	};
 
 	return (
 		<DndContext
@@ -72,32 +71,26 @@ const BoardDraggingDisplay: React.FC<Props> = (props) => {
 			onDragEnd={handleDragEnd}
 		>
 			<SortableContext
-				items={spaceTemplateData}
+				items={items.map((item) => item.id)}
 				strategy={verticalListSortingStrategy}
 			>
-				{Object.values(spaceTemplateData).map(
-					(template: ITemplateBaseSchema) => {
-						return (
-							<BoardSortableItem
-								id={template.id}
-								key={template.id}
-								styles={template.style}
-							>
-								{template.components.map((item) => {
-									return (
-										<BaseComponentRender
-											key={item.id}
-											data={item?.data}
-											template={template}
-											type={item.data?.type}
-											currentItemData={item}
-										/>
-									);
-								})}
-							</BoardSortableItem>
-						);
-					}
-				)}
+				{items.map((template) => (
+					<BoardSortableItem
+						id={template.id}
+						key={template.id}
+						styles={template.style}
+					>
+						{template.components.map((item) => (
+							<BaseComponentRender
+								key={item.id}
+								data={item?.data}
+								template={template}
+								type={item.data?.type}
+								currentItemData={item}
+							/>
+						))}
+					</BoardSortableItem>
+				))}
 			</SortableContext>
 		</DndContext>
 	);

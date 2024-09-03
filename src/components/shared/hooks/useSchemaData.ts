@@ -1,5 +1,8 @@
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
-import { IComponentBaseSchema } from "@/components/shared/types/interface-components";
+import {
+	IComponentBaseSchema,
+	IComponentCardSchema,
+} from "@/components/shared/types/interface-components";
 import { v4 as uuidv4 } from "uuid";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
 import { IMAGES } from "@/components/shared/constants/images";
@@ -14,23 +17,48 @@ import { IMAGES } from "@/components/shared/constants/images";
  * @fixme
  * @constructor
  */
-export default function useSchemaData(): IComponentBaseSchema {
-	return function (type: ComponentBaseTypes): IComponentBaseSchema {
-		const schemaMap: Record<ComponentBaseTypes, IComponentBaseSchema> = {
+export default function useSchemaData():
+	| IComponentBaseSchema
+	| IComponentCardSchema {
+	return function (
+		type: ComponentBaseTypes
+	): IComponentBaseSchema | IComponentCardSchema {
+		const schemaMap: Record<
+			ComponentBaseTypes,
+			IComponentCardSchema | IComponentBaseSchema
+		> = {
 			card: {
 				id: uuidv4(),
 				type: "card",
 				version: versionComponentBase.card.version,
-				style: {},
+				style: {
+					justifyContent: "center",
+					alignItems: "center",
+				},
 				elements: [],
 				content: {
 					photo: {
-						thumbnail:
-							IMAGES.THUMBNAIL.card[
+						desktop: {
+							url: IMAGES.THUMBNAIL.card[
 								Math.floor(
 									Math.random() * IMAGES.THUMBNAIL.card.length
 								)
-							],
+							].src,
+						},
+						tablet: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
+						mobile: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
 					},
 				},
 			},
@@ -38,16 +66,34 @@ export default function useSchemaData(): IComponentBaseSchema {
 				id: uuidv4(),
 				type: "card_outside",
 				version: versionComponentBase.card_outside.version,
-				style: {},
+				style: {
+					justifyContent: "center",
+					alignItems: "center",
+				},
 				elements: [],
 				content: {
 					photo: {
-						thumbnail:
-							IMAGES.THUMBNAIL.card[
+						desktop: {
+							url: IMAGES.THUMBNAIL.card[
 								Math.floor(
 									Math.random() * IMAGES.THUMBNAIL.card.length
 								)
-							],
+							].src,
+						},
+						tablet: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
+						mobile: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
 					},
 				},
 			},
@@ -59,12 +105,27 @@ export default function useSchemaData(): IComponentBaseSchema {
 				elements: [],
 				content: {
 					photo: {
-						thumbnail:
-							IMAGES.THUMBNAIL.card[
+						desktop: {
+							url: IMAGES.THUMBNAIL.card[
 								Math.floor(
 									Math.random() * IMAGES.THUMBNAIL.card.length
 								)
-							],
+							].src,
+						},
+						tablet: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
+						mobile: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
 					},
 				},
 			},
@@ -76,12 +137,27 @@ export default function useSchemaData(): IComponentBaseSchema {
 				elements: [],
 				content: {
 					photo: {
-						thumbnail:
-							IMAGES.THUMBNAIL.card[
+						desktop: {
+							url: IMAGES.THUMBNAIL.card[
 								Math.floor(
 									Math.random() * IMAGES.THUMBNAIL.card.length
 								)
-							],
+							].src,
+						},
+						tablet: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
+						mobile: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
 					},
 				},
 			},
@@ -93,12 +169,27 @@ export default function useSchemaData(): IComponentBaseSchema {
 				elements: [],
 				content: {
 					photo: {
-						thumbnail:
-							IMAGES.THUMBNAIL.card[
+						desktop: {
+							url: IMAGES.THUMBNAIL.card[
 								Math.floor(
 									Math.random() * IMAGES.THUMBNAIL.card.length
 								)
-							],
+							].src,
+						},
+						tablet: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
+						mobile: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
 					},
 				},
 			},
@@ -110,12 +201,27 @@ export default function useSchemaData(): IComponentBaseSchema {
 				elements: [],
 				content: {
 					photo: {
-						thumbnail:
-							IMAGES.THUMBNAIL.card[
+						desktop: {
+							url: IMAGES.THUMBNAIL.card[
 								Math.floor(
 									Math.random() * IMAGES.THUMBNAIL.card.length
 								)
-							],
+							].src,
+						},
+						tablet: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
+						mobile: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
 					},
 				},
 			},
@@ -127,12 +233,27 @@ export default function useSchemaData(): IComponentBaseSchema {
 				elements: [],
 				content: {
 					photo: {
-						thumbnail:
-							IMAGES.THUMBNAIL.card[
+						desktop: {
+							url: IMAGES.THUMBNAIL.card[
 								Math.floor(
 									Math.random() * IMAGES.THUMBNAIL.card.length
 								)
-							],
+							].src,
+						},
+						tablet: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
+						mobile: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
 					},
 				},
 			},
@@ -144,12 +265,27 @@ export default function useSchemaData(): IComponentBaseSchema {
 				elements: [],
 				content: {
 					photo: {
-						thumbnail:
-							IMAGES.THUMBNAIL.card[
+						desktop: {
+							url: IMAGES.THUMBNAIL.card[
 								Math.floor(
 									Math.random() * IMAGES.THUMBNAIL.card.length
 								)
-							],
+							].src,
+						},
+						tablet: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
+						mobile: {
+							url: IMAGES.THUMBNAIL.card[
+								Math.floor(
+									Math.random() * IMAGES.THUMBNAIL.card.length
+								)
+							].src,
+						},
 					},
 				},
 			},

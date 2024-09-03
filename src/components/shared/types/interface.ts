@@ -61,17 +61,17 @@ export interface ILangListDataItem {
 
 export interface IGalleryImageItem {
 	url: string;
-	size: number;
-	created: number;
-	extension: string;
-	info: {
+	size?: number;
+	created?: number;
+	extension?: string;
+	info?: {
 		width: number;
 		height: number;
 		luminance: number;
 	};
-	name: string;
-	path: string;
-	public_url: string;
+	name?: string;
+	path?: string;
+	public_url?: string;
 }
 
 export interface ITemplatePageType {

@@ -7,7 +7,7 @@ import { versionTemplate } from "@/components/app/versions/version-modules";
 import {
 	IComponentBaseSchema,
 	ITemplateBaseSchema,
-} from "@/components/shared/types/interface-components";
+} from "@/components/shared/types/interface-templates";
 
 interface ITemplateEvent {
 	create: (
@@ -119,9 +119,9 @@ export default function useTemplateEvent(): ITemplateEvent {
 			return;
 		}
 
-		const filteredRemovedData = Object.values(
-			spaceTemplateData || {}
-		).filter((item) => item.id !== id);
+		const filteredRemovedData = spaceTemplateData.filter(
+			(item: ITemplateBaseSchema) => item.id !== id
+		);
 		spaceTemplateDataAction(filteredRemovedData);
 	};
 

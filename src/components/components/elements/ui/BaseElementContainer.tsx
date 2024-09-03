@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { cn } from "@/components/lib/utils";
 import { MousePointerClick, Timer, Type } from "lucide-react";
 import ElementWrapper from "@/components/components/elements/ui/ElementWrapper";
-import { IElementBase } from "@/components/shared/types/interface-components";
 import { versionElementBase } from "@/components/app/versions/version-modules";
+import { IElementBase } from "@/components/shared/types/interface-templates";
 
 const elementData: IElementBase[] = [
 	{
@@ -67,7 +67,7 @@ const BaseElementContainer: React.FC = () => {
 						variants={cardVariants}
 						key={item.id}
 					>
-						<ElementWrapper>
+						<ElementWrapper type={item.type}>
 							<div className={cn("absolute top-8")}>
 								{item.icon}
 							</div>

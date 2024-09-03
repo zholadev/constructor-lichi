@@ -1,11 +1,12 @@
 import React from "react";
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
-import Card from "@/components/components/ui/base/Card";
+import Card from "@/components/components/ui/components/base/Card";
 import BoardEmptyCard from "@/components/components/board/ui/BoardEmptyCard";
 import {
 	IComponentBaseSchema,
 	ITemplateBaseSchema,
-} from "@/components/shared/types/interface-components";
+} from "@/components/shared/types/interface-templates";
+import CardOutside from "@/components/components/ui/components/base/CardOutside";
 
 interface Props {
 	type: ComponentBaseTypes;
@@ -35,7 +36,9 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 	const renderComponents = () => {
 		switch (type) {
 			case "card":
-				return <Card data={data} />;
+				return <Card data={data} containerId={template.id} />;
+			case "card_outside":
+				return <CardOutside data={data} />;
 			default:
 				return (
 					<BoardEmptyCard

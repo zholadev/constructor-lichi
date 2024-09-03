@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { cn } from "@/components/lib/utils";
 import {
 	Accordion,
@@ -7,18 +7,24 @@ import {
 	AccordionTrigger,
 } from "@/components/shared/shadcn/ui/accordion";
 import ImageSetting from "@/components/components/design/ui/settings/ImageSetting";
-import {
-	ImageIcon,
-	Link1Icon,
-	SliderIcon,
-	VideoIcon,
-} from "@radix-ui/react-icons";
+import { ImageIcon, Link1Icon, VideoIcon } from "@radix-ui/react-icons";
 import { GalleryHorizontalEnd } from "lucide-react";
 import SwiperSetting from "@/components/components/design/ui/settings/SwiperSetting";
 import LinkSetting from "@/components/components/design/ui/settings/LinkSetting";
 import VideoSetting from "@/components/components/design/ui/settings/VideoSetting";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { IGalleryImageItem } from "@/components/shared/types/interface";
 
-interface Props {}
+type AccessTypes = "video" | "photo" | "link";
+type ContentKeys = "photo" | "link" | "video";
+
+interface Content {
+	photo?: Record<string, unknown>;
+	link?: Record<string, unknown>;
+	video?: Record<string, unknown>;
+}
+
+const accessTypes: AccessTypes[] = ["video", "photo", "link"];
 
 /**
  * @author Zholaman Zhumanov
@@ -26,15 +32,36 @@ interface Props {}
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
- * @param props
  * @constructor
  */
-const SettingContainer: React.FC<Props> = (props) => {
-	const {} = props;
+const SettingContainer: React.FC = () => {
+	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
+
+	const filterContentKeys = (
+		content: Content,
+		accessTypes: AccessTypes[]
+	) => {
+		const filteredKeys: ContentKeys[] = Object.keys(content)
+			.filter((key) => accessTypes.includes(key as AccessTypes))
+			.map((key) => key as ContentKeys);
+
+		setExpanded(filteredKeys);
+	};
+
+	useEffect(() => {
+		if (editorActiveElement.componentData) {
+			if (editorActiveElement.componentData.content) {
+				filterContentKeys(
+					editorActiveElement.componentData.content,
+					accessTypes
+				);
+			}
+		}
+	}, [editorActiveElement]);
 
 	return (
 		<div className={cn("w-full p-3")}>
@@ -44,7 +71,7 @@ const SettingContainer: React.FC<Props> = (props) => {
 				value={defaultExpanded}
 				onValueChange={setExpanded}
 			>
-				<AccordionItem value="image">
+				<AccordionItem value="photo">
 					<AccordionTrigger>
 						<div
 							className={cn(
@@ -56,7 +83,14 @@ const SettingContainer: React.FC<Props> = (props) => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<ImageSetting />
+						{Object.values(
+							editorActiveElement.componentData?.content.photo ||
+								{}
+						).map((image: IGalleryImageItem, index) => {
+							return (
+								<ImageSetting imageSrc={image} key={index} />
+							);
+						})}
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="video">

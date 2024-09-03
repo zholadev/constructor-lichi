@@ -15,13 +15,10 @@ import SpacingStyles from "@/components/components/design/ui/styles/SpacingStyle
 import { Palette, Type } from "lucide-react";
 import {
 	BorderAllIcon,
-	ColorWheelIcon,
 	LayoutIcon,
 	PaddingIcon,
 	SizeIcon,
 } from "@radix-ui/react-icons";
-
-interface Props {}
 
 /**
  * @author Zholaman Zhumanov
@@ -31,12 +28,9 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const DesignContent: React.FC<Props> = (props) => {
-	const {} = props;
-
+const DesignContent: React.FC = () => {
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	return (

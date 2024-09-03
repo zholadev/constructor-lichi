@@ -20,6 +20,25 @@ import { IMAGES } from "@/components/shared/constants/images";
 export default function useSchemaData():
 	| IComponentBaseSchema
 	| IComponentCardSchema {
+	const getRandomImageSchema = () => {
+		const getImage =
+			IMAGES.THUMBNAIL.card[
+				Math.floor(Math.random() * IMAGES.THUMBNAIL.card.length)
+			];
+
+		return {
+			desktop: {
+				url: getImage.src,
+			},
+			tablet: {
+				url: getImage.src,
+			},
+			mobile: {
+				url: getImage.src,
+			},
+		};
+	};
+
 	return function (
 		type: ComponentBaseTypes
 	): IComponentBaseSchema | IComponentCardSchema {
@@ -37,29 +56,7 @@ export default function useSchemaData():
 				},
 				elements: [],
 				content: {
-					photo: {
-						desktop: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						tablet: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						mobile: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-					},
+					photo: getRandomImageSchema(),
 				},
 			},
 			card_outside: {
@@ -72,29 +69,7 @@ export default function useSchemaData():
 				},
 				elements: [],
 				content: {
-					photo: {
-						desktop: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						tablet: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						mobile: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-					},
+					photo: getRandomImageSchema(),
 				},
 			},
 			card_outside_left: {
@@ -104,29 +79,7 @@ export default function useSchemaData():
 				style: {},
 				elements: [],
 				content: {
-					photo: {
-						desktop: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						tablet: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						mobile: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-					},
+					photo: getRandomImageSchema(),
 				},
 			},
 			card_outside_right: {
@@ -136,29 +89,7 @@ export default function useSchemaData():
 				style: {},
 				elements: [],
 				content: {
-					photo: {
-						desktop: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						tablet: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						mobile: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-					},
+					photo: getRandomImageSchema(),
 				},
 			},
 			album: {
@@ -168,29 +99,7 @@ export default function useSchemaData():
 				style: {},
 				elements: [],
 				content: {
-					photo: {
-						desktop: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						tablet: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						mobile: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-					},
+					photo: getRandomImageSchema(),
 				},
 			},
 			album_outside: {
@@ -200,29 +109,7 @@ export default function useSchemaData():
 				style: {},
 				elements: [],
 				content: {
-					photo: {
-						desktop: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						tablet: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						mobile: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-					},
+					photo: getRandomImageSchema(),
 				},
 			},
 			video: {
@@ -232,29 +119,7 @@ export default function useSchemaData():
 				style: {},
 				elements: [],
 				content: {
-					photo: {
-						desktop: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						tablet: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						mobile: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-					},
+					photo: getRandomImageSchema(),
 				},
 			},
 			video_outside: {
@@ -264,29 +129,7 @@ export default function useSchemaData():
 				style: {},
 				elements: [],
 				content: {
-					photo: {
-						desktop: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						tablet: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-						mobile: {
-							url: IMAGES.THUMBNAIL.card[
-								Math.floor(
-									Math.random() * IMAGES.THUMBNAIL.card.length
-								)
-							].src,
-						},
-					},
+					photo: getRandomImageSchema(),
 				},
 			},
 		};

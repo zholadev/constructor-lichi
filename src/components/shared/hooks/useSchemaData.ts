@@ -50,10 +50,7 @@ export default function useSchemaData():
 				id: uuidv4(),
 				type: "card",
 				version: versionComponentBase.card.version,
-				style: {
-					justifyContent: "center",
-					alignItems: "center",
-				},
+				style: {},
 				elements: [],
 				content: {
 					photo: getRandomImageSchema(),
@@ -63,10 +60,7 @@ export default function useSchemaData():
 				id: uuidv4(),
 				type: "card_outside",
 				version: versionComponentBase.card_outside.version,
-				style: {
-					justifyContent: "center",
-					alignItems: "center",
-				},
+				style: {},
 				elements: [],
 				content: {
 					photo: getRandomImageSchema(),

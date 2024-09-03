@@ -33,7 +33,7 @@ const Card: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				`${editorActiveElement.id === data.id ? "border border-blue-500 border-2" : ""}`,
+				`${editorActiveElement.id === data.id ? "border-blue-800 border-2" : ""}`,
 				styles.card
 			)}
 			onClick={() => {

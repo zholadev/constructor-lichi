@@ -38,7 +38,7 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 			case "card":
 				return <Card data={data} containerId={template.id} />;
 			case "card_outside":
-				return <CardOutside data={data} />;
+				return <CardOutside data={data} containerId={template.id} />;
 			default:
 				return (
 					<BoardEmptyCard

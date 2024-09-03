@@ -9,6 +9,7 @@ import { IComponentCardSchema } from "@/components/shared/types/interface-compon
 
 interface Props {
 	data: IComponentCardSchema;
+	containerId: string;
 }
 
 /**
@@ -23,7 +24,7 @@ interface Props {
  * @constructor
  */
 const CardOutside: React.FC<Props> = (props) => {
-	const { data } = props;
+	const { data, containerId } = props;
 
 	const { editorActiveElementAction } = useDispatchAction();
 
@@ -32,11 +33,15 @@ const CardOutside: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				`${editorActiveElement === data.id ? "border-blue-500 border-2" : ""}`,
+				`${editorActiveElement.id === data.id ? "border-blue-500 border-2" : ""}`,
 				styles.card
 			)}
 			onClick={() => {
-				editorActiveElementAction(data.id);
+				editorActiveElementAction({
+					id: data.id,
+					componentData: data,
+					containerId,
+				});
 			}}
 		>
 			<div style={{ ...data.style }} className={styles.wrapper}>

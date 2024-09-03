@@ -33,6 +33,11 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
+			if (!editorActiveElement.id) {
+				toastMessage("Выбранный id не найден", "error");
+				return;
+			}
+
 			const newBuildData = spaceTemplateData.map(
 				(container: ITemplateBaseSchema) => {
 					if (container.id === editorActiveElement.containerId) {
@@ -64,6 +69,7 @@ export default function useEditorEvent(): IEditorEvent {
 					return container;
 				}
 			);
+			console.log("newBuildData", newBuildData);
 			if (newBuildData) spaceTemplateDataAction(newBuildData);
 		} catch (error) {
 			if (error instanceof Error) {

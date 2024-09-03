@@ -27,7 +27,7 @@ const ButtonElement: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<button type="submit" style={data.style}>
+		<button type="button" style={data.style}>
 			{data.content.title[spaceModeLanguage].value}
 		</button>
 	);

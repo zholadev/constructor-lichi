@@ -14,3 +14,10 @@ export interface IButtonElement extends IElementSchema {
 		link?: ILinkDesign;
 	};
 }
+
+export interface ITextElement extends IElementSchema {
+	content: {
+		title: Record<string, Record<"value", string>>;
+		link?: ILinkDesign;
+	};
+}

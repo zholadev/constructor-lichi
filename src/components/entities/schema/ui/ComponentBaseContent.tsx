@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { cn } from "@/components/lib/utils";
 import Divider from "@/components/shared/uikit/divider/ui/Divider";
 import { Button } from "@/components/shared/shadcn/ui/button";
@@ -8,6 +8,8 @@ import { versionComponentBase } from "@/components/app/versions/version-modules"
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import useSchemaData from "@/components/shared/hooks/useSchemaData";
 import { IComponentBaseList } from "@/components/shared/types/interface-templates";
+import { ComponentBaseTypes } from "@/components/shared/types/types-components";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
 const baseData: IComponentBaseList[] = [
 	{
@@ -74,14 +76,22 @@ const baseData: IComponentBaseList[] = [
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @constructor
  */
 const ComponentBaseContent: React.FC = () => {
+	const { dialogAddComponentAction } = useDispatchAction();
+
 	const templateEvent = useTemplateEvent();
 
 	const getSchemaComponent = useSchemaData();
+
+	const [selectComponent, setSelectComponent] =
+		useState<ComponentBaseTypes | null>(null);
+
+	const getSelectComponent = (data: ComponentBaseTypes | null) =>
+		setSelectComponent(data);
 
 	return (
 		<div className={cn("w-full")}>
@@ -98,12 +108,15 @@ const ComponentBaseContent: React.FC = () => {
 						<li key={component.id}>
 							<Button
 								variant="outline"
-								onClick={() => {
-									templateEvent.addComponent(
-										getSchemaComponent(component.type)
-									);
-								}}
-								className={cn("w-full h-[150px]")}
+								onClick={() =>
+									getSelectComponent(component.type)
+								}
+								className={cn(
+									"w-full h-[150px]",
+									selectComponent === component.type
+										? "border-blue-500"
+										: ""
+								)}
 							>
 								{component.type}
 							</Button>
@@ -111,6 +124,29 @@ const ComponentBaseContent: React.FC = () => {
 					);
 				})}
 			</ul>
+
+			<div
+				className={cn(
+					"flex flex-row items-center justify-end w-full my-4 gap-4"
+				)}
+			>
+				<Button variant="outline" type="button">
+					Отмена
+				</Button>
+
+				<Button
+					variant="default"
+					type="button"
+					onClick={() => {
+						dialogAddComponentAction(false);
+						templateEvent.addComponent(
+							getSchemaComponent(selectComponent)
+						);
+					}}
+				>
+					Подтвердить
+				</Button>
+			</div>
 		</div>
 	);
 };

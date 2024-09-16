@@ -39,7 +39,7 @@ const cardVariants = {
 		opacity: 1,
 		y: 0,
 		transition: {
-			delay: i * 0.125, // Задержка для каждой карточки
+			delay: i * 0.125,
 			duration: 0.5,
 		},
 	}),

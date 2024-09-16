@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import Card from "@/components/components/ui/components/base/Card";
@@ -7,6 +9,7 @@ import {
 	ITemplateBaseSchema,
 } from "@/components/shared/types/interface-templates";
 import CardOutside from "@/components/components/ui/components/base/CardOutside";
+import Album from "@/components/components/ui/components/base/Album";
 
 interface Props {
 	type: ComponentBaseTypes;
@@ -39,6 +42,8 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 				return <Card data={data} containerId={template.id} />;
 			case "card_outside":
 				return <CardOutside data={data} containerId={template.id} />;
+			case "album":
+				return <Album data={data} containerId={template.id} />;
 			default:
 				return (
 					<BoardEmptyCard

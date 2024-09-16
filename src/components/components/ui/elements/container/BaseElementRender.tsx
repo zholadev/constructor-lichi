@@ -2,6 +2,7 @@ import React from "react";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
 import ButtonElement from "@/components/components/ui/elements/base/ButtonElement";
 import { IButtonElement } from "@/components/shared/types/interface-elements";
+import TextElement from "@/components/components/ui/elements/base/TextElement";
 
 interface Props {
 	type: ElementBaseTypes;
@@ -26,6 +27,8 @@ const BaseElementRender: React.FC<Props> = (props) => {
 		switch (type) {
 			case "button":
 				return <ButtonElement data={data} />;
+			case "text":
+				return <TextElement data={data} />;
 			default:
 				return null;
 		}

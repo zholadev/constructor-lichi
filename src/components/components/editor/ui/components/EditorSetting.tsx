@@ -10,13 +10,11 @@ import {
 } from "@/components/shared/shadcn/ui/select";
 import { ILangListDataItem } from "@/components/shared/types/interface";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import Divider from "@/components/shared/uikit/divider/ui/Divider";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { Input } from "@/components/shared/shadcn/ui/input";
 
 interface Props {}
 

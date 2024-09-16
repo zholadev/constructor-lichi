@@ -41,6 +41,21 @@ export default function useElementData(): IElementSchema | IButtonElement {
 				},
 			},
 		},
+		text: {
+			id: uuidv4(),
+			type: "button",
+			version: versionComponentBase.card.version,
+			style: {
+				color: "#ffffff",
+			},
+			content: {
+				title: {
+					ru: {
+						value: "Текст",
+					},
+				},
+			},
+		},
 	};
 
 	return function (

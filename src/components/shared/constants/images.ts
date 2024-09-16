@@ -13,7 +13,20 @@ import card4 from "../../../../public/static/images/thumbnail/card/card-4.jpg";
 import card5 from "../../../../public/static/images/thumbnail/card/card-5.jpg";
 import card6 from "../../../../public/static/images/thumbnail/card/card-6.jpg";
 
-export const IMAGES = {
+import album1 from "../../../../public/static/images/thumbnail/album/album-1.jpeg";
+
+interface ImageImport {
+	height: number;
+	src: string;
+	width: number;
+}
+
+interface IImagesData {
+	ICON: Record<string, unknown>;
+	THUMBNAIL: Record<string, ImageImport[]>;
+}
+
+export const IMAGES: IImagesData = {
 	ICON: {
 		folder: notFolder,
 		folderBasicIcon: folderBasic,
@@ -25,5 +38,6 @@ export const IMAGES = {
 	},
 	THUMBNAIL: {
 		card: [card1, card2, card3, card4, card5, card6],
+		album: [album1],
 	},
 };

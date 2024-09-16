@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
 import { IMAGES } from "@/components/shared/constants/images";
 
+type ImageType = "card" | "album";
+
 /**
  * @author Zholaman Zhumanov
  * @created 03.09.2024
@@ -20,10 +22,10 @@ import { IMAGES } from "@/components/shared/constants/images";
 export default function useSchemaData():
 	| IComponentBaseSchema
 	| IComponentCardSchema {
-	const getRandomImageSchema = () => {
+	const getRandomImageSchema = (imageType: ImageType = "card") => {
 		const getImage =
-			IMAGES.THUMBNAIL.card[
-				Math.floor(Math.random() * IMAGES.THUMBNAIL.card.length)
+			IMAGES.THUMBNAIL[imageType][
+				Math.floor(Math.random() * IMAGES.THUMBNAIL[imageType].length)
 			];
 
 		return {
@@ -93,7 +95,7 @@ export default function useSchemaData():
 				style: {},
 				elements: [],
 				content: {
-					photo: getRandomImageSchema(),
+					photo: getRandomImageSchema("album"),
 				},
 			},
 			album_outside: {

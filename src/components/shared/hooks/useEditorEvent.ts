@@ -26,8 +26,16 @@ export default function useEditorEvent(): IEditorEvent {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	const addElement = (data: any) => {
+	const addElement = (data: unknown) => {
 		try {
+			if (!data) {
+				toastMessage(
+					"Произошла ошибка при добавлений - not found",
+					"error"
+				);
+				return;
+			}
+
 			if (!editorActiveElement) {
 				toastMessage("Вы не выбрали компонент", "error");
 				return;
@@ -69,7 +77,7 @@ export default function useEditorEvent(): IEditorEvent {
 					return container;
 				}
 			);
-			console.log("newBuildData", newBuildData);
+
 			if (newBuildData) spaceTemplateDataAction(newBuildData);
 		} catch (error) {
 			if (error instanceof Error) {

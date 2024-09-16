@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { cn } from "@/components/lib/utils";
 import { ImageIcon } from "@radix-ui/react-icons";
@@ -25,10 +25,14 @@ const ImageSetting: React.FC<Props> = (props) => {
 	const { imageSrc } = props;
 
 	const [currentImage, setCurrentImage] =
-		React.useState<IGalleryImageItem | null>(imageSrc || null);
+		React.useState<IGalleryImageItem | null>(null);
 	const [toggleExpanded, setToggleExpanded] = React.useState(false);
 
 	const toggleExpandedHandle = () => setToggleExpanded(!toggleExpanded);
+
+	useEffect(() => {
+		setCurrentImage(imageSrc);
+	}, [imageSrc]);
 
 	return (
 		<div className="w-full h-auto">

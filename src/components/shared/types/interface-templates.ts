@@ -21,6 +21,7 @@ export interface ITemplateBaseSchema {
 			version: string;
 			style: Record<string, unknown>;
 			elements: unknown;
+			content: Record<string, unknown>;
 		};
 		is_selected: boolean;
 	}>;

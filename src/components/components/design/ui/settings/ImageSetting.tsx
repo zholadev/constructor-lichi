@@ -8,6 +8,7 @@ import GalleryDialogContainer from "@/components/widgets/gallery/ui/GalleryDialo
 
 interface Props {
 	imageSrc?: IGalleryImageItem;
+	onChange?: (imageSrc?: IGalleryImageItem) => void;
 }
 
 /**
@@ -22,7 +23,7 @@ interface Props {
  * @constructor
  */
 const ImageSetting: React.FC<Props> = (props) => {
-	const { imageSrc } = props;
+	const { imageSrc, onChange } = props;
 
 	const [currentImage, setCurrentImage] =
 		React.useState<IGalleryImageItem | null>(null);
@@ -30,12 +31,17 @@ const ImageSetting: React.FC<Props> = (props) => {
 
 	const toggleExpandedHandle = () => setToggleExpanded(!toggleExpanded);
 
+	const updateDataHandle = (data: IGalleryImageItem | null) => {
+		setCurrentImage(data);
+		if (onChange) onChange(data);
+	};
+
 	useEffect(() => {
 		setCurrentImage(imageSrc);
 	}, [imageSrc]);
 
 	return (
-		<div className="w-full h-auto">
+		<div className="w-full h-auto mb-5">
 			{!currentImage ? (
 				<Button
 					type="button"
@@ -85,7 +91,7 @@ const ImageSetting: React.FC<Props> = (props) => {
 
 			<GalleryDialogContainer
 				toggleExpanded={toggleExpanded}
-				getImage={setCurrentImage}
+				getImage={updateDataHandle}
 				toggleExpandedHandle={toggleExpandedHandle}
 				activeImage={currentImage}
 			/>

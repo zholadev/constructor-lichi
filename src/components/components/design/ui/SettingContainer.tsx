@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { cn } from "@/components/lib/utils";
 import {
 	Accordion,
@@ -14,6 +14,7 @@ import LinkSetting from "@/components/components/design/ui/settings/LinkSetting"
 import VideoSetting from "@/components/components/design/ui/settings/VideoSetting";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { IGalleryImageItem } from "@/components/shared/types/interface";
+import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 
 type AccessTypes = "video" | "photo" | "link";
 type ContentKeys = "photo" | "link" | "video";
@@ -38,6 +39,8 @@ const accessTypes: AccessTypes[] = ["video", "photo", "link"];
  */
 const SettingContainer: React.FC = () => {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
+
+	const editorEvent = useEditorEvent();
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
@@ -83,12 +86,20 @@ const SettingContainer: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						{Object.values(
-							editorActiveElement.componentData?.content.photo ||
+						{Object.entries(
+							editorActiveElement.componentData?.content?.photo ||
 								{}
-						).map((image: IGalleryImageItem, index) => {
+						).map(([key, value], index: number) => {
 							return (
-								<ImageSetting imageSrc={image} key={index} />
+								<div key={index} className={cn("w-full")}>
+									<h2 className={cn("uppercase mb-3 text-xs")}>{key}</h2>
+									<ImageSetting
+										imageSrc={value}
+										onChange={(data) => {
+											editorEvent.updateComponent(data, "content", `photo.${key}`);
+										}}
+									/>
+								</div>
 							);
 						})}
 					</AccordionContent>

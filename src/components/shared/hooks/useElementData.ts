@@ -4,8 +4,12 @@ import { versionComponentBase } from "@/components/app/versions/version-modules"
 import {
 	IButtonElement,
 	IElementSchema,
+	ITextElement,
 } from "@/components/shared/types/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { useMemo } from "react";
+import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
 /**
  * @author Zholaman Zhumanov
@@ -20,9 +24,27 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 export default function useElementData(): IElementSchema | IButtonElement {
 	const toastMessage = useToastMessage();
 
+	const { languageData } = useAppSelector((state) => state.app);
+
+	const languageObject = useMemo(() => {
+		try {
+			return languageData.reduce(
+				(acc, lang) => {
+					acc[lang.id] = { value: lang.name };
+					return acc;
+				},
+				{} as Record<string, { value: string }>
+			);
+		} catch (error) {
+			if (error instanceof Error) {
+				errorHandler("useElementData", "languageObject", error);
+			}
+		}
+	}, [languageData]);
+
 	const elementMap: Record<
 		ElementBaseTypes,
-		IElementSchema | IButtonElement
+		IElementSchema | IButtonElement | ITextElement
 	> = {
 		button: {
 			id: uuidv4(),
@@ -35,24 +57,23 @@ export default function useElementData(): IElementSchema | IButtonElement {
 			},
 			content: {
 				title: {
-					ru: {
-						value: "Текст",
-					},
+					...languageObject,
 				},
 			},
 		},
 		text: {
 			id: uuidv4(),
-			type: "button",
+			type: "text",
 			version: versionComponentBase.card.version,
 			style: {
 				color: "#ffffff",
+				textAlign: "center",
+				fontFamily: "Futura PT",
+				fontSize: 16
 			},
 			content: {
 				title: {
-					ru: {
-						value: "Текст",
-					},
+					...languageObject,
 				},
 			},
 		},

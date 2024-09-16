@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { cn } from "@/components/lib/utils";
 import {
 	Tabs,
@@ -11,6 +11,8 @@ import {
 import DesignContent from "@/components/components/design/ui/DesignContent";
 import SettingContainer from "@/components/components/design/ui/SettingContainer";
 import { Bolt, BookImage, Paintbrush } from "lucide-react";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
 interface Props {}
 
@@ -27,6 +29,23 @@ interface Props {}
  */
 const RightToolbar: React.FC<Props> = (props) => {
 	const {} = props;
+
+	const { editorActiveElement } = useAppSelector((state) => state.editor);
+
+	const imageContent = useMemo(() => {
+		try {
+			const findImage = editorActiveElement.componentData?.content?.photo;
+			return {
+				desktop: findImage?.desktop,
+				tablet: findImage?.tablet,
+				mobile: findImage?.mobile,
+			};
+		} catch (error) {
+			if (error instanceof Error) {
+				errorHandler("RightToolbar", "imageContent", error);
+			}
+		}
+	}, [editorActiveElement]);
 
 	return (
 		<div

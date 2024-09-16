@@ -13,7 +13,6 @@ import SwiperSetting from "@/components/components/design/ui/settings/SwiperSett
 import LinkSetting from "@/components/components/design/ui/settings/LinkSetting";
 import VideoSetting from "@/components/components/design/ui/settings/VideoSetting";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { IGalleryImageItem } from "@/components/shared/types/interface";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 
 type AccessTypes = "video" | "photo" | "link";

@@ -1,18 +1,18 @@
 "use client";
 
 import React from "react";
-import HeaderToolbar from "@/components/widgets/header/ui/HeaderToolbar";
+import HeaderToolbar from "@/components/widgets/header/HeaderToolbar";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import LeftToolbar from "@/components/components/toolbar/ui/LeftToolbar";
+import PanelComponent from "@/components/features/app/panel/container/PanelComponent";
 import { cn } from "@/components/lib/utils";
-import WhiteBoard from "@/components/components/editor/ui/components/WhiteBoard";
-import RightToolbar from "@/components/components/toolbar/ui/RightToolbar";
-import DialogCreateDirectory from "@/components/widgets/gallery/ui/dialog/ui/DialogCreateDirectory";
-import DialogUploadFile from "@/components/widgets/gallery/ui/dialog/ui/DialogUploadFile";
-import TemplateAddDialog from "@/components/components/editor/ui/components/TemplateAddDialog";
-import DialogContainer from "@/components/widgets/dialog/ui/DialogContainer";
+import WhiteBoard from "@/components/components/editor/WhiteBoard";
+import PanelContent from "@/components/features/app/panel/container/PanelContent";
+import DialogCreateDirectory from "@/components/widgets/gallery/dialog/DialogCreateDirectory";
+import DialogUploadFile from "@/components/widgets/gallery/dialog/DialogUploadFile";
+import TemplateAddDialog from "@/components/components/editor/TemplateAddDialog";
+import DialogContainer from "@/components/widgets/dialog/DialogContainer";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import ComponentBaseContent from "@/components/entities/schema/ui/ComponentBaseContent";
+import AddBaseComponent from "@/components/features/app/components/add/AddBaseComponent";
 
 /**
  * @author Zholaman Zhumanov
@@ -34,16 +34,16 @@ const SpacePageContainer: React.FC = () => {
 			<HeaderToolbar title={spaceTemplateData?.name} />
 
 			<div className={cn("flex flex-row")}>
-				<LeftToolbar />
+				<PanelComponent />
 				<WhiteBoard />
-				<RightToolbar />
+				<PanelContent />
 			</div>
 
 			<DialogContainer
 				open={dialog.dialogAddComponent.open}
 				toggle={dialog.dialogAddComponent.toggle}
 			>
-				<ComponentBaseContent />
+				<AddBaseComponent />
 			</DialogContainer>
 
 			<DialogCreateDirectory />

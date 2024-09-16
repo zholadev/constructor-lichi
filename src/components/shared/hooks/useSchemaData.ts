@@ -52,7 +52,9 @@ export default function useSchemaData():
 				id: uuidv4(),
 				type: "card",
 				version: versionComponentBase.card.version,
-				style: {},
+				style: {
+					alignItems: "flex-end",
+				},
 				elements: [],
 				content: {
 					photo: getRandomImageSchema(),

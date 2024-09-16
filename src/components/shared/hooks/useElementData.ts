@@ -21,7 +21,7 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
  * @fixme
  * @constructor
  */
-export default function useElementData(): IElementSchema | IButtonElement {
+export default function useElementData(): IElementSchema | IButtonElement | ITextElement {
 	const toastMessage = useToastMessage();
 
 	const { languageData } = useAppSelector((state) => state.app);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { cn } from "@/components/lib/utils";
 import {
 	Tabs,
@@ -11,10 +11,6 @@ import {
 import DesignContent from "@/components/components/design/DesignContent";
 import SettingContainer from "@/components/components/design/SettingContainer";
 import { Bolt, BookImage, Paintbrush } from "lucide-react";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
-
-interface Props {}
 
 /**
  * @author Zholaman Zhumanov
@@ -24,29 +20,9 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const PanelContent: React.FC<Props> = (props) => {
-	const {} = props;
-
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
-
-	const imageContent = useMemo(() => {
-		try {
-			const findImage = editorActiveElement.componentData?.content?.photo;
-			return {
-				desktop: findImage?.desktop,
-				tablet: findImage?.tablet,
-				mobile: findImage?.mobile,
-			};
-		} catch (error) {
-			if (error instanceof Error) {
-				errorHandler("RightToolbar", "imageContent", error);
-			}
-		}
-	}, [editorActiveElement]);
-
+const PanelContent: React.FC = () => {
 	return (
 		<div
 			className={cn("w-[420px] border")}

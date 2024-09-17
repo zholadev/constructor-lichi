@@ -14,9 +14,18 @@ import ImageSetting from "@/components/features/app/panel/settings/ImageSetting"
 import VideoSetting from "@/components/features/app/panel/settings/VideoSetting";
 import SwiperSetting from "@/components/features/app/panel/settings/SwiperSetting";
 import LinkSetting from "@/components/features/app/panel/settings/LinkSetting";
+import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
 type AccessTypes = "video" | "photo" | "link";
 type ContentKeys = "photo" | "link" | "video";
+
+interface IContentActiveData {
+	content: {
+		link: Record<string, unknown>;
+		photo: Record<string, unknown>;
+		video: Record<string, unknown>;
+	};
+}
 
 interface Content {
 	photo?: Record<string, unknown>;
@@ -42,6 +51,24 @@ const SettingContainer: React.FC = () => {
 	const editorEvent = useEditorEvent();
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
+
+	const contentActiveData: IContentActiveData = useMemo(() => {
+		try {
+			const content = editorActiveElement?.componentData?.content;
+
+			return {
+				content: {
+					link: content?.link ?? { url: null, active: false },
+					photo: content?.photo,
+					video: content?.video ?? { videoSrc: "", poster: null },
+				},
+			};
+		} catch (error) {
+			if (error instanceof Error) {
+				errorHandler("SettingContainer", "contentActiveData", error);
+			}
+		}
+	}, [editorActiveElement]);
 
 	const filterContentKeys = (
 		content: Content,
@@ -91,11 +118,19 @@ const SettingContainer: React.FC = () => {
 						).map(([key, value], index: number) => {
 							return (
 								<div key={index} className={cn("w-full")}>
-									<h2 className={cn("uppercase mb-3 text-xs")}>{key}</h2>
+									<h2
+										className={cn("uppercase mb-3 text-xs")}
+									>
+										{key}
+									</h2>
 									<ImageSetting
 										imageSrc={value}
 										onChange={(data) => {
-											editorEvent.updateComponent(data, "content", `photo.${key}`);
+											editorEvent.updateComponent(
+												data,
+												"content",
+												`photo.${key}`
+											);
 										}}
 									/>
 								</div>
@@ -116,7 +151,14 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<VideoSetting
-							defaultParams={{ poster: null, videoSrc: "" }}
+							defaultParams={contentActiveData.content.video}
+							onSendParams={(params) => {
+								editorEvent.updateComponent(
+									params,
+									"content",
+									"video"
+								);
+							}}
 						/>
 					</AccordionContent>
 				</AccordionItem>
@@ -132,7 +174,16 @@ const SettingContainer: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<LinkSetting defaultParams={{ url: "" }} />
+						<LinkSetting
+							defaultParams={contentActiveData.content.link}
+							onSendParams={(params) => {
+								editorEvent.updateComponent(
+									params,
+									"content",
+									"link"
+								);
+							}}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="swiper">

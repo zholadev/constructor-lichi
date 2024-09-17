@@ -43,7 +43,7 @@ const BoardContainer: React.FC = () => {
 						className={cn(
 							"w-full relative",
 							editorNavigatorHoverId === template.id
-								? "opacity-40"
+								? "opacity-70"
 								: ""
 						)}
 					>

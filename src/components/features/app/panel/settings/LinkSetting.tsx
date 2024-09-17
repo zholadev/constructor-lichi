@@ -15,12 +15,12 @@ type URLSchema = z.infer<typeof urlSchema>;
 
 interface ILinkSetting {
 	url: URLSchema;
-	add?: boolean;
+	active?: boolean;
 }
 
 interface Props {
 	onSendParams?: (params: ILinkSetting) => void;
-	defaultParams: ILinkSetting;
+	defaultParams: ILinkSetting | unknown;
 }
 
 /**
@@ -41,9 +41,14 @@ const LinkSetting: React.FC<Props> = (props) => {
 
 	const [linkSetting, setLinkSetting] = useState<ILinkSetting>({
 		url: "",
-		add: false,
+		active: false,
 	});
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для заполнение ссылки и отправки в JSON
+	 * @param e
+	 */
 	const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value as URLSchema;
 
@@ -56,18 +61,23 @@ const LinkSetting: React.FC<Props> = (props) => {
 			});
 			urlSchema.parse(value);
 			setError(null);
-			if (onSendParams) onSendParams({ url: value });
+
+			if (onSendParams)
+				onSendParams({ url: value, active: linkSetting.active });
 		} catch (error) {
 			if (error instanceof z.ZodError) {
-				setError(error.errors[0].message); // В случае ошибки показываем сообщение
+				setError(error.errors[0].message);
 			}
 		}
 	};
 
-	const onChangeSettings = (
-		value: string | boolean,
-		key: keyof ILinkSetting
-	) => {
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для переключение
+	 * @param value
+	 * @param key
+	 */
+	const onChangeSettings = (value: boolean, key: keyof ILinkSetting) => {
 		setLinkSetting((prev) => {
 			return {
 				...prev,
@@ -75,13 +85,15 @@ const LinkSetting: React.FC<Props> = (props) => {
 			};
 		});
 
+		if (onSendParams) onSendParams({ url: "", active: value });
+
 		setError(null);
 	};
 
 	useEffect(() => {
 		setLinkSetting({
 			url: defaultParams?.url,
-			add: !!defaultParams?.url,
+			active: !!defaultParams?.url,
 		});
 	}, [defaultParams]);
 
@@ -97,9 +109,9 @@ const LinkSetting: React.FC<Props> = (props) => {
 				>
 					<Switch
 						id="swiper-centeredSlides"
-						checked={linkSetting.add}
+						checked={linkSetting.active}
 						onCheckedChange={(value) => {
-							onChangeSettings(value, "add");
+							onChangeSettings(value, "active");
 						}}
 					/>
 				</div>
@@ -108,7 +120,7 @@ const LinkSetting: React.FC<Props> = (props) => {
 				value={linkSetting.url}
 				defaultValue={linkSetting.url}
 				placeholder="Введите ссылку"
-				disabled={!linkSetting.add}
+				disabled={!linkSetting.active}
 				onChange={onChangeEmail}
 			/>
 			{error && (

@@ -69,8 +69,8 @@ const VideoSetting: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		setVideoSetting({
-			poster: defaultParams.poster,
-			videoSrc: defaultParams.videoSrc,
+			poster: defaultParams?.poster,
+			videoSrc: defaultParams?.videoSrc,
 		});
 	}, [defaultParams]);
 
@@ -173,6 +173,7 @@ const VideoSetting: React.FC<Props> = (props) => {
 					value={videoSetting.videoSrc}
 					placeholder="Введите ссылку видео"
 					onChange={(e) => {
+						console.log(e.target.value);
 						onChangeSettings(e.target.value, "videoSrc");
 					}}
 				/>

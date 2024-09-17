@@ -2,6 +2,7 @@ import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import {
 	IComponentBaseSchema,
 	IComponentCardSchema,
+	IComponentCardVideoSchema,
 } from "@/components/shared/types/interface-components";
 import { v4 as uuidv4 } from "uuid";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
@@ -46,7 +47,9 @@ export default function useSchemaData():
 	): IComponentBaseSchema | IComponentCardSchema {
 		const schemaMap: Record<
 			ComponentBaseTypes,
-			IComponentCardSchema | IComponentBaseSchema
+			| IComponentCardSchema
+			| IComponentBaseSchema
+			| IComponentCardVideoSchema
 		> = {
 			card: {
 				id: uuidv4(),
@@ -117,7 +120,10 @@ export default function useSchemaData():
 				style: {},
 				elements: [],
 				content: {
-					photo: getRandomImageSchema(),
+					video: {
+						videoSrc: "",
+						poster: getRandomImageSchema(),
+					},
 				},
 			},
 			video_outside: {

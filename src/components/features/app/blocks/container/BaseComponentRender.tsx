@@ -7,6 +7,7 @@ import {
 	IComponentBaseSchema,
 	ITemplateBaseSchema,
 } from "@/components/shared/types/interface-templates";
+import Video from "../base/Video";
 import Card from "../base/Card";
 import CardOutside from "../base/CardOutside";
 import Album from "../base/Album";
@@ -44,6 +45,8 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 				return <CardOutside data={data} containerId={template.id} />;
 			case "album":
 				return <Album data={data} containerId={template.id} />;
+			case "video":
+				return <Video data={data} containerId={template.id} />;
 			default:
 				return (
 					<BoardEmptyCard

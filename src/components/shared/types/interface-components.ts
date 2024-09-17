@@ -18,3 +18,16 @@ export interface IComponentCardSchema extends IComponentBaseSchema {
 		};
 	};
 }
+
+export interface IComponentCardVideoSchema extends IComponentBaseSchema {
+	content: {
+		video: {
+			videoSrc: string;
+			poster: {
+				desktop: IGalleryImageItem;
+				tablet: IGalleryImageItem;
+				mobile: IGalleryImageItem;
+			};
+		};
+	};
+}

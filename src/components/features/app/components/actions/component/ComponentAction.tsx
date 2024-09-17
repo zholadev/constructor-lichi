@@ -3,11 +3,14 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import styles from "@/components/styles/card.module.sass";
-import { IComponentCardSchema } from "@/components/shared/types/interface-components";
+import {
+	IComponentCardSchema,
+	IComponentCardVideoSchema,
+} from "@/components/shared/types/interface-components";
 
 interface Props {
 	children: React.ReactNode;
-	data: IComponentCardSchema;
+	data: IComponentCardSchema | IComponentCardVideoSchema;
 	containerId: string;
 }
 

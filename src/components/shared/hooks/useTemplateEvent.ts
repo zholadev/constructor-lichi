@@ -42,8 +42,6 @@ export default function useTemplateEvent(): ITemplateEvent {
 	const addComponent = (updateData: IComponentBaseSchema) => {
 		const selected = editorSelectAddComponent;
 
-		console.log(updateData)
-
 		const data = spaceTemplateData.map((container: ITemplateBaseSchema) => {
 			if (container.id === selected.template.id) {
 				return {

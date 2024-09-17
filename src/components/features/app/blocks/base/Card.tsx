@@ -1,11 +1,11 @@
 import React from "react";
-import { cn } from "../../../../lib/utils";
-import styles from "../../../../styles/card.module.sass";
-import { useAppSelector } from "../../../../app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { IElementSchema } from "@/components/shared/types/interface-elements";
 import { IComponentCardSchema } from "@/components/shared/types/interface-components";
 import BaseElementRender from "@/components/features/app/elements/container/BaseElementRender";
+import { useAppSelector } from "../../../../app/store/hooks/hooks";
+import styles from "../../../../styles/card.module.sass";
+import { cn } from "../../../../lib/utils";
 
 interface Props {
 	data: IComponentCardSchema;
@@ -28,12 +28,14 @@ const Card: React.FC<Props> = (props) => {
 
 	const { editorActiveElementAction } = useDispatchAction();
 
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
+	const { editorActiveElement, editorNavigatorHoverId } = useAppSelector(
+		(state) => state.editor
+	);
 
 	return (
 		<div
 			className={cn(
-				`${editorActiveElement.id === data.id ? "border-blue-800 border-2" : ""}`,
+				`${editorActiveElement.id === data.id || editorNavigatorHoverId === data.id ? "border-blue-800 border-2 box-border" : "border-box"}`,
 				styles.card
 			)}
 			onClick={() => {

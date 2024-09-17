@@ -1,9 +1,17 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
+import { ButtonIcon, Component1Icon, LayersIcon } from "@radix-ui/react-icons";
+import {
+	IElementBase,
+	ITemplateBaseSchema,
+} from "@/components/shared/types/interface-templates";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+
+type LayerType = "container" | "component" | "element";
 
 interface Props {
-	node: Node;
-	onSelect: (node: Node) => void;
+	node: ITemplateBaseSchema | IElementBase;
+	type: LayerType;
 }
 
 /**
@@ -12,46 +20,75 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @param props
  * @constructor
  */
 const NavigatorLayer: React.FC<Props> = (props) => {
-	const { node, onSelect } = props;
+	const { node, onSelect, type } = props;
 
-	const handleClick = () => {
-		onSelect(node);
-	};
+	const { editorNavigatorHoverIdAction } = useDispatchAction();
+
+	const onMouseOverHandle = (id: string | null) =>
+		editorNavigatorHoverIdAction(id);
 
 	return (
-		<div style={{ paddingLeft: "10px" }}>
+		<div className={cn("pl-3")}>
 			<div
-				onClick={handleClick}
-				style={{ cursor: "pointer", padding: "5px 0" }}
+				onMouseMove={() =>
+					onMouseOverHandle(
+						type === "container" || type === "element"
+							? node.id
+							: node?.data?.id
+					)
+				}
+				onMouseLeave={() => onMouseOverHandle(null)}
+				className={cn(
+					"w-full flex uppercase text-xs flex-row items-center gap-2 py-2 border-b cursor-pointer hover:bg-secondary transition-bg"
+				)}
 			>
+				<span>
+					{type === "container" ? (
+						<LayersIcon />
+					) : type === "component" ? (
+						<Component1Icon />
+					) : type === "element" ? (
+						<ButtonIcon />
+					) : null}
+				</span>{" "}
 				{node.type || node?.data?.type}
 			</div>
 			{node.components &&
 				node.components.map((component) => {
 					return (
-						<div className={cn("w-full flex flex-col")}>
+						<div
+							className={cn("w-full flex flex-col")}
+							key={component.id}
+						>
 							<NavigatorLayer
 								key={component.id}
 								node={component}
 								onSelect={onSelect}
+								type="component"
 							/>
 
-							{component.data.elements &&
-								component.data.elements.map((element) => (
-									<div className={cn("pl-2")}>
-										<NavigatorLayer
+							{component.data?.elements &&
+								component.data?.elements.map(
+									(element: IElementBase) => (
+										<div
+											className={cn("pl-3")}
 											key={element.id}
-											node={element}
-											onSelect={onSelect}
-										/>
-									</div>
-								))}
+										>
+											<NavigatorLayer
+												key={element.id}
+												node={element}
+												onSelect={onSelect}
+												type="element"
+											/>
+										</div>
+									)
+								)}
 						</div>
 					);
 				})}

@@ -28,7 +28,9 @@ const BoardContainer: React.FC = () => {
 	const templateEvent = useTemplateEvent();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
+	const { editorRemoveTemplate, editorNavigatorHoverId } = useAppSelector(
+		(state) => state.editor
+	);
 
 	console.log("spaceTemplateData", spaceTemplateData);
 
@@ -36,7 +38,15 @@ const BoardContainer: React.FC = () => {
 		<div className={cn("h-full overflow-y-auto")}>
 			{spaceTemplateData.map((template: ITemplateBaseSchema) => {
 				return (
-					<div key={template.id} className={cn("w-full relative")}>
+					<div
+						key={template.id}
+						className={cn(
+							"w-full relative",
+							editorNavigatorHoverId === template.id
+								? "opacity-40"
+								: ""
+						)}
+					>
 						{editorRemoveTemplate && (
 							<div
 								className={cn(

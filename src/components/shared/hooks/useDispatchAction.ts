@@ -61,7 +61,7 @@ import {
 import {
 	editorActiveElementReducer,
 	editorDisabledEditReducer,
-	editorDraggingTemplateReducer,
+	editorDraggingTemplateReducer, editorNavigatorHoverIdReducer,
 	editorPreviewModeReducer,
 	editorRemoveTemplateReducer,
 	editorSelectAddComponentReducer,
@@ -139,6 +139,8 @@ export default function useDispatchAction(): any {
 			dispatch(editorPreviewModeReducer(value)),
 		editorRemoveTemplateAction: (value: boolean) =>
 			dispatch(editorRemoveTemplateReducer(value)),
+		editorNavigatorHoverIdAction: (value: string | null) =>
+			dispatch(editorNavigatorHoverIdReducer(value)),
 
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>

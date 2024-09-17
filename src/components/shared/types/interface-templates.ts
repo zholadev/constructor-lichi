@@ -40,7 +40,7 @@ export interface IComponentBaseSchema {
 	type: ComponentBaseTypes;
 	version: string;
 	style: Record<string, unknown>;
-	elements: unknown;
+	elements: [];
 	content: {
 		photo: {
 			thumbnail: unknown;

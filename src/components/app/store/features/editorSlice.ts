@@ -12,6 +12,7 @@ interface stateSlice {
 	editorActiveElement: IActiveElement;
 	editorPreviewMode: boolean;
 	editorRemoveTemplate: boolean;
+	editorNavigatorHoverId: string | null;
 }
 
 const initialState: stateSlice = {
@@ -24,6 +25,7 @@ const initialState: stateSlice = {
 	editorActiveElement: { id: "", componentData: {}, containerId: "" },
 	editorPreviewMode: false,
 	editorRemoveTemplate: false,
+	editorNavigatorHoverId: null,
 };
 
 export const editorSlice = createSlice({
@@ -72,6 +74,12 @@ export const editorSlice = createSlice({
 		) => {
 			state.editorRemoveTemplate = action.payload;
 		},
+		editorNavigatorHoverIdReducer: (
+			state,
+			action: PayloadAction<string | null>
+		) => {
+			state.editorNavigatorHoverId = action.payload;
+		},
 	},
 });
 
@@ -85,5 +93,6 @@ export const {
 	editorActiveElementReducer,
 	editorPreviewModeReducer,
 	editorRemoveTemplateReducer,
+	editorNavigatorHoverIdReducer,
 } = editorSlice.actions;
 export default editorSlice.reducer;

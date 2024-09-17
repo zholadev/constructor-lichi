@@ -21,6 +21,7 @@ import TypographyStyles from "@/components/features/app/panel/styles/TypographyS
 import BackgroundStyles from "@/components/features/app/panel/styles/BackgroundStyles";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 type AccessTypes =
 	| "position"
@@ -56,13 +57,19 @@ const accessTypes: AccessTypes[] = [
  */
 const DesignContent: React.FC = () => {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
+
 	console.log("editorActiveElement", editorActiveElement);
+	const toastMessage = useToastMessage();
 	const editorEvent = useEditorEvent();
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	const styleActiveData = useMemo(() => {
 		return editorActiveElement.style ?? {};
+	}, [editorActiveElement]);
+
+	const activeUpdateTypeData = useMemo(() => {
+		return editorActiveElement.type ?? "";
 	}, [editorActiveElement]);
 
 	const filterContentKeys = (
@@ -77,7 +84,23 @@ const DesignContent: React.FC = () => {
 	};
 
 	const onUpdateHandle = (value) => {
-		editorEvent.updateComponent(value, "dir", "style");
+		if (!value) {
+			toastMessage(
+				"Данные не прилетают для обновление! Проверьте onStyleChange",
+				"error"
+			);
+			return;
+		}
+
+		if (!activeUpdateTypeData) {
+			toastMessage(
+				"Тип не найден! Проверьте activeUpdateTypeData",
+				"error"
+			);
+			return;
+		}
+
+		editorEvent.updateComponent(value, activeUpdateTypeData, "style");
 	};
 
 	useEffect(() => {

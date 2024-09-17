@@ -4,11 +4,20 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
-type UpdateContentKeys = "content" | "elements" | "settings" | "dir" | "styles";
+type UpdateContentKeys =
+	| "content"
+	| "element"
+	| "settings"
+	| "component"
+	| "styles";
 
 interface IEditorEvent {
 	addElement: (type: string) => void;
-	updateComponent: (data: unknown, type: UpdateContentKeys, pathString: string) => void;
+	updateComponent: (
+		data: unknown,
+		type: UpdateContentKeys,
+		pathString: string
+	) => void;
 }
 
 /**
@@ -105,7 +114,11 @@ export default function useEditorEvent(): IEditorEvent {
 
 		const lastKey = keys[keys.length - 1];
 
-		if (save && typeof current[lastKey] === 'object' && current[lastKey] !== null) {
+		if (
+			save &&
+			typeof current[lastKey] === "object" &&
+			current[lastKey] !== null
+		) {
 			// Если save: true, объединяем старые значения с новыми, если старое значение — объект
 			current[lastKey] = { ...current[lastKey], ...value };
 		} else {
@@ -138,7 +151,7 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
-			if (!editorActiveElement.id) {
+			if (!editorActiveElement.currentActiveId) {
 				toastMessage("Выбранный id не найден", "error");
 				return;
 			}
@@ -186,7 +199,7 @@ export default function useEditorEvent(): IEditorEvent {
 				);
 
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
-			} else if (type === "dir") {
+			} else if (type === "component") {
 				const newUpdateContent = spaceTemplateData.map(
 					(container: ITemplateBaseSchema) => {
 						if (container.id === editorActiveElement.containerId) {
@@ -227,7 +240,65 @@ export default function useEditorEvent(): IEditorEvent {
 					}
 				);
 
-				console.log("newUpdateContent",newUpdateContent)
+				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
+			} else if (type === "element") {
+				const newUpdateContent = spaceTemplateData.map(
+					(container: ITemplateBaseSchema) => {
+						if (container.id === editorActiveElement.containerId) {
+							return {
+								...container,
+								components: container.components.map(
+									(component) => {
+										if (
+											component.data.id ===
+											editorActiveElement.id
+										) {
+											// Делаем глубокую копию компонента
+											const updatedComponent =
+												deepCopy(component);
+
+											// Находим элемент по ID внутри массива elements
+											const elementIndex =
+												updatedComponent.data.elements.findIndex(
+													(el: any) =>
+														el.id ===
+														editorActiveElement.currentActiveId
+												);
+
+											if (elementIndex !== -1) {
+												// Обновляем данные элемента по найденному индексу
+												updateObjectByPath(
+													updatedComponent.data
+														.elements[elementIndex], // элемент, который нужно обновить
+													pathString, // путь, по которому нужно обновить значение
+													newValue, // новое значение
+													true // сохраняем старые значения, если флаг true
+												);
+
+												toastMessage(
+													"Обновленные данные",
+													"success"
+												);
+
+												// Возвращаем обновленный компонент
+												return {
+													...component,
+													...updatedComponent,
+												};
+											}
+
+											// Если элемент не найден, возвращаем компонент без изменений
+											return component;
+										}
+										return component;
+									}
+								),
+							};
+						}
+						return container;
+					}
+				);
+				console.log("newUpdateContent", newUpdateContent);
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
 			}
 		} catch (error) {

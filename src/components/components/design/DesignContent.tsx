@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { cn } from "@/components/lib/utils";
 import {
 	Accordion,
@@ -19,6 +19,30 @@ import SpacingStyles from "@/components/features/app/panel/styles/SpacingStyles"
 import BorderStyles from "@/components/features/app/panel/styles/BorderStyles";
 import TypographyStyles from "@/components/features/app/panel/styles/TypographyStyles";
 import BackgroundStyles from "@/components/features/app/panel/styles/BackgroundStyles";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
+
+type AccessTypes =
+	| "position"
+	| "size"
+	| "spacing"
+	| "border"
+	| "typography"
+	| "fill";
+type ContentKeys = AccessTypes;
+
+interface Content {
+	style?: Record<string, unknown>;
+}
+
+const accessTypes: AccessTypes[] = [
+	"position",
+	"size",
+	"spacing",
+	"border",
+	"typography",
+	"fill",
+];
 
 /**
  * @author Zholaman Zhumanov
@@ -31,7 +55,41 @@ import BackgroundStyles from "@/components/features/app/panel/styles/BackgroundS
  * @constructor
  */
 const DesignContent: React.FC = () => {
+	const { editorActiveElement } = useAppSelector((state) => state.editor);
+	console.log("editorActiveElement", editorActiveElement);
+	const editorEvent = useEditorEvent();
+
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
+
+	const styleActiveData = useMemo(() => {
+		return editorActiveElement.style ?? {};
+	}, [editorActiveElement]);
+
+	const filterContentKeys = (
+		content: Content,
+		accessTypes: AccessTypes[]
+	) => {
+		const filteredKeys: ContentKeys[] = Object.keys(content)
+			.filter((key) => accessTypes.includes(key as AccessTypes))
+			.map((key) => key as ContentKeys);
+
+		setExpanded(filteredKeys);
+	};
+
+	const onUpdateHandle = (value) => {
+		editorEvent.updateComponent(value, "dir", "style");
+	};
+
+	useEffect(() => {
+		if (editorActiveElement.componentData) {
+			if (editorActiveElement.componentData.content) {
+				filterContentKeys(
+					editorActiveElement.componentData.content,
+					accessTypes
+				);
+			}
+		}
+	}, [editorActiveElement]);
 
 	return (
 		<div className={cn("w-full p-3")}>
@@ -49,7 +107,11 @@ const DesignContent: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<LayoutStyles hideTitle />
+						<LayoutStyles
+							hideTitle
+							styles={styleActiveData}
+							onStyleChange={onUpdateHandle}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="size">
@@ -60,7 +122,11 @@ const DesignContent: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<SizeStyles hideTitle />
+						<SizeStyles
+							hideTitle
+							styles={styleActiveData}
+							onStyleChange={onUpdateHandle}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="spacing">
@@ -71,7 +137,11 @@ const DesignContent: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<SpacingStyles hideTitle />
+						<SpacingStyles
+							hideTitle
+							styles={styleActiveData}
+							onStyleChange={onUpdateHandle}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="border">
@@ -82,7 +152,11 @@ const DesignContent: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<BorderStyles hideTitle />
+						<BorderStyles
+							hideTitle
+							styles={styleActiveData}
+							onStyleChange={onUpdateHandle}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="typography">
@@ -93,7 +167,11 @@ const DesignContent: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<TypographyStyles hideTitle />
+						<TypographyStyles
+							hideTitle
+							styles={styleActiveData}
+							onStyleChange={onUpdateHandle}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="fill">
@@ -104,7 +182,11 @@ const DesignContent: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<BackgroundStyles hideTitle />
+						<BackgroundStyles
+							hideTitle
+							styles={styleActiveData}
+							onStyleChange={onUpdateHandle}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>

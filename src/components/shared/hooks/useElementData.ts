@@ -53,7 +53,6 @@ export default function useElementData(): IElementSchema | IButtonElement | ITex
 			style: {
 				border: "1px solid #ffffff",
 				padding: "10px 15px",
-				color: "#ffffff",
 			},
 			content: {
 				title: {
@@ -66,10 +65,8 @@ export default function useElementData(): IElementSchema | IButtonElement | ITex
 			type: "text",
 			version: versionComponentBase.card.version,
 			style: {
-				color: "#ffffff",
 				textAlign: "center",
 				fontFamily: "Futura PT",
-				fontSize: 16
 			},
 			content: {
 				title: {

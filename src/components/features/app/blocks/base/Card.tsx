@@ -26,7 +26,7 @@ const Card: React.FC<Props> = (props) => {
 
 	return (
 		<ComponentAction containerId={containerId} data={data}>
-			<div style={data.style} className={styles.wrapper}>
+			<div style={{ ...data.style }} className={styles.wrapper}>
 				<figure>
 					<img
 						src={data.content.photo.desktop?.url}

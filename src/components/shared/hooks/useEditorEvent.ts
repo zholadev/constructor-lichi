@@ -4,7 +4,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
-type UpdateContentKeys = "content" | "elements" | "settings" | "dir";
+type UpdateContentKeys = "content" | "elements" | "settings" | "dir" | "styles";
 
 interface IEditorEvent {
 	addElement: (type: string) => void;
@@ -90,7 +90,7 @@ export default function useEditorEvent(): IEditorEvent {
 	};
 
 	// Функция для обновления объекта по заданному пути (string)
-	function updateObjectByPath(obj, path, value) {
+	function updateObjectByPath(obj, path, value, save = false) {
 		const keys = path.split("."); // Разбиваем строку пути на массив ключей
 		let current = obj;
 
@@ -103,8 +103,15 @@ export default function useEditorEvent(): IEditorEvent {
 			current = current[key];
 		}
 
-		// Обновляем последний ключ в пути
-		current[keys[keys.length - 1]] = value;
+		const lastKey = keys[keys.length - 1];
+
+		if (save && typeof current[lastKey] === 'object' && current[lastKey] !== null) {
+			// Если save: true, объединяем старые значения с новыми, если старое значение — объект
+			current[lastKey] = { ...current[lastKey], ...value };
+		} else {
+			// Иначе просто присваиваем новое значение
+			current[lastKey] = value;
+		}
 	}
 
 	// Простая функция глубокого копирования объекта
@@ -178,6 +185,49 @@ export default function useEditorEvent(): IEditorEvent {
 					}
 				);
 
+				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
+			} else if (type === "dir") {
+				const newUpdateContent = spaceTemplateData.map(
+					(container: ITemplateBaseSchema) => {
+						if (container.id === editorActiveElement.containerId) {
+							return {
+								...container,
+								components: container.components.map(
+									(component) => {
+										if (
+											component.data.id ===
+											editorActiveElement.id
+										) {
+											const updatedComponent =
+												deepCopy(component);
+
+											updateObjectByPath(
+												updatedComponent.data,
+												pathString,
+												newValue,
+												true
+											);
+
+											toastMessage(
+												"Обновленные данные",
+												"success"
+											);
+
+											return {
+												...component,
+												...updatedComponent,
+											};
+										}
+										return component;
+									}
+								),
+							};
+						}
+						return container;
+					}
+				);
+
+				console.log("newUpdateContent",newUpdateContent)
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
 			}
 		} catch (error) {

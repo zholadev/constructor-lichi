@@ -269,7 +269,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 			setStylesValues((size) => {
 				const updateValues = {
 					...size,
-					[key]: value,
+					[key]: key === "fontSize" ? `${value}${size.unit}` : value,
 				};
 
 				if (onStyleChange) {

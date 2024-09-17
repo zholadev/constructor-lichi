@@ -40,8 +40,11 @@ const ComponentAction: React.FC<Props> = (props) => {
 			onClick={() => {
 				editorActiveElementAction({
 					id: data.id,
-					componentData: data,
 					containerId,
+					type: "component",
+					style: data?.style,
+					componentData: data,
+					currentActiveId: data.id,
 				});
 			}}
 		>

@@ -53,7 +53,7 @@ const accessTypes: AccessTypes[] = [
  * @description
  * @last-updated
  * @update-description
- * @todo refactoring
+ * @todo refactoring, ts types
  * @fixme
  * @constructor
  */
@@ -67,7 +67,12 @@ const DesignContent: React.FC = () => {
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для получения стиля активного компонента
+	 */
 	const styleActiveData = useMemo(() => {
+		// Получаем контейнер
 		const findContainer = spaceTemplateData.find(
 			(container: ITemplateBaseSchema) =>
 				container.id === editorActiveElement?.containerId
@@ -80,19 +85,25 @@ const DesignContent: React.FC = () => {
 						component?.data?.id === editorActiveElement?.id
 				);
 
-				return component?.data?.style ?? {}
+				return component?.data?.style ?? {};
 			}
 			if (editorActiveElement?.type === "element") {
-				return findContainer?.components?.map(
-					(component: IComponentBaseSchema) => {}
+				const findComponent = findContainer?.components?.find(
+					(component: IComponentBaseSchema) =>
+						component?.data?.id === editorActiveElement?.id
 				);
+
+				const findElement = findComponent?.data?.elements?.find(
+					(element: IComponentBaseSchema) =>
+						element?.id === editorActiveElement?.currentActiveId
+				);
+
+				return findElement?.style ?? {};
 			}
 		} else {
 			return editorActiveElement?.style ?? {};
 		}
 	}, [editorActiveElement, spaceTemplateData]);
-
-	// console.log("styleActiveData", styleActiveData);
 
 	const activeUpdateTypeData = useMemo(() => {
 		return editorActiveElement.type ?? "";

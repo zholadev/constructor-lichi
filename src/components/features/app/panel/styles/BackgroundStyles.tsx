@@ -100,7 +100,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 							className={cn("border-0 p-0")}
 							value={stylesValues.backgroundColor}
 							type="color"
-							onChange={(e) => {
+							onInput={(e) => {
 								onChangeStyleHandle(
 									e.target.value,
 									"backgroundColor"

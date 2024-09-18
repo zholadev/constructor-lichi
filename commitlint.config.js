@@ -35,6 +35,7 @@ module.exports = {
 				"security",
 				"update",
 				"release",
+				"todo",
 			],
 		],
 	},

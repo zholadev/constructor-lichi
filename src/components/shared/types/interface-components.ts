@@ -23,11 +23,7 @@ export interface IComponentCardVideoSchema extends IComponentBaseSchema {
 	content: {
 		video: {
 			videoSrc: string;
-			poster: {
-				desktop: IGalleryImageItem;
-				tablet: IGalleryImageItem;
-				mobile: IGalleryImageItem;
-			};
+			poster: IGalleryImageItem | null;
 		};
 	};
 }

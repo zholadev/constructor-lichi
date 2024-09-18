@@ -23,11 +23,15 @@ type ImageType = "card" | "album";
 export default function useSchemaData():
 	| IComponentBaseSchema
 	| IComponentCardSchema {
-	const getRandomImageSchema = (imageType: ImageType = "card") => {
+	const getRandomImageSchema = (imageType: ImageType = "card", single: boolean = false) => {
 		const getImage =
 			IMAGES.THUMBNAIL[imageType][
 				Math.floor(Math.random() * IMAGES.THUMBNAIL[imageType].length)
 			];
+
+		if (single) {
+			return getImage;
+		}
 
 		return {
 			desktop: {
@@ -122,7 +126,7 @@ export default function useSchemaData():
 				content: {
 					video: {
 						videoSrc: "",
-						poster: getRandomImageSchema(),
+						poster: getRandomImageSchema("card", true),
 					},
 				},
 			},

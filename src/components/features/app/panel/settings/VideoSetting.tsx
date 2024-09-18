@@ -27,7 +27,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring, poster fix
  * @fixme
  * @param props
  * @constructor
@@ -119,7 +119,7 @@ const VideoSetting: React.FC<Props> = (props) => {
 							)}
 						>
 							<Image
-								src={videoSetting.poster.url}
+								src={videoSetting.poster.url || videoSetting.poster.src}
 								alt=""
 								width={240}
 								height={240}

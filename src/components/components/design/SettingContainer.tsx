@@ -151,7 +151,11 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<VideoSetting
-							defaultParams={contentActiveData.content.video}
+							defaultParams={{
+								videoSrc:
+									contentActiveData.content.video?.videoSrc,
+								poster: contentActiveData.content.video?.poster,
+							}}
 							onSendParams={(params) => {
 								editorEvent.updateComponent(
 									params,

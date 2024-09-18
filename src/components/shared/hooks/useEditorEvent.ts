@@ -298,7 +298,7 @@ export default function useEditorEvent(): IEditorEvent {
 						return container;
 					}
 				);
-				console.log("newUpdateContent", newUpdateContent);
+				// console.log("newUpdateContent", newUpdateContent);
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
 			}
 		} catch (error) {

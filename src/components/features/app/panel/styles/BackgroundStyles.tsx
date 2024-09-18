@@ -4,6 +4,7 @@ import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
+import useDebounce from "@/components/shared/hooks/useDebounce";
 
 interface IStylesValues {
 	backgroundColor: string;
@@ -23,8 +24,8 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
- * @fixme
+ * @todo refactoring
+ * @fixme debounce fix
  * @param props
  * @constructor
  */
@@ -69,6 +70,8 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 		}
 	};
 
+	const debouncedHandleInput = useDebounce(onChangeStyleHandle, 1000);
+
 	useEffect(() => {
 		if (styles) {
 			setStylesValues({
@@ -112,7 +115,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 							value={stylesValues.backgroundColor}
 							type="text"
 							onChange={(e) => {
-								onChangeStyleHandle(
+								debouncedHandleInput(
 									e.target.value,
 									"backgroundColor"
 								);

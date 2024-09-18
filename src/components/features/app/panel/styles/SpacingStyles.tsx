@@ -25,13 +25,51 @@ interface Props {
 	hideTitle?: boolean;
 }
 
+function convertToCssString(styles) {
+	const { margin } = styles;
+	const { padding } = styles;
+
+	const marginString = `${margin.top}px ${margin.right}px ${margin.bottom}px ${margin.left}px`;
+	const paddingString = `${padding.top}px ${padding.right}px ${padding.bottom}px ${padding.left}px`;
+
+	return {
+		margin: marginString,
+		padding: paddingString,
+	};
+}
+
+function convertToObject(styles) {
+	const [marginTop, marginRight, marginBottom, marginLeft] = styles.margin
+		.split(" ")
+		.map((value) => parseInt(value.replace("px", "")));
+	const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
+		styles.padding
+			.split(" ")
+			.map((value) => parseInt(value.replace("px", "")));
+
+	return {
+		margin: {
+			top: marginTop,
+			right: marginRight,
+			bottom: marginBottom,
+			left: marginLeft,
+		},
+		padding: {
+			top: paddingTop,
+			right: paddingRight,
+			bottom: paddingBottom,
+			left: paddingLeft,
+		},
+	};
+}
+
 /**
  * @author Zholaman Zhumanov
  * @created 21.08.2024
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @param props
  * @constructor
@@ -78,6 +116,8 @@ const SpacingStyles: React.FC<Props> = (props) => {
 
 			const newValue = parseFloat(value);
 
+			console.log("updateValues", value);
+
 			setStylesValues((prev) => {
 				const updateValues = {
 					...prev,
@@ -87,8 +127,12 @@ const SpacingStyles: React.FC<Props> = (props) => {
 					},
 				};
 
+				console.log("updateValues", updateValues);
+
 				if (onStyleChange) {
-					onStyleChange(updateValues);
+					const covertSpacing = convertToCssString(updateValues);
+					console.log("covertSpacing", covertSpacing);
+					onStyleChange(covertSpacing);
 				}
 
 				return updateValues;
@@ -128,21 +172,9 @@ const SpacingStyles: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (styles) {
-			setStylesValues({
-				margin: {
-					top: parseFloat(styles.marginTop?.toString() || "0"),
-					bottom: parseFloat(styles.marginBottom?.toString() || "0"),
-					left: parseFloat(styles.marginLeft?.toString() || "0"),
-					right: parseFloat(styles.marginRight?.toString() || "0"),
-				},
-				padding: {
-					top: parseFloat(styles.paddingTop?.toString() || "0"),
-					bottom: parseFloat(styles.paddingBottom?.toString() || "0"),
-					left: parseFloat(styles.paddingLeft?.toString() || "0"),
-					right: parseFloat(styles.paddingRight?.toString() || "0"),
-				},
-			});
+		if (styles && styles.margin || styles?.padding) {
+			const reverseConvertObj = convertToObject(styles);
+			setStylesValues(reverseConvertObj);
 		}
 	}, [styles]);
 

@@ -18,7 +18,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo refactoring
+ * @todo refactoring, poster fix
  * @fixme
  * @param props
  * @constructor
@@ -34,7 +34,7 @@ const Video: React.FC<Props> = (props) => {
 				{!data.content?.video?.videoSrc ? (
 					<figure>
 						<img
-							src={data.content.video.poster?.desktop.url}
+							src={data.content.video.poster?.src}
 							alt=""
 							className={styles.img}
 						/>

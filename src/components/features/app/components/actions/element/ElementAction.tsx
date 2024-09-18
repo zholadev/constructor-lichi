@@ -35,7 +35,7 @@ const ElementAction: React.FC<Props> = (props) => {
 		<div
 			className={cn(
 				"cursor-pointer box-border",
-				`${editorActiveElement.currentActiveId === data.id || editorNavigatorHoverId === data.id ? "border-emerald-400 border-2" : ""}`
+				`${editorActiveElement.currentActiveId === data.id || editorNavigatorHoverId === data.id ? "border-orange-400 border-2" : ""}`
 			)}
 			onClick={(e) => {
 				e.stopPropagation();

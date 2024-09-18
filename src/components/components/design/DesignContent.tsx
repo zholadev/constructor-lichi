@@ -22,6 +22,8 @@ import BackgroundStyles from "@/components/features/app/panel/styles/BackgroundS
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
+import { IComponentBaseSchema } from "@/components/shared/types/interface-components";
 
 type AccessTypes =
 	| "position"
@@ -51,11 +53,12 @@ const accessTypes: AccessTypes[] = [
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @constructor
  */
 const DesignContent: React.FC = () => {
+	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	console.log("editorActiveElement", editorActiveElement);
@@ -65,12 +68,35 @@ const DesignContent: React.FC = () => {
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	const styleActiveData = useMemo(() => {
-		return editorActiveElement.style ?? {};
-	}, [editorActiveElement]);
+		const findContainer = spaceTemplateData.find(
+			(container: ITemplateBaseSchema) =>
+				container.id === editorActiveElement?.containerId
+		);
+
+		if (findContainer) {
+			if (editorActiveElement?.type === "component") {
+				const component = findContainer?.components?.find(
+					(component: IComponentBaseSchema) =>
+						component?.data?.id === editorActiveElement?.id
+				);
+
+				return component?.data?.style ?? {}
+			}
+			if (editorActiveElement?.type === "element") {
+				return findContainer?.components?.map(
+					(component: IComponentBaseSchema) => {}
+				);
+			}
+		} else {
+			return editorActiveElement?.style ?? {};
+		}
+	}, [editorActiveElement, spaceTemplateData]);
+
+	// console.log("styleActiveData", styleActiveData);
 
 	const activeUpdateTypeData = useMemo(() => {
 		return editorActiveElement.type ?? "";
-	}, [editorActiveElement]);
+	}, [editorActiveElement, spaceTemplateData]);
 
 	const filterContentKeys = (
 		content: Content,
@@ -83,7 +109,7 @@ const DesignContent: React.FC = () => {
 		setExpanded(filteredKeys);
 	};
 
-	const onUpdateHandle = (value) => {
+	const onUpdateHandle = (value, path = "style") => {
 		if (!value) {
 			toastMessage(
 				"Данные не прилетают для обновление! Проверьте onStyleChange",
@@ -100,7 +126,7 @@ const DesignContent: React.FC = () => {
 			return;
 		}
 
-		editorEvent.updateComponent(value, activeUpdateTypeData, "style");
+		editorEvent.updateComponent(value, activeUpdateTypeData, path);
 	};
 
 	useEffect(() => {
@@ -178,7 +204,7 @@ const DesignContent: React.FC = () => {
 						<BorderStyles
 							hideTitle
 							styles={styleActiveData}
-							onStyleChange={onUpdateHandle}
+							onStyleChange={(params) => onUpdateHandle(params)}
 						/>
 					</AccordionContent>
 				</AccordionItem>

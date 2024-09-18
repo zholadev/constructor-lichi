@@ -511,7 +511,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							className={cn("border-0 p-0")}
 							defaultValue={stylesValues.color}
 							type="color"
-							onChange={(e) => {
+							onInput={(e) => {
 								onChangeStyleHandle("color", e.target.value);
 							}}
 						/>

@@ -60,7 +60,7 @@ const BoardContainer: React.FC = () => {
 						<ContextMenu>
 							<ContextMenuTrigger>
 								<div
-									className={cn("border w-full min-h-80")}
+									className={cn("size-full")}
 									style={{
 										...template.style,
 									}}

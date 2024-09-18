@@ -38,7 +38,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 		<div className={cn("size-full relative")}>
 			<div
 				className={cn(
-					`${editorActiveElement.id === data.id || editorNavigatorHoverId === data.id ? "border-emerald-400 border-2 box-border absolute top-0 left-0" : "border-box"}`,
+					`${editorActiveElement.id === data.id || editorNavigatorHoverId === data.id ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					styles.card
 				)}
 				onClick={() => {

@@ -40,11 +40,11 @@ function convertToCssString(styles) {
 
 function convertToObject(styles) {
 	const [marginTop, marginRight, marginBottom, marginLeft] = styles.margin
-		.split(" ")
+		?.split(" ")
 		.map((value) => parseInt(value.replace("px", "")));
 	const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
 		styles.padding
-			.split(" ")
+			?.split(" ")
 			.map((value) => parseInt(value.replace("px", "")));
 
 	return {

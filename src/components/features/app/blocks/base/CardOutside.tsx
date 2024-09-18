@@ -43,6 +43,8 @@ const CardOutside: React.FC<Props> = (props) => {
 								key={element.id}
 								type={element.type}
 								data={element}
+								containerId={containerId}
+								componentId={data.id}
 							/>
 						);
 					})}

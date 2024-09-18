@@ -1,11 +1,9 @@
 import React from "react";
-import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { cn } from "@/components/lib/utils";
 import styles from "@/components/styles/card.module.sass";
 import { IElementSchema } from "@/components/shared/types/interface-elements";
 import { IComponentCardSchema } from "@/components/shared/types/interface-components";
 import BaseElementRender from "@/components/features/app/elements/container/BaseElementRender";
+import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
 
 interface Props {
 	data: IComponentCardSchema;
@@ -26,24 +24,8 @@ interface Props {
 const Album: React.FC<Props> = (props) => {
 	const { data, containerId } = props;
 
-	const { editorActiveElementAction } = useDispatchAction();
-
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
-
 	return (
-		<div
-			className={cn(
-				`${editorActiveElement.id === data.id ? "border-blue-800 border-2" : ""}`,
-				styles.card
-			)}
-			onClick={() => {
-				editorActiveElementAction({
-					id: data.id,
-					componentData: data,
-					containerId,
-				});
-			}}
-		>
+		<ComponentAction data={data} containerId={containerId}>
 			<div style={{ ...data.style }} className={styles.wrapper}>
 				<figure>
 					<img
@@ -65,7 +47,7 @@ const Album: React.FC<Props> = (props) => {
 					})}
 				</div>
 			</div>
-		</div>
+		</ComponentAction>
 	);
 };
 

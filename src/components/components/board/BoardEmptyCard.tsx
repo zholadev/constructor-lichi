@@ -40,7 +40,7 @@ const BoardEmptyCard: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				"border w-full h-full bg-white transition-all duration-100 cursor-pointer",
+				"border w-full h-full min-h-80 bg-white transition-all duration-100 cursor-pointer",
 				!editorDisabledEdit ? "hover:bg-[#bbf7d0]" : ""
 			)}
 			onClick={() => {

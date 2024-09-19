@@ -1,5 +1,20 @@
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import {
+	IComponentCardSchema,
+	IComponentCardVideoSchema,
+} from "@/components/features/app/blocks/types/interface-components";
+import { ActiveElementType } from "@/components/shared/types/types";
+import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+
+interface IElementActiveParams {
+	data: IComponentCardSchema | IComponentCardVideoSchema | IElementTotal;
+	containerId: string;
+	type: ActiveElementType;
+	currentId: string;
+	componentId: string;
+}
 
 /**
  * @author Zholaman Zhumanov
@@ -9,13 +24,38 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-export default function useActiveElement(): any {
+export default function useActiveElement(): (
+	params: IElementActiveParams
+) => void {
 	const { editorActiveElementAction } = useDispatchAction();
+
+	const toastMessage = useToastMessage();
 
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	return {};
+	return ({
+		data,
+		containerId,
+		type,
+		currentId,
+		componentId,
+	}: IElementActiveParams) => {
+		if (!data || !containerId || !type) {
+			toastMessage(
+				`Ошибка! ${!containerId ? "containerId" : !currentId ? "currentId" : !componentId ? "componentId" : !data ? "data" : !type ? "type" : "unknown"} не найдено!`,
+				"error"
+			);
+			return;
+		}
+		editorActiveElementAction({
+			id: componentId,
+			containerId,
+			type,
+			style: data?.style,
+			componentData: data,
+			currentActiveId: currentId,
+		});
+	};
 }

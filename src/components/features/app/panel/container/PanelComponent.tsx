@@ -16,7 +16,7 @@ import {
 	Component2Icon,
 	LayersIcon,
 } from "@radix-ui/react-icons";
-import Navigator from "@/components/features/app/components/naviagtor/Navigator";
+import Navigator from "@/components/features/app/components/navigator/Navigator";
 
 /**
  * @author Zholaman Zhumanov

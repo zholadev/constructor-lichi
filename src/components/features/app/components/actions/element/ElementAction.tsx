@@ -1,8 +1,9 @@
 import React from "react";
-import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+import useActiveElement from "@/components/shared/hooks/useActiveElement";
+import SelectionElementOverlay from "../selection/SelectionElementOverlay";
 
 interface Props {
 	children: React.ReactNode;
@@ -25,30 +26,28 @@ interface Props {
 const ElementAction: React.FC<Props> = (props) => {
 	const { children, data, containerId, componentId } = props;
 
-	const { editorActiveElementAction } = useDispatchAction();
+	const activeElementHandle = useActiveElement();
 
-	const { editorActiveElement, editorNavigatorHoverId } = useAppSelector(
-		(state) => state.editor
-	);
+	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	return (
 		<div
 			className={cn(
-				"cursor-pointer box-border",
-				`${editorActiveElement.currentActiveId === data.id || editorNavigatorHoverId === data.id ? "border-orange-400 border-2" : ""}`
+				"cursor-pointer box-border relative",
+				`${editorActiveElement.currentActiveId === data.id ? "border-orange-400 border-2" : ""}`
 			)}
 			onClick={(e) => {
 				e.stopPropagation();
-				editorActiveElementAction({
-					id: componentId,
+				activeElementHandle({
+					data,
 					containerId,
+					componentId,
+					currentId: data?.id,
 					type: "element",
-					style: data?.style,
-					componentData: data,
-					currentActiveId: data.id,
 				});
 			}}
 		>
+			<SelectionElementOverlay id={data.id} />
 			{children}
 		</div>
 	);

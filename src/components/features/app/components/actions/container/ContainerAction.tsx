@@ -1,20 +1,20 @@
 import React from "react";
+import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import styles from "@/components/styles/card.module.sass";
 import { IComponentTotalDataSchema } from "@/components/features/app/blocks/types/interface-components";
-import useActiveElement from "@/components/shared/hooks/useActiveElement";
-import SelectionElementOverlay from "../selection/SelectionElementOverlay";
+import SelectionElementOverlay from "@/components/features/app/components/actions/selection/SelectionElementOverlay";
 
 interface Props {
 	children: React.ReactNode;
-	data: IComponentTotalDataSchema;
+	data?: IComponentTotalDataSchema;
 	containerId: string;
 }
 
 /**
  * @author Zholaman Zhumanov
- * @created 17.09.2024
+ * @created 19.09.2024
  * @description
  * @last-updated
  * @update-description
@@ -23,7 +23,7 @@ interface Props {
  * @param props
  * @constructor
  */
-const ComponentAction: React.FC<Props> = (props) => {
+const ContainerAction: React.FC<Props> = (props) => {
 	const { children, data, containerId } = props;
 
 	const activeElementHandle = useActiveElement();
@@ -34,24 +34,24 @@ const ComponentAction: React.FC<Props> = (props) => {
 		<div className={cn("size-full relative")}>
 			<div
 				className={cn(
-					`${editorActiveElement.id === data.id ? "border-emerald-400 border-2 box-border" : "border-box"}`,
+					`${editorActiveElement.id === containerId ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					styles.card
 				)}
-				onClick={() => {
-					activeElementHandle({
-						data,
-						containerId,
-						type: "component",
-						componentId: data?.id,
-						currentId: data?.id,
-					});
-				}}
+				// onClick={() => {
+				// 	activeElementHandle({
+				// 		data,
+				// 		containerId,
+				// 		type: "container",
+				// 		componentId: data?.id,
+				// 		currentId: data?.id,
+				// 	});
+				// }}
 			>
-				<SelectionElementOverlay id={data.id} />
+				<SelectionElementOverlay id={containerId} />
 				{children}
 			</div>
 		</div>
 	);
 };
 
-export default ComponentAction;
+export default ContainerAction;

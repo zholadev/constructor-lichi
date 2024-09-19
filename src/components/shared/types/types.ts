@@ -4,3 +4,4 @@ export type ThemeSpaceMode = "light" | "dark";
 export type TemplateType = "page" | "creative";
 export type PlatformType = "browser" | "app";
 export type DeviceType = "desktop" | "laptop" | "tablet" | "mobile";
+export type ActiveElementType = "component" | "element" | "container";

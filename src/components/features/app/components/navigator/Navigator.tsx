@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
-import NavigatorLayer from "@/components/features/app/components/naviagtor/NavigatorLayer";
+import NavigatorLayer from "@/components/features/app/components/navigator/NavigatorLayer";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 
 /**

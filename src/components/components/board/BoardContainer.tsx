@@ -13,6 +13,7 @@ import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import TemplateAddButton from "@/components/features/app/template/TemplateAddButton";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import BaseComponentRender from "@/components/features/app/blocks/container/BaseComponentRender";
+import ContainerAction from "@/components/features/app/components/actions/container/ContainerAction";
 
 /**
  * @author Zholaman Zhumanov
@@ -38,15 +39,7 @@ const BoardContainer: React.FC = () => {
 		<div className={cn("h-full overflow-y-auto")}>
 			{spaceTemplateData.map((container: ITemplateBaseSchema) => {
 				return (
-					<div
-						key={container.id}
-						className={cn(
-							"w-full relative",
-							editorNavigatorHoverId === container.id
-								? "opacity-70"
-								: ""
-						)}
-					>
+					<div key={container.id} className={cn("w-full relative")}>
 						{editorRemoveTemplate && (
 							<div
 								className={cn(
@@ -59,24 +52,32 @@ const BoardContainer: React.FC = () => {
 						)}
 						<ContextMenu>
 							<ContextMenuTrigger>
-								<div
-									className={cn("size-full")}
-									style={{
-										...container.style,
-									}}
-								>
-									{container.components.map((component) => {
-										return (
-											<BaseComponentRender
-												key={component.id}
-												template={container}
-												data={component.data}
-												type={component.data?.type}
-												currentItemData={component}
-											/>
-										);
-									})}
-								</div>
+								<ContainerAction containerId={container.id}>
+									<div
+										className={cn("size-full")}
+										style={{
+											...container.style,
+										}}
+									>
+										{container.components.map(
+											(component) => {
+												return (
+													<BaseComponentRender
+														key={component.id}
+														template={container}
+														data={component.data}
+														type={
+															component.data?.type
+														}
+														currentItemData={
+															component
+														}
+													/>
+												);
+											}
+										)}
+									</div>
+								</ContainerAction>
 							</ContextMenuTrigger>
 							<ContextMenuContent>
 								<ContextMenuItem>Удалить</ContextMenuItem>

@@ -57,7 +57,7 @@ type StyleKeys =
 	| "borderBottom";
 
 interface Props {
-	onStyleChange?: (value: unknown) => void;
+	onStyleChange?: (value: unknown, path?: string, type?: string) => void;
 	styles?: React.CSSProperties;
 	hideTitle?: boolean;
 }
@@ -104,6 +104,8 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 		defaultValues.borderStyle = borderStyle;
 		defaultValues.borderColor = borderColor;
 		defaultValues.borderEnabled = true;
+	} else {
+		defaultValues.borderEnabled = false;
 	}
 
 	if (styles?.border) {
@@ -298,7 +300,12 @@ const BorderStyles: React.FC<Props> = (props) => {
 					}),
 					...borderRadiusCorner,
 				};
-				onStyleChange(buildBorderStyles);
+
+				if (key === "borderEnabled" && !value) {
+					onStyleChange({}, "style.border", "removeKey");
+				} else {
+					onStyleChange(buildBorderStyles);
+				}
 			}
 		} catch (error) {
 			if (error instanceof Error) {

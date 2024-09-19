@@ -1,12 +1,19 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { cn } from "@/components/lib/utils";
 import ErrorLottle from "@/components/shared/uikit/lottleIcons/ErrorLottle";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
-export default function Error({ error, reset }) {
+export default function Error({
+	error,
+	reset,
+}: {
+	error: Error & { digest?: string };
+	reset: () => void;
+}): React.ReactNode {
 	useEffect(() => {
-		console.error(error);
+		console.error("ERROR: ", error);
 	}, [error]);
 
 	return (
@@ -14,10 +21,12 @@ export default function Error({ error, reset }) {
 			className={cn("h-screen flex flex-col items-center justify-center")}
 		>
 			<ErrorLottle />
-			<h2 className={cn("mb-4 text-center")}>Something went wrong!</h2>
-			<button type="button" onClick={() => reset()}>
+			<h2 className={cn("mb-4 text-center")}>
+				Crash! Пожалуйста обратитесь к разработчикам
+			</h2>
+			<Button type="button" onClick={() => reset()}>
 				Try again
-			</button>
+			</Button>
 		</div>
 	);
 }

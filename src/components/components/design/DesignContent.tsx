@@ -61,7 +61,7 @@ const DesignContent: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	console.log("editorActiveElement", editorActiveElement);
+	// console.log("editorActiveElement", editorActiveElement);
 	const toastMessage = useToastMessage();
 	const editorEvent = useEditorEvent();
 
@@ -120,7 +120,7 @@ const DesignContent: React.FC = () => {
 		setExpanded(filteredKeys);
 	};
 
-	const onUpdateHandle = (value, path = "style") => {
+	const onUpdateHandle = (value, path = "style", type?: string) => {
 		if (!value) {
 			toastMessage(
 				"Данные не прилетают для обновление! Проверьте onStyleChange",
@@ -137,7 +137,18 @@ const DesignContent: React.FC = () => {
 			return;
 		}
 
-		editorEvent.updateComponent(value, activeUpdateTypeData, path, true);
+		console.log("border values: ", value, path, type);
+		if (type === "removeKey") {
+			editorEvent.updateComponent(
+				value,
+				activeUpdateTypeData,
+				path,
+				false,
+				true
+			);
+		} else {
+			editorEvent.updateComponent(value, activeUpdateTypeData, path);
+		}
 	};
 
 	useEffect(() => {
@@ -215,7 +226,9 @@ const DesignContent: React.FC = () => {
 						<BorderStyles
 							hideTitle
 							styles={styleActiveData}
-							onStyleChange={(params) => onUpdateHandle(params)}
+							onStyleChange={(...params) =>
+								onUpdateHandle(...params)
+							}
 						/>
 					</AccordionContent>
 				</AccordionItem>

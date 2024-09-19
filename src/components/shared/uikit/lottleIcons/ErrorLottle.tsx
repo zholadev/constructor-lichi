@@ -22,7 +22,7 @@ const ErrorLottle: React.FC = () => {
 		},
 	};
 
-	return <Lottie options={defaultOptions} height={140} width={100} />;
+	return <Lottie options={defaultOptions} height={600} width={400} />;
 };
 
 export default ErrorLottle;

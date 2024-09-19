@@ -1,12 +1,11 @@
 import React from "react";
-import { IElementSchema } from "@/components/shared/types/interface-elements";
-import { IComponentCardSchema } from "@/components/shared/types/interface-components";
-import BaseElementRender from "@/components/features/app/elements/container/BaseElementRender";
 import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
+import BaseElementWrapper from "@/components/features/app/elements/container/BaseElementWrapper";
+import { IComponentTotalDataSchema } from "../types/interface-components";
 import styles from "../../../../styles/card.module.sass";
 
 interface Props {
-	data: IComponentCardSchema;
+	data: IComponentTotalDataSchema;
 	containerId: string;
 }
 
@@ -36,17 +35,11 @@ const Card: React.FC<Props> = (props) => {
 				</figure>
 
 				<div className={styles.content}>
-					{data.elements.map((element: IElementSchema) => {
-						return (
-							<BaseElementRender
-								key={element.id}
-								type={element.type}
-								data={element}
-								containerId={containerId}
-								componentId={data.id}
-							/>
-						);
-					})}
+					<BaseElementWrapper
+						containerId={containerId}
+						elementData={data.elements}
+						componentData={data}
+					/>
 				</div>
 			</div>
 		</ComponentAction>

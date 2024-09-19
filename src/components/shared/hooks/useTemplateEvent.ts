@@ -30,12 +30,17 @@ interface ITemplateEvent {
  * @constructor
  */
 export default function useTemplateEvent(): ITemplateEvent {
+	const { editorRemoveTemplateAction } = useDispatchAction();
+
+	const toggleEditorRemoveTemplateHandle = () =>
+		editorRemoveTemplateAction(!editorRemoveTemplate);
+
 	const toastMessage = useToastMessage();
 
 	const { spaceTemplateDataAction } = useDispatchAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorSelectAddComponent } = useAppSelector(
+	const { editorSelectAddComponent, editorRemoveTemplate } = useAppSelector(
 		(state) => state.editor
 	);
 
@@ -94,6 +99,9 @@ export default function useTemplateEvent(): ITemplateEvent {
 		const createChildren = () =>
 			Array.from({ length: countColumn }, () => ({
 				id: uuidv4(),
+				data: {
+					type: "notSelected",
+				},
 				is_selected: false,
 			}));
 
@@ -123,6 +131,7 @@ export default function useTemplateEvent(): ITemplateEvent {
 			(item: ITemplateBaseSchema) => item.id !== id
 		);
 		spaceTemplateDataAction(filteredRemovedData);
+		toggleEditorRemoveTemplateHandle();
 	};
 
 	return {

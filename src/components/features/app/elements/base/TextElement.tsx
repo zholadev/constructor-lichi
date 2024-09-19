@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { ITextElement } from "@/components/shared/types/interface-elements";
+import { ITextElement } from "../types/interface-elements";
 
 interface Props {
 	data: ITextElement;

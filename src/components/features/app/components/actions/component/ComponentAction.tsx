@@ -6,7 +6,7 @@ import styles from "@/components/styles/card.module.sass";
 import {
 	IComponentCardSchema,
 	IComponentCardVideoSchema,
-} from "@/components/shared/types/interface-components";
+} from "@/components/features/app/blocks/types/interface-components";
 
 interface Props {
 	children: React.ReactNode;

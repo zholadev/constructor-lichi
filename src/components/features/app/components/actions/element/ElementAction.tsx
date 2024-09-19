@@ -2,11 +2,11 @@ import React from "react";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
-import { ElementBaseTypes } from "@/components/shared/types/types-components";
+import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
 
 interface Props {
 	children: React.ReactNode;
-	data: ElementBaseTypes;
+	data: IElementTotal;
 	containerId: string;
 	componentId: string;
 }

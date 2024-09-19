@@ -1,6 +1,6 @@
 import React from "react";
-import { IButtonElement } from "@/components/shared/types/interface-elements";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { IButtonElement } from "../types/interface-elements";
 
 interface Props {
 	data: IButtonElement;

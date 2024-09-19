@@ -376,7 +376,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 	];
 
 	useEffect(() => {
-		const defaultStyles = computeInitialStyles();
+		const defaultStyles = computeInitialStyles(styles);
 		setStyleValues(defaultStyles);
 	}, [styles]);
 

@@ -1,4 +1,4 @@
-import {TemplateType} from "@/components/shared/types/types";
+import { TemplateType } from "@/components/shared/types/types";
 
 export interface IGetApiParams {
 	data: any;
@@ -72,6 +72,15 @@ export interface IGalleryImageItem {
 	name?: string;
 	path?: string;
 	public_url?: string;
+}
+
+export interface INextImageData {
+	src: string;
+	height: number;
+	width: number;
+	blurDataURL: string;
+	blurWidth: number;
+	blurHeight: number;
 }
 
 export interface ITemplatePageType {

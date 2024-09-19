@@ -3,7 +3,7 @@ import {
 	IComponentBaseSchema,
 	IComponentCardSchema,
 	IComponentCardVideoSchema,
-} from "@/components/shared/types/interface-components";
+} from "@/components/features/app/blocks/types/interface-components";
 import { v4 as uuidv4 } from "uuid";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
 import { IMAGES } from "@/components/shared/constants/images";
@@ -23,14 +23,19 @@ type ImageType = "card" | "album";
 export default function useSchemaData():
 	| IComponentBaseSchema
 	| IComponentCardSchema {
-	const getRandomImageSchema = (imageType: ImageType = "card", single: boolean = false) => {
+	const getRandomImageSchema = (
+		imageType: ImageType = "card",
+		single: boolean = false
+	) => {
 		const getImage =
 			IMAGES.THUMBNAIL[imageType][
 				Math.floor(Math.random() * IMAGES.THUMBNAIL[imageType].length)
 			];
 
 		if (single) {
-			return getImage;
+			return {
+				url: getImage.src,
+			};
 		}
 
 		return {

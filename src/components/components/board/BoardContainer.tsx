@@ -10,7 +10,7 @@ import {
 } from "@/components/shared/shadcn/ui/context-menu";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
-import TemplateAddButton from "@/components/components/editor/TemplateAddButton";
+import TemplateAddButton from "@/components/features/app/template/TemplateAddButton";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import BaseComponentRender from "@/components/features/app/blocks/container/BaseComponentRender";
 
@@ -36,13 +36,13 @@ const BoardContainer: React.FC = () => {
 
 	return (
 		<div className={cn("h-full overflow-y-auto")}>
-			{spaceTemplateData.map((template: ITemplateBaseSchema) => {
+			{spaceTemplateData.map((container: ITemplateBaseSchema) => {
 				return (
 					<div
-						key={template.id}
+						key={container.id}
 						className={cn(
 							"w-full relative",
-							editorNavigatorHoverId === template.id
+							editorNavigatorHoverId === container.id
 								? "opacity-70"
 								: ""
 						)}
@@ -53,7 +53,7 @@ const BoardContainer: React.FC = () => {
 									"w-full h-full hover:bg-red-500 opacity-50 duration-75 z-10 absolute ease-in-out top-0 left-0 transition-all flex justify-center items-center"
 								)}
 								onClick={() =>
-									templateEvent.deleteContainer(template.id)
+									templateEvent.deleteContainer(container.id)
 								}
 							/>
 						)}
@@ -62,17 +62,17 @@ const BoardContainer: React.FC = () => {
 								<div
 									className={cn("size-full")}
 									style={{
-										...template.style,
+										...container.style,
 									}}
 								>
-									{template.components.map((item) => {
+									{container.components.map((component) => {
 										return (
 											<BaseComponentRender
-												key={item.id}
-												data={item?.data}
-												template={template}
-												type={item.data?.type}
-												currentItemData={item}
+												key={component.id}
+												template={container}
+												data={component.data}
+												type={component.data?.type}
+												currentItemData={component}
 											/>
 										);
 									})}

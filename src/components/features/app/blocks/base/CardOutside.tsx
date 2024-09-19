@@ -1,10 +1,10 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import styles from "@/components/styles/card.module.sass";
-import { IElementSchema } from "@/components/shared/types/interface-elements";
-import { IComponentCardSchema } from "@/components/shared/types/interface-components";
+import { IElementSchema } from "@/components/features/app/elements/types/interface-elements";
 import BaseElementRender from "@/components/features/app/elements/container/BaseElementRender";
 import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
+import { IComponentCardSchema } from "../types/interface-components";
 
 interface Props {
 	data: IComponentCardSchema;

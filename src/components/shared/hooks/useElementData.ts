@@ -5,7 +5,7 @@ import {
 	IButtonElement,
 	IElementSchema,
 	ITextElement,
-} from "@/components/shared/types/interface-elements";
+} from "@/components/features/app/elements/types/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
@@ -21,7 +21,10 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
  * @fixme
  * @constructor
  */
-export default function useElementData(): IElementSchema | IButtonElement | ITextElement {
+export default function useElementData():
+	| IElementSchema
+	| IButtonElement
+	| ITextElement {
 	const toastMessage = useToastMessage();
 
 	const { languageData } = useAppSelector((state) => state.app);

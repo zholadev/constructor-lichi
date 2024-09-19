@@ -20,14 +20,16 @@ interface IStylesValues {
 }
 
 interface Props {
-	onStyleChange?: (values: IStylesValues) => void;
+	onStyleChange?: (values: { margin: string; padding: string }) => void;
 	styles?: React.CSSProperties;
 	hideTitle?: boolean;
 }
 
-function convertToCssString(styles) {
-	const { margin } = styles;
-	const { padding } = styles;
+function convertToCssString(styles: IStylesValues): {
+	margin: string;
+	padding: string;
+} {
+	const { margin, padding } = styles;
 
 	const marginString = `${margin.top}px ${margin.right}px ${margin.bottom}px ${margin.left}px`;
 	const paddingString = `${padding.top}px ${padding.right}px ${padding.bottom}px ${padding.left}px`;
@@ -38,7 +40,7 @@ function convertToCssString(styles) {
 	};
 }
 
-function convertToObject(styles) {
+function convertToObject(styles: { margin: string; padding: string }) {
 	const [marginTop, marginRight, marginBottom, marginLeft] = styles.margin
 		?.split(" ")
 		.map((value) => parseInt(value.replace("px", "")));
@@ -116,8 +118,6 @@ const SpacingStyles: React.FC<Props> = (props) => {
 
 			const newValue = parseFloat(value);
 
-			console.log("updateValues", value);
-
 			setStylesValues((prev) => {
 				const updateValues = {
 					...prev,
@@ -127,11 +127,8 @@ const SpacingStyles: React.FC<Props> = (props) => {
 					},
 				};
 
-				console.log("updateValues", updateValues);
-
 				if (onStyleChange) {
 					const covertSpacing = convertToCssString(updateValues);
-					console.log("covertSpacing", covertSpacing);
 					onStyleChange(covertSpacing);
 				}
 
@@ -172,7 +169,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (styles && styles.margin || styles?.padding) {
+		if ((styles && styles.margin) || styles?.padding) {
 			const reverseConvertObj = convertToObject(styles);
 			setStylesValues(reverseConvertObj);
 		}

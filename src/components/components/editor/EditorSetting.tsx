@@ -16,8 +16,6 @@ import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 28.08.2024
@@ -26,12 +24,9 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const EditorSetting: React.FC<Props> = (props) => {
-	const {} = props;
-
+const EditorSetting: React.FC = () => {
 	const {
 		spaceModeThemeAction,
 		spaceModeLanguageAction,
@@ -40,8 +35,9 @@ const EditorSetting: React.FC<Props> = (props) => {
 	} = useDispatchAction();
 
 	const { languageData } = useAppSelector((state) => state.app);
-	const { spaceModeTheme, spaceModeDeviceType, spaceModeLanguage } =
-		useAppSelector((state) => state.space);
+	const { spaceModeTheme, spaceModeLanguage } = useAppSelector(
+		(state) => state.space
+	);
 
 	const { editorVideoPlay, editorSwiperAutoplay } = useAppSelector(
 		(state) => state.editor

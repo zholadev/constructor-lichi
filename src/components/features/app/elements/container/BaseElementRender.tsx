@@ -1,13 +1,13 @@
 import React from "react";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
-import { IButtonElement } from "@/components/shared/types/interface-elements";
 import ButtonElement from "@/components/features/app/elements/base/ButtonElement";
 import TextElement from "@/components/features/app/elements/base/TextElement";
 import ElementAction from "@/components/features/app/components/actions/element/ElementAction";
+import { IButtonElement, ITextElement } from "../types/interface-elements";
 
 interface Props {
 	type: ElementBaseTypes;
-	data: IButtonElement;
+	data: IButtonElement | ITextElement;
 	containerId: string;
 	componentId: string;
 }

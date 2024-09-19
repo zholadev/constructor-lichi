@@ -4,9 +4,9 @@ import { cn } from "@/components/lib/utils";
 import { MousePointerClick, Timer, Type } from "lucide-react";
 import ElementContentWrapper from "@/components/components/elements/ElementContentWrapper";
 import { versionElementBase } from "@/components/app/versions/version-modules";
-import { IElementBase } from "@/components/shared/types/interface-templates";
+import { IElementBaseListData } from "./types/types";
 
-const elementData: IElementBase[] = [
+const elementData: IElementBaseListData[] = [
 	{
 		id: 1,
 		type: "button",

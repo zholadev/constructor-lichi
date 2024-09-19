@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";

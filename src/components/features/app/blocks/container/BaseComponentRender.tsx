@@ -7,6 +7,7 @@ import {
 	IComponentBaseSchema,
 	ITemplateBaseSchema,
 } from "@/components/shared/types/interface-templates";
+import { IComponentTotalDataSchema } from "@/components/features/app/blocks/types/interface-components";
 import Video from "../base/Video";
 import Card from "../base/Card";
 import CardOutside from "../base/CardOutside";
@@ -14,9 +15,9 @@ import Album from "../base/Album";
 
 interface Props {
 	type: ComponentBaseTypes;
-	data?: IComponentBaseSchema;
+	data: IComponentTotalDataSchema;
 	template: ITemplateBaseSchema;
-	currentItemData: {
+	componentData: {
 		id: string;
 		data?: IComponentBaseSchema;
 		is_selected?: boolean;

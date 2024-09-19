@@ -1,4 +1,4 @@
-import React, { CSSProperties, useMemo, useState } from "react";
+import React, { CSSProperties, useEffect, useMemo, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
@@ -54,7 +54,7 @@ type FontWeights =
 
 interface IStylesValues {
 	fontFamily: FontFamilyTypes;
-	fontSize: number;
+	fontSize: string;
 	textAlign: TextAlign;
 	unit: FontUnits;
 	fontWeight: FontWeights;
@@ -79,7 +79,7 @@ interface IFontStyleData {
 
 interface Props {
 	onStyleChange?: (values: CSSProperties) => void;
-	styles?: React.CSSProperties;
+	styles?: IStylesValues;
 	hideTitle?: boolean;
 }
 
@@ -186,13 +186,52 @@ const textAlignOptions: Array<{ value: TextAlign; icon: React.ReactNode }> = [
 
 const unitOptions: FontUnits[] = ["px", "em", "rem", "%"];
 
+const extractStyles = (styles: IStylesValues): IStylesValues => {
+	let defaultStyles: IStylesValues = {
+		fontFamily: "Futura PT",
+		fontSize: "14",
+		textAlign: "left",
+		unit: "px",
+		fontWeight: "400",
+		color: "#000000",
+		fontStyle: "normal",
+		textDecoration: "initial",
+	};
+
+	let { fontSize } = defaultStyles;
+
+	// Проверяем, является ли fontSize строкой, и извлекаем значение и единицу измерения
+	if (styles.fontSize && typeof styles.fontSize === "string") {
+		const fontSizeMatch = styles.fontSize.match(/^(\d+)(px|em|rem|%)$/);
+		if (fontSizeMatch) {
+			fontSize = fontSizeMatch[1]?.toString();
+		}
+	}
+
+	return {
+		fontFamily:
+			(styles.fontFamily as FontFamilyTypes) || defaultStyles.fontFamily,
+		fontSize,
+		textAlign: (styles.textAlign as TextAlign) || defaultStyles.textAlign,
+		unit: styles.unit || defaultStyles.unit,
+		fontWeight:
+			(styles.fontWeight as FontWeights) || defaultStyles.fontWeight,
+		color: styles.color || defaultStyles.color,
+		fontStyle:
+			(styles.fontStyle as FontStylesType) || defaultStyles.fontStyle,
+		textDecoration:
+			(styles.textDecoration as TextDecoration) ||
+			defaultStyles.textDecoration,
+	};
+};
+
 /**
  * @author Zholaman Zhumanov
  * @created 21.08.2024
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo Refactoring, types ref
  * @fixme
  * @param props
  * @constructor
@@ -204,7 +243,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({
 		fontFamily: "Futura PT",
-		fontSize: 14,
+		fontSize: "14",
 		textAlign: "left",
 		unit: "px",
 		fontWeight: "400",
@@ -213,6 +252,10 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		textDecoration: "initial",
 	});
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод возвращает активный FontWeight для шрифта
+	 */
 	const currentFontWeight: FontWeights[] = useMemo(() => {
 		const findData = fontFamilyData.filter(
 			(font) => font.name === stylesValues.fontFamily
@@ -225,6 +268,10 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		return findData.fontWeights;
 	}, [stylesValues, fontFamilyData]);
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод возвращает активный FontStyles для шрифта
+	 */
 	const currentFontStyles: IFontStyleData[] = useMemo(() => {
 		const findData = fontFamilyData.filter(
 			(font) => font.name === stylesValues.fontFamily
@@ -269,7 +316,8 @@ const TypographyStyles: React.FC<Props> = (props) => {
 			setStylesValues((size) => {
 				const updateValues = {
 					...size,
-					[key]: key === "fontSize" ? `${value}${size.unit}` : value,
+					fontSize: `${size.fontSize}${key === "unit" ? value : size.unit}`,
+					[key]: value,
 				};
 
 				if (onStyleChange) {
@@ -280,10 +328,17 @@ const TypographyStyles: React.FC<Props> = (props) => {
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				errorHandler("sizeStyles", "onChangeSizeHandle", error);
+				errorHandler("TypographyStyles", "onChangeSizeHandle", error);
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (styles) {
+			const getStyles = extractStyles(styles);
+			setStylesValues(getStyles);
+		}
+	}, [styles]);
 
 	return (
 		<div className={cn("w-full flex flex-col")}>
@@ -337,7 +392,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							<Input
 								type="number"
 								className={cn("w-full")}
-								defaultValue={stylesValues.fontSize}
+								value={parseFloat(stylesValues.fontSize)}
 								onChange={(e) => {
 									onChangeStyleHandle(
 										"fontSize",

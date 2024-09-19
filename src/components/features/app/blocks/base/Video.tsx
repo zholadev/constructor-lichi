@@ -1,11 +1,11 @@
-import React from "react";
-import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
-import styles from "@/components/styles/card.module.sass";
-import { IElementSchema } from "@/components/shared/types/interface-elements";
-import BaseElementRender from "@/components/features/app/elements/container/BaseElementRender";
-import { IComponentCardVideoSchema } from "@/components/shared/types/interface-components";
+import React, { useMemo } from "react";
 import ReactPlayer from "react-player";
+import styles from "@/components/styles/card.module.sass";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+import BaseElementRender from "@/components/features/app/elements/container/BaseElementRender";
+import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
+import { IComponentCardVideoSchema } from "../types/interface-components";
 
 interface Props {
 	data: IComponentCardVideoSchema;
@@ -28,20 +28,24 @@ const Video: React.FC<Props> = (props) => {
 
 	const { editorVideoPlay } = useAppSelector((state) => state.editor);
 
+	const videoSrc = useMemo(() => {
+		return data.content?.video?.videoSrc;
+	}, [data.content.video]);
+
+	const videoPoster = useMemo(() => {
+		return data.content?.video?.poster?.url;
+	}, [data.content.video]);
+
 	return (
 		<ComponentAction containerId={containerId} data={data}>
 			<div style={{ ...data.style }} className={styles.wrapper}>
-				{!data.content?.video?.videoSrc ? (
+				{!videoSrc ? (
 					<figure>
-						<img
-							src={data.content.video.poster?.src}
-							alt=""
-							className={styles.img}
-						/>
+						<img src={videoPoster} alt="" className={styles.img} />
 					</figure>
 				) : (
 					<ReactPlayer
-						url={data.content?.video?.videoSrc}
+						url={videoSrc}
 						playsinline
 						loop
 						controls={false}
@@ -51,7 +55,6 @@ const Video: React.FC<Props> = (props) => {
 						width="100%"
 						height="100%"
 						style={{
-							// objectFit: "cover",
 							position: "relative",
 							padding: "0",
 						}}
@@ -59,7 +62,7 @@ const Video: React.FC<Props> = (props) => {
 				)}
 
 				<div className={styles.content}>
-					{data.elements.map((element: IElementSchema) => {
+					{data.elements.map((element: IElementTotal) => {
 						return (
 							<BaseElementRender
 								key={element.id}

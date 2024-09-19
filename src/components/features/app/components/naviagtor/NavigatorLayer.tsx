@@ -1,16 +1,14 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import { ButtonIcon, Component1Icon, LayersIcon } from "@radix-ui/react-icons";
-import {
-	IElementBase,
-	ITemplateBaseSchema,
-} from "@/components/shared/types/interface-templates";
+import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
 
 type LayerType = "container" | "component" | "element";
 
 interface Props {
-	node: ITemplateBaseSchema | IElementBase;
+	node: ITemplateBaseSchema | IElementTotal;
 	type: LayerType;
 }
 
@@ -75,7 +73,7 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 
 							{component.data?.elements &&
 								component.data?.elements.map(
-									(element: IElementBase) => (
+									(element: IElementTotal) => (
 										<div
 											className={cn("pl-3")}
 											key={element.id}

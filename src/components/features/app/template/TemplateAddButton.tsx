@@ -5,8 +5,6 @@ import { Button } from "@/components/shared/shadcn/ui/button";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 27.08.2024
@@ -15,12 +13,9 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const TemplateAddButton: React.FC<Props> = (props) => {
-	const {} = props;
-
+const TemplateAddButton: React.FC = () => {
 	const { dialogAddTemplateAction } = useDispatchAction();
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 

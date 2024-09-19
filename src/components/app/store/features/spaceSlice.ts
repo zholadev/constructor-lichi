@@ -6,7 +6,7 @@ import {
 	TemplateType,
 	ThemeSpaceMode,
 } from "@/components/shared/types/types";
-import { ITemplateBaseSchema } from "@/components/shared/types/interface-components";
+import { ITemplateBaseSchema } from "@/components/features/app/blocks/types/interface-components";
 
 interface stateSlice {
 	spaceTemplateData: ITemplateBaseSchema[];

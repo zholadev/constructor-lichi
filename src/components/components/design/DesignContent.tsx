@@ -23,7 +23,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
-import { IComponentBaseSchema } from "@/components/shared/types/interface-components";
+import { IComponentBaseSchema } from "@/components/features/app/blocks/types/interface-components";
 
 type AccessTypes =
 	| "position"

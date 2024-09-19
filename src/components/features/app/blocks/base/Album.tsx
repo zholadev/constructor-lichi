@@ -1,9 +1,8 @@
 import React from "react";
 import styles from "@/components/styles/card.module.sass";
-import { IElementSchema } from "@/components/shared/types/interface-elements";
-import { IComponentCardSchema } from "@/components/shared/types/interface-components";
-import BaseElementRender from "@/components/features/app/elements/container/BaseElementRender";
 import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
+import BaseElementWrapper from "@/components/features/app/elements/container/BaseElementWrapper";
+import { IComponentCardSchema } from "../types/interface-components";
 
 interface Props {
 	data: IComponentCardSchema;
@@ -36,15 +35,11 @@ const Album: React.FC<Props> = (props) => {
 				</figure>
 
 				<div className={styles.content}>
-					{data.elements.map((element: IElementSchema) => {
-						return (
-							<BaseElementRender
-								key={element.id}
-								type={element.type}
-								data={element}
-							/>
-						);
-					})}
+					<BaseElementWrapper
+						containerId={containerId}
+						elementData={data.elements}
+						componentData={data}
+					/>
 				</div>
 			</div>
 		</ComponentAction>

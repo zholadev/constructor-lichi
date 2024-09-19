@@ -137,7 +137,7 @@ const DesignContent: React.FC = () => {
 			return;
 		}
 
-		editorEvent.updateComponent(value, activeUpdateTypeData, path);
+		editorEvent.updateComponent(value, activeUpdateTypeData, path, true);
 	};
 
 	useEffect(() => {

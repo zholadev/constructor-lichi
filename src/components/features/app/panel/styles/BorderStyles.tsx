@@ -418,7 +418,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 						Width
 					</Label>
 					<Slider
-						defaultValue={styleValues.borderWidth}
+						value={styleValues.borderWidth}
 						max={20}
 						step={1}
 						onValueChange={(value) => {
@@ -447,7 +447,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 				>
 					<CornersIcon width={30} height={30} />
 					<Slider
-						defaultValue={styleValues.borderRadius}
+						value={styleValues.borderRadius}
 						max={20}
 						step={1}
 						onValueChange={(value) => {
@@ -511,7 +511,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 				>
 					<Input
 						className={cn("border-0 p-0")}
-						defaultValue={styleValues.borderColor}
+						value={styleValues.borderColor}
 						type="color"
 						onChange={(e) => {
 							onChangeStyleHandle("borderColor", e.target.value);
@@ -522,7 +522,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 						className={cn(
 							"col-span-2 border-0 focus-visible:ring-0"
 						)}
-						defaultValue={styleValues.borderColor}
+						value={styleValues.borderColor}
 						type="text"
 						onChange={(e) => {
 							onChangeStyleHandle("borderColor", e.target.value);

@@ -15,6 +15,8 @@ import {
 	AlignVerticalSpaceBetween,
 } from "lucide-react";
 
+type Display = "flex"
+
 type JustifyContent =
 	| "flex-start"
 	| "flex-end"
@@ -26,6 +28,7 @@ type JustifyContent =
 type AlignItems = "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
 
 interface IStylesValues {
+	display: Display;
 	justifyContent: JustifyContent;
 	alignItems: AlignItems;
 }
@@ -53,6 +56,7 @@ const LayoutStyles: React.FC<Props> = (props) => {
 	const toastMessage = useToastMessage();
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({
+		display: "flex",
 		justifyContent: "flex-start",
 		alignItems: "flex-start",
 	});
@@ -124,6 +128,7 @@ const LayoutStyles: React.FC<Props> = (props) => {
 	useEffect(() => {
 		if (styles) {
 			setStylesValues({
+				display: "flex",
 				justifyContent:
 					(styles.justifyContent as JustifyContent) || "flex-start",
 				alignItems: (styles.alignItems as AlignItems) || "flex-start",

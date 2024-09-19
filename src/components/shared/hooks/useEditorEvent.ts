@@ -16,7 +16,8 @@ interface IEditorEvent {
 	updateComponent: (
 		data: unknown,
 		type: UpdateContentKeys,
-		pathString: string
+		pathString: string,
+		remove: boolean,
 	) => void;
 }
 
@@ -99,7 +100,13 @@ export default function useEditorEvent(): IEditorEvent {
 	};
 
 	// Функция для обновления объекта по заданному пути (string)
-	function updateObjectByPath(obj, path, value, save = false) {
+	function updateObjectByPath(
+		obj,
+		path,
+		value,
+		save = false,
+		remove = false
+	) {
 		const keys = path.split("."); // Разбиваем строку пути на массив ключей
 		let current = obj;
 
@@ -125,6 +132,21 @@ export default function useEditorEvent(): IEditorEvent {
 			// Иначе просто присваиваем новое значение
 			current[lastKey] = value;
 		}
+
+		if (remove) {
+			// Если флаг удаления, удаляем последний ключ
+			delete current[lastKey];
+		} else if (
+			save &&
+			typeof current[lastKey] === "object" &&
+			current[lastKey] !== null
+		) {
+			// Если save: true, объединяем старые значения с новыми
+			current[lastKey] = { ...current[lastKey], ...value };
+		} else {
+			// Иначе просто присваиваем новое значение
+			current[lastKey] = value;
+		}
 	}
 
 	// Простая функция глубокого копирования объекта
@@ -135,7 +157,8 @@ export default function useEditorEvent(): IEditorEvent {
 	const updateComponent = (
 		newValue: unknown,
 		type: UpdateContentKeys,
-		pathString: string
+		pathString: string,
+		remove: boolean = false
 	) => {
 		try {
 			if (!newValue) {
@@ -275,8 +298,15 @@ export default function useEditorEvent(): IEditorEvent {
 													true // сохраняем старые значения, если флаг true
 												);
 
+												if (remove) {
+													toastMessage(
+														"Данные успешно удалены!",
+														"success"
+													);
+												}
+
 												toastMessage(
-													"Обновленные данные",
+													"Данные успешно обновились!",
 													"success"
 												);
 

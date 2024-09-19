@@ -15,14 +15,21 @@ import card6 from "../../../../public/static/images/thumbnail/card/card-6.jpg";
 
 import album1 from "../../../../public/static/images/thumbnail/album/album-1.jpeg";
 
+import pageNotFound from "../../../../public/static/images/page/404-error.png";
+
 interface ImageImport {
 	height: number;
 	src: string;
 	width: number;
 }
 
+interface IActionData {
+	page404: string;
+}
+
 interface IImagesData {
 	ICON: Record<string, unknown>;
+	ACTION: IActionData;
 	THUMBNAIL: Record<string, ImageImport[]>;
 }
 
@@ -39,5 +46,8 @@ export const IMAGES: IImagesData = {
 	THUMBNAIL: {
 		card: [card1, card2, card3, card4, card5, card6],
 		album: [album1],
+	},
+	ACTION: {
+		page404: pageNotFound,
 	},
 };

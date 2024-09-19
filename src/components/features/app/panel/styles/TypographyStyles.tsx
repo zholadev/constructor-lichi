@@ -316,8 +316,10 @@ const TypographyStyles: React.FC<Props> = (props) => {
 			setStylesValues((size) => {
 				const updateValues = {
 					...size,
-					fontSize: `${size.fontSize}${key === "unit" ? value : size.unit}`,
-					[key]: value,
+					...(key !== "fontSize" && {
+						fontSize: `${size.fontSize}${key === "unit" ? value : size.unit}`,
+					}),
+					[key]: key === "fontSize" ? `${value}${size.unit}` : value,
 				};
 
 				if (onStyleChange) {

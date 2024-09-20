@@ -22,7 +22,7 @@ interface Props {
  * @param props
  * @constructor
  */
-const ImageSetting: React.FC<Props> = (props) => {
+const ImageContent: React.FC<Props> = (props) => {
 	const { imageSrc, onChange } = props;
 
 	const [currentImage, setCurrentImage] =
@@ -99,4 +99,4 @@ const ImageSetting: React.FC<Props> = (props) => {
 	);
 };
 
-export default ImageSetting;
+export default ImageContent;

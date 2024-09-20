@@ -10,10 +10,10 @@ import { ImageIcon, Link1Icon, VideoIcon } from "@radix-ui/react-icons";
 import { GalleryHorizontalEnd } from "lucide-react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
-import ImageSetting from "@/components/features/app/panel/settings/ImageSetting";
-import VideoSetting from "@/components/features/app/panel/settings/VideoSetting";
-import SwiperSetting from "@/components/features/app/panel/settings/SwiperSetting";
-import LinkSetting from "@/components/features/app/panel/settings/LinkSetting";
+import ImageContent from "@/components/features/app/panel/content/ImageContent";
+import VideoContent from "@/components/features/app/panel/content/VideoContent";
+import SwiperSetting from "@/components/features/app/panel/setting/SwiperSetting";
+import LinkContent from "@/components/features/app/panel/content/LinkContent";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
 type AccessTypes = "video" | "photo" | "link";
@@ -45,7 +45,7 @@ const accessTypes: AccessTypes[] = ["video", "photo", "link"];
  * @fixme
  * @constructor
  */
-const SettingContainer: React.FC = () => {
+const ContentContainer: React.FC = () => {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	const editorEvent = useEditorEvent();
@@ -112,30 +112,46 @@ const SettingContainer: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						{Object.entries(
-							editorActiveElement.componentData?.content?.photo ||
-								{}
-						).map(([key, value], index: number) => {
-							return (
-								<div key={index} className={cn("w-full")}>
-									<h2
-										className={cn("uppercase mb-3 text-xs")}
-									>
-										{key}
-									</h2>
-									<ImageSetting
-										imageSrc={value}
-										onChange={(data) => {
-											editorEvent.updateComponent(
-												data,
-												"content",
-												`photo.${key}`
-											);
-										}}
-									/>
-								</div>
-							);
-						})}
+						<Accordion type="multiple" className="w-full">
+							{Object.entries(
+								editorActiveElement.componentData?.content
+									?.photo || {}
+							).map(([key, value], index: number) => {
+								return (
+									<AccordionItem value={key} key={index}>
+										<AccordionTrigger>
+											<div
+												className={cn(
+													"w-full flex flex-row items-center gap-2"
+												)}
+											>
+												<h2
+													className={cn(
+														"uppercase mb-3 text-xs"
+													)}
+												>
+													{key}
+												</h2>
+											</div>
+										</AccordionTrigger>
+										<AccordionContent>
+											<div className={cn("w-full")}>
+												<ImageContent
+													imageSrc={value}
+													onChange={(data) => {
+														editorEvent.updateComponent(
+															data,
+															"content",
+															`photo.${key}`
+														);
+													}}
+												/>
+											</div>
+										</AccordionContent>
+									</AccordionItem>
+								);
+							})}
+						</Accordion>
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="video">
@@ -150,7 +166,7 @@ const SettingContainer: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<VideoSetting
+						<VideoContent
 							defaultParams={{
 								videoSrc:
 									contentActiveData.content.video?.videoSrc,
@@ -178,7 +194,7 @@ const SettingContainer: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<LinkSetting
+						<LinkContent
 							defaultParams={contentActiveData.content.link}
 							onSendParams={(params) => {
 								editorEvent.updateComponent(
@@ -210,4 +226,4 @@ const SettingContainer: React.FC = () => {
 	);
 };
 
-export default SettingContainer;
+export default ContentContainer;

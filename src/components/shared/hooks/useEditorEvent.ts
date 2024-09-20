@@ -3,6 +3,7 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
+import {CSSProperties} from "react";
 
 type UpdateContentKeys =
 	| "content"
@@ -17,10 +18,41 @@ interface IEditorEvent {
 		data: unknown,
 		type: UpdateContentKeys,
 		pathString: string,
-		removeObj: boolean,
-		removeKey: boolean
+		removeObj?: boolean,
+		removeKey?: boolean
 	) => void;
 }
+
+const borderKeys = [
+	"border",
+	"borderLeft",
+	"borderTop",
+	"borderBottom",
+	"borderRight",
+];
+
+const updateBorderStyles = (
+	styles: CSSProperties,
+	newBorderStyle: CSSProperties
+): CSSProperties => {
+	// Получаем ключ новой границы (например, 'borderLeft')
+	const newBorder = Object.keys(newBorderStyle)[0];
+
+	// Создаем копию объекта стилей
+	const updatedStyles = { ...styles };
+
+	// Удаляем все остальные border стили, кроме переданного newBorder
+	borderKeys.forEach((key) => {
+		if (key !== newBorder) {
+			delete updatedStyles[key];
+		}
+	});
+
+	// Добавляем или обновляем значение для переданного newBorder
+	updatedStyles[newBorder] = newBorderStyle[newBorder];
+
+	return updatedStyles;
+};
 
 /**
  * @author Zholaman Zhumanov
@@ -334,7 +366,7 @@ export default function useEditorEvent(): IEditorEvent {
 													);
 
 													toastMessage(
-														"Ключ успешно удален",
+														"Обьект успешно удален! removeKey",
 														"success"
 													);
 

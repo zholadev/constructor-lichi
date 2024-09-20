@@ -34,7 +34,7 @@ interface Props {
  * @param props
  * @constructor
  */
-const LinkSetting: React.FC<Props> = (props) => {
+const LinkContent: React.FC<Props> = (props) => {
 	const { onSendParams, defaultParams } = props;
 
 	const [error, setError] = useState<string | null>(null);
@@ -130,4 +130,4 @@ const LinkSetting: React.FC<Props> = (props) => {
 	);
 };
 
-export default LinkSetting;
+export default LinkContent;

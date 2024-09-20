@@ -8,9 +8,10 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/components/shared/shadcn/ui/tabs";
-import DesignContent from "@/components/components/design/DesignContent";
-import SettingContainer from "@/components/components/design/SettingContainer";
+import StylesContainer from "@/components/components/panel/StylesContainer";
+import ContentContainer from "@/components/components/panel/ContentContainer";
 import { Bolt, BookImage, Paintbrush } from "lucide-react";
+import SettingContainer from "@/components/components/panel/SettingContainer";
 
 /**
  * @author Zholaman Zhumanov
@@ -74,10 +75,17 @@ const PanelContent: React.FC = () => {
 						className={cn("overflow-y-auto")}
 						style={{ height: "calc(100vh - 120px)" }}
 					>
-						<DesignContent />
+						<StylesContainer />
 					</TabsContent>
 					<TabsContent
 						value="content"
+						className={cn("overflow-y-auto")}
+						style={{ height: "calc(100vh - 100px)" }}
+					>
+						<ContentContainer />
+					</TabsContent>
+					<TabsContent
+						value="settings"
 						className={cn("overflow-y-auto")}
 						style={{ height: "calc(100vh - 100px)" }}
 					>

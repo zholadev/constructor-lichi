@@ -24,6 +24,7 @@ import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { IComponentBaseSchema } from "@/components/features/app/blocks/types/interface-components";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
 type AccessTypes =
 	| "position"
@@ -57,7 +58,7 @@ const accessTypes: AccessTypes[] = [
  * @fixme
  * @constructor
  */
-const DesignContent: React.FC = () => {
+const StylesContainer: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
@@ -263,8 +264,18 @@ const DesignContent: React.FC = () => {
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>
+
+			<div className={cn("w-full mt-10")}>
+				<Button
+					variant="outline"
+					className={cn("w-full")}
+					onClick={() => onUpdateHandle({}, "style", "removeKey")}
+				>
+					Очистить все стили
+				</Button>
+			</div>
 		</div>
 	);
 };
 
-export default DesignContent;
+export default StylesContainer;

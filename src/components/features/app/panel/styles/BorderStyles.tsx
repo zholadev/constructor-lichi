@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
@@ -16,10 +16,12 @@ import {
 	CornersIcon,
 	CornerTopLeftIcon,
 	CornerTopRightIcon,
-	MinusIcon,
-	PlusIcon,
 } from "@radix-ui/react-icons";
-import { Checkbox } from "@/components/shared/shadcn/ui/checkbox";
+import { Button } from "@/components/shared/shadcn/ui/button";
+
+interface CssStyles {
+	[key: string]: any;
+}
 
 type BorderStyleType = "solid" | "dashed" | "dotted";
 
@@ -70,6 +72,37 @@ const parseBorderStyle = (border: string) => {
 		borderColor: parts[2],
 	};
 };
+
+const updateBorderStyles = (
+	styles: CSSProperties,
+	newBorderStyle: CSSProperties
+): CssStyles => {
+	// Получаем ключ новой границы (например, 'borderLeft')
+	const newBorder = Object.keys(newBorderStyle)[0];
+
+	// Создаем копию объекта стилей
+	const updatedStyles = { ...styles };
+
+	// Удаляем все остальные border стили, кроме переданного newBorder
+	borderKeys.forEach((key) => {
+		if (key !== newBorder) {
+			delete updatedStyles[key];
+		}
+	});
+
+	// Добавляем или обновляем значение для переданного newBorder
+	updatedStyles[newBorder] = newBorderStyle[newBorder];
+
+	return updatedStyles;
+};
+
+const borderKeys = [
+	"border",
+	"borderLeft",
+	"borderTop",
+	"borderBottom",
+	"borderRight",
+];
 
 const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 	const defaultValues: IStyleValues = {
@@ -203,6 +236,18 @@ const BorderStyles: React.FC<Props> = (props) => {
 		borderBottom: false,
 	});
 
+	const removeBorderStyles = (type: "all" | "key") => {
+		if (onStyleChange) {
+			if (type === "all") {
+				onStyleChange({}, "style.border", "removeKey");
+				onStyleChange({}, "style.borderLeft", "removeKey");
+				onStyleChange({}, "style.borderRight", "removeKey");
+				onStyleChange({}, "style.borderTop", "removeKey");
+				onStyleChange({}, "style.borderBottom", "removeKey");
+			}
+		}
+	};
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления значение для размеров
@@ -301,11 +346,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 					...borderRadiusCorner,
 				};
 
-				if (key === "borderEnabled" && !value) {
-					onStyleChange({}, "style.border", "removeKey");
-				} else {
-					onStyleChange(buildBorderStyles);
-				}
+				onStyleChange(buildBorderStyles);
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -313,6 +354,11 @@ const BorderStyles: React.FC<Props> = (props) => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		const defaultStyles = computeInitialStyles(styles);
+		setStyleValues(defaultStyles);
+	}, [styles]);
 
 	const cornerOptions: Array<{
 		value: StyleKeys;
@@ -382,11 +428,6 @@ const BorderStyles: React.FC<Props> = (props) => {
 		},
 	];
 
-	useEffect(() => {
-		const defaultStyles = computeInitialStyles(styles);
-		setStyleValues(defaultStyles);
-	}, [styles]);
-
 	return (
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Border</h3>}
@@ -397,22 +438,20 @@ const BorderStyles: React.FC<Props> = (props) => {
 					)}
 				>
 					<div className={cn("flex flex-row items-center gap-2")}>
-						<label className="cursor-pointer flex items-center">
-							<Checkbox
-								defaultChecked={styleValues.borderEnabled}
-								onCheckedChange={(value: boolean) => {
-									onChangeStyleHandle("borderEnabled", value);
-								}}
-								className="hidden"
-							/>
-							{styleValues.borderEnabled ? (
-								<MinusIcon className="w-5 h-5" />
-							) : (
-								<PlusIcon className="w-5 h-5" />
-							)}
-						</label>
+						<Button
+							type="button"
+							variant="ghost"
+							className={cn("text-xs")}
+							onClick={() => {
+								removeBorderStyles("all");
+							}}
+							disabled={!styleValues.borderEnabled}
+						>
+							Удалить
+						</Button>
 					</div>
 				</div>
+
 				<div
 					className={cn(
 						"flex flex-row gap-2 items-center border rounded-md pl-2"

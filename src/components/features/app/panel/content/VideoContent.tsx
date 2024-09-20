@@ -32,7 +32,7 @@ interface Props {
  * @param props
  * @constructor
  */
-const VideoSetting: React.FC<Props> = (props) => {
+const VideoContent: React.FC<Props> = (props) => {
 	const { onSendParams, defaultParams } = props;
 
 	const { editorVideoPlayAction } = useDispatchAction();
@@ -182,4 +182,4 @@ const VideoSetting: React.FC<Props> = (props) => {
 	);
 };
 
-export default VideoSetting;
+export default VideoContent;

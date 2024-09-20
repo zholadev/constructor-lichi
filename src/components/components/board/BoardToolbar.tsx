@@ -6,6 +6,7 @@ import { Button } from "@/components/shared/shadcn/ui/button";
 import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,6 +24,8 @@ const BoardToolbar: React.FC = () => {
 		editorDraggingTemplateAction,
 		editorRemoveTemplateAction,
 	} = useDispatchAction();
+
+	const permission = usePermission();
 
 	const { editorDisabledEdit, editorDraggingTemplate, editorRemoveTemplate } =
 		useAppSelector((state) => state.editor);
@@ -43,25 +46,31 @@ const BoardToolbar: React.FC = () => {
 				"w-full h-[50px] mb-5 bg-white flex items-center justify-end p-2"
 			)}
 		>
-			<Button
-				className={cn("")}
-				variant="ghost"
-				disabled={spaceTemplateData.length < 2 || editorRemoveTemplate}
-				onClick={toggleEditorDraggingTemplateHandle}
-			>
-				{editorDraggingTemplate ? "Назад" : <DragHandleDots2Icon />}
-			</Button>
+			{permission.editor.dnd && (
+				<Button
+					className={cn("")}
+					variant="ghost"
+					disabled={
+						spaceTemplateData.length < 2 || editorRemoveTemplate
+					}
+					onClick={toggleEditorDraggingTemplateHandle}
+				>
+					{editorDraggingTemplate ? "Назад" : <DragHandleDots2Icon />}
+				</Button>
+			)}
 
-			<Button
-				className={cn("")}
-				variant="ghost"
-				onClick={toggleEditorRemoveTemplateHandle}
-				disabled={
-					spaceTemplateData.length === 0 || editorDraggingTemplate
-				}
-			>
-				{editorRemoveTemplate ? "Назад" : <TrashIcon />}
-			</Button>
+			{permission.editor.remove && (
+				<Button
+					className={cn("")}
+					variant="ghost"
+					onClick={toggleEditorRemoveTemplateHandle}
+					disabled={
+						spaceTemplateData.length === 0 || editorDraggingTemplate
+					}
+				>
+					{editorRemoveTemplate ? "Назад" : <TrashIcon />}
+				</Button>
+			)}
 		</div>
 	);
 };

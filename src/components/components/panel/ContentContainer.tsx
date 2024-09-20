@@ -7,14 +7,13 @@ import {
 	AccordionTrigger,
 } from "@/components/shared/shadcn/ui/accordion";
 import { ImageIcon, Link1Icon, VideoIcon } from "@radix-ui/react-icons";
-import { GalleryHorizontalEnd } from "lucide-react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import ImageContent from "@/components/features/app/panel/content/ImageContent";
 import VideoContent from "@/components/features/app/panel/content/VideoContent";
-import SwiperSetting from "@/components/features/app/panel/setting/SwiperSetting";
 import LinkContent from "@/components/features/app/panel/content/LinkContent";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 type AccessTypes = "video" | "photo" | "link";
 type ContentKeys = "photo" | "link" | "video";
@@ -49,6 +48,7 @@ const ContentContainer: React.FC = () => {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	const editorEvent = useEditorEvent();
+	const permission = usePermission();
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
@@ -92,6 +92,14 @@ const ContentContainer: React.FC = () => {
 		}
 	}, [editorActiveElement]);
 
+	if (!permission.panel.content) {
+		return (
+			<div className={cn("w-full text-center")}>
+				<h2>Не доступен</h2>
+			</div>
+		);
+	}
+
 	return (
 		<div className={cn("w-full p-3")}>
 			<Accordion
@@ -100,127 +108,122 @@ const ContentContainer: React.FC = () => {
 				value={defaultExpanded}
 				onValueChange={setExpanded}
 			>
-				<AccordionItem value="photo">
-					<AccordionTrigger>
-						<div
-							className={cn(
-								"w-full flex flex-row items-center gap-2"
-							)}
-						>
-							<ImageIcon width={20} height={20} />
-							Image
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<Accordion type="multiple" className="w-full">
-							{Object.entries(
-								editorActiveElement.componentData?.content
-									?.photo || {}
-							).map(([key, value], index: number) => {
-								return (
-									<AccordionItem value={key} key={index}>
-										<AccordionTrigger>
-											<div
-												className={cn(
-													"w-full flex flex-row items-center gap-2"
-												)}
-											>
-												<h2
+				{permission.content.image && (
+					<AccordionItem value="photo">
+						<AccordionTrigger>
+							<div
+								className={cn(
+									"w-full flex flex-row items-center gap-2"
+								)}
+							>
+								<ImageIcon width={20} height={20} />
+								Image
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<Accordion type="multiple" className="w-full">
+								{Object.entries(
+									editorActiveElement.componentData?.content
+										?.photo || {}
+								).map(([key, value], index: number) => {
+									return (
+										<AccordionItem value={key} key={index}>
+											<AccordionTrigger>
+												<div
 													className={cn(
-														"uppercase mb-3 text-xs"
+														"w-full flex flex-row items-center gap-2"
 													)}
 												>
-													{key}
-												</h2>
-											</div>
-										</AccordionTrigger>
-										<AccordionContent>
-											<div className={cn("w-full")}>
-												<ImageContent
-													imageSrc={value}
-													onChange={(data) => {
-														editorEvent.updateComponent(
-															data,
-															"content",
-															`photo.${key}`
-														);
-													}}
-												/>
-											</div>
-										</AccordionContent>
-									</AccordionItem>
-								);
-							})}
-						</Accordion>
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="video">
-					<AccordionTrigger>
-						<div
-							className={cn(
-								"w-full flex flex-row items-center gap-2"
-							)}
-						>
-							<VideoIcon width={20} height={20} />
-							Video
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<VideoContent
-							defaultParams={{
-								videoSrc:
-									contentActiveData.content.video?.videoSrc,
-								poster: contentActiveData.content.video?.poster,
-							}}
-							onSendParams={(params) => {
-								editorEvent.updateComponent(
-									params,
-									"content",
-									"video"
-								);
-							}}
-						/>
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="link">
-					<AccordionTrigger>
-						<div
-							className={cn(
-								"w-full flex flex-row items-center gap-2"
-							)}
-						>
-							<Link1Icon width={20} height={20} />
-							Link
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<LinkContent
-							defaultParams={contentActiveData.content.link}
-							onSendParams={(params) => {
-								editorEvent.updateComponent(
-									params,
-									"content",
-									"link"
-								);
-							}}
-						/>
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="swiper">
-					<AccordionTrigger>
-						<div
-							className={cn(
-								"w-full flex flex-row items-center gap-2"
-							)}
-						>
-							<GalleryHorizontalEnd />
-							Slider
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<SwiperSetting />
-					</AccordionContent>
-				</AccordionItem>
+													<h2
+														className={cn(
+															"uppercase mb-3 text-xs"
+														)}
+													>
+														{key}
+													</h2>
+												</div>
+											</AccordionTrigger>
+											<AccordionContent>
+												<div className={cn("w-full")}>
+													<ImageContent
+														imageSrc={value}
+														onChange={(data) => {
+															editorEvent.updateComponent(
+																data,
+																"content",
+																`photo.${key}`
+															);
+														}}
+													/>
+												</div>
+											</AccordionContent>
+										</AccordionItem>
+									);
+								})}
+							</Accordion>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.content.video && (
+					<AccordionItem value="video">
+						<AccordionTrigger>
+							<div
+								className={cn(
+									"w-full flex flex-row items-center gap-2"
+								)}
+							>
+								<VideoIcon width={20} height={20} />
+								Video
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<VideoContent
+								defaultParams={{
+									videoSrc:
+										contentActiveData.content.video
+											?.videoSrc,
+									poster: contentActiveData.content.video
+										?.poster,
+								}}
+								onSendParams={(params) => {
+									editorEvent.updateComponent(
+										params,
+										"content",
+										"video"
+									);
+								}}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.content.link && (
+					<AccordionItem value="link">
+						<AccordionTrigger>
+							<div
+								className={cn(
+									"w-full flex flex-row items-center gap-2"
+								)}
+							>
+								<Link1Icon width={20} height={20} />
+								Link
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<LinkContent
+								defaultParams={contentActiveData.content.link}
+								onSendParams={(params) => {
+									editorEvent.updateComponent(
+										params,
+										"content",
+										"link"
+									);
+								}}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
 			</Accordion>
 		</div>
 	);

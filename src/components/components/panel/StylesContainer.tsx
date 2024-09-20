@@ -25,6 +25,7 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { IComponentBaseSchema } from "@/components/features/app/blocks/types/interface-components";
 import { Button } from "@/components/shared/shadcn/ui/button";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 type AccessTypes =
 	| "position"
@@ -65,6 +66,7 @@ const StylesContainer: React.FC = () => {
 	// console.log("editorActiveElement", editorActiveElement);
 	const toastMessage = useToastMessage();
 	const editorEvent = useEditorEvent();
+	const permission = usePermission();
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
@@ -163,6 +165,15 @@ const StylesContainer: React.FC = () => {
 		}
 	}, [editorActiveElement]);
 
+
+	if (!permission.panel.styles) {
+		return (
+			<div className={cn("w-full text-center")}>
+				<h2>Не доступен</h2>
+			</div>
+		);
+	}
+
 	return (
 		<div className={cn("w-full p-3")}>
 			<Accordion
@@ -171,109 +182,134 @@ const StylesContainer: React.FC = () => {
 				value={defaultExpanded}
 				onValueChange={setExpanded}
 			>
-				<AccordionItem value="position">
-					<AccordionTrigger>
-						<div className={cn("flex items-center gap-1")}>
-							<LayoutIcon width={13} height={13} />
-							<span style={{ fontSize: "13px" }}>Position</span>
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<LayoutStyles
-							hideTitle
-							styles={styleActiveData}
-							onStyleChange={onUpdateHandle}
-						/>
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="size">
-					<AccordionTrigger>
-						<div className={cn("flex items-center gap-1")}>
-							<SizeIcon width={13} height={13} />
-							<span style={{ fontSize: "13px" }}>Size</span>
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<SizeStyles
-							hideTitle
-							styles={styleActiveData}
-							onStyleChange={onUpdateHandle}
-						/>
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="spacing">
-					<AccordionTrigger>
-						<div className={cn("flex items-center gap-1")}>
-							<PaddingIcon width={13} height={13} />
-							<span style={{ fontSize: "13px" }}>Spacing</span>
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<SpacingStyles
-							hideTitle
-							styles={styleActiveData}
-							onStyleChange={onUpdateHandle}
-						/>
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="border">
-					<AccordionTrigger>
-						<div className={cn("flex items-center gap-2")}>
-							<BorderAllIcon width={13} height={13} />
-							<span style={{ fontSize: "13px" }}>Border</span>
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<BorderStyles
-							hideTitle
-							styles={styleActiveData}
-							onStyleChange={(...params) =>
-								onUpdateHandle(...params)
-							}
-						/>
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="typography">
-					<AccordionTrigger>
-						<div className={cn("flex items-center gap-1")}>
-							<Type width={17} height={17} />
-							<span style={{ fontSize: "13px" }}>Typography</span>
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<TypographyStyles
-							hideTitle
-							styles={styleActiveData}
-							onStyleChange={onUpdateHandle}
-						/>
-					</AccordionContent>
-				</AccordionItem>
-				<AccordionItem value="fill">
-					<AccordionTrigger>
-						<div className={cn("flex items-center gap-1")}>
-							<Palette width={17} height={17} />
-							<span style={{ fontSize: "13px" }}>Fill</span>
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<BackgroundStyles
-							hideTitle
-							styles={styleActiveData}
-							onStyleChange={onUpdateHandle}
-						/>
-					</AccordionContent>
-				</AccordionItem>
+				{permission.styles.position && (
+					<AccordionItem value="position">
+						<AccordionTrigger>
+							<div className={cn("flex items-center gap-1")}>
+								<LayoutIcon width={13} height={13} />
+								<span style={{ fontSize: "13px" }}>
+									Position
+								</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<LayoutStyles
+								hideTitle
+								styles={styleActiveData}
+								onStyleChange={onUpdateHandle}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.styles.size && (
+					<AccordionItem value="size">
+						<AccordionTrigger>
+							<div className={cn("flex items-center gap-1")}>
+								<SizeIcon width={13} height={13} />
+								<span style={{ fontSize: "13px" }}>Size</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<SizeStyles
+								hideTitle
+								styles={styleActiveData}
+								onStyleChange={onUpdateHandle}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.styles.spacing && (
+					<AccordionItem value="spacing">
+						<AccordionTrigger>
+							<div className={cn("flex items-center gap-1")}>
+								<PaddingIcon width={13} height={13} />
+								<span style={{ fontSize: "13px" }}>
+									Spacing
+								</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<SpacingStyles
+								hideTitle
+								styles={styleActiveData}
+								onStyleChange={onUpdateHandle}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.styles.border && (
+					<AccordionItem value="border">
+						<AccordionTrigger>
+							<div className={cn("flex items-center gap-2")}>
+								<BorderAllIcon width={13} height={13} />
+								<span style={{ fontSize: "13px" }}>Border</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<BorderStyles
+								hideTitle
+								styles={styleActiveData}
+								onStyleChange={(...params) =>
+									onUpdateHandle(...params)
+								}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.styles.typography && (
+					<AccordionItem value="typography">
+						<AccordionTrigger>
+							<div className={cn("flex items-center gap-1")}>
+								<Type width={17} height={17} />
+								<span style={{ fontSize: "13px" }}>
+									Typography
+								</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<TypographyStyles
+								hideTitle
+								styles={styleActiveData}
+								onStyleChange={onUpdateHandle}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.styles.fill && (
+					<AccordionItem value="fill">
+						<AccordionTrigger>
+							<div className={cn("flex items-center gap-1")}>
+								<Palette width={17} height={17} />
+								<span style={{ fontSize: "13px" }}>Fill</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<BackgroundStyles
+								hideTitle
+								styles={styleActiveData}
+								onStyleChange={onUpdateHandle}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
 			</Accordion>
 
-			<div className={cn("w-full mt-10")}>
-				<Button
-					variant="outline"
-					className={cn("w-full")}
-					onClick={() => onUpdateHandle({}, "style", "removeKey")}
-				>
-					Очистить все стили
-				</Button>
-			</div>
+			{permission.panel.styles && (
+				<div className={cn("w-full mt-10")}>
+					<Button
+						variant="outline"
+						className={cn("w-full")}
+						onClick={() => onUpdateHandle({}, "style", "removeKey")}
+					>
+						Очистить все стили
+					</Button>
+				</div>
+			)}
 		</div>
 	);
 };

@@ -11,6 +11,7 @@ import SwiperSetting from "@/components/features/app/panel/setting/SwiperSetting
 import ActionSetting from "@/components/features/app/panel/setting/ActionSetting";
 import ViewSetting from "@/components/features/app/panel/setting/ViewSetting";
 import ShowSetting from "@/components/features/app/panel/setting/ShowSetting";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,6 +24,8 @@ import ShowSetting from "@/components/features/app/panel/setting/ShowSetting";
  * @constructor
  */
 const SettingContainer: React.FC = () => {
+	const permission = usePermission();
+
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	return (
@@ -32,50 +35,61 @@ const SettingContainer: React.FC = () => {
 			value={defaultExpanded}
 			onValueChange={setExpanded}
 		>
-			<AccordionItem value="view">
-				<AccordionTrigger>
-					<div className={cn("flex items-center gap-1")}>
-						<LayoutIcon width={13} height={13} />
-						<span style={{ fontSize: "13px" }}>Вид</span>
-					</div>
-				</AccordionTrigger>
-				<AccordionContent>
-					<ViewSetting />
-				</AccordionContent>
-			</AccordionItem>
-			<AccordionItem value="show">
-				<AccordionTrigger>
-					<div className={cn("flex items-center gap-1")}>
-						<LayoutIcon width={13} height={13} />
-						<span style={{ fontSize: "13px" }}>Показ</span>
-					</div>
-				</AccordionTrigger>
-				<AccordionContent>
-					<ShowSetting />
-				</AccordionContent>
-			</AccordionItem>
-			<AccordionItem value="aciton">
-				<AccordionTrigger>
-					<div className={cn("flex items-center gap-1")}>
-						<LayoutIcon width={13} height={13} />
-						<span style={{ fontSize: "13px" }}>Событие</span>
-					</div>
-				</AccordionTrigger>
-				<AccordionContent>
-					<ActionSetting />
-				</AccordionContent>
-			</AccordionItem>
-			<AccordionItem value="swiper">
-				<AccordionTrigger>
-					<div className={cn("flex items-center gap-1")}>
-						<LayoutIcon width={13} height={13} />
-						<span style={{ fontSize: "13px" }}>Слайдер</span>
-					</div>
-				</AccordionTrigger>
-				<AccordionContent>
-					<SwiperSetting />
-				</AccordionContent>
-			</AccordionItem>
+			{permission.setting.view && (
+				<AccordionItem value="view">
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Вид</span>
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<ViewSetting />
+					</AccordionContent>
+				</AccordionItem>
+			)}
+
+			{permission.setting.view && (
+				<AccordionItem value="show">
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Показ</span>
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<ShowSetting />
+					</AccordionContent>
+				</AccordionItem>
+			)}
+
+			{permission.setting.action && (
+				<AccordionItem value="aciton">
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Событие</span>
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<ActionSetting />
+					</AccordionContent>
+				</AccordionItem>
+			)}
+
+			{permission.setting.swiper && (
+				<AccordionItem value="swiper">
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Слайдер</span>
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<SwiperSetting />
+					</AccordionContent>
+				</AccordionItem>
+			)}
 		</Accordion>
 	);
 };

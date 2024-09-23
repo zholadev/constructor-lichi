@@ -11,6 +11,10 @@ export interface IElementSchema {
 	version: string;
 }
 
+export interface ITimerSchema {
+	expiredDate: Date;
+}
+
 export interface ILinkDesign {
 	id: string;
 	active?: boolean;
@@ -38,4 +42,10 @@ export interface ITextElement extends IElementSchema {
 	};
 }
 
-export type IElementTotal = IButtonElement | ITextElement;
+export interface ITimerElement extends IElementSchema {
+	setting: {
+		timer: ITimerSchema;
+	};
+}
+
+export type IElementTotal = IButtonElement | ITextElement | ITimerElement;

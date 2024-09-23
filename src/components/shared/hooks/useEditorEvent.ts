@@ -3,7 +3,8 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
-import {CSSProperties} from "react";
+import { CSSProperties } from "react";
+import { IActiveElement } from "@/components/shared/types/interface-editor";
 
 type UpdateContentKeys =
 	| "content"
@@ -21,6 +22,7 @@ interface IEditorEvent {
 		removeObj?: boolean,
 		removeKey?: boolean
 	) => void;
+	removeEvent: () => void;
 }
 
 const borderKeys = [
@@ -128,6 +130,137 @@ export default function useEditorEvent(): IEditorEvent {
 		} catch (error) {
 			if (error instanceof Error) {
 				errorHandler("useEditorEvent", "addElement", error);
+			}
+		}
+	};
+
+	const removeContainer = () => {
+		if (!editorActiveElement.containerId) {
+			toastMessage(
+				"Произошла ошибка id не найдено, обратитесь разработчику",
+				"error"
+			);
+			return;
+		}
+
+		const filteredRemovedData = spaceTemplateData.filter(
+			(item: ITemplateBaseSchema) =>
+				item.id !== editorActiveElement?.containerId
+		);
+		spaceTemplateDataAction(filteredRemovedData);
+	};
+
+	const removeComponent = () => {
+		if (!editorActiveElement?.id) {
+			toastMessage(
+				"Произошла ошибка id не найдено, обратитесь разработчику",
+				"error"
+			);
+			return;
+		}
+
+		const filteredRemovedData = spaceTemplateData.map(
+			(container: ITemplateBaseSchema) => {
+				if (container.id === editorActiveElement.containerId) {
+					// Удаляем нужный компонент
+					const filteredComponents = container.components.filter(
+						(component) =>
+							component.data.id !== editorActiveElement?.id
+					);
+
+					// Рассчитываем новое значение для gridTemplateColumns в зависимости от оставшихся компонентов
+					const columnsCount = filteredComponents.length;
+					const newGridTemplateColumns = Array(columnsCount)
+						.fill("1fr")
+						.join(" "); // Создаём строку типа "1fr 1fr ...", где количество "1fr" равно количеству компонентов
+
+					return {
+						...container,
+						style: {
+							...container.style,
+							gridTemplateColumns: newGridTemplateColumns, // Обновляем gridTemplateColumns
+						},
+						components: filteredComponents, // Возвращаем обновлённые компоненты
+					};
+				}
+				return container;
+			}
+		);
+
+		toastMessage("Компонент успешно удален", "success");
+		spaceTemplateDataAction(filteredRemovedData);
+	};
+
+	const removeElement = () => {
+		if (!editorActiveElement?.currentActiveId) {
+			toastMessage(
+				"Произошла ошибка id не найдено, обратитесь разработчику",
+				"error"
+			);
+			return;
+		}
+
+		const filteredRemovedData = spaceTemplateData.map(
+			(container: ITemplateBaseSchema) => {
+				if (container.id === editorActiveElement.containerId) {
+					return {
+						...container,
+						components: container.components.map((component) => {
+							if (component.data.id === editorActiveElement.id) {
+								return {
+									...component,
+									is_selected: true,
+									data: {
+										...component.data,
+										elements:
+											component.data.elements.filter(
+												(element) =>
+													element.id !==
+													editorActiveElement.currentActiveId
+											),
+									},
+								};
+							}
+							return component;
+						}),
+					};
+				}
+				return container;
+			}
+		);
+
+		toastMessage("Элемент успешно удален", "success");
+		spaceTemplateDataAction(filteredRemovedData);
+	};
+
+	const removeEvent = () => {
+		try {
+			if (!editorActiveElement) {
+				toastMessage("Вы не выбрали компонент", "error");
+				return;
+			}
+
+			if (!editorActiveElement.id) {
+				toastMessage("Выбранный id не найден", "error");
+				return;
+			}
+
+			switch (editorActiveElement?.type) {
+				case "container":
+					removeContainer();
+					break;
+				case "element":
+					removeElement();
+					break;
+				case "component":
+					removeComponent();
+					break;
+				default:
+					toastMessage("Отсуствует тип для удаления", "error");
+			}
+		} catch (error) {
+			if (error instanceof Error) {
+				errorHandler("useEditorEvent", "removeEvent", error);
 			}
 		}
 	};
@@ -410,7 +543,7 @@ export default function useEditorEvent(): IEditorEvent {
 						return container;
 					}
 				);
-				console.log("newUpdateContent", newUpdateContent);
+
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
 			}
 		} catch (error) {
@@ -423,5 +556,6 @@ export default function useEditorEvent(): IEditorEvent {
 	return {
 		addElement,
 		updateComponent,
+		removeEvent,
 	};
 }

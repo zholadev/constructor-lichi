@@ -4,7 +4,7 @@ import { versionComponentBase } from "@/components/app/versions/version-modules"
 import {
 	IButtonElement,
 	IElementSchema,
-	ITextElement,
+	ITimerElement,
 } from "@/components/features/app/elements/types/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
@@ -21,10 +21,7 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
  * @fixme
  * @constructor
  */
-export default function useElementData():
-	| IElementSchema
-	| IButtonElement
-	| ITextElement {
+export default function useElementData(): IElementSchema | ITimerElement {
 	const toastMessage = useToastMessage();
 
 	const { languageData } = useAppSelector((state) => state.app);
@@ -45,39 +42,51 @@ export default function useElementData():
 		}
 	}, [languageData]);
 
-	const elementMap: Record<
-		ElementBaseTypes,
-		IElementSchema | IButtonElement | ITextElement
-	> = {
-		button: {
-			id: uuidv4(),
-			type: "button",
-			version: versionComponentBase.card.version,
-			style: {
-				border: "1px solid #ffffff",
-				padding: "10px 15px",
-			},
-			content: {
-				title: {
-					...languageObject,
+	const elementMap: Record<ElementBaseTypes, IElementSchema | ITimerElement> =
+		{
+			button: {
+				id: uuidv4(),
+				type: "button",
+				version: versionComponentBase.card.version,
+				style: {
+					border: "1px solid #ffffff",
+					padding: "10px 15px",
+				},
+				content: {
+					title: {
+						...languageObject,
+					},
 				},
 			},
-		},
-		text: {
-			id: uuidv4(),
-			type: "text",
-			version: versionComponentBase.card.version,
-			style: {
-				textAlign: "center",
-				fontFamily: "Futura PT",
-			},
-			content: {
-				title: {
-					...languageObject,
+			text: {
+				id: uuidv4(),
+				type: "text",
+				version: versionComponentBase.card.version,
+				style: {
+					textAlign: "center",
+					fontFamily: "Futura PT",
+				},
+				content: {
+					title: {
+						...languageObject,
+					},
 				},
 			},
-		},
-	};
+			timer: {
+				id: uuidv4(),
+				type: "timer",
+				version: versionComponentBase.card.version,
+				style: {
+					textAlign: "center",
+					fontFamily: "Futura PT",
+				},
+				setting: {
+					timer: {
+						expiredDate: new Date(),
+					},
+				},
+			},
+		};
 
 	return function (
 		type: ElementBaseTypes

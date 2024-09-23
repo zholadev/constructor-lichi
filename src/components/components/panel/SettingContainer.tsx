@@ -13,6 +13,8 @@ import ViewSetting from "@/components/features/app/panel/setting/ViewSetting";
 import ShowSetting from "@/components/features/app/panel/setting/ShowSetting";
 import usePermission from "@/components/shared/hooks/usePermission";
 
+export type SettingTypes = "view" | "show" | "action" | "swiper";
+
 /**
  * @author Zholaman Zhumanov
  * @created 20.09.2024
@@ -26,14 +28,16 @@ import usePermission from "@/components/shared/hooks/usePermission";
 const SettingContainer: React.FC = () => {
 	const permission = usePermission();
 
-	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
+	const [defaultExpanded, setExpanded] = React.useState<SettingTypes[]>([
+		"action",
+	]);
 
 	return (
 		<Accordion
 			type="multiple"
 			className="w-full"
 			value={defaultExpanded}
-			onValueChange={setExpanded}
+			onValueChange={(value: SettingTypes[]) => setExpanded(value)}
 		>
 			{permission.setting.view && (
 				<AccordionItem value="view">
@@ -64,7 +68,7 @@ const SettingContainer: React.FC = () => {
 			)}
 
 			{permission.setting.action && (
-				<AccordionItem value="aciton">
+				<AccordionItem value="action">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
 							<LayoutIcon width={13} height={13} />

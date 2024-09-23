@@ -4,6 +4,7 @@ import ButtonElement from "@/components/features/app/elements/base/ButtonElement
 import TextElement from "@/components/features/app/elements/base/TextElement";
 import ElementAction from "@/components/features/app/components/actions/element/ElementAction";
 import { IButtonElement, ITextElement } from "../types/interface-elements";
+import Timer from "@/components/features/app/elements/base/Timer";
 
 interface Props {
 	type: ElementBaseTypes;

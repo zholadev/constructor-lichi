@@ -148,8 +148,21 @@ export const apiMethodSchemaSetActive = async (
  * @created 14.08.2024
  * @description Метод для обновление meta
  */
-export const apiMethodSchemaUpdateMeta = async (): Promise<
-	AxiosResponse | ResponseObject
-> => {
-	return sendApiPostRequest(API.schema.updateMeta);
+export const apiMethodSchemaUpdateMeta = async (
+	name: string,
+	id: string
+): Promise<AxiosResponse | ResponseObject> => {
+	const formData = new FormData();
+
+	if (name) {
+		formData.append("name", name);
+	}
+	if (id) {
+		formData.append("id", id);
+	}
+	return sendApiPostRequest(
+		API.schema.updateMeta,
+		formData,
+		"constructor_hp"
+	);
 };

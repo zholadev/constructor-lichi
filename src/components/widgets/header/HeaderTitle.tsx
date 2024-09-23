@@ -66,7 +66,10 @@ const HeaderTitle: React.FC<Props> = (props) => {
 				toggle={dialog.dialogRenameTitle.toggle}
 				title="Переименование название"
 			>
-				<RenamePage name="" />
+				<RenamePage
+					name=""
+					confirmAction={dialog.dialogRenameTitle.toggle}
+				/>
 			</DialogContainer>
 		</div>
 	);

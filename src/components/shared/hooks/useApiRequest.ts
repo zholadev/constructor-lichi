@@ -6,6 +6,11 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { errorData } from "@/components/shared/constants/text";
 import useToastMessage from "./useToastMessage";
 
+interface ApiRequest {
+	apiFetchHandler: () => void;
+	loading: boolean;
+}
+
 // interface ApiOptions {
 // 	offLoader?: boolean;
 // 	disableLoading?: boolean;

@@ -6,9 +6,11 @@ import {
 	TemplateType,
 	ThemeSpaceMode,
 } from "@/components/shared/types/types";
-import { ITemplateBaseSchema } from "@/components/features/app/blocks/types/interface-components";
+import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
+import { ITemplateSpaceActionData } from "@/components/shared/types/interface";
 
 interface stateSlice {
+	spaceTemplateActionData: ITemplateSpaceActionData;
 	spaceTemplateData: ITemplateBaseSchema[];
 	spaceTemplateApiLoading: boolean;
 	spaceModeTheme: ThemeSpaceMode;
@@ -22,6 +24,13 @@ interface stateSlice {
 }
 
 const initialState: stateSlice = {
+	spaceTemplateActionData: {
+		active: [],
+		name: "Unknown Page",
+		guid: "unknown_id",
+		id: 0,
+		meta: {},
+	},
 	spaceTemplateData: [],
 	spaceModeTheme: "light",
 	spaceModeLanguage: "ru",
@@ -89,6 +98,12 @@ export const spaceSlice = createSlice({
 		) => {
 			state.spaceTemplateApiLoading = action.payload;
 		},
+		spaceTemplateActionDataReducer: (
+			state,
+			action: PayloadAction<unknown>
+		) => {
+			state.spaceTemplateActionData = action.payload;
+		},
 	},
 });
 
@@ -103,5 +118,6 @@ export const {
 	spaceModePlatformTypeReducer,
 	spaceTemplatePageIdReducer,
 	spaceTemplateApiLoadingReducer,
+	spaceTemplateActionDataReducer,
 } = spaceSlice.actions;
 export default spaceSlice.reducer;

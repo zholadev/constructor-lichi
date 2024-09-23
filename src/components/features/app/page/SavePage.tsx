@@ -85,9 +85,9 @@ const SavePage: React.FC = () => {
 				</div>
 			</div>
 
-			<div className={cn("mb-8")}>
-				<RenamePage name="" />
-			</div>
+			{/*<div className={cn("mb-8")}>*/}
+			{/*	<RenamePage name="" />*/}
+			{/*</div>*/}
 
 			<div
 				className={cn(

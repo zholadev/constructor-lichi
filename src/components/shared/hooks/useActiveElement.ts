@@ -2,14 +2,12 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import {
-	IComponentCardSchema,
-	IComponentCardVideoSchema,
-} from "@/components/features/app/blocks/types/interface-components";
-import { ActiveElementType } from "@/components/shared/types/types";
-import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+	ActiveElementType,
+	TotalComponentTypes,
+} from "@/components/shared/types/types";
 
 interface IElementActiveParams {
-	data: IComponentCardSchema | IComponentCardVideoSchema | IElementTotal;
+	data: TotalComponentTypes;
 	containerId: string;
 	type: ActiveElementType;
 	currentId: string;

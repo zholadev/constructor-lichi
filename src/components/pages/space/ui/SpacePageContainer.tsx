@@ -27,11 +27,12 @@ import AddBaseComponent from "@/components/features/app/components/add/AddBaseCo
 const SpacePageContainer: React.FC = () => {
 	const dialog = useDialogAction();
 
+	const { spaceTemplateActionData } = useAppSelector((state) => state.space);
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
 	return (
 		<>
-			<HeaderToolbar title={spaceTemplateData?.name} />
+			<HeaderToolbar title={spaceTemplateActionData?.name} />
 
 			<div className={cn("flex flex-row")}>
 				<PanelComponent />

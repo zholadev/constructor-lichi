@@ -16,7 +16,7 @@ import {
 import {
 	ILangListDataItem,
 	ISchemaListData,
-	IShopsListDataItem,
+	IShopsListDataItem, ITemplateSpaceActionData,
 } from "@/components/shared/types/interface";
 import {
 	schemaListApiLoadingReducer,
@@ -43,7 +43,7 @@ import {
 	spaceModePlatformTypeReducer,
 	spaceModePreviewShopReducer,
 	spaceModeTemplateTypeReducer,
-	spaceModeThemeReducer,
+	spaceModeThemeReducer, spaceTemplateActionDataReducer,
 	spaceTemplateApiLoadingReducer,
 	spaceTemplateDataReducer,
 	spaceTemplatePageIdReducer,
@@ -163,6 +163,8 @@ export default function useDispatchAction(): any {
 			dispatch(spaceTemplatePageIdReducer(value)),
 		spaceTemplateApiLoadingAction: (value: boolean) =>
 			dispatch(spaceTemplateApiLoadingReducer(value)),
+		spaceTemplateActionDataAction: (value: ITemplateSpaceActionData) =>
+			dispatch(spaceTemplateActionDataReducer(value)),
 
 		// FM actions
 		getFolderDataAction: (data: []) => dispatch(getFolderDataReducer(data)),

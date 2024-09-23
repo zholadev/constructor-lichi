@@ -9,6 +9,14 @@ export interface IComponentBaseSchema {
 	style: Record<string, unknown>;
 	elements: IElementTotal[];
 }
+export interface IComponentBaseFullSchema {
+	id: string;
+	type: ComponentBaseTypes;
+	version: string;
+	style: Record<string, unknown>;
+	elements?: IElementTotal[];
+	content?: [];
+}
 
 export interface IComponentWithPhotoContent {
 	photo: {

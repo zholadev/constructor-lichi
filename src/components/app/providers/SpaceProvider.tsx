@@ -37,6 +37,7 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		spaceTemplateApiLoadingAction,
 		spaceModeDeviceTypeAction,
 		spaceModePlatformTypeAction,
+		spaceTemplateActionDataAction,
 	} = useDispatchAction();
 
 	const getPlatformQuery = searchQuery.get("platform");
@@ -62,6 +63,7 @@ const SpaceProvider: React.FC<Props> = (props) => {
 				onGetData: (params: IGetApiParams) => {
 					if (params.success) {
 						// spaceTemplateDataAction(params.data?.page);
+						spaceTemplateActionDataAction(params.data?.page);
 					}
 				},
 			},

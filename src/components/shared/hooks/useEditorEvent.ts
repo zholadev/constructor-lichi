@@ -4,7 +4,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { CSSProperties } from "react";
-import { IActiveElement } from "@/components/shared/types/interface-editor";
+import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 
 type UpdateContentKeys =
 	| "content"
@@ -69,11 +69,17 @@ const updateBorderStyles = (
 export default function useEditorEvent(): IEditorEvent {
 	const toastMessage = useToastMessage();
 
+	const activeElementData = useActiveElementFollowUp();
 	const { spaceTemplateDataAction } = useDispatchAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для добавления элемента в компонент
+	 * @param data
+	 */
 	const addElement = (data: unknown) => {
 		try {
 			if (!data) {
@@ -134,8 +140,12 @@ export default function useEditorEvent(): IEditorEvent {
 		}
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления контейнера
+	 */
 	const removeContainer = () => {
-		if (!editorActiveElement.containerId) {
+		if (!activeElementData?.containerId) {
 			toastMessage(
 				"Произошла ошибка id не найдено, обратитесь разработчику",
 				"error"
@@ -145,13 +155,17 @@ export default function useEditorEvent(): IEditorEvent {
 
 		const filteredRemovedData = spaceTemplateData.filter(
 			(item: ITemplateBaseSchema) =>
-				item.id !== editorActiveElement?.containerId
+				item.id !== activeElementData?.containerId
 		);
 		spaceTemplateDataAction(filteredRemovedData);
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления компонента
+	 */
 	const removeComponent = () => {
-		if (!editorActiveElement?.id) {
+		if (!activeElementData?.id) {
 			toastMessage(
 				"Произошла ошибка id не найдено, обратитесь разработчику",
 				"error"
@@ -159,14 +173,19 @@ export default function useEditorEvent(): IEditorEvent {
 			return;
 		}
 
-		const filteredRemovedData = spaceTemplateData.map(
-			(container: ITemplateBaseSchema) => {
-				if (container.id === editorActiveElement.containerId) {
+		const filteredRemovedData = spaceTemplateData
+			.map((container: ITemplateBaseSchema) => {
+				if (container.id === activeElementData.containerId) {
 					// Удаляем нужный компонент
 					const filteredComponents = container.components.filter(
 						(component) =>
-							component.data.id !== editorActiveElement?.id
+							component.data.id !== activeElementData?.id
 					);
+
+					// Если компонентов не осталось, удаляем контейнер
+					if (filteredComponents.length === 0) {
+						return null; // Возвращаем null, чтобы потом исключить этот контейнер
+					}
 
 					// Рассчитываем новое значение для gridTemplateColumns в зависимости от оставшихся компонентов
 					const columnsCount = filteredComponents.length;
@@ -184,15 +203,19 @@ export default function useEditorEvent(): IEditorEvent {
 					};
 				}
 				return container;
-			}
-		);
+			})
+			.filter((container) => container !== null); // Удаляем все контейнеры, которые были помечены как null
 
 		toastMessage("Компонент успешно удален", "success");
 		spaceTemplateDataAction(filteredRemovedData);
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления элемента с компонента
+	 */
 	const removeElement = () => {
-		if (!editorActiveElement?.currentActiveId) {
+		if (!activeElementData?.currentActiveId) {
 			toastMessage(
 				"Произошла ошибка id не найдено, обратитесь разработчику",
 				"error"
@@ -202,11 +225,11 @@ export default function useEditorEvent(): IEditorEvent {
 
 		const filteredRemovedData = spaceTemplateData.map(
 			(container: ITemplateBaseSchema) => {
-				if (container.id === editorActiveElement.containerId) {
+				if (container.id === activeElementData?.containerId) {
 					return {
 						...container,
 						components: container.components.map((component) => {
-							if (component.data.id === editorActiveElement.id) {
+							if (component.data.id === activeElementData?.id) {
 								return {
 									...component,
 									is_selected: true,
@@ -216,7 +239,7 @@ export default function useEditorEvent(): IEditorEvent {
 											component.data.elements.filter(
 												(element) =>
 													element.id !==
-													editorActiveElement.currentActiveId
+													activeElementData?.currentActiveId
 											),
 									},
 								};
@@ -233,19 +256,23 @@ export default function useEditorEvent(): IEditorEvent {
 		spaceTemplateDataAction(filteredRemovedData);
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления выбранного элемента с доски
+	 */
 	const removeEvent = () => {
 		try {
-			if (!editorActiveElement) {
+			if (!activeElementData) {
 				toastMessage("Вы не выбрали компонент", "error");
 				return;
 			}
 
-			if (!editorActiveElement.id) {
+			if (!activeElementData.id) {
 				toastMessage("Выбранный id не найден", "error");
 				return;
 			}
 
-			switch (editorActiveElement?.type) {
+			switch (activeElementData?.type) {
 				case "container":
 					removeContainer();
 					break;

@@ -26,6 +26,7 @@ import { ITemplateBaseSchema } from "@/components/shared/types/interface-templat
 import { IComponentBaseSchema } from "@/components/features/app/blocks/types/interface-components";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
+import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 
 type AccessTypes =
 	| "position"
@@ -67,6 +68,7 @@ const StylesContainer: React.FC = () => {
 	const toastMessage = useToastMessage();
 	const editorEvent = useEditorEvent();
 	const permission = usePermission();
+	const activeElementData = useActiveElementFollowUp();
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
@@ -75,38 +77,8 @@ const StylesContainer: React.FC = () => {
 	 * @description Метод для получения стиля активного компонента
 	 */
 	const styleActiveData = useMemo(() => {
-		// Получаем контейнер
-		const findContainer = spaceTemplateData.find(
-			(container: ITemplateBaseSchema) =>
-				container.id === editorActiveElement?.containerId
-		);
-
-		if (findContainer) {
-			if (editorActiveElement?.type === "component") {
-				const component = findContainer?.components?.find(
-					(component: IComponentBaseSchema) =>
-						component?.data?.id === editorActiveElement?.id
-				);
-
-				return component?.data?.style ?? {};
-			}
-			if (editorActiveElement?.type === "element") {
-				const findComponent = findContainer?.components?.find(
-					(component: IComponentBaseSchema) =>
-						component?.data?.id === editorActiveElement?.id
-				);
-
-				const findElement = findComponent?.data?.elements?.find(
-					(element: IComponentBaseSchema) =>
-						element?.id === editorActiveElement?.currentActiveId
-				);
-
-				return findElement?.style ?? {};
-			}
-		} else {
-			return editorActiveElement?.style ?? {};
-		}
-	}, [editorActiveElement, spaceTemplateData]);
+		return activeElementData?.style ?? {};
+	}, [editorActiveElement, spaceTemplateData, activeElementData]);
 
 	const activeUpdateTypeData = useMemo(() => {
 		return editorActiveElement.type ?? "";
@@ -164,7 +136,6 @@ const StylesContainer: React.FC = () => {
 			}
 		}
 	}, [editorActiveElement]);
-
 
 	if (!permission.panel.styles) {
 		return (

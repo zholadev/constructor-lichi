@@ -14,6 +14,7 @@ import TemplateAddButton from "@/components/features/app/template/TemplateAddBut
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import BaseComponentRender from "@/components/features/app/blocks/container/BaseComponentRender";
 import ContainerAction from "@/components/features/app/components/actions/container/ContainerAction";
+import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 
 /**
  * @author Zholaman Zhumanov
@@ -29,11 +30,11 @@ const BoardContainer: React.FC = () => {
 	const templateEvent = useTemplateEvent();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorRemoveTemplate, editorNavigatorHoverId } = useAppSelector(
-		(state) => state.editor
-	);
+	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
 
+	const activeElementData = useActiveElementFollowUp();
 	console.log("spaceTemplateData", spaceTemplateData);
+	console.log("activeElementData", activeElementData);
 
 	return (
 		<div className={cn("h-full overflow-y-auto")}>

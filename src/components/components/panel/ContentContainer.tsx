@@ -14,6 +14,7 @@ import VideoContent from "@/components/features/app/panel/content/VideoContent";
 import LinkContent from "@/components/features/app/panel/content/LinkContent";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import usePermission from "@/components/shared/hooks/usePermission";
+import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 
 type AccessTypes = "video" | "photo" | "link";
 type ContentKeys = "photo" | "link" | "video";
@@ -49,12 +50,13 @@ const ContentContainer: React.FC = () => {
 
 	const editorEvent = useEditorEvent();
 	const permission = usePermission();
+	const activeElementData = useActiveElementFollowUp();
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	const contentActiveData: IContentActiveData = useMemo(() => {
 		try {
-			const content = editorActiveElement?.componentData?.content;
+			const content = activeElementData?.data?.content;
 
 			return {
 				content: {
@@ -68,7 +70,7 @@ const ContentContainer: React.FC = () => {
 				errorHandler("SettingContainer", "contentActiveData", error);
 			}
 		}
-	}, [editorActiveElement]);
+	}, [editorActiveElement, activeElementData]);
 
 	const filterContentKeys = (
 		content: Content,
@@ -123,8 +125,7 @@ const ContentContainer: React.FC = () => {
 						<AccordionContent>
 							<Accordion type="multiple" className="w-full">
 								{Object.entries(
-									editorActiveElement.componentData?.content
-										?.photo || {}
+									contentActiveData?.content?.photo || {}
 								).map(([key, value], index: number) => {
 									return (
 										<AccordionItem value={key} key={index}>

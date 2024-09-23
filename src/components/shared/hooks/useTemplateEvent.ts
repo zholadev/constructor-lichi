@@ -25,7 +25,7 @@ interface ITemplateEvent {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring, gap update for swiper
  * @fixme
  * @constructor
  */
@@ -87,8 +87,9 @@ export default function useTemplateEvent(): ITemplateEvent {
 		const generateStyles = () => {
 			const isGridBlock = countColumn > 1 && blockType === "block";
 			return {
-				display: isGridBlock ? "grid" : "block",
-				gap: isGridBlock ? "2px" : undefined,
+				// display: isGridBlock ? "grid" : "block",
+				display: "grid",
+				gap: "2px",
 				gridTemplateColumns: isGridBlock
 					? createTemplateColumns()
 					: undefined,

@@ -4,6 +4,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { CSSProperties } from "react";
+import { v4 as uuidv4 } from "uuid";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 
 type UpdateContentKeys =
@@ -23,6 +24,7 @@ interface IEditorEvent {
 		removeKey?: boolean
 	) => void;
 	removeEvent: () => void;
+	appendComponent: (data: unknown) => void;
 }
 
 const borderKeys = [
@@ -133,6 +135,68 @@ export default function useEditorEvent(): IEditorEvent {
 			);
 
 			if (newBuildData) spaceTemplateDataAction(newBuildData);
+		} catch (error) {
+			if (error instanceof Error) {
+				errorHandler("useEditorEvent", "addElement", error);
+			}
+		}
+	};
+
+	const appendComponent = (data: unknown): ITemplateBaseSchema[] | void => {
+		try {
+			if (!data) {
+				toastMessage(
+					"Произошла ошибка при добавлении - not found",
+					"error"
+				);
+				return;
+			}
+
+			if (!activeElementData?.currentActiveId) {
+				toastMessage("Вы не выбрали компонент", "error");
+				return;
+			}
+
+			if (!activeElementData?.containerId) {
+				toastMessage("Выбранный контейнер не найден", "error");
+				return;
+			}
+
+			const newBuildData = spaceTemplateData.map(
+				(container: ITemplateBaseSchema) => {
+					if (container.id === activeElementData.containerId) {
+						// Добавляем новый компонент
+						const updatedComponents = [
+							...container.components,
+							{
+								id: uuidv4(),
+								data: {
+									...data,
+								},
+								is_selected: true,
+							},
+						];
+
+						// Обновляем gridTemplateColumns на основе количества компонентов
+						const gridTemplateColumns = `repeat(${updatedComponents.length}, 1fr)`;
+
+						return {
+							...container,
+							components: updatedComponents,
+							style: {
+								...container.style,
+								gridTemplateColumns, // Обновляем стиль контейнера
+							},
+						};
+					}
+					return container;
+				}
+			);
+
+			if (newBuildData) {
+				toastMessage("Компонент был успешно добавлен!", "success");
+				spaceTemplateDataAction(newBuildData);
+			}
 		} catch (error) {
 			if (error instanceof Error) {
 				errorHandler("useEditorEvent", "addElement", error);
@@ -267,7 +331,7 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
-			if (!activeElementData.id) {
+			if (!activeElementData.currentActiveId) {
 				toastMessage("Выбранный id не найден", "error");
 				return;
 			}
@@ -584,5 +648,6 @@ export default function useEditorEvent(): IEditorEvent {
 		addElement,
 		updateComponent,
 		removeEvent,
+		appendComponent,
 	};
 }

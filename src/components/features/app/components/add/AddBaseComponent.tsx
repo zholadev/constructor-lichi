@@ -10,6 +10,7 @@ import useSchemaData from "@/components/shared/hooks/useSchemaData";
 import { IComponentBaseList } from "@/components/shared/types/interface-templates";
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 
 const baseData: IComponentBaseList[] = [
 	{
@@ -70,6 +71,12 @@ const baseData: IComponentBaseList[] = [
 	},
 ];
 
+type AddBaseEvent = "new" | "append";
+
+interface IAddBaseComponent {
+	eventType: AddBaseEvent;
+}
+
 /**
  * @author Zholaman Zhumanov
  * @created 28.08.2024
@@ -80,9 +87,12 @@ const baseData: IComponentBaseList[] = [
  * @fixme
  * @constructor
  */
-const AddBaseComponent: React.FC = () => {
-	const { dialogAddComponentAction } = useDispatchAction();
+const AddBaseComponent: React.FC<IAddBaseComponent> = (props) => {
+	const { eventType = "new" } = props;
+	const { dialogAddComponentAction, dialogSettingActionAddComponentAction } =
+		useDispatchAction();
 
+	const editorEvent = useEditorEvent();
 	const templateEvent = useTemplateEvent();
 
 	const getSchemaComponent = useSchemaData();
@@ -138,10 +148,18 @@ const AddBaseComponent: React.FC = () => {
 					variant="default"
 					type="button"
 					onClick={() => {
-						dialogAddComponentAction(false);
-						templateEvent.addComponent(
-							getSchemaComponent(selectComponent)
-						);
+						if (dialogAddComponentAction)
+							dialogAddComponentAction(false);
+						if (dialogSettingActionAddComponentAction)
+							dialogSettingActionAddComponentAction(false);
+
+						eventType === "new"
+							? templateEvent.addComponent(
+									getSchemaComponent(selectComponent)
+								)
+							: editorEvent.appendComponent(
+									getSchemaComponent(selectComponent)
+								);
 					}}
 				>
 					Подтвердить

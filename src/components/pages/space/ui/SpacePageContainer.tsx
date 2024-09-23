@@ -44,7 +44,7 @@ const SpacePageContainer: React.FC = () => {
 				open={dialog.dialogAddComponent.open}
 				toggle={dialog.dialogAddComponent.toggle}
 			>
-				<AddBaseComponent />
+				<AddBaseComponent eventType={"new"}/>
 			</DialogContainer>
 
 			<DialogCreateDirectory />

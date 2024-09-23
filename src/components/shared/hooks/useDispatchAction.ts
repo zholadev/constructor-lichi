@@ -10,7 +10,7 @@ import {
 	dialogPlatformTypeReducer,
 	dialogRemovePageReducer,
 	dialogRenameTitleReducer,
-	dialogSaveSchemaReducer,
+	dialogSaveSchemaReducer, dialogSettingActionAddComponentReducer,
 	dialogUploadFileReducer,
 } from "@/components/app/store/features/dialogSlice";
 import {
@@ -101,6 +101,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogEditorSettingReducer(value)),
 		dialogAddComponentAction: (value: boolean) =>
 			dispatch(dialogAddComponentReducer(value)),
+		dialogSettingActionAddComponentAction: (value: boolean) =>
+			dispatch(dialogSettingActionAddComponentReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>

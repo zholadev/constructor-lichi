@@ -51,6 +51,10 @@ interface DialogsState {
 		open: boolean;
 		toggle: () => void;
 	};
+	dialogSettingActionAddComponentAction: {
+		open: boolean;
+		toggle: () => void;
+	};
 }
 
 /**
@@ -77,6 +81,7 @@ export default function useDialogAction(): DialogsState {
 		dialogRenameTitleAction,
 		dialogEditorSettingAction,
 		dialogAddComponentAction,
+		dialogSettingActionAddComponentAction
 	} = useDispatchAction();
 
 	const {
@@ -92,6 +97,7 @@ export default function useDialogAction(): DialogsState {
 		dialogRenameTitle,
 		dialogEditorSetting,
 		dialogAddComponent,
+		dialogSettingActionAddComponent
 	} = useAppSelector((state: RootState) => state.dialog);
 
 	const toggleDialogCreatePageHandle = () =>
@@ -118,6 +124,8 @@ export default function useDialogAction(): DialogsState {
 		dialogEditorSettingAction(!dialogEditorSetting);
 	const dialogAddComponentHandle = () =>
 		dialogAddComponentAction(!dialogAddComponent);
+	const dialogSettingActionAddComponentActionHandle = () =>
+		dialogSettingActionAddComponentAction(!dialogSettingActionAddComponent);
 
 	return {
 		dialogCreatePage: {
@@ -168,5 +176,9 @@ export default function useDialogAction(): DialogsState {
 			open: dialogAddComponent,
 			toggle: dialogAddComponentHandle,
 		},
+		dialogSettingActionAddComponentAction: {
+			open: dialogSettingActionAddComponent,
+			toggle: dialogSettingActionAddComponentActionHandle,
+		}
 	};
 }

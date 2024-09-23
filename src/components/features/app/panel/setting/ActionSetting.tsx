@@ -2,6 +2,8 @@ import React from "react";
 import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import ActionAddComponentSetting from "@/components/features/app/panel/setting/ActionAddComponentSetting";
 
 interface Props {}
 
@@ -20,11 +22,18 @@ const ActionSetting: React.FC<Props> = (props) => {
 	const {} = props;
 
 	const editorEvent = useEditorEvent();
+	const dialog = useDialogAction();
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>
 			<div className={cn("w-full flex flex-col gap-3")}>
-				<Button type="button" variant="outline">
+				<Button
+					type="button"
+					variant="outline"
+					onClick={
+						dialog.dialogSettingActionAddComponentAction.toggle
+					}
+				>
 					Добавить
 				</Button>
 				<Button
@@ -35,6 +44,8 @@ const ActionSetting: React.FC<Props> = (props) => {
 					Удалить
 				</Button>
 			</div>
+
+			<ActionAddComponentSetting />
 		</div>
 	);
 };

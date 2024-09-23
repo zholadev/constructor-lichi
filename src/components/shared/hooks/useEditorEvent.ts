@@ -549,6 +549,48 @@ export default function useEditorEvent(): IEditorEvent {
 				);
 
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
+			} else if (type === "settings") {
+				const newUpdateContent = spaceTemplateData.map(
+					(container: ITemplateBaseSchema) => {
+						if (container.id === editorActiveElement.containerId) {
+							return {
+								...container,
+								components: container.components.map(
+									(component) => {
+										if (
+											component.data.id ===
+											editorActiveElement.id
+										) {
+											const updatedComponent =
+												deepCopy(component);
+
+											updateObjectByPath(
+												updatedComponent.data,
+												pathString,
+												newValue,
+												true
+											);
+
+											toastMessage(
+												"Обновленные данные",
+												"success"
+											);
+
+											return {
+												...component,
+												...updatedComponent,
+											};
+										}
+										return component;
+									}
+								),
+							};
+						}
+						return container;
+					}
+				);
+
+				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
 			} else if (type === "element") {
 				const newUpdateContent = spaceTemplateData.map(
 					(container: ITemplateBaseSchema) => {

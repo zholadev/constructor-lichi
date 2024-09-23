@@ -40,7 +40,7 @@ const viewContentTypeData: IViewContent[] = [
 ];
 
 interface Props {
-	viewSetting?: IViewSetting;
+	settingValue?: IViewSetting;
 	onSettingChange?: (value: IViewSetting) => void;
 }
 
@@ -56,7 +56,7 @@ interface Props {
  * @constructor
  */
 const ViewSetting: React.FC<Props> = (props) => {
-	const { viewSetting, onSettingChange } = props;
+	const { settingValue, onSettingChange } = props;
 
 	const toastMessage = useToastMessage();
 
@@ -100,9 +100,9 @@ const ViewSetting: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (viewSetting) {
+		if (settingValue) {
 			setViewSettingValue({
-				...viewSetting,
+				...settingValue,
 			});
 		}
 	}, []);

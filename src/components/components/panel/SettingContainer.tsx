@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
 	Accordion,
 	AccordionContent,
@@ -12,6 +12,8 @@ import ActionSetting from "@/components/features/app/panel/setting/ActionSetting
 import ViewSetting from "@/components/features/app/panel/setting/ViewSetting";
 import ShowSetting from "@/components/features/app/panel/setting/ShowSetting";
 import usePermission from "@/components/shared/hooks/usePermission";
+import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 
 export type SettingTypes = "view" | "show" | "action" | "swiper";
 
@@ -27,10 +29,24 @@ export type SettingTypes = "view" | "show" | "action" | "swiper";
  */
 const SettingContainer: React.FC = () => {
 	const permission = usePermission();
+	const editorEvent = useEditorEvent();
+	const activeElementData = useActiveElementFollowUp();
 
 	const [defaultExpanded, setExpanded] = React.useState<SettingTypes[]>([
 		"action",
 	]);
+
+	const settingDefaultData = useMemo(() => {
+		return {
+			view: activeElementData?.data?.settings?.view || {},
+			show: activeElementData?.data?.settings?.show || {},
+			swiper: activeElementData?.data?.settings?.swiper || {},
+		};
+	}, [activeElementData]);
+
+	const updateContentHandle = (data, path) => {
+		editorEvent.updateComponent(data, "settings", path);
+	};
 
 	return (
 		<Accordion
@@ -48,7 +64,12 @@ const SettingContainer: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<ViewSetting />
+						<ViewSetting
+							settingValue={settingDefaultData.view}
+							onSettingChange={(data) =>
+								updateContentHandle(data, "settings.view")
+							}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 			)}
@@ -62,7 +83,12 @@ const SettingContainer: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<ShowSetting />
+						<ShowSetting
+							settingValue={settingDefaultData.show}
+							onSettingChange={(data) =>
+								updateContentHandle(data, "settings.show")
+							}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 			)}

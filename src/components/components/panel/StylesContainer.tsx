@@ -97,7 +97,7 @@ const StylesContainer: React.FC = () => {
 	};
 
 	const onUpdateHandle = (value, path = "style", type?: string) => {
-		if (!value) {
+		if (!value && type !== "removeKey") {
 			toastMessage(
 				"Данные не прилетают для обновление! Проверьте onStyleChange",
 				"error"
@@ -162,26 +162,6 @@ const StylesContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<GridContainerStyles
-								hideTitle
-								styles={styleActiveData}
-								onStyleChange={onUpdateHandle}
-							/>
-						</AccordionContent>
-					</AccordionItem>
-				)}
-
-				{permission.styles.position && (
-					<AccordionItem value="position">
-						<AccordionTrigger>
-							<div className={cn("flex items-center gap-1")}>
-								<LayoutIcon width={13} height={13} />
-								<span style={{ fontSize: "13px" }}>
-									Position
-								</span>
-							</div>
-						</AccordionTrigger>
-						<AccordionContent>
-							<LayoutStyles
 								hideTitle
 								styles={styleActiveData}
 								onStyleChange={onUpdateHandle}

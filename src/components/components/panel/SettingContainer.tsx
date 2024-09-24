@@ -54,7 +54,7 @@ const SettingContainer: React.FC = () => {
 		);
 	}
 
-return (
+	return (
 		<Accordion
 			type="multiple"
 			className="w-full"

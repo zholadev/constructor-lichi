@@ -252,6 +252,25 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		textDecoration: "initial",
 	});
 
+	const removeStylesHandle = () => {
+		if (onStyleChange) {
+			onStyleChange(
+				{},
+				[
+					"style.fontFamily",
+					"style.fontSize",
+					"style.textAlign",
+					"style.unit",
+					"style.fontWeight",
+					"style.color",
+					"style.fontStyle",
+					"style.textDecoration",
+				],
+				"removeKey"
+			);
+		}
+	};
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод возвращает активный FontWeight для шрифта
@@ -346,6 +365,24 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Typography</h3>}
 			<div className={cn("w-full p-1")}>
+				<div
+					className={cn(
+						"flex flex-row gap-2 items-center justify-end"
+					)}
+				>
+					<div className={cn("flex flex-row items-center gap-2")}>
+						<Button
+							type="button"
+							variant="ghost"
+							className={cn("text-xs")}
+							onClick={() => {
+								removeStylesHandle();
+							}}
+						>
+							Очистить
+						</Button>
+					</div>
+				</div>
 				<div>
 					<Label
 						className={cn("uppercase")}

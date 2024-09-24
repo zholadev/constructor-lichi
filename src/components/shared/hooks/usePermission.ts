@@ -154,8 +154,8 @@ export default function usePermission(): IPermission {
 					},
 					setting: {
 						...basePermission.setting,
-						show: false,
-						view: false,
+						show: true,
+						view: true,
 						swiper: false,
 					},
 				};

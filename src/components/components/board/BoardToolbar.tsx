@@ -43,7 +43,7 @@ const BoardToolbar: React.FC = () => {
 	return (
 		<div
 			className={cn(
-				"w-full h-[50px] mb-5 bg-white flex items-center justify-end p-2"
+				"w-full h-[50px] mb-5 flex items-center justify-end p-2"
 			)}
 		>
 			{permission.editor.dnd && (

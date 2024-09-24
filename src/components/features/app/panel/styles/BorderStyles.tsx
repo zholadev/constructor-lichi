@@ -239,11 +239,17 @@ const BorderStyles: React.FC<Props> = (props) => {
 	const removeBorderStyles = (type: "all" | "key") => {
 		if (onStyleChange) {
 			if (type === "all") {
-				onStyleChange({}, "style.border", "removeKey");
-				onStyleChange({}, "style.borderLeft", "removeKey");
-				onStyleChange({}, "style.borderRight", "removeKey");
-				onStyleChange({}, "style.borderTop", "removeKey");
-				onStyleChange({}, "style.borderBottom", "removeKey");
+				onStyleChange(
+					{},
+					[
+						"style.border",
+						"style.borderLeft",
+						"style.borderRight",
+						"style.borderTop",
+						"style.borderBottom",
+					],
+					"removeKey"
+				);
 			}
 		}
 	};
@@ -296,6 +302,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 			}
 
 			setStyleValues(updatedValues);
+			removeBorderStyles("all");
 
 			if (onStyleChange) {
 				const getBorderType = () => {

@@ -407,6 +407,12 @@ export default function useEditorEvent(): IEditorEvent {
 		}
 	}
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод удаление
+	 * @param obj
+	 * @param path
+	 */
 	function deleteObjectByPath(obj: any, path: string) {
 		const keys = path.split("."); // Разбиваем строку пути на массив ключей
 		let current = obj;
@@ -417,22 +423,23 @@ export default function useEditorEvent(): IEditorEvent {
 			if (!current[key]) {
 				return; // Если путь не существует, просто выходим
 			}
-			current = current[key];
+			current = current[key]; // Переходим на следующий уровень
 		}
 
 		const lastKey = keys[keys.length - 1];
 
-		// Проверяем, существует ли ключ и является ли это объектом
-		if (
-			current &&
-			typeof current === "object" &&
-			current.hasOwnProperty(lastKey)
-		) {
-			delete current[lastKey]; // Удаляем ключ на последнем уровне
-		} else {
-			console.warn(`Ключ "${lastKey}" не найден или это не объект`);
+		// Проверяем, существует ли ключ
+		if (current && current.hasOwnProperty(lastKey)) {
+			delete current[lastKey]; // Удаляем ключ
 		}
 	}
+
+	function deleteMultiplePaths(obj: any, paths: string[]) {
+		paths.forEach((path) => {
+			deleteObjectByPath(obj, path); // Удаляем каждый ключ по переданному пути
+		});
+	}
+
 
 	// Простая функция глубокого копирования объекта
 	function deepCopy(obj) {
@@ -442,7 +449,7 @@ export default function useEditorEvent(): IEditorEvent {
 	const updateComponent = (
 		newValue: unknown,
 		type: UpdateContentKeys,
-		pathString: string,
+		pathString: string | string[],
 		removeObj: boolean = false,
 		removeKey: boolean = false
 	) => {
@@ -653,7 +660,7 @@ export default function useEditorEvent(): IEditorEvent {
 													);
 												} else if (removeKey) {
 													// Удаление ключа и его значения по пути
-													deleteObjectByPath(
+													deleteMultiplePaths(
 														updatedComponent.data
 															.elements[
 															elementIndex
@@ -662,7 +669,7 @@ export default function useEditorEvent(): IEditorEvent {
 													);
 
 													toastMessage(
-														"Обьект успешно удален! removeKey",
+														"Объект успешно удален! removeKey",
 														"success"
 													);
 

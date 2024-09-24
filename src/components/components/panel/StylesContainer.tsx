@@ -22,11 +22,10 @@ import BackgroundStyles from "@/components/features/app/panel/styles/BackgroundS
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
-import { IComponentBaseSchema } from "@/components/features/app/blocks/types/interface-components";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import GridContainerStyles from "@/components/features/app/panel/styles/GridContainerStyles";
 
 type AccessTypes =
 	| "position"
@@ -34,7 +33,8 @@ type AccessTypes =
 	| "spacing"
 	| "border"
 	| "typography"
-	| "fill";
+	| "fill"
+	| "grid";
 type ContentKeys = AccessTypes;
 
 interface Content {
@@ -48,6 +48,7 @@ const accessTypes: AccessTypes[] = [
 	"border",
 	"typography",
 	"fill",
+	"grid",
 ];
 
 /**
@@ -139,9 +140,7 @@ const StylesContainer: React.FC = () => {
 
 	if (!permission.panel.styles) {
 		return (
-			<div className={cn("w-full text-center")}>
-				<h2>Не доступен</h2>
-			</div>
+			<h2 className={cn("w-full text-center text-xs")}>Нет доступа!</h2>
 		);
 	}
 
@@ -153,6 +152,44 @@ const StylesContainer: React.FC = () => {
 				value={defaultExpanded}
 				onValueChange={setExpanded}
 			>
+				{permission.styles.grid && (
+					<AccordionItem value="grid">
+						<AccordionTrigger>
+							<div className={cn("flex items-center gap-1")}>
+								<LayoutIcon width={13} height={13} />
+								<span style={{ fontSize: "13px" }}>Grid</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<GridContainerStyles
+								hideTitle
+								styles={styleActiveData}
+								onStyleChange={onUpdateHandle}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.styles.position && (
+					<AccordionItem value="position">
+						<AccordionTrigger>
+							<div className={cn("flex items-center gap-1")}>
+								<LayoutIcon width={13} height={13} />
+								<span style={{ fontSize: "13px" }}>
+									Position
+								</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<LayoutStyles
+								hideTitle
+								styles={styleActiveData}
+								onStyleChange={onUpdateHandle}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
 				{permission.styles.position && (
 					<AccordionItem value="position">
 						<AccordionTrigger>

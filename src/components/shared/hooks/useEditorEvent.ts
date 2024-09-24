@@ -12,7 +12,8 @@ type UpdateContentKeys =
 	| "element"
 	| "settings"
 	| "component"
-	| "styles";
+	| "styles"
+	| "container";
 
 interface IEditorEvent {
 	addElement: (type: string) => void;
@@ -500,6 +501,35 @@ export default function useEditorEvent(): IEditorEvent {
 										return component;
 									}
 								),
+							};
+						}
+						return container;
+					}
+				);
+
+				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
+			} else if (type === "container") {
+				const newUpdateContent = spaceTemplateData.map(
+					(container: ITemplateBaseSchema) => {
+						if (container.id === editorActiveElement.containerId) {
+							const updatedContainer = deepCopy(container); // Делаем глубокую копию контейнера
+
+							// Обновляем данные контейнера по пути
+							updateObjectByPath(
+								updatedContainer,
+								pathString,
+								newValue,
+								true
+							);
+
+							toastMessage(
+								"Обновленные данные для контейнера",
+								"success"
+							);
+
+							return {
+								...container,
+								...updatedContainer,
 							};
 						}
 						return container;

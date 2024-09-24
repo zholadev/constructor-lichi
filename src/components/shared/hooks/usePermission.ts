@@ -23,6 +23,7 @@ interface IPermission {
 		spacing: boolean;
 		position: boolean;
 		typography: boolean;
+		grid: boolean;
 	};
 	content: {
 		image: boolean;
@@ -76,6 +77,7 @@ export default function usePermission(): IPermission {
 				spacing: true,
 				position: true,
 				typography: true,
+				grid: false,
 			},
 			content: {
 				image: true,
@@ -134,6 +136,7 @@ export default function usePermission(): IPermission {
 					panel: {
 						...basePermission.panel,
 						setting: true,
+						styles: true,
 					},
 					editor: {
 						...basePermission.editor,
@@ -144,9 +147,10 @@ export default function usePermission(): IPermission {
 						fill: false,
 						border: false,
 						size: false,
-						spacing: false,
+						spacing: true,
 						position: false,
 						typography: false,
+						grid: true,
 					},
 					setting: {
 						...basePermission.setting,

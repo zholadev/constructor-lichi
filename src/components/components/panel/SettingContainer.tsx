@@ -48,7 +48,13 @@ const SettingContainer: React.FC = () => {
 		editorEvent.updateComponent(data, "settings", path);
 	};
 
-	return (
+	if (!permission.panel.setting) {
+		return (
+			<h2 className={cn("w-full text-center text-xs")}>Нет доступа!</h2>
+		);
+	}
+
+return (
 		<Accordion
 			type="multiple"
 			className="w-full"

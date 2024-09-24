@@ -41,13 +41,18 @@ function convertToCssString(styles: IStylesValues): {
 }
 
 function convertToObject(styles: { margin: string; padding: string }) {
-	const [marginTop, marginRight, marginBottom, marginLeft] = styles.margin
-		?.split(" ")
-		.map((value) => parseInt(value.replace("px", "")));
+	const marginValues = styles?.margin ? styles.margin.split(" ") : [];
+	const paddingValues = styles?.padding ? styles.padding.split(" ") : [];
+
+	const [marginTop, marginRight, marginBottom, marginLeft] =
+		marginValues.length === 4
+			? marginValues.map((value) => parseInt(value.replace("px", "")))
+			: [0, 0, 0, 0];
+
 	const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
-		styles.padding
-			?.split(" ")
-			.map((value) => parseInt(value.replace("px", "")));
+		paddingValues.length === 4
+			? paddingValues.map((value) => parseInt(value.replace("px", "")))
+			: [0, 0, 0, 0];
 
 	return {
 		margin: {

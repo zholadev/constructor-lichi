@@ -96,9 +96,7 @@ const ContentContainer: React.FC = () => {
 
 	if (!permission.panel.content) {
 		return (
-			<div className={cn("w-full text-center")}>
-				<h2>Не доступен</h2>
-			</div>
+			<h2 className={cn("w-full text-center text-xs")}>Нет доступа!</h2>
 		);
 	}
 

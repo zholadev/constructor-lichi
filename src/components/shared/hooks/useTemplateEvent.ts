@@ -93,7 +93,7 @@ export default function useTemplateEvent(): ITemplateEvent {
 				gridTemplateColumns: isGridBlock
 					? createTemplateColumns()
 					: undefined,
-				marginBottom: "2px",
+				margin: "0 0 2px 0",
 			};
 		};
 

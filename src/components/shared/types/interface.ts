@@ -1,5 +1,5 @@
 import { TemplateType } from "@/components/shared/types/types";
-import {TemplateBaseType} from "@/components/shared/types/interface-templates";
+import {ITemplateBaseSchema, TemplateBaseType} from "@/components/shared/types/interface-templates";
 import {IComponentBaseFullSchema} from "@/components/features/app/blocks/types/interface-components";
 
 export interface IGetApiParams {
@@ -105,4 +105,10 @@ export interface ITemplateSpaceActionData {
 	id: number;
 	meta: Record<string, unknown>;
 	name: string;
+}
+
+export interface ITemplateSchemaDevices {
+	desktop: ITemplateBaseSchema[] | [];
+	tablet: ITemplateBaseSchema[] | [];
+	mobile: ITemplateBaseSchema[] | [];
 }

@@ -25,14 +25,25 @@ interface Props {}
 const HeaderDeviceType: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const { spaceModeDeviceTypeAction } = useDispatchAction();
+	const { spaceModeDeviceTypeAction, spaceTemplateDataAction } =
+		useDispatchAction();
 
-	const { spaceModeDeviceType, spaceModePlatformType } = useAppSelector(
-		(state) => state.space
-	);
+	const {
+		spaceModeDeviceType,
+		spaceModePlatformType,
+		spaceTemplateSchemaDevicesData,
+	} = useAppSelector((state) => state.space);
 
 	const changeDeviceType = (value: DeviceType | null) => {
 		spaceModeDeviceTypeAction(value);
+
+		if (value === "desktop" || value === "laptop") {
+			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.desktop);
+		} else if (value === "tablet") {
+			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.tablet);
+		} else if (value === "mobile") {
+			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.mobile);
+		}
 	};
 
 	return (

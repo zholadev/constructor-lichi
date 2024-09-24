@@ -7,11 +7,15 @@ import {
 	ThemeSpaceMode,
 } from "@/components/shared/types/types";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
-import { ITemplateSpaceActionData } from "@/components/shared/types/interface";
+import {
+	ITemplateSchemaDevices,
+	ITemplateSpaceActionData,
+} from "@/components/shared/types/interface";
 
 interface stateSlice {
 	spaceTemplateActionData: ITemplateSpaceActionData;
 	spaceTemplateData: ITemplateBaseSchema[];
+	spaceTemplateSchemaDevicesData: ITemplateSchemaDevices;
 	spaceTemplateApiLoading: boolean;
 	spaceModeTheme: ThemeSpaceMode;
 	spaceModeLanguage: string;
@@ -26,10 +30,15 @@ interface stateSlice {
 const initialState: stateSlice = {
 	spaceTemplateActionData: {
 		active: [],
-		name: "Unknown Page",
+		name: "Untitled",
 		guid: "unknown_id",
 		id: 0,
 		meta: {},
+	},
+	spaceTemplateSchemaDevicesData: {
+		desktop: [],
+		tablet: [],
+		mobile: [],
 	},
 	spaceTemplateData: [],
 	spaceModeTheme: "light",
@@ -104,6 +113,16 @@ export const spaceSlice = createSlice({
 		) => {
 			state.spaceTemplateActionData = action.payload;
 		},
+		spaceTemplateSchemaDevicesDataReducer: (
+			state,
+			action: PayloadAction<{
+				deviceType: keyof ITemplateSchemaDevices;
+				data: ITemplateBaseSchema[] | [];
+			}>
+		) => {
+			const { deviceType, data } = action.payload;
+			state.spaceTemplateSchemaDevicesData[deviceType] = data;
+		},
 	},
 });
 
@@ -119,5 +138,6 @@ export const {
 	spaceTemplatePageIdReducer,
 	spaceTemplateApiLoadingReducer,
 	spaceTemplateActionDataReducer,
+	spaceTemplateSchemaDevicesDataReducer,
 } = spaceSlice.actions;
 export default spaceSlice.reducer;

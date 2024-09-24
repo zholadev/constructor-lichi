@@ -7,6 +7,7 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { apiMethodSchemaGetById } from "@/components/shared/backend/requests/schema/requests";
 import { IGetApiParams } from "@/components/shared/types/interface";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 interface Props {
 	children: React.ReactNode;
@@ -18,7 +19,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @param props
  * @constructor
@@ -27,6 +28,8 @@ const SpaceProvider: React.FC<Props> = (props) => {
 	const { children } = props;
 
 	const { apiFetchHandler } = useApiRequest();
+
+	const toastMessage = useToastMessage();
 
 	const searchQuery = useSearchParams();
 
@@ -38,6 +41,7 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		spaceModeDeviceTypeAction,
 		spaceModePlatformTypeAction,
 		spaceTemplateActionDataAction,
+		spaceTemplateSchemaDevicesDataAction,
 	} = useDispatchAction();
 
 	const getPlatformQuery = searchQuery.get("platform");
@@ -53,7 +57,14 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		spaceModeTemplateType,
 		spaceModePlatformType,
 		spaceTemplatePageId,
+		spaceTemplateSchemaDevicesData,
 	} = useAppSelector((state) => state.space);
+
+	console.log(
+		"spaceModeDeviceType",
+		spaceModeDeviceType,
+		spaceTemplateSchemaDevicesData
+	);
 
 	const fetchGetPageById = async () => {
 		await apiFetchHandler(
@@ -75,6 +86,42 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		if (!spaceTemplatePageId) return;
 		fetchGetPageById();
 	}, [spaceTemplatePageId]);
+
+	useEffect(() => {
+		if (!spaceTemplateData) {
+			return;
+		}
+		if (!spaceModeDeviceType) {
+			toastMessage("Ошибка! Выберите устройство!", "error");
+			return;
+		}
+
+		if (
+			spaceModeDeviceType === "desktop" ||
+			spaceModeDeviceType === "laptop"
+		) {
+			spaceTemplateSchemaDevicesDataAction("desktop", spaceTemplateData);
+		} else if (spaceModeDeviceType === "tablet") {
+			spaceTemplateSchemaDevicesDataAction("tablet", spaceTemplateData);
+		} else if (spaceModeDeviceType === "mobile") {
+			spaceTemplateSchemaDevicesDataAction("mobile", spaceTemplateData);
+		}
+
+		// if (
+		// 	spaceModeDeviceType === "desktop" ||
+		// 	spaceModeDeviceType === "laptop"
+		// ) {
+		// 	spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.desktop);
+		// } else if (spaceModeDeviceType === "tablet") {
+		// 	spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.tablet);
+		// } else if (spaceModeDeviceType === "mobile") {
+		// 	spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.mobile);
+		// }
+	}, [
+		spaceTemplateData,
+		spaceModeDeviceType,
+		spaceTemplateSchemaDevicesData,
+	]);
 
 	useEffect(() => {
 		if (!spaceModeDeviceType) {

@@ -10,13 +10,16 @@ import {
 	dialogPlatformTypeReducer,
 	dialogRemovePageReducer,
 	dialogRenameTitleReducer,
-	dialogSaveSchemaReducer, dialogSettingActionAddComponentReducer,
+	dialogSaveSchemaReducer,
+	dialogSettingActionAddComponentReducer,
 	dialogUploadFileReducer,
 } from "@/components/app/store/features/dialogSlice";
 import {
 	ILangListDataItem,
 	ISchemaListData,
-	IShopsListDataItem, ITemplateSpaceActionData,
+	IShopsListDataItem,
+	ITemplateSchemaDevices,
+	ITemplateSpaceActionData,
 } from "@/components/shared/types/interface";
 import {
 	schemaListApiLoadingReducer,
@@ -43,10 +46,12 @@ import {
 	spaceModePlatformTypeReducer,
 	spaceModePreviewShopReducer,
 	spaceModeTemplateTypeReducer,
-	spaceModeThemeReducer, spaceTemplateActionDataReducer,
+	spaceModeThemeReducer,
+	spaceTemplateActionDataReducer,
 	spaceTemplateApiLoadingReducer,
 	spaceTemplateDataReducer,
 	spaceTemplatePageIdReducer,
+	spaceTemplateSchemaDevicesDataReducer,
 } from "@/components/app/store/features/spaceSlice";
 import {
 	getFolderDataReducer,
@@ -61,7 +66,8 @@ import {
 import {
 	editorActiveElementReducer,
 	editorDisabledEditReducer,
-	editorDraggingTemplateReducer, editorNavigatorHoverIdReducer,
+	editorDraggingTemplateReducer,
+	editorNavigatorHoverIdReducer,
 	editorPreviewModeReducer,
 	editorRemoveTemplateReducer,
 	editorSelectAddComponentReducer,
@@ -167,6 +173,16 @@ export default function useDispatchAction(): any {
 			dispatch(spaceTemplateApiLoadingReducer(value)),
 		spaceTemplateActionDataAction: (value: ITemplateSpaceActionData) =>
 			dispatch(spaceTemplateActionDataReducer(value)),
+		spaceTemplateSchemaDevicesDataAction: (
+			key: keyof ITemplateSchemaDevices,
+			data: ITemplateBaseSchema[]
+		) =>
+			dispatch(
+				spaceTemplateSchemaDevicesDataReducer({
+					deviceType: key,
+					data,
+				})
+			),
 
 		// FM actions
 		getFolderDataAction: (data: []) => dispatch(getFolderDataReducer(data)),

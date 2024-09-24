@@ -29,19 +29,28 @@ const BoardDisplay: React.FC = () => {
 				return <BoardContainer />;
 			case "laptop":
 				return (
-					<DeviceEmulatorContainer devices={deviceLaptopBanList}>
+					<DeviceEmulatorContainer
+						key="laptop"
+						devices={deviceLaptopBanList}
+					>
 						<BoardContainer />
 					</DeviceEmulatorContainer>
 				);
 			case "tablet":
 				return (
-					<DeviceEmulatorContainer devices={deviceTabletBanList}>
+					<DeviceEmulatorContainer
+						key="tablet"
+						devices={deviceTabletBanList}
+					>
 						<BoardContainer />
 					</DeviceEmulatorContainer>
 				);
 			case "mobile":
 				return (
-					<DeviceEmulatorContainer devices={deviceMobileBanList}>
+					<DeviceEmulatorContainer
+						key="mobile"
+						devices={deviceMobileBanList}
+					>
 						<BoardContainer />
 					</DeviceEmulatorContainer>
 				);

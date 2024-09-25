@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
@@ -14,6 +14,7 @@ import {
 import usePermission from "@/components/shared/hooks/usePermission";
 import { ISchemaContentMediaType } from "@/components/shared/types/interface-schema-content";
 import { ISchemaSettingsView } from "@/components/shared/types/interface-schema-settings";
+import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 
 interface IViewContent {
 	id: number;
@@ -53,6 +54,7 @@ interface Props {
 const ViewSetting: React.FC<Props> = (props) => {
 	const { settingValue, onSettingChange } = props;
 
+	const activeElementData = useActiveElementFollowUp();
 	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
@@ -96,6 +98,15 @@ const ViewSetting: React.FC<Props> = (props) => {
 		});
 	};
 
+	const isContentType: boolean = useMemo(() => {
+		return (
+			!!(
+				activeElementData.data?.content?.photo &&
+				activeElementData.data?.content?.video
+			) ?? false
+		);
+	}, [activeElementData]);
+
 	useEffect(() => {
 		if (settingValue) {
 			setViewSettingValue({
@@ -106,7 +117,7 @@ const ViewSetting: React.FC<Props> = (props) => {
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>
-			{permission.setting.view.contentType && (
+			{permission.setting.view.contentType && isContentType && (
 				<div className={cn("w-full flex flex-col mb-5")}>
 					<h3 className={cn("text-xs mb-3 font-bold")}>
 						Тип контента для показа

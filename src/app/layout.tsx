@@ -25,7 +25,7 @@ export default function RootLayout({
 		<StoreProvider>
 			<ApiDataProvider>
 				<html lang="en" className="overflow-hidden">
-					<Toaster position="top-right" />
+					<Toaster position="bottom-left" />
 					<body className={inter.className}>
 						<ThemeProvider
 							enableSystem

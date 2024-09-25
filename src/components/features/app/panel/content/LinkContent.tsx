@@ -92,8 +92,8 @@ const LinkContent: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		setLinkSetting({
-			url: defaultParams?.url,
-			active: defaultParams?.active,
+			url: defaultParams?.url ?? "",
+			active: defaultParams?.active ?? false,
 		});
 	}, [defaultParams]);
 

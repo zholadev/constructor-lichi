@@ -1,6 +1,9 @@
 import { TemplateType } from "@/components/shared/types/types";
-import {ITemplateBaseSchema, TemplateBaseType} from "@/components/shared/types/interface-templates";
-import {IComponentBaseFullSchema} from "@/components/features/app/blocks/types/interface-components";
+import {
+	ITemplateBaseSchema,
+	TemplateBaseType,
+} from "@/components/shared/types/interface-templates";
+import { IComponentBaseFullSchema } from "@/components/features/app/blocks/types/interface-components";
 
 export interface IGetApiParams {
 	data: any;

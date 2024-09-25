@@ -18,6 +18,8 @@ export type ActiveElementType =
 	| "swiper"
 	| "none";
 
+export type ImageType = "card" | "album";
+
 export type TotalComponentTypes =
 	| IComponentCardSchema
 	| IComponentCardVideoSchema

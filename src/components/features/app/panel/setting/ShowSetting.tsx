@@ -10,14 +10,11 @@ import {
 } from "@/components/shared/shadcn/ui/select";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import usePermission from "@/components/shared/hooks/usePermission";
-
-export type ShowSiteType = "base" | "retail" | "all";
-
-interface IShowSiteType {
-	id: number;
-	value: ShowSiteType;
-	name: string;
-}
+import {
+	ISchemaSettingsShow,
+	IShowSiteType,
+	SchemaShowSiteType,
+} from "@/components/shared/types/interface-schema-settings";
 
 const showSiteTypeData: IShowSiteType[] = [
 	{
@@ -37,13 +34,9 @@ const showSiteTypeData: IShowSiteType[] = [
 	},
 ];
 
-interface IShowSetting {
-	siteType: ShowSiteType;
-}
-
 interface Props {
-	settingValue?: IShowSetting;
-	onSettingChange?: (value: IShowSetting) => void;
+	settingValue?: IShowSiteType;
+	onSettingChange?: (value: IShowSiteType) => void;
 }
 
 /**
@@ -65,7 +58,7 @@ const ShowSetting: React.FC<Props> = (props) => {
 	const toastMessage = useToastMessage();
 
 	const [showSettingValue, setShowSettingValue] =
-		React.useState<IShowSetting>({
+		React.useState<ISchemaSettingsShow>({
 			siteType: "all",
 		});
 
@@ -76,8 +69,8 @@ const ShowSetting: React.FC<Props> = (props) => {
 	 * @param key
 	 */
 	const onShowSettingUpdateHandle = (
-		value: ShowSiteType,
-		key: keyof IShowSetting
+		value: IShowSiteType,
+		key: keyof ISchemaSettingsShow
 	) => {
 		if (!value) {
 			toastMessage("ValueError: value is not defined", "error");
@@ -118,7 +111,7 @@ const ShowSetting: React.FC<Props> = (props) => {
 						disabled={showSiteTypeData.length === 0}
 						defaultValue={showSettingValue.siteType}
 						value={showSettingValue.siteType}
-						onValueChange={(value: ShowSiteType) =>
+						onValueChange={(value: SchemaShowSiteType) =>
 							onShowSettingUpdateHandle(value, "siteType")
 						}
 					>

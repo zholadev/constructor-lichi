@@ -1,15 +1,17 @@
-import { v4 as uuidv4 } from "uuid";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
-import { versionComponentBase } from "@/components/app/versions/version-modules";
 import {
-	IButtonElement,
 	IElementSchema,
+	IElementTotal,
 	ITimerElement,
 } from "@/components/features/app/elements/types/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
+import {
+	button_schema_element,
+	text_schema_element,
+} from "@/components/entities/schema/schema-base-elements";
 
 /**
  * @author Zholaman Zhumanov
@@ -21,7 +23,7 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
  * @fixme
  * @constructor
  */
-export default function useElementData(): IElementSchema | ITimerElement {
+export default function useSchemaElementData(): IElementSchema | ITimerElement {
 	const toastMessage = useToastMessage();
 
 	const { languageData } = useAppSelector((state) => state.app);
@@ -37,60 +39,31 @@ export default function useElementData(): IElementSchema | ITimerElement {
 			);
 		} catch (error) {
 			if (error instanceof Error) {
-				errorHandler("useElementData", "languageObject", error);
+				errorHandler("useSchemaElementData", "languageObject", error);
 			}
 		}
 	}, [languageData]);
 
-	const elementMap: Record<ElementBaseTypes, IElementSchema | ITimerElement> =
-		{
-			button: {
-				id: uuidv4(),
-				type: "button",
-				version: versionComponentBase.card.version,
-				style: {
-					border: "1px solid #ffffff",
-					padding: "10px 15px",
-				},
-				content: {
-					title: {
-						...languageObject,
-					},
+	const elementMap: Record<ElementBaseTypes, IElementTotal> = {
+		button: {
+			...button_schema_element(),
+			content: {
+				title: {
+					...languageObject,
 				},
 			},
-			text: {
-				id: uuidv4(),
-				type: "text",
-				version: versionComponentBase.card.version,
-				style: {
-					textAlign: "center",
-					fontFamily: "Futura PT",
-				},
-				content: {
-					title: {
-						...languageObject,
-					},
+		},
+		text: {
+			...text_schema_element(),
+			content: {
+				title: {
+					...languageObject,
 				},
 			},
-			timer: {
-				id: uuidv4(),
-				type: "timer",
-				version: versionComponentBase.card.version,
-				style: {
-					textAlign: "center",
-					fontFamily: "Futura PT",
-				},
-				setting: {
-					timer: {
-						expiredDate: new Date(),
-					},
-				},
-			},
-		};
+		},
+	};
 
-	return function (
-		type: ElementBaseTypes
-	): IElementSchema | IButtonElement | undefined {
+	return function (type: ElementBaseTypes): IElementTotal | undefined {
 		if (!type || !elementMap[type]) {
 			toastMessage("Не найдено тип данных или отсутствует тип!", "error");
 			return undefined;

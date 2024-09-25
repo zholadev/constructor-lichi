@@ -1,6 +1,11 @@
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
-import { IGalleryImageItem } from "@/components/shared/types/interface";
 import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+import {
+	ISchemaContent,
+	ISchemaContentPhoto,
+	ISchemaContentVideo,
+} from "@/components/shared/types/interface-schema-content";
+import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 
 export interface IComponentBaseSchema {
 	id: string;
@@ -14,35 +19,16 @@ export interface IComponentBaseFullSchema {
 	type: ComponentBaseTypes;
 	version: string;
 	style: Record<string, unknown>;
-	elements?: IElementTotal[];
-	content?: [];
+	elements: IElementTotal[];
+	content: ISchemaContent;
+	settings: ISchemaSettings;
 }
-
-export interface IComponentWithPhotoContent {
-	photo: {
-		desktop: IGalleryImageItem;
-		tablet: IGalleryImageItem;
-		mobile: IGalleryImageItem;
-	};
-}
-
-export interface IComponentWithVideoContent {
-	video: {
-		videoSrc: string;
-		poster: IGalleryImageItem | null;
-	};
-}
-
-export interface IComponentNotSelected extends IComponentBaseSchema {
-	type: "notSelected";
-}
-
 export interface IComponentCardSchema extends IComponentBaseSchema {
-	content: IComponentWithPhotoContent;
+	content: ISchemaContentPhoto;
 }
 
 export interface IComponentCardVideoSchema extends IComponentBaseSchema {
-	content: IComponentWithVideoContent;
+	content: ISchemaContentVideo;
 }
 
 export type IComponentTotalDataSchema =

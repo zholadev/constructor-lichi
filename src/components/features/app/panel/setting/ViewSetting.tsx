@@ -12,18 +12,12 @@ import {
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
 import usePermission from "@/components/shared/hooks/usePermission";
-
-export type ContentType = "video" | "image";
-
-interface IViewSetting {
-	heightFull: boolean;
-	navbarMode: boolean;
-	contentType: ContentType;
-}
+import { ISchemaContentMediaType } from "@/components/shared/types/interface-schema-content";
+import { ISchemaSettingsView } from "@/components/shared/types/interface-schema-settings";
 
 interface IViewContent {
 	id: number;
-	value: ContentType;
+	value: ISchemaContentMediaType;
 	name: string;
 }
 
@@ -41,8 +35,8 @@ const viewContentTypeData: IViewContent[] = [
 ];
 
 interface Props {
-	settingValue?: IViewSetting;
-	onSettingChange?: (value: IViewSetting) => void;
+	settingValue?: ISchemaSettingsView;
+	onSettingChange?: (value: ISchemaSettingsView) => void;
 }
 
 /**
@@ -64,7 +58,7 @@ const ViewSetting: React.FC<Props> = (props) => {
 	const toastMessage = useToastMessage();
 
 	const [viewSettingValue, setViewSettingValue] =
-		React.useState<IViewSetting>({
+		React.useState<ISchemaSettingsView>({
 			heightFull: false,
 			navbarMode: false,
 			contentType: "image",
@@ -77,8 +71,8 @@ const ViewSetting: React.FC<Props> = (props) => {
 	 * @param key
 	 */
 	const viewSettingUpdateHandle = (
-		value: boolean | ContentType,
-		key: keyof IViewSetting
+		value: boolean | ISchemaContentMediaType,
+		key: keyof ISchemaSettingsView
 	) => {
 		if (value === undefined || value === null) {
 			toastMessage("ValueError: value is not defined", "error");
@@ -121,7 +115,7 @@ const ViewSetting: React.FC<Props> = (props) => {
 						disabled={viewContentTypeData.length === 0}
 						defaultValue={viewSettingValue.contentType}
 						value={viewSettingValue.contentType}
-						onValueChange={(value: ContentType) =>
+						onValueChange={(value: ISchemaContentMediaType) =>
 							viewSettingUpdateHandle(value, "contentType")
 						}
 					>

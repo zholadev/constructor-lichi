@@ -24,8 +24,8 @@ const ActionSetting: React.FC<Props> = (props) => {
 
 	const permission = usePermission();
 
-	const editorEvent = useEditorEvent();
 	const dialog = useDialogAction();
+	const editorEvent = useEditorEvent();
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>

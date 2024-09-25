@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { cn } from "@/components/lib/utils";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
-import useElementData from "@/components/shared/hooks/useElementData";
+import useSchemaElementData from "@/components/shared/hooks/useSchemaElementData";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
 
 interface Props {
@@ -24,7 +24,7 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 	const { children, type } = props;
 
 	const editorEvent = useEditorEvent();
-	const getElementSchema = useElementData();
+	const getElementSchema = useSchemaElementData();
 
 	return (
 		<div

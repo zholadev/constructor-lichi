@@ -6,7 +6,7 @@ import Divider from "@/components/shared/uikit/divider/Divider";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
-import useSchemaData from "@/components/shared/hooks/useSchemaData";
+import useSchemaComponentData from "@/components/shared/hooks/useSchemaComponentData";
 import { IComponentBaseList } from "@/components/shared/types/interface-templates";
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
@@ -27,20 +27,6 @@ const baseData: IComponentBaseList[] = [
 		style: {},
 		elements: [],
 	},
-	// {
-	// 	id: 3,
-	// 	type: "card_outside_left",
-	// 	version: versionComponentBase.card_outside_left.version,
-	// 	style: {},
-	// 	elements: [],
-	// },
-	// {
-	// 	id: 4,
-	// 	type: "card_outside_right",
-	// 	version: versionComponentBase.card_outside_right.version,
-	// 	style: {},
-	// 	elements: [],
-	// },
 	{
 		id: 5,
 		type: "album",
@@ -95,7 +81,7 @@ const AddBaseComponent: React.FC<IAddBaseComponent> = (props) => {
 	const editorEvent = useEditorEvent();
 	const templateEvent = useTemplateEvent();
 
-	const getSchemaComponent = useSchemaData();
+	const getSchemaComponent = useSchemaComponentData();
 
 	const [selectComponent, setSelectComponent] =
 		useState<ComponentBaseTypes | null>(null);

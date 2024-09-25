@@ -479,16 +479,35 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
-			const updateObjectByPathHandle = (data, save: boolean, remove?: boolean) => {
-				return updateObjectByPath(data, pathString, newValue, save, remove);
+			const updateObjectByPathHandle = (
+				data,
+				save: boolean,
+				remove?: boolean
+			) => {
+				return updateObjectByPath(
+					data,
+					pathString,
+					newValue,
+					save,
+					remove
+				);
 			};
 
-			const updateDataHandle = (container, save: boolean, remove?: boolean) => {
+			const updateDataHandle = (
+				container,
+				save: boolean,
+				remove?: boolean
+			) => {
 				updateObjectByPathHandle(container, save, remove);
-				toastMessage(
-					`Успешно обновлено! ${activeElementData.type}`,
-					"success"
-				);
+
+				if (removeObj) {
+					toastMessage("Успешно удалено!", "success");
+				} else {
+					toastMessage(
+						`Успешно обновлено! ${activeElementData.type}`,
+						"success"
+					);
+				}
 			};
 
 			const removeKeyDataHandle = (container, save?: boolean) => {
@@ -595,7 +614,7 @@ export default function useEditorEvent(): IEditorEvent {
 														updatedComponent.data
 															.elements[
 															elementIndex
-															],
+														],
 														true,
 														true
 													);

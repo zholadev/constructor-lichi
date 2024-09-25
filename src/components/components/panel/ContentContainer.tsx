@@ -83,6 +83,10 @@ const ContentContainer: React.FC = () => {
 		setExpanded(filteredKeys);
 	};
 
+	const removeSchemaDataHandle = () => {
+		editorEvent.updateComponent({}, "content", "content.link", true);
+	};
+
 	useEffect(() => {
 		if (editorActiveElement.componentData) {
 			if (editorActiveElement.componentData.content) {
@@ -219,6 +223,7 @@ const ContentContainer: React.FC = () => {
 										"content.link"
 									);
 								}}
+								onRemoveParams={removeSchemaDataHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>

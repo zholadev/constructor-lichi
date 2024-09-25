@@ -20,6 +20,7 @@ interface ILinkSetting {
 
 interface Props {
 	onSendParams?: (params: ILinkSetting) => void;
+	onRemoveParams?: () => void;
 	defaultParams: ILinkSetting | unknown;
 }
 
@@ -35,7 +36,7 @@ interface Props {
  * @constructor
  */
 const LinkContent: React.FC<Props> = (props) => {
-	const { onSendParams, defaultParams } = props;
+	const { onSendParams, defaultParams, onRemoveParams } = props;
 
 	const [error, setError] = useState<string | null>(null);
 
@@ -85,7 +86,9 @@ const LinkContent: React.FC<Props> = (props) => {
 			};
 		});
 
-		if (onSendParams) onSendParams({ url: "", active: value });
+		if (!value) {
+			if (onRemoveParams) onRemoveParams();
+		}
 
 		setError(null);
 	};

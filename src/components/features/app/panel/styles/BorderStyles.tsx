@@ -18,6 +18,7 @@ import {
 	CornerTopRightIcon,
 } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 interface CssStyles {
 	[key: string]: any;
@@ -216,6 +217,8 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
  */
 const BorderStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
+
+	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
 
@@ -459,187 +462,229 @@ const BorderStyles: React.FC<Props> = (props) => {
 					</div>
 				</div>
 
-				<div
-					className={cn(
-						"flex flex-row gap-2 items-center border rounded-md pl-2"
-					)}
-				>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Width
-					</Label>
-					<Slider
-						value={styleValues.borderWidth}
-						max={20}
-						step={1}
-						onValueChange={(value) => {
-							onChangeStyleHandle("borderWidth", value);
-						}}
-					/>
-					<Input
-						maxLength={20}
-						minLength={1}
-						type="number"
-						className={cn("w-[60px] border-0 focus-visible:ring-0")}
-						value={styleValues.borderWidth?.[0]}
-						onChange={(e) => {
-							onChangeStyleHandle("borderWidth", e.target.value);
-						}}
-					/>
-				</div>
-
-				<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
-					Radius
-				</Label>
-				<div
-					className={cn(
-						"flex flex-row gap-2 items-center border rounded-md pl-2"
-					)}
-				>
-					<CornersIcon width={30} height={30} />
-					<Slider
-						value={styleValues.borderRadius}
-						max={20}
-						step={1}
-						onValueChange={(value) => {
-							onChangeStyleHandle("borderRadius", value);
-						}}
-					/>
-					<Input
-						maxLength={20}
-						minLength={1}
-						type="number"
-						className={cn("w-[60px] border-0 focus-visible:ring-0")}
-						value={styleValues.borderRadius?.[0]}
-						onChange={(e) => {
-							const convertToValueNumber = parseFloat(
-								e.target.value
-							);
-							onChangeStyleHandle("borderRadius", [
-								convertToValueNumber,
-							]);
-						}}
-					/>
-				</div>
-				<div className={cn("grid grid-cols-2 gap-4")}>
-					{cornerOptions.map((corner, index) => {
-						return (
-							<div
-								key={index}
-								className={cn(
-									"flex flex-row items-center border rounded-md pl-1"
-								)}
-							>
-								{corner.float === "left" && corner.icon}
-								<Input
-									className={cn(
-										`border-0 text-${corner.float} focus-visible:ring-0`
-									)}
-									value={styleValues[corner.value].toString()}
-									type="number"
-									onChange={(e) => {
-										const convertToValueNumber = parseFloat(
-											e.target.value
-										);
-										onChangeStyleHandle(corner.value, [
-											convertToValueNumber,
-										]);
-									}}
-								/>
-								{corner.float === "right" && corner.icon}
-							</div>
-						);
-					})}
-				</div>
-
-				<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
-					Color
-				</Label>
-				<div
-					className={cn(
-						"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
-					)}
-				>
-					<Input
-						className={cn("border-0 p-0")}
-						value={styleValues.borderColor}
-						type="color"
-						onChange={(e) => {
-							onChangeStyleHandle("borderColor", e.target.value);
-						}}
-					/>
-
-					<Input
+				{permission.styles.border.border && (
+					<div
 						className={cn(
-							"col-span-2 border-0 focus-visible:ring-0"
+							"flex flex-row gap-2 items-center border rounded-md pl-2"
 						)}
-						value={styleValues.borderColor}
-						type="text"
-						onChange={(e) => {
-							onChangeStyleHandle("borderColor", e.target.value);
-						}}
-					/>
-				</div>
+					>
+						<Label
+							className={cn("uppercase")}
+							style={{ fontSize: "10px" }}
+						>
+							Width
+						</Label>
+						<Slider
+							value={styleValues.borderWidth}
+							max={20}
+							step={1}
+							onValueChange={(value) => {
+								onChangeStyleHandle("borderWidth", value);
+							}}
+						/>
+						<Input
+							maxLength={20}
+							minLength={1}
+							type="number"
+							className={cn(
+								"w-[60px] border-0 focus-visible:ring-0"
+							)}
+							value={styleValues.borderWidth?.[0]}
+							onChange={(e) => {
+								onChangeStyleHandle(
+									"borderWidth",
+									e.target.value
+								);
+							}}
+						/>
+					</div>
+				)}
 
-				<div
-					className={cn(
-						"w-full flex items-center gap-2 flex-row justify-between"
-					)}
-				>
-					{borderOptions.map((border, index) => {
-						return (
-							<button
-								key={index}
-								type="button"
+				{permission.styles.border.radius && (
+					<>
+						<Label
+							className={cn("uppercase")}
+							style={{ fontSize: "10px" }}
+						>
+							Radius
+						</Label>
+						<div
+							className={cn(
+								"flex flex-row gap-2 items-center border rounded-md pl-2"
+							)}
+						>
+							<CornersIcon width={30} height={30} />
+							<Slider
+								value={styleValues.borderRadius}
+								max={20}
+								step={1}
+								onValueChange={(value) => {
+									onChangeStyleHandle("borderRadius", value);
+								}}
+							/>
+							<Input
+								maxLength={20}
+								minLength={1}
+								type="number"
 								className={cn(
-									"border w-[30px] h-[30px] flex justify-center items-center",
-									styleValues[border.value]
-										? "text-blue-400"
-										: ""
+									"w-[60px] border-0 focus-visible:ring-0"
 								)}
-								onClick={() => {
+								value={styleValues.borderRadius?.[0]}
+								onChange={(e) => {
+									const convertToValueNumber = parseFloat(
+										e.target.value
+									);
+									onChangeStyleHandle("borderRadius", [
+										convertToValueNumber,
+									]);
+								}}
+							/>
+						</div>
+					</>
+				)}
+
+				{permission.styles.border.radius && (
+					<div className={cn("grid grid-cols-2 gap-4")}>
+						{cornerOptions.map((corner, index) => {
+							return (
+								<div
+									key={index}
+									className={cn(
+										"flex flex-row items-center border rounded-md pl-1"
+									)}
+								>
+									{corner.float === "left" && corner.icon}
+									<Input
+										className={cn(
+											`border-0 text-${corner.float} focus-visible:ring-0`
+										)}
+										value={styleValues[
+											corner.value
+										].toString()}
+										type="number"
+										onChange={(e) => {
+											const convertToValueNumber =
+												parseFloat(e.target.value);
+											onChangeStyleHandle(corner.value, [
+												convertToValueNumber,
+											]);
+										}}
+									/>
+									{corner.float === "right" && corner.icon}
+								</div>
+							);
+						})}
+					</div>
+				)}
+
+				{permission.styles.border.border && (
+					<>
+						<Label
+							className={cn("uppercase")}
+							style={{ fontSize: "10px" }}
+						>
+							Color
+						</Label>
+						<div
+							className={cn(
+								"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
+							)}
+						>
+							<Input
+								className={cn("border-0 p-0")}
+								value={styleValues.borderColor}
+								type="color"
+								onChange={(e) => {
 									onChangeStyleHandle(
-										border.value,
-										!styleValues[border.value]
+										"borderColor",
+										e.target.value
 									);
 								}}
-							>
-								{border.icon}
-							</button>
-						);
-					})}
-				</div>
+							/>
 
-				<div className={cn("w-full flex items-center gap-5 flex-row")}>
-					{borderStyleOptions.map((border, index) => {
-						return (
-							<div
-								key={index}
+							<Input
 								className={cn(
-									"w-[30px] h-[30px] flex items-center justify-center cursor-pointer"
+									"col-span-2 border-0 focus-visible:ring-0"
 								)}
-								onClick={() => {
+								value={styleValues.borderColor}
+								type="text"
+								onChange={(e) => {
 									onChangeStyleHandle(
-										"borderStyle",
-										border.type
+										"borderColor",
+										e.target.value
 									);
 								}}
-							>
+							/>
+						</div>
+					</>
+				)}
+
+				{permission.styles.border.border && (
+					<div
+						className={cn(
+							"w-full flex items-center gap-2 flex-row justify-between"
+						)}
+					>
+						{borderOptions.map((border, index) => {
+							return (
 								<button
+									key={index}
 									type="button"
 									className={cn(
-										`border border-${border.type} cursor-pointer w-full h-[1px] border-black`,
-										styleValues.borderStyle === border.type
-											? "border-blue-400"
+										"border w-[30px] h-[30px] flex justify-center items-center",
+										styleValues[border.value]
+											? "text-blue-400"
 											: ""
 									)}
-								/>
-							</div>
-						);
-					})}
-				</div>
+									onClick={() => {
+										onChangeStyleHandle(
+											border.value,
+											!styleValues[border.value]
+										);
+									}}
+								>
+									{border.icon}
+								</button>
+							);
+						})}
+					</div>
+				)}
+
+				{permission.styles.border.border && (
+					<div
+						className={cn(
+							"w-full flex items-center gap-5 flex-row"
+						)}
+					>
+						{borderStyleOptions.map((border, index) => {
+							return (
+								<div
+									key={index}
+									className={cn(
+										"w-[30px] h-[30px] flex items-center justify-center cursor-pointer"
+									)}
+									onClick={() => {
+										onChangeStyleHandle(
+											"borderStyle",
+											border.type
+										);
+									}}
+								>
+									<button
+										type="button"
+										className={cn(
+											`border border-${border.type} cursor-pointer w-full h-[1px] border-black`,
+											styleValues.borderStyle ===
+												border.type
+												? "border-blue-400"
+												: ""
+										)}
+									/>
+								</div>
+							);
+						})}
+					</div>
+				)}
 			</div>
 		</div>
 	);

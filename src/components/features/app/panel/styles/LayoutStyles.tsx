@@ -14,8 +14,9 @@ import {
 	AlignVerticalSpaceAround,
 	AlignVerticalSpaceBetween,
 } from "lucide-react";
+import usePermission from "@/components/shared/hooks/usePermission";
 
-type Display = "flex"
+type Display = "flex";
 
 type JustifyContent =
 	| "flex-start"
@@ -52,6 +53,8 @@ interface Props {
  */
 const LayoutStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
+
+	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
 
@@ -140,61 +143,81 @@ const LayoutStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Position</h3>}
 
-			<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
-				Justify-Content
-			</Label>
-			<div className={cn("w-full grid grid-cols-6 mt-3 gap-2 mb-6")}>
-				{justifyContentOptions.map((content) => {
-					return (
-						<button
-							key={content.value}
-							type="button"
-							className={cn(
-								"w-[30px] h-[30px] border flex items-center justify-center",
-								stylesValues.justifyContent === content.value
-									? "text-blue-400"
-									: ""
-							)}
-							onClick={() => {
-								onChangeStylesHandle(
-									"justifyContent",
-									content.value
-								);
-							}}
-						>
-							{content.icon}
-						</button>
-					);
-				})}
-			</div>
+			{permission.styles.position.justifyContent && (
+				<>
+					<Label
+						className={cn("uppercase")}
+						style={{ fontSize: "10px" }}
+					>
+						Justify-Content
+					</Label>
+					<div
+						className={cn(
+							"w-full grid grid-cols-6 mt-3 gap-2 mb-6"
+						)}
+					>
+						{justifyContentOptions.map((content) => {
+							return (
+								<button
+									key={content.value}
+									type="button"
+									className={cn(
+										"w-[30px] h-[30px] border flex items-center justify-center",
+										stylesValues.justifyContent ===
+											content.value
+											? "text-blue-400"
+											: ""
+									)}
+									onClick={() => {
+										onChangeStylesHandle(
+											"justifyContent",
+											content.value
+										);
+									}}
+								>
+									{content.icon}
+								</button>
+							);
+						})}
+					</div>
+				</>
+			)}
 
-			<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
-				Align-Items
-			</Label>
-			<div className={cn("w-full grid grid-cols-6 mt-3 gap-2")}>
-				{alignItemsOptions.map((content) => {
-					return (
-						<button
-							key={content.value}
-							type="button"
-							className={cn(
-								"w-[30px] h-[30px] border flex items-center justify-center",
-								stylesValues.alignItems === content.value
-									? "text-blue-400"
-									: ""
-							)}
-							onClick={() => {
-								onChangeStylesHandle(
-									"alignItems",
-									content.value
-								);
-							}}
-						>
-							{content.icon}
-						</button>
-					);
-				})}
-			</div>
+			{permission.styles.position.alignItems && (
+				<>
+					<Label
+						className={cn("uppercase")}
+						style={{ fontSize: "10px" }}
+					>
+						Align-Items
+					</Label>
+					<div className={cn("w-full grid grid-cols-6 mt-3 gap-2")}>
+						{alignItemsOptions.map((content) => {
+							return (
+								<button
+									key={content.value}
+									type="button"
+									className={cn(
+										"w-[30px] h-[30px] border flex items-center justify-center",
+										stylesValues.alignItems ===
+											content.value
+											? "text-blue-400"
+											: ""
+									)}
+									onClick={() => {
+										onChangeStylesHandle(
+											"alignItems",
+											content.value
+										);
+									}}
+								>
+									{content.icon}
+								</button>
+							);
+						})}
+					</div>
+				</>
+			)}
 		</div>
 	);
 };

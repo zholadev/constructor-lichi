@@ -61,7 +61,7 @@ const SettingContainer: React.FC = () => {
 			value={defaultExpanded}
 			onValueChange={(value: SettingTypes[]) => setExpanded(value)}
 		>
-			{permission.setting.view && (
+			{permission.setting.view.root && (
 				<AccordionItem value="view">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -80,7 +80,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.view && (
+			{permission.setting.show.root && (
 				<AccordionItem value="show">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -99,7 +99,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.action && (
+			{permission.setting.action.root && (
 				<AccordionItem value="action">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -113,7 +113,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.swiper && (
+			{permission.setting.swiper.root && (
 				<AccordionItem value="swiper">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>

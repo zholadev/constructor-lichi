@@ -10,6 +10,7 @@ import {
 	PinRightIcon,
 	PinTopIcon,
 } from "@radix-ui/react-icons";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 type SpacingType = "margin" | "padding";
 type Sides = "top" | "left" | "bottom" | "right";
@@ -83,6 +84,8 @@ function convertToObject(styles: { margin: string; padding: string }) {
  */
 const SpacingStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
+
+	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
 
@@ -184,19 +187,37 @@ const SpacingStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Spacing</h3>}
 
-			<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
-				Margin (Outside)
-			</Label>
-			<div className={cn("w-full grid grid-cols-2 mt-2 gap-2 mb-6")}>
-				{renderInputs("margin")}
-			</div>
+			{permission.styles.spacing.margin && (
+				<>
+					<Label
+						className={cn("uppercase")}
+						style={{ fontSize: "10px" }}
+					>
+						Margin (Outside)
+					</Label>
+					<div
+						className={cn(
+							"w-full grid grid-cols-2 mt-2 gap-2 mb-6"
+						)}
+					>
+						{renderInputs("margin")}
+					</div>
+				</>
+			)}
 
-			<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
-				Padding (Inside)
-			</Label>
-			<div className={cn("w-full grid grid-cols-2 mt-2 gap-2")}>
-				{renderInputs("padding")}
-			</div>
+			{permission.styles.spacing.padding && (
+				<>
+					<Label
+						className={cn("uppercase")}
+						style={{ fontSize: "10px" }}
+					>
+						Padding (Inside)
+					</Label>
+					<div className={cn("w-full grid grid-cols-2 mt-2 gap-2")}>
+						{renderInputs("padding")}
+					</div>
+				</>
+			)}
 		</div>
 	);
 };

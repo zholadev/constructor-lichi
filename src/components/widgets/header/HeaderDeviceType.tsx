@@ -25,8 +25,11 @@ interface Props {}
 const HeaderDeviceType: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const { spaceModeDeviceTypeAction, spaceTemplateDataAction } =
-		useDispatchAction();
+	const {
+		spaceModeDeviceTypeAction,
+		spaceTemplateDataAction,
+		editorActiveElementAction,
+	} = useDispatchAction();
 
 	const {
 		spaceModeDeviceType,
@@ -39,10 +42,13 @@ const HeaderDeviceType: React.FC<Props> = (props) => {
 
 		if (value === "desktop" || value === "laptop") {
 			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.desktop);
+			editorActiveElementAction({ type: "" });
 		} else if (value === "tablet") {
 			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.tablet);
+			editorActiveElementAction({ type: "" });
 		} else if (value === "mobile") {
 			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.mobile);
+			editorActiveElementAction({ type: "" });
 		}
 	};
 
@@ -72,18 +78,14 @@ const HeaderDeviceType: React.FC<Props> = (props) => {
 					<LaptopIcon />
 				</Button>
 			)}
-			{spaceModePlatformType === "browser" && (
-				<Button
-					onClick={() => {
-						changeDeviceType("tablet");
-					}}
-					variant={
-						spaceModeDeviceType === "tablet" ? "default" : "ghost"
-					}
-				>
-					<Tablet width={15} height={15} />
-				</Button>
-			)}
+			<Button
+				onClick={() => {
+					changeDeviceType("tablet");
+				}}
+				variant={spaceModeDeviceType === "tablet" ? "default" : "ghost"}
+			>
+				<Tablet width={15} height={15} />
+			</Button>
 			<Button
 				onClick={() => {
 					changeDeviceType("mobile");

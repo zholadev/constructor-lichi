@@ -20,6 +20,7 @@ import {
 	TextAlignRightIcon,
 } from "@radix-ui/react-icons";
 import { ItalicIcon, UnderlineIcon } from "lucide-react";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 type FontFamilyTypes =
 	| "Futura PT"
@@ -239,6 +240,8 @@ const extractStyles = (styles: IStylesValues): IStylesValues => {
 const TypographyStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
 
+	const permission = usePermission();
+
 	const toastMessage = useToastMessage();
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({
@@ -383,88 +386,98 @@ const TypographyStyles: React.FC<Props> = (props) => {
 						</Button>
 					</div>
 				</div>
-				<div>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Font Family
-					</Label>
-					<div className={cn("mt-2 mb-4")}>
-						<Select
-							defaultValue={stylesValues.fontFamily}
-							value={stylesValues.fontFamily}
-							onValueChange={(value) =>
-								onChangeStyleHandle("fontFamily", value)
-							}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Выберите шрифт" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									{fontFamilyData.map((font, index) => {
-										return (
-											<SelectItem
-												key={index}
-												value={font.value}
-											>
-												{font.name}
-											</SelectItem>
-										);
-									})}
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-					</div>
-				</div>
-				<div className={cn("w-full mb-4")}>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Font Size
-					</Label>
 
-					<div className={cn("grid grid-cols-2 gap-2 mt-2")}>
-						<div className={cn("")}>
-							<Input
-								type="number"
-								className={cn("w-full")}
-								value={parseFloat(stylesValues.fontSize)}
-								onChange={(e) => {
-									onChangeStyleHandle(
-										"fontSize",
-										e.target.value
-									);
-								}}
-							/>
+				{permission.styles.typography.fontFamily && (
+					<div>
+						<Label
+							className={cn("uppercase")}
+							style={{ fontSize: "10px" }}
+						>
+							Font Family
+						</Label>
+						<div className={cn("mt-2 mb-4")}>
+							<Select
+								defaultValue={stylesValues.fontFamily}
+								value={stylesValues.fontFamily}
+								onValueChange={(value) =>
+									onChangeStyleHandle("fontFamily", value)
+								}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Выберите шрифт" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										{fontFamilyData.map((font, index) => {
+											return (
+												<SelectItem
+													key={index}
+													value={font.value}
+												>
+													{font.name}
+												</SelectItem>
+											);
+										})}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
 						</div>
-
-						<Select
-							defaultValue={stylesValues.unit}
-							value={stylesValues.unit}
-							onValueChange={(value) =>
-								onChangeStyleHandle("unit", value)
-							}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="px" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									{unitOptions.map((unit) => {
-										return (
-											<SelectItem value={unit} key={unit}>
-												{unit}
-											</SelectItem>
-										);
-									})}
-								</SelectGroup>
-							</SelectContent>
-						</Select>
 					</div>
-				</div>
+				)}
+
+				{permission.styles.typography.fontSize && (
+					<div className={cn("w-full mb-4")}>
+						<Label
+							className={cn("uppercase")}
+							style={{ fontSize: "10px" }}
+						>
+							Font Size
+						</Label>
+
+						<div className={cn("grid grid-cols-2 gap-2 mt-2")}>
+							<div className={cn("")}>
+								<Input
+									type="number"
+									className={cn("w-full")}
+									value={parseFloat(stylesValues.fontSize)}
+									onChange={(e) => {
+										onChangeStyleHandle(
+											"fontSize",
+											e.target.value
+										);
+									}}
+								/>
+							</div>
+
+							<Select
+								defaultValue={stylesValues.unit}
+								value={stylesValues.unit}
+								onValueChange={(value) =>
+									onChangeStyleHandle("unit", value)
+								}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="px" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										{unitOptions.map((unit) => {
+											return (
+												<SelectItem
+													value={unit}
+													key={unit}
+												>
+													{unit}
+												</SelectItem>
+											);
+										})}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						</div>
+					</div>
+				)}
+
 				<div className={cn("w-full mb-4")}>
 					<Label
 						className={cn("uppercase")}
@@ -474,154 +487,172 @@ const TypographyStyles: React.FC<Props> = (props) => {
 					</Label>
 
 					<div className={cn("grid grid-cols-3 gap-2 mt-2")}>
-						<Select
-							disabled={currentFontWeight.length === 0}
-							defaultValue={stylesValues.fontWeight}
-							value={stylesValues.fontWeight}
-							onValueChange={(value) =>
-								onChangeStyleHandle("fontWeight", value)
-							}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="font weight" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									{currentFontWeight.map((fontWeight) => {
-										return (
-											<SelectItem
-												key={fontWeight}
-												value={fontWeight}
-											>
-												{fontWeight}
-											</SelectItem>
-										);
-									})}
-								</SelectGroup>
-							</SelectContent>
-						</Select>
+						{permission.styles.typography.fontWeight && (
+							<Select
+								disabled={currentFontWeight.length === 0}
+								defaultValue={stylesValues.fontWeight}
+								value={stylesValues.fontWeight}
+								onValueChange={(value) =>
+									onChangeStyleHandle("fontWeight", value)
+								}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="font weight" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										{currentFontWeight.map((fontWeight) => {
+											return (
+												<SelectItem
+													key={fontWeight}
+													value={fontWeight}
+												>
+													{fontWeight}
+												</SelectItem>
+											);
+										})}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						)}
 
-						<div className={cn("col-span-2")}>
-							<div className={cn("grid grid-cols-4 gap-1")}>
-								{currentFontStyles.map((fontStyle, index) => {
-									return (
-										<Button
-											variant="outline"
-											key={index}
-											onClick={() =>
-												onChangeStyleHandle(
-													"fontStyle",
-													stylesValues.fontStyle ===
-														fontStyle.name
-														? "normal"
-														: fontStyle.name
-												)
-											}
-											className={cn(
-												"p-0",
-												stylesValues.fontStyle ===
-													fontStyle.name
-													? "text-blue-400"
-													: ""
-											)}
-										>
-											{fontStyle.icon}
-										</Button>
-									);
-								})}
+						{permission.styles.typography.fontStyle && (
+							<div className={cn("col-span-2")}>
+								<div className={cn("grid grid-cols-4 gap-1")}>
+									{currentFontStyles.map(
+										(fontStyle, index) => {
+											return (
+												<Button
+													variant="outline"
+													key={index}
+													onClick={() =>
+														onChangeStyleHandle(
+															"fontStyle",
+															stylesValues.fontStyle ===
+																fontStyle.name
+																? "normal"
+																: fontStyle.name
+														)
+													}
+													className={cn(
+														"p-0",
+														stylesValues.fontStyle ===
+															fontStyle.name
+															? "text-blue-400"
+															: ""
+													)}
+												>
+													{fontStyle.icon}
+												</Button>
+											);
+										}
+									)}
 
-								<Button
-									variant="outline"
-									onClick={() =>
-										onChangeStyleHandle(
-											"textDecoration",
+									<Button
+										variant="outline"
+										onClick={() =>
+											onChangeStyleHandle(
+												"textDecoration",
+												stylesValues.textDecoration ===
+													"underline"
+													? "initial"
+													: "underline"
+											)
+										}
+										className={cn(
+											"p-0",
 											stylesValues.textDecoration ===
 												"underline"
-												? "initial"
-												: "underline"
-										)
-									}
-									className={cn(
-										"p-0",
-										stylesValues.textDecoration ===
-											"underline"
-											? "text-blue-400"
-											: ""
-									)}
-								>
-									<UnderlineIcon width={15} height={15} />
-								</Button>
+												? "text-blue-400"
+												: ""
+										)}
+									>
+										<UnderlineIcon width={15} height={15} />
+									</Button>
+								</div>
 							</div>
+						)}
+					</div>
+				</div>
+
+				{permission.styles.typography.textAlign && (
+					<div className={cn("w-full mb-4")}>
+						<Label
+							className={cn("uppercase")}
+							style={{ fontSize: "10px" }}
+						>
+							Text Align
+						</Label>
+						<div className={cn("grid grid-cols-4 gap-2 mt-2")}>
+							{textAlignOptions.map((align) => {
+								return (
+									<Button
+										key={align.value}
+										variant="outline"
+										onClick={() =>
+											onChangeStyleHandle(
+												"textAlign",
+												align.value
+											)
+										}
+										className={cn(
+											"p-0",
+											stylesValues.textAlign ===
+												align.value
+												? "text-blue-400"
+												: ""
+										)}
+									>
+										{align.icon}
+									</Button>
+								);
+							})}
 						</div>
 					</div>
-				</div>
+				)}
 
-				<div className={cn("w-full mb-4")}>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Text Align
-					</Label>
-					<div className={cn("grid grid-cols-4 gap-2 mt-2")}>
-						{textAlignOptions.map((align) => {
-							return (
-								<Button
-									key={align.value}
-									variant="outline"
-									onClick={() =>
-										onChangeStyleHandle(
-											"textAlign",
-											align.value
-										)
-									}
-									className={cn(
-										"p-0",
-										stylesValues.textAlign === align.value
-											? "text-blue-400"
-											: ""
-									)}
-								>
-									{align.icon}
-								</Button>
-							);
-						})}
-					</div>
-				</div>
-				<div className={cn("w-full")}>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Color
-					</Label>
+				{permission.styles.typography.color && (
+					<div className={cn("w-full")}>
+						<Label
+							className={cn("uppercase")}
+							style={{ fontSize: "10px" }}
+						>
+							Color
+						</Label>
 
-					<div
-						className={cn(
-							"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
-						)}
-					>
-						<Input
-							className={cn("border-0 p-0")}
-							defaultValue={stylesValues.color}
-							type="color"
-							onInput={(e) => {
-								onChangeStyleHandle("color", e.target.value);
-							}}
-						/>
-
-						<Input
+						<div
 							className={cn(
-								"col-span-2 border-0 focus-visible:ring-0"
+								"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
 							)}
-							defaultValue={stylesValues.color}
-							type="text"
-							onChange={(e) => {
-								onChangeStyleHandle("color", e.target.value);
-							}}
-						/>
+						>
+							<Input
+								className={cn("border-0 p-0")}
+								defaultValue={stylesValues.color}
+								type="color"
+								onInput={(e) => {
+									onChangeStyleHandle(
+										"color",
+										e.target.value
+									);
+								}}
+							/>
+
+							<Input
+								className={cn(
+									"col-span-2 border-0 focus-visible:ring-0"
+								)}
+								defaultValue={stylesValues.color}
+								type="text"
+								onChange={(e) => {
+									onChangeStyleHandle(
+										"color",
+										e.target.value
+									);
+								}}
+							/>
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	);

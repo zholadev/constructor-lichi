@@ -9,8 +9,9 @@ import {
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import usePermission from "@/components/shared/hooks/usePermission";
 
-type ShowSiteType = "base" | "retail" | "all";
+export type ShowSiteType = "base" | "retail" | "all";
 
 interface IShowSiteType {
 	id: number;
@@ -58,6 +59,8 @@ interface Props {
  */
 const ShowSetting: React.FC<Props> = (props) => {
 	const { settingValue, onSettingChange } = props;
+
+	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
 
@@ -108,35 +111,37 @@ const ShowSetting: React.FC<Props> = (props) => {
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>
-			<div className={cn("w-full flex flex-col")}>
-				<h3 className={cn("text-xs mb-3 font-bold")}>Тип сайта</h3>
-				<Select
-					disabled={showSiteTypeData.length === 0}
-					defaultValue={showSettingValue.siteType}
-					value={showSettingValue.siteType}
-					onValueChange={(value: ShowSiteType) =>
-						onShowSettingUpdateHandle(value, "siteType")
-					}
-				>
-					<SelectTrigger className="w-full min-w-[120px]">
-						<SelectValue placeholder="Выберите тип" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectGroup>
-							{showSiteTypeData.map((item) => {
-								return (
-									<SelectItem
-										key={item.id}
-										value={item.value}
-									>
-										{item.name}
-									</SelectItem>
-								);
-							})}
-						</SelectGroup>
-					</SelectContent>
-				</Select>
-			</div>
+			{permission.setting.show.siteType && (
+				<div className={cn("w-full flex flex-col")}>
+					<h3 className={cn("text-xs mb-3 font-bold")}>Тип сайта</h3>
+					<Select
+						disabled={showSiteTypeData.length === 0}
+						defaultValue={showSettingValue.siteType}
+						value={showSettingValue.siteType}
+						onValueChange={(value: ShowSiteType) =>
+							onShowSettingUpdateHandle(value, "siteType")
+						}
+					>
+						<SelectTrigger className="w-full min-w-[120px]">
+							<SelectValue placeholder="Выберите тип" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{showSiteTypeData.map((item) => {
+									return (
+										<SelectItem
+											key={item.id}
+											value={item.value}
+										>
+											{item.name}
+										</SelectItem>
+									);
+								})}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+			)}
 		</div>
 	);
 };

@@ -1,42 +1,96 @@
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
 import { ActiveElementType } from "@/components/shared/types/types";
+import { IPermission } from "@/components/entities/permission/interface-permission";
+import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import { getComponentPermissionData } from "@/components/entities/permission/get-component-permission-data";
+import {
+	ComponentBaseTypes,
+	ElementBaseTypes,
+} from "@/components/shared/types/types-components";
+import { getElementPermissionData } from "@/components/entities/permission/get-element-permission-data";
+import { TemplateBaseType } from "@/components/shared/types/interface-templates";
+import { getContainerPermissionData } from "@/components/entities/permission/get-container-permission-data";
 
-interface IPermission {
+export const basePermission: IPermission = {
 	panel: {
-		styles: boolean;
-		content: boolean;
-		setting: boolean;
-		component: boolean;
-		element: boolean;
-		navigator: boolean;
-	};
+		styles: false,
+		content: false,
+		setting: false,
+		component: true,
+		element: true,
+		navigator: true,
+	},
 	editor: {
-		remove: boolean;
-		dnd: boolean;
-		add: boolean;
-	};
+		remove: true,
+		dnd: true,
+		add: true,
+	},
 	styles: {
-		fill: boolean;
-		border: boolean;
-		size: boolean;
-		spacing: boolean;
-		position: boolean;
-		typography: boolean;
-		grid: boolean;
-	};
+		fill: {
+			root: false,
+			backgroundColor: false,
+		},
+		border: {
+			root: false,
+			border: false,
+			radius: false,
+		},
+		size: {
+			root: false,
+			width: false,
+			height: false,
+		},
+		spacing: {
+			padding: false,
+			margin: false,
+			root: false,
+		},
+		position: {
+			justifyContent: false,
+			alignItems: false,
+			root: false,
+		},
+		typography: {
+			root: false,
+			fontSize: false,
+			fontFamily: false,
+			color: false,
+			fontStyle: false,
+			fontWeight: false,
+			textAlign: false,
+		},
+		grid: {
+			root: false,
+			gap: false,
+		},
+	},
 	content: {
-		image: boolean;
-		video: boolean;
-		link: boolean;
-	};
+		image: false,
+		video: false,
+		link: false,
+	},
 	setting: {
-		show: boolean;
-		view: boolean;
-		action: boolean;
-		swiper: boolean;
-	};
-}
+		show: {
+			root: false,
+			siteType: false,
+		},
+		view: {
+			root: false,
+			contentType: false,
+			navbarMode: false,
+			heightFull: false,
+		},
+		action: {
+			root: false,
+			add: false,
+			remove: false,
+		},
+		swiper: {
+			root: false,
+		},
+	},
+};
 
 /**
  * @author Zholaman Zhumanov
@@ -51,114 +105,35 @@ interface IPermission {
 export default function usePermission(): IPermission {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
+	const activeElementData = useActiveElementFollowUp();
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Получаем тип глобального элемента
+	 */
 	const typeActiveElement: ActiveElementType = useMemo(() => {
-		return editorActiveElement.type ?? "";
-	}, [editorActiveElement]);
+		return activeElementData.type;
+	}, [activeElementData]);
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Получаем тип элемента
+	 */
+	const typeDataActiveElement:
+		| ComponentBaseTypes
+		| ElementBaseTypes
+		| TemplateBaseType = useMemo(() => {
+		return activeElementData?.data?.type ?? "";
+	}, [activeElementData]);
 
 	return useMemo(() => {
-		const basePermission: IPermission = {
-			panel: {
-				styles: false,
-				content: false,
-				setting: false,
-				component: true,
-				element: false,
-				navigator: true,
-			},
-			editor: {
-				remove: true,
-				dnd: false,
-				add: false,
-			},
-			styles: {
-				fill: true,
-				border: true,
-				size: true,
-				spacing: true,
-				position: true,
-				typography: true,
-				grid: false,
-			},
-			content: {
-				image: true,
-				video: true,
-				link: true,
-			},
-			setting: {
-				show: true,
-				view: true,
-				action: true,
-				swiper: false,
-			},
-		};
-
 		switch (typeActiveElement) {
 			case "component":
-				return {
-					...basePermission,
-					panel: {
-						...basePermission.panel,
-						styles: true,
-						content: true,
-						setting: true,
-						element: true,
-					},
-					editor: {
-						...basePermission.editor,
-						dnd: false,
-						add: true,
-					},
-				};
+				return getComponentPermissionData(typeDataActiveElement);
 			case "element":
-				return {
-					...basePermission,
-					panel: {
-						...basePermission.panel,
-						styles: true,
-						component: true,
-						content: true,
-					},
-					content: {
-						...basePermission.content,
-						image: false,
-						video: false,
-					},
-					setting: {
-						...basePermission.setting,
-						show: false,
-						view: false,
-						swiper: false,
-					},
-				};
+				return getElementPermissionData(typeDataActiveElement);
 			case "container":
-				return {
-					...basePermission,
-					panel: {
-						...basePermission.panel,
-						setting: true,
-						styles: true,
-					},
-					editor: {
-						...basePermission.editor,
-						dnd: true,
-						add: true,
-					},
-					styles: {
-						fill: false,
-						border: false,
-						size: false,
-						spacing: true,
-						position: false,
-						typography: false,
-						grid: true,
-					},
-					setting: {
-						...basePermission.setting,
-						show: true,
-						view: true,
-						swiper: false,
-					},
-				};
+				return getContainerPermissionData(typeDataActiveElement);
 			case "swiper":
 				return {
 					...basePermission,
@@ -185,5 +160,5 @@ export default function usePermission(): IPermission {
 			default:
 				return basePermission;
 		}
-	}, [typeActiveElement]);
+	}, [typeActiveElement, basePermission]);
 }

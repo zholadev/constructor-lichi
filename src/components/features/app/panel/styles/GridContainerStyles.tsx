@@ -4,6 +4,7 @@ import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 interface IStyles {
 	gap: number;
@@ -37,6 +38,8 @@ const addUnit = (value: number, unit: string = "px"): CSSProperties => {
  */
 const GridContainerStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
+
+	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
 
@@ -95,19 +98,30 @@ const GridContainerStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Grid</h3>}
 
-			<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
-				Grid Gap (Расстояние между)
-			</Label>
-			<div className={cn("w-full flex flex-row mt-2 items-center gap-2")}>
-				<Input
-					className={cn("focus-visible:ring-0")}
-					value={stylesValue.gap}
-					type="number"
-					onChange={(e) =>
-						onChangeStylesHandle(e.target.value, "gap")
-					}
-				/>
-			</div>
+			{permission.styles.grid.gap && (
+				<>
+					<Label
+						className={cn("uppercase")}
+						style={{ fontSize: "10px" }}
+					>
+						Grid Gap (Расстояние между)
+					</Label>
+					<div
+						className={cn(
+							"w-full flex flex-row mt-2 items-center gap-2"
+						)}
+					>
+						<Input
+							className={cn("focus-visible:ring-0")}
+							value={stylesValue.gap}
+							type="number"
+							onChange={(e) =>
+								onChangeStylesHandle(e.target.value, "gap")
+							}
+						/>
+					</div>
+				</>
+			)}
 		</div>
 	);
 };

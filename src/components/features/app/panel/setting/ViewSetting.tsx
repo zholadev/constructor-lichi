@@ -11,8 +11,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
+import usePermission from "@/components/shared/hooks/usePermission";
 
-type ContentType = "video" | "image";
+export type ContentType = "video" | "image";
 
 interface IViewSetting {
 	heightFull: boolean;
@@ -57,6 +58,8 @@ interface Props {
  */
 const ViewSetting: React.FC<Props> = (props) => {
 	const { settingValue, onSettingChange } = props;
+
+	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
 
@@ -109,81 +112,87 @@ const ViewSetting: React.FC<Props> = (props) => {
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>
-			<div className={cn("w-full flex flex-col mb-5")}>
-				<h3 className={cn("text-xs mb-3 font-bold")}>
-					Тип контента для показа
-				</h3>
-				<Select
-					disabled={viewContentTypeData.length === 0}
-					defaultValue={viewSettingValue.contentType}
-					value={viewSettingValue.contentType}
-					onValueChange={(value: ContentType) =>
-						viewSettingUpdateHandle(value, "contentType")
-					}
+			{permission.setting.view.contentType && (
+				<div className={cn("w-full flex flex-col mb-5")}>
+					<h3 className={cn("text-xs mb-3 font-bold")}>
+						Тип контента для показа
+					</h3>
+					<Select
+						disabled={viewContentTypeData.length === 0}
+						defaultValue={viewSettingValue.contentType}
+						value={viewSettingValue.contentType}
+						onValueChange={(value: ContentType) =>
+							viewSettingUpdateHandle(value, "contentType")
+						}
+					>
+						<SelectTrigger className="w-full min-w-[120px]">
+							<SelectValue placeholder="Выберите тип" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{viewContentTypeData.map((item) => {
+									return (
+										<SelectItem
+											key={item.id}
+											value={item.value}
+										>
+											{item.name}
+										</SelectItem>
+									);
+								})}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+			)}
+
+			{permission.setting.view.heightFull && (
+				<div
+					className={cn(
+						"flex justify-between cursor-pointer items-center flex-row gap-2 mb-3"
+					)}
 				>
-					<SelectTrigger className="w-full min-w-[120px]">
-						<SelectValue placeholder="Выберите тип" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectGroup>
-							{viewContentTypeData.map((item) => {
-								return (
-									<SelectItem
-										key={item.id}
-										value={item.value}
-									>
-										{item.name}
-									</SelectItem>
-								);
-							})}
-						</SelectGroup>
-					</SelectContent>
-				</Select>
-			</div>
+					<Label htmlFor="view-height-setting">
+						<h3 className={cn("text-xs uppercase text-gray-500")}>
+							На всю высоту (100vh)
+						</h3>
+					</Label>
 
-			<div
-				className={cn(
-					"flex justify-between cursor-pointer items-center flex-row gap-2 mb-3"
-				)}
-			>
-				<Label htmlFor="view-height-setting">
-					<h3 className={cn("text-xs uppercase text-gray-500")}>
-						На всю высоту (100vh)
-					</h3>
-				</Label>
-
-				<div className={cn("flex items-center gap-2")}>
-					<Switch
-						id="view-height-setting"
-						checked={viewSettingValue.heightFull}
-						onCheckedChange={(value) => {
-							viewSettingUpdateHandle(value, "heightFull");
-						}}
-					/>
+					<div className={cn("flex items-center gap-2")}>
+						<Switch
+							id="view-height-setting"
+							checked={viewSettingValue.heightFull}
+							onCheckedChange={(value) => {
+								viewSettingUpdateHandle(value, "heightFull");
+							}}
+						/>
+					</div>
 				</div>
-			</div>
+			)}
 
-			<div
-				className={cn(
-					"flex justify-between cursor-pointer items-center flex-row gap-2 mb-3"
-				)}
-			>
-				<Label htmlFor="view-header-mode-setting">
-					<h3 className={cn("text-xs uppercase text-gray-500")}>
-						Светлая шапка (header)
-					</h3>
-				</Label>
+			{permission.setting.view.navbarMode && (
+				<div
+					className={cn(
+						"flex justify-between cursor-pointer items-center flex-row gap-2 mb-3"
+					)}
+				>
+					<Label htmlFor="view-header-mode-setting">
+						<h3 className={cn("text-xs uppercase text-gray-500")}>
+							Светлая шапка (header)
+						</h3>
+					</Label>
 
-				<div className={cn("flex items-center gap-2")}>
-					<Switch
-						id="view-header-mode-setting"
-						checked={viewSettingValue.navbarMode}
-						onCheckedChange={(value) => {
-							viewSettingUpdateHandle(value, "navbarMode");
-						}}
-					/>
+					<div className={cn("flex items-center gap-2")}>
+						<Switch
+							id="view-header-mode-setting"
+							checked={viewSettingValue.navbarMode}
+							onCheckedChange={(value) => {
+								viewSettingUpdateHandle(value, "navbarMode");
+							}}
+						/>
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

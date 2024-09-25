@@ -26,7 +26,7 @@ interface IActiveElementFollowUp {
  * @fixme
  * @constructor
  */
-export default function useActiveElementFollowUp(): IActiveElementFollowUp | null {
+export default function useActiveElementFollowUp(): IActiveElementFollowUp {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
@@ -46,7 +46,7 @@ export default function useActiveElementFollowUp(): IActiveElementFollowUp | nul
 				(element) => element.id === editorActiveElement.currentActiveId
 			);
 
-			const type = editorActiveElement.type ?? "";
+			const type = editorActiveElement.type ?? "none";
 
 			const data =
 				type === "component"

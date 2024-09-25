@@ -152,7 +152,7 @@ const StylesContainer: React.FC = () => {
 				value={defaultExpanded}
 				onValueChange={setExpanded}
 			>
-				{permission.styles.grid && (
+				{permission.styles.grid.root && (
 					<AccordionItem value="grid">
 						<AccordionTrigger>
 							<div className={cn("flex items-center gap-1")}>
@@ -170,7 +170,7 @@ const StylesContainer: React.FC = () => {
 					</AccordionItem>
 				)}
 
-				{permission.styles.position && (
+				{permission.styles.position.root && (
 					<AccordionItem value="position">
 						<AccordionTrigger>
 							<div className={cn("flex items-center gap-1")}>
@@ -190,7 +190,7 @@ const StylesContainer: React.FC = () => {
 					</AccordionItem>
 				)}
 
-				{permission.styles.size && (
+				{permission.styles.size.root && (
 					<AccordionItem value="size">
 						<AccordionTrigger>
 							<div className={cn("flex items-center gap-1")}>
@@ -208,7 +208,7 @@ const StylesContainer: React.FC = () => {
 					</AccordionItem>
 				)}
 
-				{permission.styles.spacing && (
+				{permission.styles.spacing.root && (
 					<AccordionItem value="spacing">
 						<AccordionTrigger>
 							<div className={cn("flex items-center gap-1")}>
@@ -228,7 +228,7 @@ const StylesContainer: React.FC = () => {
 					</AccordionItem>
 				)}
 
-				{permission.styles.border && (
+				{permission.styles.border.border && (
 					<AccordionItem value="border">
 						<AccordionTrigger>
 							<div className={cn("flex items-center gap-2")}>
@@ -248,7 +248,7 @@ const StylesContainer: React.FC = () => {
 					</AccordionItem>
 				)}
 
-				{permission.styles.typography && (
+				{permission.styles.typography.root && (
 					<AccordionItem value="typography">
 						<AccordionTrigger>
 							<div className={cn("flex items-center gap-1")}>
@@ -268,7 +268,7 @@ const StylesContainer: React.FC = () => {
 					</AccordionItem>
 				)}
 
-				{permission.styles.fill && (
+				{permission.styles.fill.root && (
 					<AccordionItem value="fill">
 						<AccordionTrigger>
 							<div className={cn("flex items-center gap-1")}>

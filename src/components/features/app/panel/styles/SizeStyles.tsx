@@ -4,6 +4,7 @@ import { Input } from "@/components/shared/shadcn/ui/input";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 interface IStyleValues {
 	width: number;
@@ -11,6 +12,10 @@ interface IStyleValues {
 }
 
 type StyleKeys = keyof IStyleValues;
+
+interface SizeInputProps {
+	size: StyleKeys;
+}
 
 interface Props {
 	onStyleChange?: (value: IStyleValues) => void;
@@ -31,6 +36,8 @@ interface Props {
  */
 const SizeStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
+
+	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
 
@@ -78,6 +85,27 @@ const SizeStyles: React.FC<Props> = (props) => {
 		}
 	};
 
+	const SizeInput: React.FC<SizeInputProps> = ({ size }) => {
+		return (
+			<div
+				className={cn("w-full grid grid-cols-3 items-center gap-4 p-1")}
+			>
+				<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
+					{size}
+				</Label>
+				<Input
+					className={cn("col-span-2")}
+					value={sizeValues[size]}
+					type="number"
+					placeholder={size}
+					onChange={(e) => {
+						onChangeSizeHandle(e.target.value, size);
+					}}
+				/>
+			</div>
+		);
+	};
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Назначаем дефолтные настройки
@@ -92,29 +120,10 @@ const SizeStyles: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Size</h3>}
-			<div className={cn("w-full grid grid-cols-2 gap-4 p-1")}>
-				{(["width", "height"] as StyleKeys[]).map((size, index) => {
-					return (
-						<div key={index}>
-							<Label
-								className={cn("uppercase")}
-								style={{ fontSize: "10px" }}
-							>
-								{size}
-							</Label>
-							<Input
-								className={cn("mt-2")}
-								value={sizeValues[size]}
-								type="number"
-								placeholder="width"
-								onChange={(e) => {
-									onChangeSizeHandle(e.target.value, size);
-								}}
-							/>
-						</div>
-					);
-				})}
-			</div>
+
+			{permission.styles.size.width && <SizeInput size="width" />}
+
+			{permission.styles.size.height && <SizeInput size="height" />}
 		</div>
 	);
 };

@@ -4,6 +4,7 @@ import { Button } from "@/components/shared/shadcn/ui/button";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import ActionAddComponentSetting from "@/components/features/app/panel/setting/ActionAddComponentSetting";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 interface Props {}
 
@@ -21,28 +22,34 @@ interface Props {}
 const ActionSetting: React.FC<Props> = (props) => {
 	const {} = props;
 
+	const permission = usePermission();
+
 	const editorEvent = useEditorEvent();
 	const dialog = useDialogAction();
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>
 			<div className={cn("w-full flex flex-col gap-3")}>
-				<Button
-					type="button"
-					variant="outline"
-					onClick={
-						dialog.dialogSettingActionAddComponentAction.toggle
-					}
-				>
-					Добавить
-				</Button>
-				<Button
-					type="button"
-					variant="destructive"
-					onClick={editorEvent.removeEvent}
-				>
-					Удалить
-				</Button>
+				{permission.setting.action.add && (
+					<Button
+						type="button"
+						variant="outline"
+						onClick={
+							dialog.dialogSettingActionAddComponentAction.toggle
+						}
+					>
+						Добавить
+					</Button>
+				)}
+				{permission.setting.action.remove && (
+					<Button
+						type="button"
+						variant="destructive"
+						onClick={editorEvent.removeEvent}
+					>
+						Удалить
+					</Button>
+				)}
 			</div>
 
 			<ActionAddComponentSetting />

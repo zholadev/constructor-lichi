@@ -15,7 +15,8 @@ export type ActiveElementType =
 	| "component"
 	| "element"
 	| "container"
-	| "swiper";
+	| "swiper"
+	| "none";
 
 export type TotalComponentTypes =
 	| IComponentCardSchema

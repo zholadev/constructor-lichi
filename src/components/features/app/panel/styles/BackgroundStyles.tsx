@@ -5,6 +5,7 @@ import { Input } from "@/components/shared/shadcn/ui/input";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import useDebounce from "@/components/shared/hooks/useDebounce";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 interface IStylesValues {
 	backgroundColor: string;
@@ -31,6 +32,8 @@ interface Props {
  */
 const BackgroundStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
+
+	const permission = usePermission();
 
 	const toastMessage = useToastMessage();
 
@@ -84,45 +87,47 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Size</h3>}
 			<div className={cn("w-full p-1")}>
-				<div>
-					<Label
-						className={cn("uppercase")}
-						style={{ fontSize: "10px" }}
-					>
-						Background Color
-					</Label>
-					<div
-						className={cn(
-							"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
-						)}
-					>
-						<Input
-							className={cn("border-0 p-0")}
-							value={stylesValues.backgroundColor}
-							type="color"
-							onInput={(e) => {
-								onChangeStyleHandle(
-									e.target.value,
-									"backgroundColor"
-								);
-							}}
-						/>
-
-						<Input
+				{permission.styles.fill.backgroundColor && (
+					<div>
+						<Label
+							className={cn("uppercase")}
+							style={{ fontSize: "10px" }}
+						>
+							Background Color
+						</Label>
+						<div
 							className={cn(
-								"col-span-2 border-0 focus-visible:ring-0"
+								"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
 							)}
-							value={stylesValues.backgroundColor}
-							type="text"
-							onChange={(e) => {
-								debouncedHandleInput(
-									e.target.value,
-									"backgroundColor"
-								);
-							}}
-						/>
+						>
+							<Input
+								className={cn("border-0 p-0")}
+								value={stylesValues.backgroundColor}
+								type="color"
+								onInput={(e) => {
+									onChangeStyleHandle(
+										e.target.value,
+										"backgroundColor"
+									);
+								}}
+							/>
+
+							<Input
+								className={cn(
+									"col-span-2 border-0 focus-visible:ring-0"
+								)}
+								value={stylesValues.backgroundColor}
+								type="text"
+								onChange={(e) => {
+									debouncedHandleInput(
+										e.target.value,
+										"backgroundColor"
+									);
+								}}
+							/>
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	);

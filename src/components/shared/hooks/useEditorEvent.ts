@@ -365,45 +365,53 @@ export default function useEditorEvent(): IEditorEvent {
 		save = false,
 		remove = false
 	) {
-		const keys = path.split("."); // Разбиваем строку пути на массив ключей
-		let current = obj;
+		try {
+			const keys = path?.split("."); // Разбиваем строку пути на массив ключей
+			let current = obj;
 
-		// Проходим по объекту, создавая отсутствующие ключи
-		for (let i = 0; i < keys.length - 1; i++) {
-			const key = keys[i];
-			if (!current[key]) {
-				current[key] = {}; // Создаем объект, если ключ отсутствует
+			// Проходим по объекту, создавая отсутствующие ключи
+			for (let i = 0; i < keys.length - 1; i++) {
+				const key = keys[i];
+				if (!current[key]) {
+					current[key] = {}; // Создаем объект, если ключ отсутствует
+				}
+				current = current[key];
 			}
-			current = current[key];
-		}
 
-		const lastKey = keys[keys.length - 1];
+			const lastKey = keys[keys.length - 1];
 
-		if (
-			save &&
-			typeof current[lastKey] === "object" &&
-			current[lastKey] !== null
-		) {
-			// Если save: true, объединяем старые значения с новыми, если старое значение — объект
-			current[lastKey] = { ...current[lastKey], ...value };
-		} else {
-			// Иначе просто присваиваем новое значение
-			current[lastKey] = value;
-		}
+			if (
+				save &&
+				typeof current[lastKey] === "object" &&
+				current[lastKey] !== null
+			) {
+				// Если save: true, объединяем старые значения с новыми, если старое значение — объект
+				current[lastKey] = { ...current[lastKey], ...value };
+			} else {
+				// Иначе просто присваиваем новое значение
+				current[lastKey] = value;
+			}
 
-		if (remove) {
-			// Если флаг удаления, удаляем последний ключ
-			delete current[lastKey];
-		} else if (
-			save &&
-			typeof current[lastKey] === "object" &&
-			current[lastKey] !== null
-		) {
-			// Если save: true, объединяем старые значения с новыми
-			current[lastKey] = { ...current[lastKey], ...value };
-		} else {
-			// Иначе просто присваиваем новое значение
-			current[lastKey] = value;
+			if (remove) {
+				// Если флаг удаления, удаляем последний ключ
+				delete current[lastKey];
+			} else if (
+				save &&
+				typeof current[lastKey] === "object" &&
+				current[lastKey] !== null
+			) {
+				// Если save: true, объединяем старые значения с новыми
+				current[lastKey] = { ...current[lastKey], ...value };
+			} else {
+				// Иначе просто присваиваем новое значение
+				current[lastKey] = value;
+			}
+		} catch (error) {
+			toastMessage(
+				"Ошибка при изменение! Обратитесь разработчику!",
+				"error"
+			);
+			errorHandler("useEditorEvent", "updateObjectByPath", error);
 		}
 	}
 
@@ -440,7 +448,6 @@ export default function useEditorEvent(): IEditorEvent {
 		});
 	}
 
-
 	// Простая функция глубокого копирования объекта
 	function deepCopy(obj) {
 		return JSON.parse(JSON.stringify(obj));
@@ -472,67 +479,36 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
-			if (type === "content") {
-				const newUpdateContent = spaceTemplateData.map(
-					(container: ITemplateBaseSchema) => {
-						if (container.id === editorActiveElement.containerId) {
-							return {
-								...container,
-								components: container.components.map(
-									(component) => {
-										if (
-											component.data.id ===
-											editorActiveElement.id
-										) {
-											/// Создаем глубокую копию компонента, чтобы избежать ошибок с readonly
-											const updatedComponent =
-												deepCopy(component);
+			const updateObjectByPathHandle = (data, save: boolean, remove?: boolean) => {
+				return updateObjectByPath(data, pathString, newValue, save, remove);
+			};
 
-											// Обновляем объект по пути, оставляя остальные данные нетронутыми
-											updateObjectByPath(
-												updatedComponent.data.content,
-												pathString,
-												newValue
-											);
-
-											toastMessage(
-												"Обновленные данные",
-												"success"
-											);
-
-											return {
-												...component,
-												...updatedComponent,
-											};
-										}
-										return component;
-									}
-								),
-							};
-						}
-						return container;
-					}
+			const updateDataHandle = (container, save: boolean, remove?: boolean) => {
+				updateObjectByPathHandle(container, save, remove);
+				toastMessage(
+					`Успешно обновлено! ${activeElementData.type}`,
+					"success"
 				);
+			};
 
-				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
-			} else if (type === "container") {
-				const newUpdateContent = spaceTemplateData.map(
+			const removeKeyDataHandle = (container, save?: boolean) => {
+				deleteMultiplePaths(container, pathString);
+				toastMessage("Успешно удалено!", "success");
+			};
+
+			const containerUpdateHandle = () => {
+				return spaceTemplateData.map(
 					(container: ITemplateBaseSchema) => {
 						if (container.id === editorActiveElement.containerId) {
-							const updatedContainer = deepCopy(container); // Делаем глубокую копию контейнера
+							const updatedContainer = deepCopy(container);
 
-							// Обновляем данные контейнера по пути
-							updateObjectByPath(
-								updatedContainer,
-								pathString,
-								newValue,
-								true
-							);
-
-							toastMessage(
-								"Обновленные данные для контейнера",
-								"success"
-							);
+							if (removeObj) {
+								updateDataHandle(updatedContainer, false, true);
+							} else if (removeKey) {
+								removeKeyDataHandle(updatedContainer);
+							} else {
+								updateDataHandle(updatedContainer, true);
+							}
 
 							return {
 								...container,
@@ -542,10 +518,10 @@ export default function useEditorEvent(): IEditorEvent {
 						return container;
 					}
 				);
+			};
 
-				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
-			} else if (type === "component") {
-				const newUpdateContent = spaceTemplateData.map(
+			const componentUpdateHandle = () => {
+				return spaceTemplateData.map(
 					(container: ITemplateBaseSchema) => {
 						if (container.id === editorActiveElement.containerId) {
 							return {
@@ -559,17 +535,22 @@ export default function useEditorEvent(): IEditorEvent {
 											const updatedComponent =
 												deepCopy(component);
 
-											updateObjectByPath(
-												updatedComponent.data,
-												pathString,
-												newValue,
-												true
-											);
-
-											toastMessage(
-												"Обновленные данные",
-												"success"
-											);
+											if (removeObj) {
+												updateDataHandle(
+													updatedComponent.data,
+													true,
+													true
+												);
+											} else if (removeKey) {
+												removeKeyDataHandle(
+													updatedComponent.data
+												);
+											} else {
+												updateDataHandle(
+													updatedComponent.data,
+													true
+												);
+											}
 
 											return {
 												...component,
@@ -584,10 +565,10 @@ export default function useEditorEvent(): IEditorEvent {
 						return container;
 					}
 				);
+			};
 
-				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
-			} else if (type === "settings") {
-				const newUpdateContent = spaceTemplateData.map(
+			const elementUpdateHandle = () => {
+				return spaceTemplateData.map(
 					(container: ITemplateBaseSchema) => {
 						if (container.id === editorActiveElement.containerId) {
 							return {
@@ -601,50 +582,6 @@ export default function useEditorEvent(): IEditorEvent {
 											const updatedComponent =
 												deepCopy(component);
 
-											updateObjectByPath(
-												updatedComponent.data,
-												pathString,
-												newValue,
-												true
-											);
-
-											toastMessage(
-												"Обновленные данные",
-												"success"
-											);
-
-											return {
-												...component,
-												...updatedComponent,
-											};
-										}
-										return component;
-									}
-								),
-							};
-						}
-						return container;
-					}
-				);
-
-				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
-			} else if (type === "element") {
-				const newUpdateContent = spaceTemplateData.map(
-					(container: ITemplateBaseSchema) => {
-						if (container.id === editorActiveElement.containerId) {
-							return {
-								...container,
-								components: container.components.map(
-									(component) => {
-										if (
-											component.data.id ===
-											editorActiveElement.id
-										) {
-											// Делаем глубокую копию компонента
-											const updatedComponent =
-												deepCopy(component);
-
-											// Находим элемент по ID внутри массива elements
 											const elementIndex =
 												updatedComponent.data.elements.findIndex(
 													(el: any) =>
@@ -654,55 +591,37 @@ export default function useEditorEvent(): IEditorEvent {
 
 											if (elementIndex !== -1) {
 												if (removeObj) {
-													toastMessage(
-														"Данные успешно удалены!",
-														"success"
+													updateDataHandle(
+														updatedComponent.data
+															.elements[
+															elementIndex
+															],
+														true,
+														true
 													);
 												} else if (removeKey) {
-													// Удаление ключа и его значения по пути
-													deleteMultiplePaths(
+													removeKeyDataHandle(
+														updatedComponent.data
+															.elements[
+															elementIndex
+														]
+													);
+												} else {
+													updateDataHandle(
 														updatedComponent.data
 															.elements[
 															elementIndex
 														],
-														pathString
+														true
 													);
-
-													toastMessage(
-														"Объект успешно удален! removeKey",
-														"success"
-													);
-
-													return {
-														...component,
-														...updatedComponent,
-													};
-												} else {
-													// Обновляем данные элемента по найденному индексу
-													updateObjectByPath(
-														updatedComponent.data
-															.elements[
-															elementIndex
-														], // элемент, который нужно обновить
-														pathString, // путь, по которому нужно обновить значение
-														newValue, // новое значение
-														true // сохраняем старые значения, если флаг true
-													);
-
-													toastMessage(
-														"Данные успешно обновились!",
-														"success"
-													);
-
-													// Возвращаем обновленный компонент
-													return {
-														...component,
-														...updatedComponent,
-													};
 												}
+
+												return {
+													...component,
+													...updatedComponent,
+												};
 											}
 
-											// Если элемент не найден, возвращаем компонент без изменений
 											return component;
 										}
 										return component;
@@ -713,8 +632,19 @@ export default function useEditorEvent(): IEditorEvent {
 						return container;
 					}
 				);
+			};
 
+			if (activeElementData.type === "container") {
+				const newUpdateContent = containerUpdateHandle();
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
+			} else if (activeElementData.type === "component") {
+				const newUpdateContent = componentUpdateHandle();
+				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
+			} else if (activeElementData.type === "element") {
+				const newUpdateContent = elementUpdateHandle();
+				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
+			} else {
+				toastMessage("Тип не распознан!", "error");
 			}
 		} catch (error) {
 			if (error instanceof Error) {

@@ -150,7 +150,7 @@ const ContentContainer: React.FC = () => {
 															editorEvent.updateComponent(
 																data,
 																"content",
-																`photo.${key}`
+																`content.photo.${key}`
 															);
 														}}
 													/>
@@ -189,7 +189,7 @@ const ContentContainer: React.FC = () => {
 									editorEvent.updateComponent(
 										params,
 										"content",
-										"video"
+										"content.video"
 									);
 								}}
 							/>
@@ -216,7 +216,7 @@ const ContentContainer: React.FC = () => {
 									editorEvent.updateComponent(
 										params,
 										"content",
-										"link"
+										"content.link"
 									);
 								}}
 							/>

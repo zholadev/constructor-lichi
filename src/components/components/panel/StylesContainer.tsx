@@ -122,6 +122,14 @@ const StylesContainer: React.FC = () => {
 				false,
 				true
 			);
+		} else if (type === "removeObj") {
+			editorEvent.updateComponent(
+				value,
+				activeUpdateTypeData,
+				path,
+				true,
+				false
+			);
 		} else {
 			editorEvent.updateComponent(value, activeUpdateTypeData, path);
 		}
@@ -292,7 +300,7 @@ const StylesContainer: React.FC = () => {
 					<Button
 						variant="outline"
 						className={cn("w-full")}
-						onClick={() => onUpdateHandle({}, "style", "removeKey")}
+						onClick={() => onUpdateHandle({}, "style", "removeObj")}
 					>
 						Очистить все стили
 					</Button>

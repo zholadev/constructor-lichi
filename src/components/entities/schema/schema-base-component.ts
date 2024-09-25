@@ -95,7 +95,7 @@ export const video_component_schema = (): IComponentBaseFullSchema => {
 		},
 		settings: {
 			view: {
-				contentType: "image",
+				contentType: "video",
 			},
 		},
 	};
@@ -117,7 +117,7 @@ export const video_outside_component_schema = (): IComponentBaseFullSchema => {
 		},
 		settings: {
 			view: {
-				contentType: "image",
+				contentType: "video",
 			},
 		},
 	};

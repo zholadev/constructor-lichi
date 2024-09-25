@@ -112,6 +112,7 @@ export default function useTemplateEvent(): ITemplateEvent {
 			version: versionTemplate.version,
 			style: generateStyles(),
 			components: createChildren(),
+			settings: {},
 		};
 
 		spaceTemplateDataAction([...spaceTemplateData, newTemplate]);

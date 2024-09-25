@@ -11,6 +11,7 @@ import {
 	PinTopIcon,
 } from "@radix-ui/react-icons";
 import usePermission from "@/components/shared/hooks/usePermission";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
 type SpacingType = "margin" | "padding";
 type Sides = "top" | "left" | "bottom" | "right";
@@ -149,6 +150,12 @@ const SpacingStyles: React.FC<Props> = (props) => {
 		}
 	};
 
+	const removeBorderStyles = (type: "all" | "key") => {
+		if (onStyleChange) {
+			onStyleChange({}, ["style.padding", "style.margin"], "removeKey");
+		}
+	};
+
 	const renderInputs = (type: SpacingType) => {
 		return (["top", "bottom", "left", "right"] as Sides[]).map((side) => {
 			const Icon = iconMap[side];
@@ -186,6 +193,21 @@ const SpacingStyles: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Spacing</h3>}
+
+			<div className={cn("flex flex-row gap-2 items-center justify-end")}>
+				<div className={cn("flex flex-row items-center gap-2")}>
+					<Button
+						type="button"
+						variant="ghost"
+						className={cn("text-xs")}
+						onClick={() => {
+							removeBorderStyles("all");
+						}}
+					>
+						Удалить
+					</Button>
+				</div>
+			</div>
 
 			{permission.styles.spacing.margin && (
 				<>

@@ -6,6 +6,7 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import useDebounce from "@/components/shared/hooks/useDebounce";
 import usePermission from "@/components/shared/hooks/usePermission";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
 interface IStylesValues {
 	backgroundColor: string;
@@ -75,6 +76,12 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 
 	const debouncedHandleInput = useDebounce(onChangeStyleHandle, 1000);
 
+	const removeBorderStyles = () => {
+		if (onStyleChange) {
+			onStyleChange({}, ["style.backgroundColor"], "removeKey");
+		}
+	};
+
 	useEffect(() => {
 		if (styles) {
 			setStylesValues({
@@ -87,6 +94,25 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Size</h3>}
 			<div className={cn("w-full p-1")}>
+				<div
+					className={cn(
+						"flex flex-row gap-2 items-center justify-end"
+					)}
+				>
+					<div className={cn("flex flex-row items-center gap-2")}>
+						<Button
+							type="button"
+							variant="ghost"
+							className={cn("text-xs")}
+							onClick={() => {
+								removeBorderStyles();
+							}}
+						>
+							Очистить
+						</Button>
+					</div>
+				</div>
+
 				{permission.styles.fill.backgroundColor && (
 					<div>
 						<Label

@@ -4,10 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { DotsHorizontalIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Trash2Icon } from "lucide-react";
-import {
-	IGalleryImageItem,
-	IGetApiParams,
-} from "@/components/shared/types/interface";
+import { IGetApiParams } from "@/components/shared/types/interface";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import {

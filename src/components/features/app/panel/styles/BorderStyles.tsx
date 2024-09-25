@@ -455,9 +455,8 @@ const BorderStyles: React.FC<Props> = (props) => {
 							onClick={() => {
 								removeBorderStyles("all");
 							}}
-							disabled={!styleValues.borderEnabled}
 						>
-							Удалить
+							Очистить
 						</Button>
 					</div>
 				</div>

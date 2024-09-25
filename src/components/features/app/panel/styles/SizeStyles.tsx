@@ -5,6 +5,7 @@ import { Label } from "@/components/shared/shadcn/ui/label";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import usePermission from "@/components/shared/hooks/usePermission";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
 interface IStyleValues {
 	width: number;
@@ -85,6 +86,12 @@ const SizeStyles: React.FC<Props> = (props) => {
 		}
 	};
 
+	const removeBorderStyles = () => {
+		if (onStyleChange) {
+			onStyleChange({}, ["style.height", "style.width"], "removeKey");
+		}
+	};
+
 	const SizeInput: React.FC<SizeInputProps> = ({ size }) => {
 		return (
 			<div
@@ -121,9 +128,24 @@ const SizeStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Size</h3>}
 
-			{permission.styles.size.width && <SizeInput size="width" />}
+			<div className={cn("flex flex-row gap-2 items-center justify-end")}>
+				<div className={cn("flex flex-row items-center gap-2")}>
+					<Button
+						type="button"
+						variant="ghost"
+						className={cn("text-xs")}
+						onClick={() => {
+							removeBorderStyles();
+						}}
+					>
+						Очистить
+					</Button>
+				</div>
+			</div>
 
-			{permission.styles.size.height && <SizeInput size="height" />}
+			{permission.styles.size.width && <SizeInput size="width"/>}
+
+			{permission.styles.size.height && <SizeInput size="height"/>}
 		</div>
 	);
 };

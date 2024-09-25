@@ -150,7 +150,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	const removeBorderStyles = (type: "all" | "key") => {
+	const removeBorderStyles = () => {
 		if (onStyleChange) {
 			onStyleChange({}, ["style.padding", "style.margin"], "removeKey");
 		}
@@ -201,10 +201,10 @@ const SpacingStyles: React.FC<Props> = (props) => {
 						variant="ghost"
 						className={cn("text-xs")}
 						onClick={() => {
-							removeBorderStyles("all");
+							removeBorderStyles();
 						}}
 					>
-						Удалить
+						Очистить
 					</Button>
 				</div>
 			</div>

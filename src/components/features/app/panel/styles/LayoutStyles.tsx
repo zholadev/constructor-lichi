@@ -15,6 +15,7 @@ import {
 	AlignVerticalSpaceBetween,
 } from "lucide-react";
 import usePermission from "@/components/shared/hooks/usePermission";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
 type Display = "flex";
 
@@ -99,6 +100,16 @@ const LayoutStyles: React.FC<Props> = (props) => {
 		}
 	};
 
+	const removeBorderStyles = () => {
+		if (onStyleChange) {
+			onStyleChange(
+				{},
+				["style.display", "style.justifyContent", "style.alignItems"],
+				"removeKey"
+			);
+		}
+	};
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Список массива для вывода в для justify-content параметров
@@ -142,6 +153,21 @@ const LayoutStyles: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Position</h3>}
+
+			<div className={cn("flex flex-row gap-2 items-center justify-end")}>
+				<div className={cn("flex flex-row items-center gap-2")}>
+					<Button
+						type="button"
+						variant="ghost"
+						className={cn("text-xs")}
+						onClick={() => {
+							removeBorderStyles();
+						}}
+					>
+						Очистить
+					</Button>
+				</div>
+			</div>
 
 			{permission.styles.position.justifyContent && (
 				<>

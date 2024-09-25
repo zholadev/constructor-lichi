@@ -55,6 +55,7 @@ const VideoContent: React.FC<Props> = (props) => {
 			return;
 		}
 
+		toggleExpandedHandle();
 		setVideoSetting((prev) => {
 			const updateValues = {
 				...prev,
@@ -119,7 +120,10 @@ const VideoContent: React.FC<Props> = (props) => {
 							)}
 						>
 							<Image
-								src={videoSetting.poster.url || videoSetting.poster.src}
+								src={
+									videoSetting.poster.url ||
+									videoSetting.poster.src
+								}
 								alt=""
 								width={240}
 								height={240}

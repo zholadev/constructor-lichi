@@ -15,7 +15,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @param props
  * @constructor
@@ -68,25 +68,21 @@ const TextFillContent: React.FC<Props> = (props) => {
 
 	return (
 		<div className={cn("w-full px-1")}>
-			<div>
-				{Object.entries(contentValues || {}).map(([key, text]) => {
-					return (
-						<div className={cn("mb-4")} key={key}>
-							<h3 className={cn("text-xs uppercase mb-1")}>
-								{key}
-							</h3>
+			{Object.entries(contentValues || {}).map(([key, text]) => {
+				return (
+					<div className={cn("mb-4")} key={key}>
+						<h3 className={cn("text-xs uppercase mb-1")}>{key}</h3>
 
-							<Input
-								placeholder={text.value}
-								value={text.value}
-								onChange={(e) =>
-									onChangeContentHandle(key, e.target.value)
-								}
-							/>
-						</div>
-					);
-				})}
-			</div>
+						<Input
+							placeholder={text.value}
+							value={text.value}
+							onChange={(e) =>
+								onChangeContentHandle(key, e.target.value)
+							}
+						/>
+					</div>
+				);
+			})}
 		</div>
 	);
 };

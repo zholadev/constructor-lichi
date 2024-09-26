@@ -22,8 +22,6 @@ export interface ISchemaContentVideo {
 }
 
 export interface ISchemaContentLink {
-	id: string;
-	active?: boolean;
 	href: {
 		src: string;
 		internal_src: string;

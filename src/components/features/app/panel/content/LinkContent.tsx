@@ -3,6 +3,8 @@ import { cn } from "@/components/lib/utils";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { z } from "zod";
+import { ISchemaContentLink } from "@/components/shared/types/interface-schema-content";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
 const urlSchema = z
 	.string()
@@ -14,15 +16,31 @@ const urlSchema = z
 type URLSchema = z.infer<typeof urlSchema>;
 
 interface ILinkSetting {
-	url: URLSchema;
 	active?: boolean;
+	src: URLSchema;
 }
 
 interface Props {
-	onSendParams?: (params: ILinkSetting) => void;
+	onSendParams?: (params: ISchemaContentLink) => void;
 	onRemoveParams?: () => void;
 	defaultParams: ILinkSetting | unknown;
 }
+
+const getInternalSrcFromURL = (url: string): string | null => {
+	try {
+		const urlObject = new URL(url);
+		const pathSegments = urlObject.pathname
+			.split("/")
+			.filter((segment: string) => segment);
+
+		return pathSegments.length >= 3
+			? pathSegments.slice(2).join("/")
+			: null;
+	} catch (error) {
+		console.error("Invalid URL:", error);
+		return null;
+	}
+};
 
 /**
  * @author Zholaman Zhumanov
@@ -41,8 +59,8 @@ const LinkContent: React.FC<Props> = (props) => {
 	const [error, setError] = useState<string | null>(null);
 
 	const [linkSetting, setLinkSetting] = useState<ILinkSetting>({
-		url: "",
 		active: false,
+		src: "",
 	});
 
 	/**
@@ -57,18 +75,34 @@ const LinkContent: React.FC<Props> = (props) => {
 			setLinkSetting((prev) => {
 				return {
 					...prev,
-					url: value,
+					src: value,
 				};
 			});
 			urlSchema.parse(value);
 			setError(null);
-
-			if (onSendParams)
-				onSendParams({ url: value, active: linkSetting.active });
 		} catch (error) {
 			if (error instanceof z.ZodError) {
 				setError(error.errors[0].message);
 			}
+		}
+	};
+
+	const onConfirmHandle = () => {
+		if (onSendParams) {
+			const getInternalSrc = getInternalSrcFromURL(linkSetting.src);
+
+			let updateValues: ISchemaContentLink = {
+				href: {
+					src: linkSetting.src,
+					internal_src: getInternalSrc ?? "",
+				},
+			};
+
+			// if (linkSetting.settings) {
+			// 	updateValues.settings = linkSetting.settings;
+			// }
+
+			onSendParams(updateValues);
 		}
 	};
 
@@ -94,9 +128,17 @@ const LinkContent: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		setLinkSetting({
-			url: defaultParams?.url ?? "",
-			active: defaultParams?.active ?? false,
+		setLinkSetting(() => {
+			let initValue: ILinkSetting = {
+				src: defaultParams?.href?.src,
+				active: !!defaultParams?.href?.src,
+			};
+
+			// if (defaultParams?.settings) {
+			// 	initValue.settings = defaultParams?.settings;
+			// }
+
+			return initValue;
 		});
 	}, [defaultParams]);
 
@@ -120,8 +162,8 @@ const LinkContent: React.FC<Props> = (props) => {
 				</div>
 			</div>
 			<Input
-				value={linkSetting.url}
-				defaultValue={linkSetting.url}
+				value={linkSetting.src}
+				defaultValue={linkSetting.src}
 				placeholder="Введите ссылку"
 				disabled={!linkSetting.active}
 				onChange={onChangeEmail}
@@ -129,6 +171,17 @@ const LinkContent: React.FC<Props> = (props) => {
 			{error && (
 				<p className={cn("text-red-600 text-xs mt-1")}>{error}</p>
 			)}
+
+			<div className={cn("w-full justify-end mt-2")}>
+				<Button
+					type="button"
+					variant="outline"
+					onClick={onConfirmHandle}
+					disabled={!linkSetting.active}
+				>
+					Добавить
+				</Button>
+			</div>
 		</div>
 	);
 };

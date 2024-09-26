@@ -69,6 +69,7 @@ export const basePermission: IPermission = {
 		image: false,
 		video: false,
 		link: false,
+		textFill: false,
 	},
 	setting: {
 		show: {
@@ -160,5 +161,5 @@ export default function usePermission(): IPermission {
 			default:
 				return basePermission;
 		}
-	}, [typeActiveElement, basePermission]);
+	}, [typeActiveElement, basePermission, editorActiveElement]);
 }

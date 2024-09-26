@@ -35,7 +35,7 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 				data={element}
 				containerId={containerId}
 				componentId={componentData.id}
-				timerData={element?.setting?.timer?.targetDate}
+				timerData={element?.settings?.timer?.targetDate}
 			/>
 		);
 	});

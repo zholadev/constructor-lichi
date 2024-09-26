@@ -14,6 +14,7 @@ import ShowSetting from "@/components/features/app/panel/setting/ShowSetting";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
+import TimerSetting from "@/components/features/app/panel/setting/TimerSetting";
 
 export type SettingTypes = "view" | "show" | "action" | "swiper";
 
@@ -41,6 +42,7 @@ const SettingContainer: React.FC = () => {
 			view: activeElementData?.data?.settings?.view || {},
 			show: activeElementData?.data?.settings?.show || {},
 			swiper: activeElementData?.data?.settings?.swiper || {},
+			timer: activeElementData?.data?.setting?.timer || {},
 		};
 	}, [activeElementData]);
 
@@ -127,16 +129,21 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.swiper.root && (
-				<AccordionItem value="swiper">
+			{permission.setting.timer && (
+				<AccordionItem value="timer">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
 							<LayoutIcon width={13} height={13} />
-							<span style={{ fontSize: "13px" }}>Слайдер</span>
+							<span style={{ fontSize: "13px" }}>Таймер</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<SwiperSetting />
+						<TimerSetting
+							settingValue={settingDefaultData.timer}
+							onSettingChange={(data) =>
+								updateContentHandle(data, "settings.timer")
+							}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 			)}

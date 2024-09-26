@@ -32,7 +32,7 @@ export interface ITextElement extends IElementSchema {
 }
 
 export interface ITimerElement extends IElementSchema {
-	setting: {
+	settings: {
 		timer: ISchemaSettingsTimer;
 	};
 }

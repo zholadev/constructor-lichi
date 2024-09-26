@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { versionElementBase } from "@/components/app/versions/version-modules";
 import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+import { getFormattedDateSixDaysAhead } from "@/components/shared/utils/utils";
 
 export const button_schema_element = (): IElementTotal => {
 	return {
@@ -30,21 +31,6 @@ export const text_schema_element = (): IElementTotal => {
 	};
 };
 
-/**
- * Возвращает строку даты в формате 06 Oct 2024 на 6 дней вперед.
- * @returns {string}
- */
-function getFormattedDateSixDaysAhead(): string {
-	const today = new Date();
-	today.setDate(today.getDate() + 6);
-
-	const day = today.getDate().toString().padStart(2, "0");
-	const month = today.toLocaleString("en-US", { month: "short" });
-	const year = today.getFullYear();
-
-	return `${day} ${month} ${year}`;
-}
-
 export const timer_schema_element = (): IElementTotal => {
 	return {
 		id: uuidv4(),
@@ -55,7 +41,7 @@ export const timer_schema_element = (): IElementTotal => {
 			textAlign: "center",
 			fontFamily: "Futura PT",
 		},
-		setting: {
+		settings: {
 			timer: {
 				targetDate: getFormattedDateSixDaysAhead(),
 				targetTime: "00:00:00",

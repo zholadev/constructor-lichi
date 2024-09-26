@@ -60,12 +60,6 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		spaceTemplateSchemaDevicesData,
 	} = useAppSelector((state) => state.space);
 
-	console.log(
-		"spaceModeDeviceType",
-		spaceModeDeviceType,
-		spaceTemplateSchemaDevicesData
-	);
-
 	const fetchGetPageById = async () => {
 		await apiFetchHandler(
 			apiMethodSchemaGetById,

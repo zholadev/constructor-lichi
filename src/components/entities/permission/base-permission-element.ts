@@ -57,6 +57,7 @@ export const basePermissionElement: IPermission = {
 		image: false,
 		video: false,
 		link: true,
+		textFill: true,
 	},
 	setting: {
 		show: {

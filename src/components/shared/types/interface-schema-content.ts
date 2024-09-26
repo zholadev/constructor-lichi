@@ -38,6 +38,8 @@ export interface ISchemaContentText {
 	title: Record<string, Record<"value", string>>;
 }
 
+export interface ISchemaContentTextFill extends ISchemaContentText {}
+
 export interface ISchemaContent
 	extends ISchemaContentPhoto,
 		ISchemaContentVideo,

@@ -33,6 +33,7 @@ export const text_component_permission: IPermission = {
 	},
 	content: {
 		...basePermissionElement.content,
+		link: false,
 	},
 	setting: {
 		...basePermissionElement.setting,
@@ -52,6 +53,7 @@ export const timer_component_permission: IPermission = {
 	},
 	content: {
 		...basePermissionElement.content,
+		textFill: false,
 	},
 	setting: {
 		...basePermissionElement.setting,

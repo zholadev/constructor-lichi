@@ -15,6 +15,7 @@ import LinkContent from "@/components/features/app/panel/content/LinkContent";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import TextFillContent from "@/components/features/app/panel/content/TextFillContent";
 
 type AccessTypes = "video" | "photo" | "link";
 type ContentKeys = "photo" | "link" | "video";
@@ -63,6 +64,7 @@ const ContentContainer: React.FC = () => {
 					link: content?.link ?? { url: null, active: false },
 					photo: content?.photo,
 					video: content?.video ?? { videoSrc: "", poster: null },
+					title: content?.title ?? {},
 				},
 			};
 		} catch (error) {
@@ -224,6 +226,33 @@ const ContentContainer: React.FC = () => {
 									);
 								}}
 								onRemoveParams={removeSchemaDataHandle}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.content.textFill && (
+					<AccordionItem value="textFill">
+						<AccordionTrigger>
+							<div
+								className={cn(
+									"w-full flex flex-row items-center gap-2"
+								)}
+							>
+								<Link1Icon width={20} height={20} />
+								Text Fill
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<TextFillContent
+								defaultParams={contentActiveData.content?.title}
+								onSendParams={(params) => {
+									editorEvent.updateComponent(
+										params,
+										"content",
+										"content.title"
+									);
+								}}
 							/>
 						</AccordionContent>
 					</AccordionItem>

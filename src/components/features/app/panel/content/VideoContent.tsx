@@ -177,7 +177,6 @@ const VideoContent: React.FC<Props> = (props) => {
 					value={videoSetting.videoSrc}
 					placeholder="Введите ссылку видео"
 					onChange={(e) => {
-						console.log(e.target.value);
 						onChangeSettings(e.target.value, "videoSrc");
 					}}
 				/>

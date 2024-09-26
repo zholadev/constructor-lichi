@@ -55,6 +55,7 @@ export interface IPermission {
 		image: boolean;
 		video: boolean;
 		link: boolean;
+		textFill: boolean;
 	};
 	setting: {
 		show: {

@@ -3,14 +3,15 @@ import { ElementBaseTypes } from "@/components/shared/types/types-components";
 import ButtonElement from "@/components/features/app/elements/base/ButtonElement";
 import TextElement from "@/components/features/app/elements/base/TextElement";
 import ElementAction from "@/components/features/app/components/actions/element/ElementAction";
+import TimerContainer from "@/components/features/app/elements/base/components/TimerContainer";
 import { IButtonElement, ITextElement } from "../types/interface-elements";
-import Timer from "@/components/features/app/elements/base/Timer";
 
 interface Props {
 	type: ElementBaseTypes;
 	data: IButtonElement | ITextElement;
 	containerId: string;
 	componentId: string;
+	timerData?: string | Date;
 }
 
 /**
@@ -25,7 +26,7 @@ interface Props {
  * @constructor
  */
 const BaseElementRender: React.FC<Props> = (props) => {
-	const { type, data, containerId, componentId } = props;
+	const { type, data, containerId, componentId, timerData } = props;
 
 	const renderComponents = () => {
 		switch (type) {
@@ -33,6 +34,13 @@ const BaseElementRender: React.FC<Props> = (props) => {
 				return <ButtonElement data={data} />;
 			case "text":
 				return <TextElement data={data} />;
+			case "timer":
+				return (
+					<TimerContainer
+						targetDate={timerData}
+						styles={data.style}
+					/>
+				);
 			default:
 				return null;
 		}

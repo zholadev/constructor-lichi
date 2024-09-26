@@ -15,7 +15,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo refactoring
  * @fixme
  * @param props
  * @constructor
@@ -35,6 +35,7 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 				data={element}
 				containerId={containerId}
 				componentId={componentData.id}
+				timerData={element?.setting?.timer?.targetDate}
 			/>
 		);
 	});

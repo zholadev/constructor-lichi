@@ -73,6 +73,7 @@ export interface IPermission {
 			add: boolean;
 			remove: boolean;
 		};
+		timer: boolean;
 		swiper: {
 			root: boolean;
 		};

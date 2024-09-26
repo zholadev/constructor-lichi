@@ -57,5 +57,6 @@ export const timer_component_permission: IPermission = {
 	},
 	setting: {
 		...basePermissionElement.setting,
+		timer: true,
 	},
 };

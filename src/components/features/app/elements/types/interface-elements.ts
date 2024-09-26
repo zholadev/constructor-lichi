@@ -3,6 +3,7 @@ import {
 	ISchemaContentLink,
 	ISchemaContentText,
 } from "@/components/shared/types/interface-schema-content";
+import { ISchemaSettingsTimer } from "@/components/shared/types/interface-schema-settings";
 
 export interface IElementSchema {
 	id: string;
@@ -32,7 +33,7 @@ export interface ITextElement extends IElementSchema {
 
 export interface ITimerElement extends IElementSchema {
 	setting: {
-		timer: ITimerSchema;
+		timer: ISchemaSettingsTimer;
 	};
 }
 

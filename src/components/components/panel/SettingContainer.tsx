@@ -126,6 +126,20 @@ const SettingContainer: React.FC = () => {
 					</AccordionContent>
 				</AccordionItem>
 			)}
+
+			{permission.setting.swiper.root && (
+				<AccordionItem value="swiper">
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Слайдер</span>
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<SwiperSetting />
+					</AccordionContent>
+				</AccordionItem>
+			)}
 		</Accordion>
 	);
 };

@@ -22,9 +22,9 @@ export const basePermission: IPermission = {
 		navigator: true,
 	},
 	editor: {
-		remove: true,
-		dnd: true,
-		add: true,
+		remove: false,
+		dnd: false,
+		add: false,
 	},
 	styles: {
 		fill: {
@@ -82,6 +82,7 @@ export const basePermission: IPermission = {
 			navbarMode: false,
 			heightFull: false,
 		},
+		timer: false,
 		action: {
 			root: false,
 			add: false,

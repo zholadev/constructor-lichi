@@ -18,6 +18,11 @@ export interface ISchemaSettingsShow {
 	siteType: SchemaShowSiteType;
 }
 
+export interface ISchemaSettingsTimer {
+	targetDate: string | Date;
+	targetTime: string | Date;
+}
+
 export interface ISchemaSettings {
 	view: ISchemaSettingsView;
 	show: SchemaShowSiteType;

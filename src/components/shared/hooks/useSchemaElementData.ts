@@ -11,6 +11,7 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import {
 	button_schema_element,
 	text_schema_element,
+	timer_schema_element,
 } from "@/components/entities/schema/schema-base-elements";
 
 /**
@@ -60,6 +61,9 @@ export default function useSchemaElementData(): IElementSchema | ITimerElement {
 					...languageObject,
 				},
 			},
+		},
+		timer: {
+			...timer_schema_element(),
 		},
 	};
 

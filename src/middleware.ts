@@ -2,26 +2,26 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-	// Проверяем, что текущая среда — это production
+	// Проверка на то, что это production-среда
 	if (process.env.NODE_ENV === "production") {
 		const auth = req.headers.get("authorization");
 
+		// Если авторизация есть
 		if (auth) {
-			// Декодируем строку авторизации
 			const [user, pass] = Buffer.from(auth.split(" ")[1], "base64")
 				.toString()
 				.split(":");
 
-			// Проверяем, совпадают ли введенные данные с данными из переменных окружения
+			// Проверяем введенные данные с переменными окружения
 			if (
 				user === process.env.AUTH_USER &&
 				pass === process.env.AUTH_PASS
 			) {
-				return NextResponse.next(); // Продолжаем выполнение
+				return NextResponse.next();
 			}
 		}
 
-		// Если авторизация не пройдена, отправляем запрос на аутентификацию
+		// Если авторизация не пройдена, возвращаем запрос на ввод данных
 		return new NextResponse("Auth Required", {
 			status: 401,
 			headers: {
@@ -30,7 +30,7 @@ export function middleware(req: NextRequest) {
 		});
 	}
 
-	// Если не production среда, просто продолжаем выполнение
+	// В средах, отличных от production, пропускаем
 	return NextResponse.next();
 }
 

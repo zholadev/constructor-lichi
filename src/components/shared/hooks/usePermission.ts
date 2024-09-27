@@ -22,8 +22,8 @@ export const basePermission: IPermission = {
 		navigator: true,
 	},
 	editor: {
-		remove: false,
-		dnd: false,
+		remove: true,
+		dnd: true,
 		add: false,
 	},
 	styles: {
@@ -91,6 +91,7 @@ export const basePermission: IPermission = {
 		swiper: {
 			root: false,
 		},
+		element: false,
 	},
 };
 

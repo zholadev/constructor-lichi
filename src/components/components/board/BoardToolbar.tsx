@@ -23,6 +23,7 @@ const BoardToolbar: React.FC = () => {
 		editorDisabledEditAction,
 		editorDraggingTemplateAction,
 		editorRemoveTemplateAction,
+		editorActiveElementAction,
 	} = useDispatchAction();
 
 	const permission = usePermission();
@@ -42,6 +43,9 @@ const BoardToolbar: React.FC = () => {
 
 	return (
 		<div
+			onClick={() => {
+				editorActiveElementAction({ type: "" });
+			}}
 			className={cn(
 				"w-full h-[50px] mb-5 flex items-center justify-end p-2"
 			)}

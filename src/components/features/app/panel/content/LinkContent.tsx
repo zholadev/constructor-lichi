@@ -153,7 +153,7 @@ const LinkContent: React.FC<Props> = (props) => {
 					className={cn("flex w-full items-center justify-end gap-2")}
 				>
 					<Switch
-						id="swiper-centeredSlides"
+						id="link-active"
 						checked={linkSetting.active}
 						onCheckedChange={(value) => {
 							onChangeSettings(value, "active");
@@ -172,7 +172,7 @@ const LinkContent: React.FC<Props> = (props) => {
 				<p className={cn("text-red-600 text-xs mt-1")}>{error}</p>
 			)}
 
-			<div className={cn("w-full justify-end mt-2")}>
+			<div className={cn("w-full flex justify-end mt-2")}>
 				<Button
 					type="button"
 					variant="outline"

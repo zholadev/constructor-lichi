@@ -1,13 +1,14 @@
 import React from "react";
-import { cn } from "@/components/lib/utils";
 import styles from "@/components/styles/card.module.sass";
-import { IElementSchema } from "@/components/features/app/elements/types/interface-elements";
-import BaseElementRender from "@/components/features/app/elements/container/BaseElementRender";
 import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
-import { IComponentCardSchema } from "../types/interface-components";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
+import BaseElementWrapper from "@/components/features/app/elements/container/BaseElementWrapper";
+import { IComponentTotalDataSchema } from "../types/interface-components";
 
 interface Props {
-	data: IComponentCardSchema;
+	componentData: IComponentTotalDataSchema;
+	containerData: ISchemaContainer;
 	containerId: string;
 }
 
@@ -23,32 +24,19 @@ interface Props {
  * @constructor
  */
 const CardOutside: React.FC<Props> = (props) => {
-	const { data, containerId } = props;
+	const { componentData, containerId, containerData } = props;
 
 	return (
-		<ComponentAction data={data} containerId={containerId}>
-			<div style={{ ...data.style }} className={styles.wrapper}>
-				<figure>
-					<img
-						src={data.content.photo.desktop?.url}
-						alt=""
-						className={styles.img}
-					/>
-				</figure>
+		<ComponentAction data={componentData} containerId={containerId}>
+			<div style={{ ...componentData.style }} className={styles.wrapper}>
+				<MediaContainer componentData={componentData} />
 
-				<div className={cn("w-full flex-col")}>
-					{data.elements.map((element: IElementSchema) => {
-						return (
-							<BaseElementRender
-								key={element.id}
-								type={element.type}
-								data={element}
-								containerId={containerId}
-								componentId={data.id}
-							/>
-						);
-					})}
-				</div>
+				<BaseElementWrapper
+					containerId={containerId}
+					elementData={componentData.elements}
+					componentData={componentData}
+					staticElement
+				/>
 			</div>
 		</ComponentAction>
 	);

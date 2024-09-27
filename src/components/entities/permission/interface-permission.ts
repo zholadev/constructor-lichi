@@ -77,5 +77,6 @@ export interface IPermission {
 		swiper: {
 			root: boolean;
 		};
+		element: boolean;
 	};
 }

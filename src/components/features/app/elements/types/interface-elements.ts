@@ -13,10 +13,6 @@ export interface IElementSchema {
 	version: string;
 }
 
-export interface ITimerSchema {
-	expiredDate: Date;
-}
-
 export interface IButtonElement extends IElementSchema {
 	content: {
 		title: ISchemaContentText;

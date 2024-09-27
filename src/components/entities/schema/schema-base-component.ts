@@ -18,6 +18,14 @@ export const card_component_schema = (): IComponentBaseFullSchema => {
 			view: {
 				contentType: "image",
 			},
+			element: {
+				positionX: "center",
+				positionY: "bottom",
+				style: {
+					justifyContent: "flex-end",
+					alignItems: "center",
+				},
+			},
 		},
 	};
 };
@@ -36,6 +44,14 @@ export const card_outside_component_schema = (): IComponentBaseFullSchema => {
 		settings: {
 			view: {
 				contentType: "image",
+			},
+			element: {
+				positionX: "center",
+				positionY: "bottom",
+				style: {
+					justifyContent: "flex-end",
+					alignItems: "center",
+				},
 			},
 		},
 	};
@@ -56,6 +72,14 @@ export const album_component_schema = (): IComponentBaseFullSchema => {
 			view: {
 				contentType: "image",
 			},
+			element: {
+				positionX: "center",
+				positionY: "bottom",
+				style: {
+					justifyContent: "flex-end",
+					alignItems: "center",
+				},
+			},
 		},
 	};
 };
@@ -74,6 +98,14 @@ export const album_outside_component_schema = (): IComponentBaseFullSchema => {
 		settings: {
 			view: {
 				contentType: "image",
+			},
+			element: {
+				positionX: "center",
+				positionY: "bottom",
+				style: {
+					justifyContent: "flex-end",
+					alignItems: "center",
+				},
 			},
 		},
 	};
@@ -97,6 +129,14 @@ export const video_component_schema = (): IComponentBaseFullSchema => {
 			view: {
 				contentType: "video",
 			},
+			element: {
+				positionX: "center",
+				positionY: "bottom",
+				style: {
+					justifyContent: "flex-end",
+					alignItems: "center",
+				},
+			},
 		},
 	};
 };
@@ -118,6 +158,14 @@ export const video_outside_component_schema = (): IComponentBaseFullSchema => {
 		settings: {
 			view: {
 				contentType: "video",
+			},
+			element: {
+				positionX: "center",
+				positionY: "bottom",
+				style: {
+					justifyContent: "flex-end",
+					alignItems: "center",
+				},
 			},
 		},
 	};

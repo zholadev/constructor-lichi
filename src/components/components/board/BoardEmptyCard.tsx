@@ -2,17 +2,12 @@ import React from "react";
 import { cn } from "@/components/lib/utils";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import {
-	ITemplateBaseSchema,
-} from "@/components/features/app/blocks/types/interface-components";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 interface Props {
-	currentItemData: {
-		id: string;
-		is_selected?: boolean;
-	};
-	template: ITemplateBaseSchema;
+	componentId: string;
+	containerData: ISchemaContainer;
 }
 
 /**
@@ -27,7 +22,7 @@ interface Props {
  * @constructor
  */
 const BoardEmptyCard: React.FC<Props> = (props) => {
-	const { currentItemData, template } = props;
+	const { componentId, containerData } = props;
 
 	const dialog = useDialogAction();
 
@@ -39,8 +34,8 @@ const BoardEmptyCard: React.FC<Props> = (props) => {
 		if (editorDisabledEdit) return;
 		dialog.dialogAddComponent.toggle();
 		editorSelectAddComponentAction({
-			item: currentItemData,
-			template,
+			componentId,
+			containerData,
 		});
 	};
 
@@ -52,7 +47,7 @@ const BoardEmptyCard: React.FC<Props> = (props) => {
 			)}
 			onClick={onClickHandle}
 		>
-			{currentItemData?.data?.type}
+			Выберите компонент
 		</div>
 	);
 };

@@ -2,10 +2,13 @@ import React from "react";
 import styles from "@/components/styles/card.module.sass";
 import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
 import BaseElementWrapper from "@/components/features/app/elements/container/BaseElementWrapper";
-import { IComponentCardSchema } from "../types/interface-components";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
+import { IComponentTotalDataSchema } from "../types/interface-components";
 
 interface Props {
-	data: IComponentCardSchema;
+	componentData: IComponentTotalDataSchema;
+	containerData: ISchemaContainer;
 	containerId: string;
 }
 
@@ -21,26 +24,18 @@ interface Props {
  * @constructor
  */
 const Album: React.FC<Props> = (props) => {
-	const { data, containerId } = props;
+	const { componentData, containerId, containerData } = props;
 
 	return (
-		<ComponentAction data={data} containerId={containerId}>
-			<div style={{ ...data.style }} className={styles.wrapper}>
-				<figure>
-					<img
-						src={data.content.photo.desktop?.url}
-						alt=""
-						className={styles.img}
-					/>
-				</figure>
+		<ComponentAction data={componentData} containerId={containerId}>
+			<div style={{ ...componentData.style }} className={styles.wrapper}>
+				<MediaContainer componentData={componentData} />
 
-				<div className={styles.content}>
-					<BaseElementWrapper
-						containerId={containerId}
-						elementData={data.elements}
-						componentData={data}
-					/>
-				</div>
+				<BaseElementWrapper
+					containerId={containerId}
+					elementData={componentData.elements}
+					componentData={componentData}
+				/>
 			</div>
 		</ComponentAction>
 	);

@@ -4,11 +4,11 @@ import ButtonElement from "@/components/features/app/elements/base/ButtonElement
 import TextElement from "@/components/features/app/elements/base/TextElement";
 import ElementAction from "@/components/features/app/components/actions/element/ElementAction";
 import TimerContainer from "@/components/features/app/elements/base/components/TimerContainer";
-import { IButtonElement, ITextElement } from "../types/interface-elements";
+import {IButtonElement, IElementTotal, ITextElement} from "../types/interface-elements";
 
 interface Props {
 	type: ElementBaseTypes;
-	data: IButtonElement | ITextElement;
+	data: IElementTotal;
 	containerId: string;
 	componentId: string;
 	timerData?: string | Date;

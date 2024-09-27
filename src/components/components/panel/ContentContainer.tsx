@@ -6,7 +6,12 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/shared/shadcn/ui/accordion";
-import { ImageIcon, Link1Icon, VideoIcon } from "@radix-ui/react-icons";
+import {
+	ImageIcon,
+	Link1Icon,
+	TextIcon,
+	VideoIcon,
+} from "@radix-ui/react-icons";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import ImageContent from "@/components/features/app/panel/content/ImageContent";
@@ -239,7 +244,7 @@ const ContentContainer: React.FC = () => {
 									"w-full flex flex-row items-center gap-2"
 								)}
 							>
-								<Link1Icon width={20} height={20} />
+								<TextIcon width={20} height={20} />
 								Text Fill
 							</div>
 						</AccordionTrigger>

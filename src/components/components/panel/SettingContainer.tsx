@@ -15,6 +15,7 @@ import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import TimerSetting from "@/components/features/app/panel/setting/TimerSetting";
+import ElementSetting from "@/components/features/app/panel/setting/ElementSetting";
 
 export type SettingTypes = "view" | "show" | "action" | "swiper";
 
@@ -42,7 +43,8 @@ const SettingContainer: React.FC = () => {
 			view: activeElementData?.data?.settings?.view || {},
 			show: activeElementData?.data?.settings?.show || {},
 			swiper: activeElementData?.data?.settings?.swiper || {},
-			timer: activeElementData?.data?.setting?.timer || {},
+			timer: activeElementData?.data?.settings?.timer || {},
+			element: activeElementData?.data?.settings?.element || {},
 		};
 	}, [activeElementData]);
 
@@ -63,6 +65,25 @@ const SettingContainer: React.FC = () => {
 			value={defaultExpanded}
 			onValueChange={(value: SettingTypes[]) => setExpanded(value)}
 		>
+			{permission.setting.element && (
+				<AccordionItem value="timer">
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Элемент</span>
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<ElementSetting
+							settingValue={settingDefaultData.element}
+							onSettingChange={(data) =>
+								updateContentHandle(data, "settings.element")
+							}
+						/>
+					</AccordionContent>
+				</AccordionItem>
+			)}
+
 			{permission.setting.view.root && (
 				<AccordionItem value="view">
 					<AccordionTrigger>

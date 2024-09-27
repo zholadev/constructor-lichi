@@ -1,9 +1,9 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { ITextElement } from "../types/interface-elements";
+import { IElementTotal } from "../types/interface-elements";
 
 interface Props {
-	data: ITextElement;
+	data: IElementTotal;
 }
 
 /**

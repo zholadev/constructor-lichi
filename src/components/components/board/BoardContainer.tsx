@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { cn } from "@/components/lib/utils";
 import {
 	ContextMenu,
@@ -11,10 +11,10 @@ import {
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import TemplateAddButton from "@/components/features/app/template/TemplateAddButton";
-import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import BaseComponentRender from "@/components/features/app/blocks/container/BaseComponentRender";
 import ContainerAction from "@/components/features/app/components/actions/container/ContainerAction";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 /**
  * @author Zholaman Zhumanov
@@ -22,7 +22,7 @@ import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElement
  * @description
  * @last-updated
  * @update-description
- * @todo refactoring, editor mode container
+ * @todo refactoring, editor mode container, delete console
  * @fixme
  * @constructor
  */
@@ -33,12 +33,15 @@ const BoardContainer: React.FC = () => {
 	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
 
 	const activeElementData = useActiveElementFollowUp();
-	console.log("spaceTemplateData", spaceTemplateData);
-	console.log("activeElementData", activeElementData);
+
+	useMemo(() => {
+		console.log("spaceTemplateData", spaceTemplateData);
+		console.log("activeElementData", activeElementData);
+	}, [spaceTemplateData, activeElementData]);
 
 	return (
 		<div className={cn("h-full overflow-y-auto")}>
-			{spaceTemplateData.map((container: ITemplateBaseSchema) => {
+			{spaceTemplateData.map((container: ISchemaContainer) => {
 				return (
 					<div key={container.id} className={cn("w-full relative")}>
 						{editorRemoveTemplate && (
@@ -65,14 +68,12 @@ const BoardContainer: React.FC = () => {
 												return (
 													<BaseComponentRender
 														key={component.id}
-														template={container}
-														data={component.data}
+														containerData={container}
+														componentData={component.data}
 														type={
 															component.data?.type
 														}
-														currentItemData={
-															component
-														}
+														componentId={component.id}
 													/>
 												);
 											}

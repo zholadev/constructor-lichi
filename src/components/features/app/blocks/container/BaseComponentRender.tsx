@@ -3,11 +3,8 @@
 import React from "react";
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import BoardEmptyCard from "@/components/components/board/BoardEmptyCard";
-import {
-	IComponentBaseSchema,
-	ITemplateBaseSchema,
-} from "@/components/shared/types/interface-templates";
 import { IComponentTotalDataSchema } from "@/components/features/app/blocks/types/interface-components";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import Video from "../base/Video";
 import Card from "../base/Card";
 import CardOutside from "../base/CardOutside";
@@ -15,13 +12,9 @@ import Album from "../base/Album";
 
 interface Props {
 	type: ComponentBaseTypes;
-	data: IComponentTotalDataSchema;
-	template: ITemplateBaseSchema;
-	componentData: {
-		id: string;
-		data?: IComponentBaseSchema;
-		is_selected?: boolean;
-	};
+	componentData: IComponentTotalDataSchema;
+	containerData: ISchemaContainer;
+	componentId: string;
 }
 
 /**
@@ -36,23 +29,47 @@ interface Props {
  * @constructor
  */
 const BaseComponentRender: React.FC<Props> = (props) => {
-	const { type, data, template, currentItemData } = props;
+	const { type, componentData, containerData, componentId } = props;
 
 	const renderComponents = () => {
 		switch (type) {
 			case "card":
-				return <Card data={data} containerId={template.id} />;
+				return (
+					<Card
+						componentData={componentData}
+						containerId={containerData.id}
+						containerData={containerData}
+					/>
+				);
 			case "card_outside":
-				return <CardOutside data={data} containerId={template.id} />;
+				return (
+					<CardOutside
+						componentData={componentData}
+						containerId={containerData.id}
+						containerData={containerData}
+					/>
+				);
 			case "album":
-				return <Album data={data} containerId={template.id} />;
+				return (
+					<Album
+						componentData={componentData}
+						containerId={containerData.id}
+						containerData={containerData}
+					/>
+				);
 			case "video":
-				return <Video data={data} containerId={template.id} />;
+				return (
+					<Video
+						componentData={componentData}
+						containerId={containerData.id}
+						containerData={containerData}
+					/>
+				);
 			default:
 				return (
 					<BoardEmptyCard
-						currentItemData={currentItemData}
-						template={template}
+						componentId={componentId}
+						containerData={containerData}
 					/>
 				);
 		}

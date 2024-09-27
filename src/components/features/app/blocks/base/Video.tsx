@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "@/components/styles/card.module.sass";
 import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
-import VideoRender from "@/components/components/video/VideoRender";
 import BaseElementWrapper from "@/components/features/app/elements/container/BaseElementWrapper";
-import { IComponentCardVideoSchema } from "../types/interface-components";
+import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import { IComponentTotalDataSchema } from "../types/interface-components";
 
 interface Props {
-	data: IComponentCardVideoSchema;
+	componentData: IComponentTotalDataSchema;
+	containerData: ISchemaContainer;
 	containerId: string;
 }
 
@@ -22,20 +24,18 @@ interface Props {
  * @constructor
  */
 const Video: React.FC<Props> = (props) => {
-	const { data, containerId } = props;
+	const { componentData, containerId, containerData } = props;
 
 	return (
-		<ComponentAction containerId={containerId} data={data}>
-			<div style={{ ...data.style }} className={styles.wrapper}>
-				<VideoRender data={data} />
+		<ComponentAction containerId={containerId} data={componentData}>
+			<div style={{ ...componentData.style }} className={styles.wrapper}>
+				<MediaContainer componentData={componentData} />
 
-				<div className={styles.content}>
-					<BaseElementWrapper
-						containerId={containerId}
-						elementData={data.elements}
-						componentData={data}
-					/>
-				</div>
+				<BaseElementWrapper
+					containerId={containerId}
+					elementData={componentData.elements}
+					componentData={componentData}
+				/>
 			</div>
 		</ComponentAction>
 	);

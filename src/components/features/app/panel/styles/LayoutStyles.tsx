@@ -19,7 +19,7 @@ import { Button } from "@/components/shared/shadcn/ui/button";
 
 type Display = "flex";
 
-type JustifyContent =
+export type JustifyContent =
 	| "flex-start"
 	| "flex-end"
 	| "center"
@@ -27,7 +27,12 @@ type JustifyContent =
 	| "space-around"
 	| "space-evenly";
 
-type AlignItems = "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
+export type AlignItems =
+	| "stretch"
+	| "flex-start"
+	| "flex-end"
+	| "center"
+	| "baseline";
 
 interface IStylesValues {
 	display: Display;

@@ -19,8 +19,8 @@ import {
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import BoardSortableItem from "@/components/components/board/BoardSortableItem";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { ITemplateBaseSchema } from "@/components/features/app/blocks/types/interface-components";
 import BaseComponentRender from "@/components/features/app/blocks/container/BaseComponentRender";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 /**
  * @author Zholaman Zhumanov
@@ -36,7 +36,7 @@ const BoardDraggingDisplay: React.FC = () => {
 	const { spaceTemplateDataAction } = useDispatchAction();
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
-	const [items, setItems] = useState<ITemplateBaseSchema[]>([]);
+	const [items, setItems] = useState<ISchemaContainer[]>([]);
 
 	useEffect(() => {
 		setItems(spaceTemplateData || []);
@@ -74,19 +74,19 @@ const BoardDraggingDisplay: React.FC = () => {
 				items={items.map((item) => item.id)}
 				strategy={verticalListSortingStrategy}
 			>
-				{items.map((template) => (
+				{items.map((container) => (
 					<BoardSortableItem
-						id={template.id}
-						key={template.id}
-						styles={template.style}
+						id={container.id}
+						key={container.id}
+						styles={container.style}
 					>
-						{template.components.map((item) => (
+						{container.components.map((component) => (
 							<BaseComponentRender
-								key={item.id}
-								data={item?.data}
-								template={template}
-								type={item.data?.type}
-								currentItemData={item}
+								key={component.id}
+								containerData={container}
+								componentData={component.data}
+								type={component.data?.type}
+								componentId={component.id}
 							/>
 						))}
 					</BoardSortableItem>

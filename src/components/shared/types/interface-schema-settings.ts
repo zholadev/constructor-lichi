@@ -7,6 +7,8 @@ export interface ISchemaSettingsView {
 }
 
 export type SchemaShowSiteType = "base" | "retail" | "all";
+export type SchemaSettingElementPositionX = "left" | "right" | "center";
+export type SchemaSettingElementPositionY = "top" | "bottom" | "center";
 
 export interface IShowSiteType {
 	id: number;
@@ -23,7 +25,17 @@ export interface ISchemaSettingsTimer {
 	targetTime: string | Date;
 }
 
+export interface ISchemaSettingsElement {
+	positionX: SchemaSettingElementPositionX;
+	positionY: SchemaSettingElementPositionY;
+	style: {
+		justifyContent: string;
+		alignItems: string;
+	};
+}
+
 export interface ISchemaSettings {
 	view: ISchemaSettingsView;
 	show: SchemaShowSiteType;
+	element: ISchemaSettingsElement;
 }

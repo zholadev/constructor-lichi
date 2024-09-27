@@ -4,10 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { versionTemplate } from "@/components/app/versions/version-modules";
-import {
-	IComponentBaseSchema,
-	ITemplateBaseSchema,
-} from "@/components/shared/types/interface-templates";
+import { IComponentBaseSchema } from "@/components/shared/types/interface-templates";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import { IComponentBaseFullSchema } from "@/components/features/app/blocks/types/interface-components";
 
 interface ITemplateEvent {
 	create: (
@@ -44,18 +43,16 @@ export default function useTemplateEvent(): ITemplateEvent {
 		(state) => state.editor
 	);
 
-	const addComponent = (updateData: IComponentBaseSchema) => {
+	const addComponent = (updateData: IComponentBaseFullSchema) => {
 		const selected = editorSelectAddComponent;
-
-		const data = spaceTemplateData.map((container: ITemplateBaseSchema) => {
-			if (container.id === selected.template.id) {
+		const data = spaceTemplateData.map((container: ISchemaContainer) => {
+			if (container.id === selected.containerData.id) {
 				return {
 					...container,
 					components: container.components.map((component) => {
-						if (component.id === selected.item.id) {
+						if (component.id === selected.componentId) {
 							return {
 								...component,
-								is_selected: true,
 								data: updateData,
 							};
 						}
@@ -100,14 +97,12 @@ export default function useTemplateEvent(): ITemplateEvent {
 		const createChildren = () =>
 			Array.from({ length: countColumn }, () => ({
 				id: uuidv4(),
-				data: {
-					type: "notSelected",
-				},
-				is_selected: false,
+				data: [],
 			}));
 
-		const newTemplate = {
+		const newTemplate: ISchemaContainer = {
 			id: uuidv4(),
+			guid: uuidv4(),
 			type: "container",
 			version: versionTemplate.version,
 			style: generateStyles(),
@@ -130,7 +125,7 @@ export default function useTemplateEvent(): ITemplateEvent {
 		}
 
 		const filteredRemovedData = spaceTemplateData.filter(
-			(item: ITemplateBaseSchema) => item.id !== id
+			(item: ISchemaContainer) => item.id !== id
 		);
 		spaceTemplateDataAction(filteredRemovedData);
 		toggleEditorRemoveTemplateHandle();

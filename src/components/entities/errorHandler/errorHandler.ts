@@ -10,6 +10,7 @@ export const errorHandler = (
 	page?: string,
 	event?: string,
 	error?: unknown
-): void => {
-	return console.error(page, event, error);
+): null => {
+	console.error(page, event, error);
+	return null;
 };

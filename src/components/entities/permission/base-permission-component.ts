@@ -57,6 +57,7 @@ export const basePermissionComponent: IPermission = {
 		image: true,
 		video: true,
 		link: true,
+		textFill: false,
 	},
 	setting: {
 		show: {
@@ -77,5 +78,7 @@ export const basePermissionComponent: IPermission = {
 		swiper: {
 			root: false,
 		},
+		element: true,
+		timer: false,
 	},
 };

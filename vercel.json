@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "www-authenticate": "Basic realm=\"Protected\""
+      },
+      "dest": "/index.html",
+      "methods": ["GET", "POST"],
+      "status": 401,
+      "continue": true,
+      "check": {
+        "type": "header",
+        "value": "NODE_ENV",
+        "equals": "production"
+      }
+    }
+  ]
+}

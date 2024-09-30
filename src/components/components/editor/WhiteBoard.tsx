@@ -8,6 +8,7 @@ import BoardDisplay from "@/components/components/board/BoardDisplay";
 import BoardToolbar from "@/components/components/board/BoardToolbar";
 import BoardDraggingDisplay from "@/components/components/board/BoardDraggingDisplay";
 import HeaderModeView from "@/components/components/board/HeaderModeView";
+import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 
 /**
  * @author Zholaman Zhumanov
@@ -26,6 +27,8 @@ const WhiteBoard: React.FC = () => {
 
 	const { editorDraggingTemplate } = useAppSelector((state) => state.editor);
 
+	const styleFormatted = useStylesFormatted();
+
 	if (spaceTemplateApiLoading) {
 		return (
 			<div
@@ -43,12 +46,18 @@ const WhiteBoard: React.FC = () => {
 	return (
 		<div
 			className={cn("bg-secondary p-2 h-screen relative")}
-			style={{ width: "calc(100% - 800px)" }}
+			style={{ width: "calc(100% - 700px)" }}
 		>
 			<BoardToolbar />
-			{spaceTemplateData.length > 0 && <HeaderModeView />}
+			{/*{spaceTemplateData.length > 0 && <HeaderModeView />}*/}
 			<div
-				style={{ height: "calc(100vh - 50px)" }}
+				style={{
+					...styleFormatted({
+						height: "calc(100vh - 50px)",
+						backgroundColor: "#ffffff",
+						backgroundColorDark: "rgb(24, 26, 27)",
+					}),
+				}}
 				className={cn("overflow-y-auto")}
 			>
 				{editorDraggingTemplate ? (

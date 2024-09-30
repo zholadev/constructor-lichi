@@ -87,7 +87,7 @@ const PanelContent: React.FC = () => {
 					<TabsContent
 						value="settings"
 						className={cn("overflow-y-auto")}
-						style={{ height: "calc(100vh - 100px)" }}
+						style={{ height: "calc(100vh - 120px)" }}
 					>
 						<SettingContainer />
 					</TabsContent>

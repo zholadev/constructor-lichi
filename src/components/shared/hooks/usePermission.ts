@@ -105,7 +105,7 @@ export const basePermission: IPermission = {
  * @fixme
  * @constructor
  */
-export default function usePermission(): () => IPermission {
+export default function usePermission(): IPermission {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	const activeElementData = useActiveElementFollowUp();

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useMemo } from "react";
 import {
 	Accordion,
@@ -122,20 +124,6 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.action.root && (
-				<AccordionItem value="action">
-					<AccordionTrigger>
-						<div className={cn("flex items-center gap-1")}>
-							<LayoutIcon width={13} height={13} />
-							<span style={{ fontSize: "13px" }}>Событие</span>
-						</div>
-					</AccordionTrigger>
-					<AccordionContent>
-						<ActionSetting />
-					</AccordionContent>
-				</AccordionItem>
-			)}
-
 			{permission.setting.swiper.root && (
 				<AccordionItem value="swiper">
 					<AccordionTrigger>
@@ -151,6 +139,20 @@ const SettingContainer: React.FC = () => {
 								updateContentHandle(data, "settings.swiper")
 							}
 						/>
+					</AccordionContent>
+				</AccordionItem>
+			)}
+
+			{permission.setting.action.root && (
+				<AccordionItem value="action">
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Событие</span>
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<ActionSetting />
 					</AccordionContent>
 				</AccordionItem>
 			)}

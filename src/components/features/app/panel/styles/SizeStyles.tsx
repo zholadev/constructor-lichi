@@ -10,6 +10,7 @@ import { Button } from "@/components/shared/shadcn/ui/button";
 interface IStyleValues {
 	width: number;
 	height: number;
+	widthFull: boolean;
 }
 
 type StyleKeys = keyof IStyleValues;
@@ -45,6 +46,7 @@ const SizeStyles: React.FC<Props> = (props) => {
 	const [sizeValues, setSizeValues] = useState<IStyleValues>({
 		width: 0,
 		height: 0,
+		widthFull: false,
 	});
 
 	/**
@@ -88,7 +90,11 @@ const SizeStyles: React.FC<Props> = (props) => {
 
 	const removeBorderStyles = () => {
 		if (onStyleChange) {
-			onStyleChange({}, ["style.height", "style.width"], "removeKey");
+			onStyleChange(
+				{},
+				["style.height", "style.width", "styles.widthFull"],
+				"removeKey"
+			);
 		}
 	};
 
@@ -118,10 +124,15 @@ const SizeStyles: React.FC<Props> = (props) => {
 	 * @description Назначаем дефолтные настройки
 	 */
 	useEffect(() => {
-		setSizeValues({
-			width: styles?.width ? parseFloat(styles.width.toString()) : 0,
-			height: styles?.height ? parseFloat(styles.height.toString()) : 0,
-		});
+		if (styles) {
+			setSizeValues({
+				width: styles?.width ? parseFloat(styles.width.toString()) : 0,
+				height: styles?.height
+					? parseFloat(styles.height.toString())
+					: 0,
+				widthFull: !styles?.width,
+			});
+		}
 	}, [styles]);
 
 	return (
@@ -143,9 +154,51 @@ const SizeStyles: React.FC<Props> = (props) => {
 				</div>
 			</div>
 
-			{permission.styles.size.width && <SizeInput size="width"/>}
+			{permission.styles.size.width && (
+				<div
+					className={cn(
+						"w-full grid grid-cols-3 items-center gap-4 p-1"
+					)}
+				>
+					<Label
+						className={cn("uppercase")}
+						style={{ fontSize: "10px" }}
+					>
+						Width
+					</Label>
+					<Input
+						className={cn("col-span-2")}
+						value={sizeValues.width}
+						type="number"
+						onChange={(e) => {
+							onChangeSizeHandle(e.target.value, "width");
+						}}
+					/>
+				</div>
+			)}
 
-			{permission.styles.size.height && <SizeInput size="height"/>}
+			{permission.styles.size.height && (
+				<div
+					className={cn(
+						"w-full grid grid-cols-3 items-center gap-4 p-1"
+					)}
+				>
+					<Label
+						className={cn("uppercase")}
+						style={{ fontSize: "10px" }}
+					>
+						Height
+					</Label>
+					<Input
+						className={cn("col-span-2")}
+						value={sizeValues.height}
+						type="number"
+						onChange={(e) => {
+							onChangeSizeHandle(e.target.value, "height");
+						}}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

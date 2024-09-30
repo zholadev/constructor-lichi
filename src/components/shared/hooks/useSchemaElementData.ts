@@ -1,9 +1,5 @@
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
-import {
-	IElementSchema,
-	IElementTotal,
-	ITimerElement,
-} from "@/components/features/app/elements/types/interface-elements";
+import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
@@ -14,41 +10,51 @@ import {
 	timer_schema_element,
 } from "@/components/entities/schema/schema-base-elements";
 
+interface LanguageObject {
+	[key: string]: { value: string };
+}
+
 /**
  * @author Zholaman Zhumanov
  * @created 03.09.2024
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo TS-IGNORE
  * @fixme
  * @constructor
  */
-export default function useSchemaElementData(): IElementSchema | ITimerElement {
+export default function useSchemaElementData(): (
+	type: ElementBaseTypes
+) => IElementTotal | null {
 	const toastMessage = useToastMessage();
 
 	const { languageData } = useAppSelector((state) => state.app);
 
-	const languageObject = useMemo(() => {
-		try {
-			return languageData.reduce(
-				(acc, lang) => {
-					acc[lang.id] = { value: lang.name };
-					return acc;
-				},
-				{} as Record<string, { value: string }>
+	const languageObject = useMemo<LanguageObject>(() => {
+		if (!Array.isArray(languageData)) {
+			errorHandler(
+				"useSchemaElementData",
+				"languageObject",
+				new Error("Invalid languageData format")
 			);
-		} catch (error) {
-			if (error instanceof Error) {
-				errorHandler("useSchemaElementData", "languageObject", error);
-			}
+			return {};
 		}
+
+		return languageData.reduce<Record<string, { value: string }>>(
+			(acc, lang) => {
+				acc[lang.id] = { value: lang.name };
+				return acc;
+			},
+			{}
+		);
 	}, [languageData]);
 
 	const elementMap: Record<ElementBaseTypes, IElementTotal> = {
 		button: {
 			...button_schema_element(),
 			content: {
+				// @ts-ignore
 				title: {
 					...languageObject,
 				},
@@ -57,6 +63,7 @@ export default function useSchemaElementData(): IElementSchema | ITimerElement {
 		text: {
 			...text_schema_element(),
 			content: {
+				// @ts-ignore
 				title: {
 					...languageObject,
 				},
@@ -67,10 +74,10 @@ export default function useSchemaElementData(): IElementSchema | ITimerElement {
 		},
 	};
 
-	return function (type: ElementBaseTypes): IElementTotal | undefined {
+	return (type: ElementBaseTypes): IElementTotal | null => {
 		if (!type || !elementMap[type]) {
 			toastMessage("Не найдено тип данных или отсутствует тип!", "error");
-			return undefined;
+			return null;
 		}
 
 		return elementMap[type];

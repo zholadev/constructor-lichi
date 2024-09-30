@@ -73,7 +73,7 @@ export default function useActiveElementFollowUp(): IActiveElementFollowUp {
 						? foundElement?.style
 						: type === "container"
 							? foundContainerData?.style
-							: null;
+							: {};
 
 			return {
 				type,

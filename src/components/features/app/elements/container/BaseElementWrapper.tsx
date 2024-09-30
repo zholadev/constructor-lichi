@@ -9,7 +9,7 @@ interface Props {
 	containerId: string;
 	elementData: IElementTotal[];
 	componentData: IComponentTotalDataSchema;
-	staticElement: boolean;
+	staticElement?: boolean;
 }
 
 /**

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IActiveElement } from "@/components/shared/types/interface-editor";
+import { ComponentType } from "@/components/shared/types/types";
 
 interface stateSlice {
 	editorSelectElement: unknown;
@@ -13,6 +14,7 @@ interface stateSlice {
 	editorPreviewMode: boolean;
 	editorRemoveTemplate: boolean;
 	editorNavigatorHoverId: string | null;
+	editorAddComponentType: ComponentType;
 }
 
 const initialState: stateSlice = {
@@ -26,6 +28,7 @@ const initialState: stateSlice = {
 	editorPreviewMode: false,
 	editorRemoveTemplate: false,
 	editorNavigatorHoverId: null,
+	editorAddComponentType: "base",
 };
 
 export const editorSlice = createSlice({
@@ -80,6 +83,12 @@ export const editorSlice = createSlice({
 		) => {
 			state.editorNavigatorHoverId = action.payload;
 		},
+		editorAddComponentTypeReducer: (
+			state,
+			action: PayloadAction<ComponentType>
+		) => {
+			state.editorAddComponentType = action.payload;
+		},
 	},
 });
 
@@ -94,5 +103,6 @@ export const {
 	editorPreviewModeReducer,
 	editorRemoveTemplateReducer,
 	editorNavigatorHoverIdReducer,
+	editorAddComponentTypeReducer,
 } = editorSlice.actions;
 export default editorSlice.reducer;

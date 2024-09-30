@@ -91,6 +91,8 @@ export default function useTemplateEvent(): ITemplateEvent {
 					? createTemplateColumns()
 					: undefined,
 				margin: "0 0 2px 0",
+				backgroundColor: "#ffffff",
+				backgroundColorDark: "rgb(24, 26, 27)",
 			};
 		};
 

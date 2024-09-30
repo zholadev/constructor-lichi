@@ -9,8 +9,6 @@ import {
 import ElementContentWrapper from "@/components/components/elements/ElementContentWrapper";
 import { cn } from "@/components/lib/utils";
 
-interface Props {}
-
 interface ISpecialElementData {
 	id: number;
 	name: string;
@@ -33,12 +31,9 @@ const specialElementData: ISpecialElementData[] = [
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const ElementSpecialContainer: React.FC<Props> = (props) => {
-	const {} = props;
-
+const ElementSpecialContainer: React.FC = () => {
 	return (
 		<Accordion type="single" collapsible className="w-full">
 			<AccordionItem value="item-1">

@@ -3,6 +3,7 @@ import { cn } from "@/components/lib/utils";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useSchemaElementData from "@/components/shared/hooks/useSchemaElementData";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 interface Props {
 	children: ReactNode;
@@ -23,6 +24,8 @@ interface Props {
 const ElementContentWrapper: React.FC<Props> = (props) => {
 	const { children, type } = props;
 
+	const toastMessage = useToastMessage();
+
 	const editorEvent = useEditorEvent();
 	const getElementSchema = useSchemaElementData();
 
@@ -34,6 +37,12 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 			onClick={() => {
 				if (!type) return;
 				const element = getElementSchema(type);
+
+				if (!element) {
+					toastMessage("Не удалось найти схему!", "error");
+					return;
+				}
+
 				editorEvent.addElement(element);
 			}}
 		>

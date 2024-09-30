@@ -9,7 +9,7 @@ import WhiteBoard from "@/components/components/editor/WhiteBoard";
 import PanelContent from "@/components/features/app/panel/container/PanelContent";
 import DialogCreateDirectory from "@/components/widgets/gallery/dialog/DialogCreateDirectory";
 import DialogUploadFile from "@/components/widgets/gallery/dialog/DialogUploadFile";
-import TemplateAddDialog from "@/components/features/app/template/TemplateAddDialog";
+import TemplateAddDialog from "@/components/features/app/ContainerTemplate/TemplateAddDialog";
 import DialogContainer from "@/components/widgets/dialog/DialogContainer";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import AddBaseComponent from "@/components/features/app/components/add/AddBaseComponent";
@@ -34,7 +34,7 @@ const SpacePageContainer: React.FC = () => {
 		<>
 			<HeaderToolbar title={spaceTemplateActionData?.name} />
 
-			<div className={cn("flex flex-row")}>
+			<div className={cn("flex flex-row relative")}>
 				<PanelComponent />
 				<WhiteBoard />
 				<PanelContent />
@@ -44,7 +44,7 @@ const SpacePageContainer: React.FC = () => {
 				open={dialog.dialogAddComponent.open}
 				toggle={dialog.dialogAddComponent.toggle}
 			>
-				<AddBaseComponent eventType={"new"}/>
+				<AddBaseComponent eventType="new" />
 			</DialogContainer>
 
 			<DialogCreateDirectory />

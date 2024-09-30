@@ -37,6 +37,7 @@ interface Content {
 	photo?: Record<string, unknown>;
 	link?: Record<string, unknown>;
 	video?: Record<string, unknown>;
+	title?: Record<string, unknown>;
 }
 
 const accessTypes: AccessTypes[] = ["video", "photo", "link"];

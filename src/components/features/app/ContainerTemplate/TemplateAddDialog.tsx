@@ -35,6 +35,7 @@ const TemplateAddDialog: React.FC = () => {
 	const templateEvent = useTemplateEvent();
 
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
+	const { editorAddComponentType } = useAppSelector((state) => state.editor);
 
 	const [blockType, setBlockType] = React.useState<BlockType>("initial");
 	const [countColumn, setCountColumn] = React.useState<number>(1);
@@ -115,6 +116,7 @@ const TemplateAddDialog: React.FC = () => {
 						</Button>
 					</div>
 
+					{/* {editorAddComponentType === "base" && ( */}
 					<div
 						className={cn(
 							"w-full flex flex-row gap-2 items-center"
@@ -147,6 +149,7 @@ const TemplateAddDialog: React.FC = () => {
 							}}
 						/>
 					</div>
+					{/* )} */}
 				</div>
 
 				<DialogFooter>

@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { versionElementBase } from "@/components/app/versions/version-modules";
 import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
 import { getFormattedDateSixDaysAhead } from "@/components/shared/utils/utils";
+import { defaultStyles } from "@/components/entities/defStyles/def_styles";
 
 export const button_schema_element = (): IElementTotal => {
 	return {
@@ -10,10 +11,7 @@ export const button_schema_element = (): IElementTotal => {
 		type: "button",
 		version: versionElementBase.button.version,
 		style: {
-			border: "1px solid #ffffff",
-			padding: "10px 15px",
-			textAlign: "center",
-			color: "#ffffff",
+			...defaultStyles.ELEMENT.button,
 		},
 	};
 };
@@ -25,8 +23,7 @@ export const text_schema_element = (): IElementTotal => {
 		type: "text",
 		version: versionElementBase.text.version,
 		style: {
-			textAlign: "center",
-			fontFamily: "Futura PT",
+			...defaultStyles.ELEMENT.text,
 		},
 	};
 };
@@ -38,8 +35,7 @@ export const timer_schema_element = (): IElementTotal => {
 		type: "timer",
 		version: versionElementBase.timer.version,
 		style: {
-			textAlign: "center",
-			fontFamily: "Futura PT",
+			...defaultStyles.ELEMENT.timer,
 		},
 		settings: {
 			timer: {

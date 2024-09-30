@@ -7,53 +7,53 @@ import { Button } from "@/components/shared/shadcn/ui/button";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import useSchemaComponentData from "@/components/shared/hooks/useSchemaComponentData";
-import { IComponentBaseList } from "@/components/shared/types/interface-templates";
+import {
+	IComponentBaseAddList,
+	IComponentSpecialAddList,
+} from "@/components/shared/types/interface-templates";
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
-const baseData: IComponentBaseList[] = [
+const baseData: IComponentBaseAddList[] = [
 	{
 		id: 1,
 		type: "card",
 		version: versionComponentBase.card.version,
-		style: {},
-		elements: [],
 	},
 	{
 		id: 2,
 		type: "card_outside",
 		version: versionComponentBase.card_outside.version,
-		style: {},
-		elements: [],
 	},
 	{
 		id: 5,
 		type: "album",
 		version: versionComponentBase.album.version,
-		style: {},
-		elements: [],
 	},
 	{
 		id: 6,
 		type: "album_outside",
 		version: versionComponentBase.album_outside.version,
-		style: {},
-		elements: [],
 	},
 	{
 		id: 7,
 		type: "video",
 		version: versionComponentBase.video.version,
-		style: {},
-		elements: [],
 	},
 	{
 		id: 8,
 		type: "video_outside",
 		version: versionComponentBase.video_outside.version,
-		style: {},
-		elements: [],
+	},
+];
+
+const specialData: IComponentSpecialAddList[] = [
+	{
+		id: 1,
+		type: "saint_laurent",
+		version: versionComponentBase.card.version,
 	},
 ];
 
@@ -83,6 +83,8 @@ const AddBaseComponent: React.FC<IAddBaseComponent> = (props) => {
 
 	const getSchemaComponent = useSchemaComponentData();
 
+	const { editorAddComponentType } = useAppSelector((state) => state.editor);
+
 	const [selectComponent, setSelectComponent] =
 		useState<ComponentBaseTypes | null>(null);
 
@@ -98,28 +100,53 @@ const AddBaseComponent: React.FC<IAddBaseComponent> = (props) => {
 
 			<Divider spacing="large" />
 
-			<ul className={cn("p-0 m-0 list-none grid grid-cols-3 gap-2")}>
-				{baseData.map((component) => {
-					return (
-						<li key={component.id}>
-							<Button
-								variant="outline"
-								onClick={() =>
-									getSelectComponent(component.type)
-								}
-								className={cn(
-									"w-full h-[150px]",
-									selectComponent === component.type
-										? "border-blue-500"
-										: ""
-								)}
-							>
-								{component.type}
-							</Button>
-						</li>
-					);
-				})}
-			</ul>
+			{editorAddComponentType === "special" ? (
+				<ul className={cn("p-0 m-0 list-none grid grid-cols-3 gap-2")}>
+					{specialData.map((component) => {
+						return (
+							<li key={component.id}>
+								<Button
+									variant="outline"
+									onClick={() =>
+										getSelectComponent(component.type)
+									}
+									className={cn(
+										"w-full h-[150px]",
+										selectComponent === component.type
+											? "border-blue-500"
+											: ""
+									)}
+								>
+									{component.type}
+								</Button>
+							</li>
+						);
+					})}
+				</ul>
+			) : (
+				<ul className={cn("p-0 m-0 list-none grid grid-cols-3 gap-2")}>
+					{baseData.map((component) => {
+						return (
+							<li key={component.id}>
+								<Button
+									variant="outline"
+									onClick={() =>
+										getSelectComponent(component.type)
+									}
+									className={cn(
+										"w-full h-[150px]",
+										selectComponent === component.type
+											? "border-blue-500"
+											: ""
+									)}
+								>
+									{component.type}
+								</Button>
+							</li>
+						);
+					})}
+				</ul>
+			)}
 
 			<div
 				className={cn(

@@ -4,27 +4,26 @@ import { ImageIcon, PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { ComponentType } from "@/components/shared/types/types";
 
 interface Props {}
-
-type BlockType = "block" | "swiper" | "video" | "stories";
 
 interface IBlockData {
 	id: number;
 	name: string;
-	type: BlockType;
+	type: ComponentType;
 }
 
 const blocks: IBlockData[] = [
 	{
 		id: 1,
 		name: "Saint Laurent",
-		type: "block",
+		type: "special",
 	},
 	{
 		id: 2,
 		name: "Category List",
-		type: "block",
+		type: "special",
 	},
 ];
 
@@ -42,7 +41,8 @@ const blocks: IBlockData[] = [
 const BlockContainer: React.FC<Props> = (props) => {
 	const {} = props;
 
-	const { dialogAddTemplateAction } = useDispatchAction();
+	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
+		useDispatchAction();
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 
 	const toggleDialogAddTemplateHandle = () =>
@@ -56,7 +56,10 @@ const BlockContainer: React.FC<Props> = (props) => {
 				className={cn(
 					"flex flex-col mb-10 w-[120px] h-[140px] hover:text-green-500 "
 				)}
-				onClick={toggleDialogAddTemplateHandle}
+				onClick={() => {
+					editorAddComponentTypeAction("base");
+					toggleDialogAddTemplateHandle();
+				}}
 			>
 				<ImageIcon
 					width={40}
@@ -67,6 +70,7 @@ const BlockContainer: React.FC<Props> = (props) => {
 			</Button>
 
 			<h3 className={cn("text-sm uppercase mb-4")}>Special</h3>
+
 			<div
 				className={cn(
 					"grid grid-cols-2 gap-2 overflow-y-auto overflow-x-hidden"
@@ -80,7 +84,10 @@ const BlockContainer: React.FC<Props> = (props) => {
 							className={cn(
 								"flex flex-col mb-5 h-[140px] hover:text-green-500 "
 							)}
-							onClick={toggleDialogAddTemplateHandle}
+							onClick={() => {
+								editorAddComponentTypeAction(block.type);
+								toggleDialogAddTemplateHandle();
+							}}
 						>
 							<span className={cn("text-xs uppercase mb-3")}>
 								{block.name}

@@ -4,6 +4,7 @@ import ComponentAction from "@/components/features/app/components/actions/compon
 import BaseElementWrapper from "@/components/features/app/elements/container/BaseElementWrapper";
 import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import { IComponentTotalDataSchema } from "../types/interface-components";
 
 interface Props {
@@ -26,9 +27,14 @@ interface Props {
 const Video: React.FC<Props> = (props) => {
 	const { componentData, containerId, containerData } = props;
 
+	const styleFormatted = useStylesFormatted();
+
 	return (
 		<ComponentAction containerId={containerId} data={componentData}>
-			<div style={{ ...componentData.style }} className={styles.wrapper}>
+			<div
+				style={{ ...styleFormatted(componentData.style) }}
+				className={styles.wrapper}
+			>
 				<MediaContainer componentData={componentData} />
 
 				<BaseElementWrapper

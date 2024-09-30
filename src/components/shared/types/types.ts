@@ -19,6 +19,7 @@ export type ActiveElementType =
 	| "none";
 
 export type ImageType = "card" | "album";
+export type ComponentType = "base" | "special";
 
 export type TotalComponentTypes =
 	| IComponentCardSchema

@@ -15,7 +15,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo Removed // @ts-ignore
  * @fixme
  * @param props
  * @constructor
@@ -25,6 +25,7 @@ const TimerContainer: React.FC<Props> = (props) => {
 
 	const [targetDateState, setTargetDateState] = useState<string | Date>();
 
+	// @ts-ignore
 	const { countdownTime } = useTimerCountdown(targetDateState);
 
 	useEffect(() => {

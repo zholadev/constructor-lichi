@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import BoardDisplay from "@/components/components/board/BoardDisplay";
 import BoardToolbar from "@/components/components/board/BoardToolbar";
 import BoardDraggingDisplay from "@/components/components/board/BoardDraggingDisplay";
+import HeaderModeView from "@/components/components/board/HeaderModeView";
 
 /**
  * @author Zholaman Zhumanov
@@ -19,7 +20,9 @@ import BoardDraggingDisplay from "@/components/components/board/BoardDraggingDis
  * @constructor
  */
 const WhiteBoard: React.FC = () => {
-	const { spaceTemplateApiLoading } = useAppSelector((state) => state.space);
+	const { spaceTemplateApiLoading, spaceTemplateData } = useAppSelector(
+		(state) => state.space
+	);
 
 	const { editorDraggingTemplate } = useAppSelector((state) => state.editor);
 
@@ -38,8 +41,9 @@ const WhiteBoard: React.FC = () => {
 	}
 
 	return (
-		<div className={cn("w-full bg-secondary p-2 h-screen")}>
+		<div className={cn("w-full bg-secondary p-2 h-screen relative")}>
 			<BoardToolbar />
+			{spaceTemplateData.length > 0 && <HeaderModeView />}
 			<div
 				style={{ height: "calc(100vh - 50px)" }}
 				className={cn("overflow-y-auto")}

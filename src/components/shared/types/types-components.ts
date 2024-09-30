@@ -1,8 +1,6 @@
 export type ComponentBaseTypes =
 	| "card"
 	| "card_outside"
-	| "card_outside_left"
-	| "card_outside_right"
 	| "album"
 	| "album_outside"
 	| "video"

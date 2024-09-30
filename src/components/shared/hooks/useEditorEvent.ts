@@ -3,9 +3,10 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
-import { CSSProperties } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
 
 type UpdateContentKeys =
 	| "content"
@@ -16,7 +17,7 @@ type UpdateContentKeys =
 	| "container";
 
 interface IEditorEvent {
-	addElement: (type: string) => void;
+	addElement: (data: IElementTotal) => void;
 	updateComponent: (
 		data: unknown,
 		type: UpdateContentKeys,
@@ -27,37 +28,6 @@ interface IEditorEvent {
 	removeEvent: () => void;
 	appendComponent: (data: unknown) => void;
 }
-
-const borderKeys = [
-	"border",
-	"borderLeft",
-	"borderTop",
-	"borderBottom",
-	"borderRight",
-];
-
-const updateBorderStyles = (
-	styles: CSSProperties,
-	newBorderStyle: CSSProperties
-): CSSProperties => {
-	// Получаем ключ новой границы (например, 'borderLeft')
-	const newBorder = Object.keys(newBorderStyle)[0];
-
-	// Создаем копию объекта стилей
-	const updatedStyles = { ...styles };
-
-	// Удаляем все остальные border стили, кроме переданного newBorder
-	borderKeys.forEach((key) => {
-		if (key !== newBorder) {
-			delete updatedStyles[key];
-		}
-	});
-
-	// Добавляем или обновляем значение для переданного newBorder
-	updatedStyles[newBorder] = newBorderStyle[newBorder];
-
-	return updatedStyles;
-};
 
 /**
  * @author Zholaman Zhumanov
@@ -83,7 +53,7 @@ export default function useEditorEvent(): IEditorEvent {
 	 * @description Метод для добавления элемента в компонент
 	 * @param data
 	 */
-	const addElement = (data: unknown) => {
+	const addElement = (data: IElementTotal) => {
 		try {
 			if (!data) {
 				toastMessage(
@@ -104,7 +74,7 @@ export default function useEditorEvent(): IEditorEvent {
 			}
 
 			const newBuildData = spaceTemplateData.map(
-				(container: ITemplateBaseSchema) => {
+				(container: ISchemaContainer) => {
 					if (container.id === editorActiveElement.containerId) {
 						return {
 							...container,
@@ -116,7 +86,6 @@ export default function useEditorEvent(): IEditorEvent {
 									) {
 										return {
 											...component,
-											is_selected: true,
 											data: {
 												...component.data,
 												elements: [
@@ -143,7 +112,7 @@ export default function useEditorEvent(): IEditorEvent {
 		}
 	};
 
-	const appendComponent = (data: unknown): ITemplateBaseSchema[] | void => {
+	const appendComponent = (data: unknown): ISchemaContainer[] | void => {
 		try {
 			if (!data) {
 				toastMessage(
@@ -174,7 +143,6 @@ export default function useEditorEvent(): IEditorEvent {
 								data: {
 									...data,
 								},
-								is_selected: true,
 							},
 						];
 
@@ -219,7 +187,7 @@ export default function useEditorEvent(): IEditorEvent {
 		}
 
 		const filteredRemovedData = spaceTemplateData.filter(
-			(item: ITemplateBaseSchema) =>
+			(item: ISchemaContainer) =>
 				item.id !== activeElementData?.containerId
 		);
 		spaceTemplateDataAction(filteredRemovedData);
@@ -239,7 +207,7 @@ export default function useEditorEvent(): IEditorEvent {
 		}
 
 		const filteredRemovedData = spaceTemplateData
-			.map((container: ITemplateBaseSchema) => {
+			.map((container: ISchemaContainer) => {
 				if (container.id === activeElementData.containerId) {
 					// Удаляем нужный компонент
 					const filteredComponents = container.components.filter(
@@ -269,7 +237,7 @@ export default function useEditorEvent(): IEditorEvent {
 				}
 				return container;
 			})
-			.filter((container) => container !== null); // Удаляем все контейнеры, которые были помечены как null
+			.filter((container: ISchemaContainer) => container !== null); // Удаляем все контейнеры, которые были помечены как null
 
 		toastMessage("Компонент успешно удален", "success");
 		spaceTemplateDataAction(filteredRemovedData);
@@ -297,7 +265,6 @@ export default function useEditorEvent(): IEditorEvent {
 							if (component.data.id === activeElementData?.id) {
 								return {
 									...component,
-									is_selected: true,
 									data: {
 										...component.data,
 										elements:
@@ -359,9 +326,9 @@ export default function useEditorEvent(): IEditorEvent {
 
 	// Функция для обновления объекта по заданному пути (string)
 	function updateObjectByPath(
-		obj,
-		path,
-		value,
+		obj: Record<string, unknown>,
+		path: string,
+		value: unknown,
 		save = false,
 		remove = false
 	) {
@@ -442,14 +409,14 @@ export default function useEditorEvent(): IEditorEvent {
 		}
 	}
 
-	function deleteMultiplePaths(obj: any, paths: string[]) {
+	function deleteMultiplePaths(obj: any, paths: striung | string[]) {
 		paths.forEach((path) => {
 			deleteObjectByPath(obj, path); // Удаляем каждый ключ по переданному пути
 		});
 	}
 
 	// Простая функция глубокого копирования объекта
-	function deepCopy(obj) {
+	function deepCopy(obj: unknown) {
 		return JSON.parse(JSON.stringify(obj));
 	}
 
@@ -480,7 +447,7 @@ export default function useEditorEvent(): IEditorEvent {
 			}
 
 			const updateObjectByPathHandle = (
-				data,
+				data: any,
 				save: boolean,
 				remove?: boolean
 			) => {
@@ -494,7 +461,7 @@ export default function useEditorEvent(): IEditorEvent {
 			};
 
 			const updateDataHandle = (
-				container,
+				container: ISchemaContainer,
 				save: boolean,
 				remove?: boolean
 			) => {
@@ -510,63 +477,116 @@ export default function useEditorEvent(): IEditorEvent {
 				}
 			};
 
-			const removeKeyDataHandle = (container, save?: boolean) => {
+			const removeKeyDataHandle = (container: ISchemaContainer) => {
 				deleteMultiplePaths(container, pathString);
 				toastMessage("Успешно удалено!", "success");
 			};
 
 			const containerUpdateHandle = () => {
-				return spaceTemplateData.map(
-					(container: ITemplateBaseSchema) => {
-						if (container.id === editorActiveElement.containerId) {
-							const updatedContainer = deepCopy(container);
+				return spaceTemplateData.map((container: ISchemaContainer) => {
+					if (container.id === editorActiveElement.containerId) {
+						const updatedContainer = deepCopy(container);
 
-							if (removeObj) {
-								updateDataHandle(updatedContainer, false, true);
-							} else if (removeKey) {
-								removeKeyDataHandle(updatedContainer);
-							} else {
-								updateDataHandle(updatedContainer, true);
-							}
-
-							return {
-								...container,
-								...updatedContainer,
-							};
+						if (removeObj) {
+							updateDataHandle(updatedContainer, false, true);
+						} else if (removeKey) {
+							removeKeyDataHandle(updatedContainer);
+						} else {
+							updateDataHandle(updatedContainer, true);
 						}
-						return container;
+
+						return {
+							...container,
+							...updatedContainer,
+						};
 					}
-				);
+					return container;
+				});
 			};
 
 			const componentUpdateHandle = () => {
-				return spaceTemplateData.map(
-					(container: ITemplateBaseSchema) => {
-						if (container.id === editorActiveElement.containerId) {
-							return {
-								...container,
-								components: container.components.map(
-									(component) => {
-										if (
-											component.data.id ===
-											editorActiveElement.id
-										) {
-											const updatedComponent =
-												deepCopy(component);
+				return spaceTemplateData.map((container: ISchemaContainer) => {
+					if (container.id === editorActiveElement.containerId) {
+						return {
+							...container,
+							components: container.components.map(
+								(component) => {
+									if (
+										component.data.id ===
+										editorActiveElement.id
+									) {
+										const updatedComponent =
+											deepCopy(component);
 
+										if (removeObj) {
+											updateDataHandle(
+												updatedComponent.data,
+												true,
+												true
+											);
+										} else if (removeKey) {
+											removeKeyDataHandle(
+												updatedComponent.data
+											);
+										} else {
+											updateDataHandle(
+												updatedComponent.data,
+												true
+											);
+										}
+
+										return {
+											...component,
+											...updatedComponent,
+										};
+									}
+									return component;
+								}
+							),
+						};
+					}
+					return container;
+				});
+			};
+
+			const elementUpdateHandle = () => {
+				return spaceTemplateData.map((container: ISchemaContainer) => {
+					if (container.id === editorActiveElement.containerId) {
+						return {
+							...container,
+							components: container.components.map(
+								(component) => {
+									if (
+										component.data.id ===
+										editorActiveElement.id
+									) {
+										const updatedComponent =
+											deepCopy(component);
+
+										const elementIndex =
+											updatedComponent.data.elements.findIndex(
+												(el: any) =>
+													el.id ===
+													editorActiveElement.currentActiveId
+											);
+
+										if (elementIndex !== -1) {
 											if (removeObj) {
 												updateDataHandle(
-													updatedComponent.data,
+													updatedComponent.data
+														.elements[elementIndex],
 													true,
 													true
 												);
 											} else if (removeKey) {
 												removeKeyDataHandle(
 													updatedComponent.data
+														.elements[elementIndex]
 												);
 											} else {
 												updateDataHandle(
-													updatedComponent.data,
+													updatedComponent.data
+														.elements[elementIndex],
 													true
 												);
 											}
@@ -576,81 +596,16 @@ export default function useEditorEvent(): IEditorEvent {
 												...updatedComponent,
 											};
 										}
+
 										return component;
 									}
-								),
-							};
-						}
-						return container;
+									return component;
+								}
+							),
+						};
 					}
-				);
-			};
-
-			const elementUpdateHandle = () => {
-				return spaceTemplateData.map(
-					(container: ITemplateBaseSchema) => {
-						if (container.id === editorActiveElement.containerId) {
-							return {
-								...container,
-								components: container.components.map(
-									(component) => {
-										if (
-											component.data.id ===
-											editorActiveElement.id
-										) {
-											const updatedComponent =
-												deepCopy(component);
-
-											const elementIndex =
-												updatedComponent.data.elements.findIndex(
-													(el: any) =>
-														el.id ===
-														editorActiveElement.currentActiveId
-												);
-
-											if (elementIndex !== -1) {
-												if (removeObj) {
-													updateDataHandle(
-														updatedComponent.data
-															.elements[
-															elementIndex
-														],
-														true,
-														true
-													);
-												} else if (removeKey) {
-													removeKeyDataHandle(
-														updatedComponent.data
-															.elements[
-															elementIndex
-														]
-													);
-												} else {
-													updateDataHandle(
-														updatedComponent.data
-															.elements[
-															elementIndex
-														],
-														true
-													);
-												}
-
-												return {
-													...component,
-													...updatedComponent,
-												};
-											}
-
-											return component;
-										}
-										return component;
-									}
-								),
-							};
-						}
-						return container;
-					}
-				);
+					return container;
+				});
 			};
 
 			if (activeElementData.type === "container") {

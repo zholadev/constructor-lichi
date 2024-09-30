@@ -17,6 +17,11 @@ import album1 from "../../../../public/static/images/thumbnail/album/album-1.jpe
 
 import pageNotFound from "../../../../public/static/images/page/404-error.png";
 
+import headerSmLogo from "../../../../public/static/images/header/lichi-sm-logo.svg";
+import headerSmLogoLight from "../../../../public/static/images/header/lichi-sm-logo-dark.svg";
+import headerLogo from "../../../../public/static/images/header/logo-navbar.png";
+import headerLogoLight from "../../../../public/static/images/header/white-logo.png";
+
 interface ImageImport {
 	height: number;
 	src: string;
@@ -31,6 +36,7 @@ interface IImagesData {
 	ICON: Record<string, unknown>;
 	ACTION: IActionData;
 	THUMBNAIL: Record<string, ImageImport[]>;
+	LOGO: Record<string, unknown>;
 }
 
 export const IMAGES: IImagesData = {
@@ -49,5 +55,11 @@ export const IMAGES: IImagesData = {
 	},
 	ACTION: {
 		page404: pageNotFound,
+	},
+	LOGO: {
+		headerSmLogo,
+		headerSmLogoLight,
+		headerLogo,
+		headerLogoLight,
 	},
 };

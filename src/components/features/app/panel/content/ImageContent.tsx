@@ -33,7 +33,7 @@ const ImageContent: React.FC<Props> = (props) => {
 
 	const updateDataHandle = (data: IGalleryImageItem | null) => {
 		setCurrentImage(data);
-		toggleExpandedHandle()
+		toggleExpandedHandle();
 		if (onChange) onChange(data);
 	};
 

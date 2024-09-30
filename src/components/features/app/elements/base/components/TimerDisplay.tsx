@@ -1,4 +1,5 @@
 import React from "react";
+import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import styles from "./element-timer-1.0.0.module.sass";
 import TimerItem from "./TimerItem";
 
@@ -27,8 +28,10 @@ const TimerDisplay: React.FC<Props> = (props) => {
 	const { days, hours, minutes, seconds, style, fontSTime, fontSType } =
 		props;
 
+	const styleFormatted = useStylesFormatted();
+
 	return (
-		<ul className={styles.timer} style={style}>
+		<ul className={styles.timer} style={{ ...styleFormatted(style) }}>
 			<TimerItem
 				fontSTime={fontSTime}
 				fontSType={fontSType}

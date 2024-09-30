@@ -19,8 +19,10 @@ import {
  * @fixme
  * @constructor
  */
-export default function useSchemaComponentData(): IComponentBaseFullSchema {
-	return function (type: ComponentBaseTypes): IComponentBaseFullSchema {
+export default function useSchemaComponentData(): (
+	type: ComponentBaseTypes
+) => IComponentBaseFullSchema {
+	return (type: ComponentBaseTypes): IComponentBaseFullSchema => {
 		const schemaMap: Record<ComponentBaseTypes, IComponentBaseFullSchema> =
 			{
 				card: card_component_schema(),

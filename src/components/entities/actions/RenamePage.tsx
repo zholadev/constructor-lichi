@@ -38,8 +38,6 @@ const RenamePage: React.FC<Props> = (props) => {
 
 	const { spaceTemplateActionData } = useAppSelector((state) => state.space);
 
-	console.log("spaceTemplateActionData", spaceTemplateActionData);
-
 	const [error, setError] = useState<string | null>(null);
 	const [nameValue, setNameValue] = useState<string>(name || "");
 

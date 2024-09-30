@@ -10,11 +10,13 @@ import {
 } from "@/components/shared/shadcn/ui/context-menu";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
-import TemplateAddButton from "@/components/features/app/template/TemplateAddButton";
+import TemplateAddButton from "@/components/features/app/ContainerTemplate/TemplateAddButton";
 import BaseComponentRender from "@/components/features/app/blocks/container/BaseComponentRender";
 import ContainerAction from "@/components/features/app/components/actions/container/ContainerAction";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
+import usePermission from "@/components/shared/hooks/usePermission";
 
 /**
  * @author Zholaman Zhumanov
@@ -32,11 +34,14 @@ const BoardContainer: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
 
+	const styleFormatted = useStylesFormatted();
+	const permission = usePermission();
 	const activeElementData = useActiveElementFollowUp();
 
 	useMemo(() => {
 		console.log("spaceTemplateData", spaceTemplateData);
 		console.log("activeElementData", activeElementData);
+		console.log("permission", permission);
 	}, [spaceTemplateData, activeElementData]);
 
 	return (
@@ -54,38 +59,27 @@ const BoardContainer: React.FC = () => {
 								}
 							/>
 						)}
-						<ContextMenu>
-							<ContextMenuTrigger>
-								<ContainerAction containerId={container.id}>
-									<div
-										className={cn("size-full")}
-										style={{
-											...container.style,
-										}}
-									>
-										{container.components.map(
-											(component) => {
-												return (
-													<BaseComponentRender
-														key={component.id}
-														containerData={container}
-														componentData={component.data}
-														type={
-															component.data?.type
-														}
-														componentId={component.id}
-													/>
-												);
-											}
-										)}
-									</div>
-								</ContainerAction>
-							</ContextMenuTrigger>
-							<ContextMenuContent>
-								<ContextMenuItem>Удалить</ContextMenuItem>
-								<ContextMenuItem>Переместить</ContextMenuItem>
-							</ContextMenuContent>
-						</ContextMenu>
+
+						<ContainerAction containerId={container.id}>
+							<div
+								className={cn("size-full")}
+								style={{
+									...styleFormatted(container.style),
+								}}
+							>
+								{container.components.map((component) => {
+									return (
+										<BaseComponentRender
+											key={component.id}
+											containerData={container}
+											componentData={component.data}
+											type={component.data?.type}
+											componentId={component.id}
+										/>
+									);
+								})}
+							</div>
+						</ContainerAction>
 					</div>
 				);
 			})}

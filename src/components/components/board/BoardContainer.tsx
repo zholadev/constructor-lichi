@@ -2,21 +2,16 @@
 
 import React, { useMemo } from "react";
 import { cn } from "@/components/lib/utils";
-import {
-	ContextMenu,
-	ContextMenuContent,
-	ContextMenuItem,
-	ContextMenuTrigger,
-} from "@/components/shared/shadcn/ui/context-menu";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
-import TemplateAddButton from "@/components/features/app/ContainerTemplate/TemplateAddButton";
+import TemplateAddButton from "@/components/features/app/containerTemplate/TemplateAddButton";
 import BaseComponentRender from "@/components/features/app/blocks/container/BaseComponentRender";
 import ContainerAction from "@/components/features/app/components/actions/container/ContainerAction";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import usePermission from "@/components/shared/hooks/usePermission";
+import SwiperContainer from "@/components/features/app/swiper/container/SwiperContainer";
 
 /**
  * @author Zholaman Zhumanov
@@ -60,25 +55,37 @@ const BoardContainer: React.FC = () => {
 							/>
 						)}
 
-						<ContainerAction containerId={container.id}>
-							<div
-								className={cn("size-full")}
-								style={{
-									...styleFormatted(container.style),
-								}}
-							>
-								{container.components.map((component) => {
-									return (
-										<BaseComponentRender
-											key={component.id}
-											containerData={container}
-											componentData={component.data}
-											type={component.data?.type}
-											componentId={component.id}
-										/>
-									);
-								})}
-							</div>
+						<ContainerAction
+							containerId={container.id}
+							componentType={container.type}
+						>
+							{container.type === "swiper" ? (
+								<SwiperContainer
+									componentsData={container.components}
+									swiperSettings={container.settings.swiper}
+									swiperStyles={container.style}
+									container={container}
+								/>
+							) : (
+								<div
+									className={cn("size-full")}
+									style={{
+										...styleFormatted(container.style),
+									}}
+								>
+									{container.components.map((component) => {
+										return (
+											<BaseComponentRender
+												key={component.id}
+												containerData={container}
+												componentData={component.data}
+												type={component.data?.type}
+												componentId={component.id}
+											/>
+										);
+									})}
+								</div>
+							)}
 						</ContainerAction>
 					</div>
 				);

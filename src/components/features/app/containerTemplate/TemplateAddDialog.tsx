@@ -17,7 +17,7 @@ import { GalleryHorizontal } from "lucide-react";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 
-type BlockType = "block" | "swiper" | "initial";
+type BlockType = "container" | "swiper" | "initial";
 
 /**
  * @author Zholaman Zhumanov
@@ -80,13 +80,19 @@ const TemplateAddDialog: React.FC = () => {
 					<div className="grid grid-cols-2 gap-3 mb-7 mt-4">
 						<Button
 							variant={
-								blockType === "block" ? "default" : "outline"
+								blockType === "container"
+									? "default"
+									: "outline"
 							}
 							className={cn(
 								"p-3 border w-full h-[120px] flex flex-col"
 							)}
 							onClick={() => {
-								onSelectBlockType("block", "container", "1");
+								onSelectBlockType(
+									"container",
+									"container",
+									"1"
+								);
 							}}
 						>
 							<ImageIcon
@@ -127,15 +133,15 @@ const TemplateAddDialog: React.FC = () => {
 								"text-xs uppercase text-gray-600 mb-3"
 							)}
 						>
-							количество колонок
+							количество компонентов
 						</h3>
 
 						<Input
 							type="number"
-							disabled={
-								blockType === "swiper" ||
-								blockType === "initial"
-							}
+							// disabled={
+							// 	blockType === "swiper" ||
+							// 	blockType === "initial"
+							// }
 							maxLength={12}
 							minLength={1}
 							value={countColumn}

@@ -7,6 +7,7 @@ import { versionTemplate } from "@/components/app/versions/version-modules";
 import { IComponentBaseSchema } from "@/components/shared/types/interface-templates";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { IComponentBaseFullSchema } from "@/components/features/app/blocks/types/interface-components";
+import { defaultSettings } from "@/components/entities/defSettings/def_settings";
 
 interface ITemplateEvent {
 	create: (
@@ -78,38 +79,63 @@ export default function useTemplateEvent(): ITemplateEvent {
 			toastMessage("Вы не выбрали тип блока!", "error");
 			return;
 		}
+
 		const createTemplateColumns = () =>
 			Array(countColumn).fill("1fr").join(" ");
 
 		const generateStyles = () => {
-			const isGridBlock = countColumn > 1 && blockType === "block";
-			return {
-				// display: isGridBlock ? "grid" : "block",
-				display: "grid",
-				gap: "2px",
-				gridTemplateColumns: isGridBlock
-					? createTemplateColumns()
-					: undefined,
+			const commonStyles = {
 				margin: "0 0 2px 0",
 				backgroundColor: "#ffffff",
 				backgroundColorDark: "rgb(24, 26, 27)",
 			};
+
+			if (blockType === "container") {
+				return {
+					...commonStyles,
+					display: "grid",
+					gap: "2px",
+					gridTemplateColumns: createTemplateColumns() ?? "",
+				};
+			}
+			if (blockType === "swiper") {
+				return {
+					...commonStyles,
+					display: "block",
+				};
+			}
+
+			return commonStyles;
 		};
 
-		const createChildren = () =>
-			Array.from({ length: countColumn }, () => ({
+		const generateSettings = () => {
+			if (blockType === "container") {
+				return {};
+			}
+			if (blockType === "swiper") {
+				return {
+					swiper: defaultSettings.CONTAINERS.swiper,
+				};
+			}
+		};
+
+		const createChildren = () => {
+			return Array.from({ length: countColumn }, () => ({
 				id: uuidv4(),
 				data: [],
 			}));
+		};
 
 		const newTemplate: ISchemaContainer = {
 			id: uuidv4(),
 			guid: uuidv4(),
-			type: "container",
+			type: blockType,
 			version: versionTemplate.version,
 			style: generateStyles(),
+			// @ts-ignore
 			components: createChildren(),
-			settings: {},
+			// @ts-ignore
+			settings: generateSettings(),
 		};
 
 		spaceTemplateDataAction([...spaceTemplateData, newTemplate]);

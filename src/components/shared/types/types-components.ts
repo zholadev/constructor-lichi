@@ -15,4 +15,4 @@ export type ComponentSpecialTypes =
 
 export type ElementBaseTypes = "button" | "text" | "timer";
 export type ElementBasenameTypes = "Button" | "Text" | "Timer";
-export type TemplateBlockType = "block" | "swiper" | "initial";
+export type TemplateBlockType = "container" | "swiper" | "initial";

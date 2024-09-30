@@ -57,6 +57,7 @@ export const baseContainerPermission: IPermission = {
 		image: false,
 		video: false,
 		link: false,
+		textFill: false,
 	},
 	setting: {
 		show: {
@@ -77,6 +78,8 @@ export const baseContainerPermission: IPermission = {
 		swiper: {
 			root: false,
 		},
+		timer: false,
+		element: false,
 	},
 };
 
@@ -98,3 +101,25 @@ export const container_permission: IPermission = {
 		...baseContainerPermission.setting,
 	},
 };
+
+export const swiper_container_permission: IPermission = {
+	...baseContainerPermission,
+	panel: {
+		...baseContainerPermission.panel,
+	},
+	editor: {
+		...baseContainerPermission.editor,
+	},
+	styles: {
+		...baseContainerPermission.styles,
+	},
+	content: {
+		...baseContainerPermission.content,
+	},
+	setting: {
+		...baseContainerPermission.setting,
+		swiper: {
+			root: true,
+		}
+	},
+}

@@ -10,6 +10,7 @@ interface Props {
 	children: React.ReactNode;
 	data?: IComponentTotalDataSchema;
 	containerId: string;
+	componentType: "container" | "swiper";
 }
 
 /**
@@ -24,7 +25,7 @@ interface Props {
  * @constructor
  */
 const ContainerAction: React.FC<Props> = (props) => {
-	const { children, data, containerId } = props;
+	const { children, data, containerId, componentType } = props;
 
 	const activeElementHandle = useActiveElement();
 
@@ -35,7 +36,7 @@ const ContainerAction: React.FC<Props> = (props) => {
 			<div
 				className={cn(
 					`${editorActiveElement.id === containerId ? "border-emerald-400 border-2 box-border" : "border-box"}`,
-					styles.card
+					// styles.card
 				)}
 				// onClick={() => {
 				// 	activeElementHandle({

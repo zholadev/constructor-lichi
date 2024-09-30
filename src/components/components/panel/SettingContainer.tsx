@@ -145,7 +145,12 @@ const SettingContainer: React.FC = () => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<SwiperSetting />
+						<SwiperSetting
+							settingValue={settingDefaultData.swiper}
+							onSettingChange={(data) =>
+								updateContentHandle(data, "settings.swiper")
+							}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 			)}

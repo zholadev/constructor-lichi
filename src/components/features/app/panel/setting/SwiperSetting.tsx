@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Label } from "@/components/shared/shadcn/ui/label";
@@ -20,9 +20,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
-
-type SwiperDirectionType = "vertical" | "horizontal";
-type SwiperPaginationType = "bullet" | "fraction";
+import {
+	SwiperDirectionType,
+	SwiperPaginationType,
+	SwiperSettings,
+} from "@/components/shared/types/interface-schema-settings";
 
 interface SwiperPaginationTypeData {
 	name: string;
@@ -34,23 +36,10 @@ interface SwiperDirectionTypeData {
 	value: SwiperDirectionType;
 }
 
-interface SwiperSettings {
-	pagination: boolean;
-	autoplay: boolean;
-	loop: boolean;
-	slidePerView: number;
-	slidePerGroup: number;
-	speed_advanced: {
-		delay: number;
-		duration: number;
-	};
-	speed: boolean;
-	centeredSlides: boolean;
-	direction: SwiperDirectionType;
-	pagination_type: SwiperPaginationType;
+interface Props {
+	settingValue: SwiperSettings;
+	onSettingChange: (value: SwiperSettings) => void;
 }
-
-interface Props {}
 
 const directionData: SwiperDirectionTypeData[] = [
 	{
@@ -85,7 +74,7 @@ const paginationTypeData: SwiperPaginationTypeData[] = [
  * @constructor
  */
 const SwiperSetting: React.FC<Props> = (props) => {
-	const {} = props;
+	const { settingValue, onSettingChange } = props;
 
 	const [swiperSettings, setSwiperSettings] = useState<SwiperSettings>({
 		pagination: false,
@@ -97,10 +86,12 @@ const SwiperSetting: React.FC<Props> = (props) => {
 			delay: 700,
 			duration: 3000,
 		},
+		spaceBetween: 0,
 		speed: false,
 		centeredSlides: false,
 		direction: "horizontal",
 		pagination_type: "bullet",
+		autoHeight: false,
 	});
 
 	const onChangeSettings = (
@@ -110,23 +101,55 @@ const SwiperSetting: React.FC<Props> = (props) => {
 	) => {
 		if (key === "speed_advanced") {
 			setSwiperSettings((prev) => {
-				return {
+				const updateValues = {
 					...prev,
 					speed: {
 						[insideKey]: value,
 					},
 				};
+
+				if (onSettingChange) onSettingChange(updateValues);
+
+				return updateValues;
 			});
 			return;
 		}
 
 		setSwiperSettings((prev) => {
-			return {
+			const updateValues = {
 				...prev,
 				[key]: value,
 			};
+
+			if (onSettingChange) onSettingChange(updateValues);
+
+			return updateValues;
 		});
 	};
+
+	useEffect(() => {
+		if (settingValue) {
+			setSwiperSettings({ ...settingValue });
+		} else {
+			setSwiperSettings({
+				pagination: false,
+				autoplay: false,
+				loop: false,
+				slidePerView: 3,
+				slidePerGroup: 1,
+				speed_advanced: {
+					delay: 700,
+					duration: 3000,
+				},
+				spaceBetween: 0,
+				speed: false,
+				centeredSlides: false,
+				direction: "horizontal",
+				pagination_type: "bullet",
+				autoHeight: false,
+			});
+		}
+	}, [settingValue]);
 
 	return (
 		<div className={cn("w-full py-3")}>
@@ -163,8 +186,6 @@ const SwiperSetting: React.FC<Props> = (props) => {
 					"flex justify-between items-center flex-row gap-2 pb-6 mb-6 border-b"
 				)}
 			>
-				{/* <h3 className={cn("text-xs uppercase text-gray-500")}>Type</h3> */}
-
 				<div className={cn("w-full")}>
 					<Select
 						defaultValue={swiperSettings.pagination_type}
@@ -218,6 +239,34 @@ const SwiperSetting: React.FC<Props> = (props) => {
 					<Play
 						className={cn(
 							!swiperSettings.autoplay ? "text-gray-300" : ""
+						)}
+					/>
+				</div>
+			</div>
+
+			<div
+				className={cn(
+					"flex justify-between items-center  cursor-pointer flex-row gap-2 mb-3"
+				)}
+			>
+				<Label htmlFor="swiper-autoplay">
+					<h3 className={cn("text-xs uppercase text-gray-500")}>
+						AutoHeight
+					</h3>
+				</Label>
+
+				<div className={cn("flex items-center gap-2")}>
+					<Switch
+						id="swiper-autoplay"
+						checked={swiperSettings.autoHeight}
+						onCheckedChange={(value) => {
+							onChangeSettings(value, "autoHeight");
+						}}
+					/>
+
+					<Play
+						className={cn(
+							!swiperSettings.autoHeight ? "text-gray-300" : ""
 						)}
 					/>
 				</div>
@@ -291,6 +340,27 @@ const SwiperSetting: React.FC<Props> = (props) => {
 						value={swiperSettings.slidePerView}
 						onChange={(e) =>
 							onChangeSettings(e.target.value, "slidePerView")
+						}
+						className={cn("w-[80px] h-[30px]")}
+					/>
+					<GalleryHorizontal width={20} height={24} />
+				</div>
+			</div>
+
+			<div
+				className={cn(
+					"flex justify-between items-center flex-row gap-2 mb-3"
+				)}
+			>
+				<h3 className={cn("text-xs uppercase text-gray-500")}>
+					spaceBetween
+				</h3>
+				<div className={cn("flex items-center gap-2")}>
+					<Input
+						type="number"
+						value={swiperSettings.spaceBetween}
+						onChange={(e) =>
+							onChangeSettings(e.target.value, "spaceBetween")
 						}
 						className={cn("w-[80px] h-[30px]")}
 					/>

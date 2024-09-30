@@ -41,7 +41,10 @@ const WhiteBoard: React.FC = () => {
 	}
 
 	return (
-		<div className={cn("w-full bg-secondary p-2 h-screen relative")}>
+		<div
+			className={cn("bg-secondary p-2 h-screen relative")}
+			style={{ width: "calc(100% - 800px)" }}
+		>
 			<BoardToolbar />
 			{spaceTemplateData.length > 0 && <HeaderModeView />}
 			<div

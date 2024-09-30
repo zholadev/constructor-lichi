@@ -105,7 +105,7 @@ export const basePermission: IPermission = {
  * @fixme
  * @constructor
  */
-export default function usePermission(): IPermission {
+export default function usePermission(): () => IPermission {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	const activeElementData = useActiveElementFollowUp();
@@ -138,28 +138,7 @@ export default function usePermission(): IPermission {
 			case "container":
 				return getContainerPermissionData(typeDataActiveElement);
 			case "swiper":
-				return {
-					...basePermission,
-					panel: {
-						...basePermission.panel,
-						setting: true,
-					},
-					editor: {
-						...basePermission.editor,
-						dnd: false,
-						add: true,
-					},
-					styles: {
-						...basePermission.styles,
-						size: false,
-						spacing: false,
-						position: false,
-					},
-					setting: {
-						...basePermission.setting,
-						swiper: true,
-					},
-				};
+				return getContainerPermissionData(typeDataActiveElement);
 			default:
 				return basePermission;
 		}

@@ -6,6 +6,27 @@ export interface ISchemaSettingsView {
 	contentType: ISchemaContentMediaType;
 }
 
+export type SwiperDirectionType = "vertical" | "horizontal";
+export type SwiperPaginationType = "bullet" | "fraction";
+
+export interface SwiperSettings {
+	pagination: boolean;
+	autoplay: boolean;
+	loop: boolean;
+	slidePerView: number;
+	slidePerGroup: number;
+	speed_advanced: {
+		delay: number;
+		duration: number;
+	};
+	speed: boolean;
+	centeredSlides: boolean;
+	spaceBetween: number;
+	direction: SwiperDirectionType;
+	pagination_type: SwiperPaginationType;
+	autoHeight: boolean;
+}
+
 export type SchemaShowSiteType = "base" | "retail" | "all";
 export type SchemaSettingElementPositionX = "left" | "right" | "center";
 export type SchemaSettingElementPositionY = "top" | "bottom" | "center";
@@ -38,4 +59,5 @@ export interface ISchemaSettings {
 	view: ISchemaSettingsView;
 	show: SchemaShowSiteType;
 	element: ISchemaSettingsElement;
+	swiper?: SwiperSettings;
 }

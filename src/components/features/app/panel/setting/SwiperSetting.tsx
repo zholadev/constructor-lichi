@@ -22,6 +22,7 @@ import {
 } from "@/components/shared/shadcn/ui/select";
 import {
 	SwiperDirectionType,
+	SwiperPaginationPositionType,
 	SwiperPaginationType,
 	SwiperSettings,
 } from "@/components/shared/types/interface-schema-settings";
@@ -34,6 +35,12 @@ interface SwiperPaginationTypeData {
 interface SwiperDirectionTypeData {
 	name: string;
 	value: SwiperDirectionType;
+}
+
+interface SwiperPaginationPositionTypeData {
+	name: string;
+	value: SwiperPaginationPositionType;
+	active: boolean;
 }
 
 interface Props {
@@ -59,6 +66,29 @@ const paginationTypeData: SwiperPaginationTypeData[] = [
 	{
 		name: "Fraction",
 		value: "fraction",
+	},
+];
+
+const paginationPositionData: SwiperPaginationPositionTypeData[] = [
+	{
+		name: "Вверх",
+		value: "top",
+		active: true,
+	},
+	{
+		name: "Вниз",
+		value: "bottom",
+		active: true,
+	},
+	{
+		name: "Лево",
+		value: "left",
+		active: false,
+	},
+	{
+		name: "Право",
+		value: "right",
+		active: false,
 	},
 ];
 
@@ -92,6 +122,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 		direction: "horizontal",
 		pagination_type: "bullet",
 		autoHeight: false,
+		paginationPosition: "bottom",
 	});
 
 	const onChangeSettings = (
@@ -103,8 +134,9 @@ const SwiperSetting: React.FC<Props> = (props) => {
 			setSwiperSettings((prev) => {
 				const updateValues = {
 					...prev,
-					speed: {
-						[insideKey]: value,
+					speed_advanced: {
+						...prev.speed_advanced,
+						[insideKey]: parseFloat(value),
 					},
 				};
 
@@ -147,6 +179,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 				direction: "horizontal",
 				pagination_type: "bullet",
 				autoHeight: false,
+				paginationPosition: "bottom",
 			});
 		}
 	}, [settingValue]);
@@ -210,6 +243,38 @@ const SwiperSetting: React.FC<Props> = (props) => {
 										</SelectItem>
 									);
 								})}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+
+				<div className={cn("w-full")}>
+					<Select
+						defaultValue={swiperSettings.paginationPosition}
+						value={swiperSettings.paginationPosition}
+						disabled={!swiperSettings.paginationPosition}
+						onValueChange={(value) =>
+							onChangeSettings(value, "paginationPosition")
+						}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Выберите позицию" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{paginationPositionData.map(
+									(position, index) => {
+										return (
+											<SelectItem
+												key={index}
+												disabled={!position.active}
+												value={position.value}
+											>
+												{position.name}
+											</SelectItem>
+										);
+									}
+								)}
 							</SelectGroup>
 						</SelectContent>
 					</Select>

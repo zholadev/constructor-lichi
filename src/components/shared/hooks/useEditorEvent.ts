@@ -6,7 +6,7 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { v4 as uuidv4 } from "uuid";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
 
 type UpdateContentKeys =
 	| "content"

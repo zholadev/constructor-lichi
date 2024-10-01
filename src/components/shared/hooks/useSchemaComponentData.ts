@@ -1,5 +1,5 @@
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
-import { IComponentBaseFullSchema } from "@/components/features/app/blocks/types/interface-components";
+import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 import {
 	album_component_schema,
 	album_outside_component_schema,
@@ -7,7 +7,7 @@ import {
 	card_outside_component_schema,
 	video_component_schema,
 	video_outside_component_schema,
-} from "@/components/entities/schema/schema-base-component";
+} from "@/components/entities/schema/model/v1/schema-base-component";
 
 /**
  * @author Zholaman Zhumanov

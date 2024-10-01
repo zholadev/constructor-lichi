@@ -19,7 +19,7 @@ import {
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import BoardSortableItem from "@/components/components/board/BoardSortableItem";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import BaseComponentRender from "@/components/features/app/blocks/container/BaseComponentRender";
+import BaseComponentRender from "@/components/features/app/ui/components/container/BaseComponentRender";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 /**

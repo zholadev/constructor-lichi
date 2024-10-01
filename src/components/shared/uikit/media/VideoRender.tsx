@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import styles from "@/components/styles/card.module.sass";
 import ReactPlayer from "react-player";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { IComponentCardVideoSchema } from "@/components/features/app/blocks/types/interface-components";
+import { IComponentCardVideoSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 
 interface Props {
 	data: IComponentCardVideoSchema;

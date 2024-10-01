@@ -3,7 +3,7 @@ import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import styles from "@/components/styles/card.module.sass";
-import { IComponentTotalDataSchema } from "@/components/features/app/blocks/types/interface-components";
+import { IComponentTotalDataSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 import SelectionElementOverlay from "@/components/features/app/components/actions/selection/SelectionElementOverlay";
 
 interface Props {

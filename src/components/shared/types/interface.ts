@@ -3,7 +3,7 @@ import {
 	ITemplateBaseSchema,
 	TemplateBaseType,
 } from "@/components/shared/types/interface-templates";
-import { IComponentBaseFullSchema } from "@/components/features/app/blocks/types/interface-components";
+import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 
 export interface IGetApiParams {
 	data: any;

@@ -32,6 +32,7 @@ export const defaultSettings: IDefaultSettings = {
 			direction: "horizontal",
 			pagination_type: "bullet",
 			autoHeight: false,
+			paginationPosition: "bottom",
 		},
 	},
 };

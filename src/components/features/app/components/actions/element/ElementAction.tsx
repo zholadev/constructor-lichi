@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
-import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import SelectionElementOverlay from "../selection/SelectionElementOverlay";
 

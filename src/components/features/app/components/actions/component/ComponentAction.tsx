@@ -2,7 +2,7 @@ import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import styles from "@/components/styles/card.module.sass";
-import { IComponentTotalDataSchema } from "@/components/features/app/blocks/types/interface-components";
+import { IComponentTotalDataSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import SelectionElementOverlay from "../selection/SelectionElementOverlay";
 

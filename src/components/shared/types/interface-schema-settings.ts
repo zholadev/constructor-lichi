@@ -8,6 +8,7 @@ export interface ISchemaSettingsView {
 
 export type SwiperDirectionType = "vertical" | "horizontal";
 export type SwiperPaginationType = "bullet" | "fraction";
+export type SwiperPaginationPositionType = "top" | "bottom" | "left" | "right";
 
 export interface SwiperSettings {
 	pagination: boolean;
@@ -25,6 +26,7 @@ export interface SwiperSettings {
 	direction: SwiperDirectionType;
 	pagination_type: SwiperPaginationType;
 	autoHeight: boolean;
+	paginationPosition: SwiperPaginationPositionType;
 }
 
 export type SchemaShowSiteType = "base" | "retail" | "all";

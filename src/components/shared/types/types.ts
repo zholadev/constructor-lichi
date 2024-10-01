@@ -1,8 +1,8 @@
 import {
 	IComponentCardSchema,
 	IComponentCardVideoSchema,
-} from "@/components/features/app/blocks/types/interface-components";
-import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+} from "@/components/features/app/ui/components/types/v1/interface-components";
+import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 
 export type ToastType = "success" | "info" | "warning" | "error";

@@ -2,14 +2,14 @@ import React from "react";
 import { cn } from "@/components/lib/utils";
 import { ButtonIcon, Component1Icon, LayersIcon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { IElementTotal } from "@/components/features/app/elements/types/interface-elements";
+import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import {
 	ActiveElementType,
 	TotalComponentTypes,
 } from "@/components/shared/types/types";
 import { ITemplateSchemaGlobal } from "@/components/shared/types/interface";
-import { IComponentBaseFullSchema } from "@/components/features/app/blocks/types/interface-components";
+import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 
 interface Props {
 	data: ITemplateSchemaGlobal;

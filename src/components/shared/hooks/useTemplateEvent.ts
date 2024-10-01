@@ -6,7 +6,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { versionTemplate } from "@/components/app/versions/version-modules";
 import { IComponentBaseSchema } from "@/components/shared/types/interface-templates";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import { IComponentBaseFullSchema } from "@/components/features/app/blocks/types/interface-components";
+import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 import { defaultSettings } from "@/components/entities/defSettings/def_settings";
 
 interface ITemplateEvent {

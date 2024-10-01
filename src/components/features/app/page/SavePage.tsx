@@ -14,7 +14,6 @@ import { TemplateType } from "@/components/shared/types/types";
 import { ITemplatePageType } from "@/components/shared/types/interface";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import RenamePage from "@/components/entities/actions/RenamePage";
 
 const templatePageTypeData: ITemplatePageType[] = [
 	{
@@ -84,10 +83,6 @@ const SavePage: React.FC = () => {
 					</Select>
 				</div>
 			</div>
-
-			{/*<div className={cn("mb-8")}>*/}
-			{/*	<RenamePage name="" />*/}
-			{/*</div>*/}
 
 			<div
 				className={cn(

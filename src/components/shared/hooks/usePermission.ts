@@ -1,16 +1,16 @@
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
 import { ActiveElementType } from "@/components/shared/types/types";
-import { IPermission } from "@/components/entities/permission/interface-permission";
+import { IPermission } from "@/components/entities/permission/types/interface-permission";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
-import { getComponentPermissionData } from "@/components/entities/permission/get-component-permission-data";
+import { permissionGetComponentsData } from "@/components/entities/permission/model/components/v1/permission-get-components-data";
 import {
 	ComponentBaseTypes,
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
-import { getElementPermissionData } from "@/components/entities/permission/get-element-permission-data";
+import { permissionGetElementsData } from "@/components/entities/permission/model/elements/v1/permission-get-elements-data";
 import { TemplateBaseType } from "@/components/shared/types/interface-templates";
-import { getContainerPermissionData } from "@/components/entities/permission/get-container-permission-data";
+import { permissionGetContainersData } from "@/components/entities/permission/model/containers/v1/permission-get-containers-data";
 
 export const basePermission: IPermission = {
 	panel: {
@@ -132,15 +132,15 @@ export default function usePermission(): IPermission {
 	return useMemo(() => {
 		switch (typeActiveElement) {
 			case "component":
-				return getComponentPermissionData(typeDataActiveElement);
+				return permissionGetComponentsData(typeDataActiveElement);
 			case "element":
-				return getElementPermissionData(typeDataActiveElement);
+				return permissionGetElementsData(typeDataActiveElement);
 			case "container":
-				return getContainerPermissionData(typeDataActiveElement);
+				return permissionGetContainersData(typeDataActiveElement);
 			case "swiper":
-				return getContainerPermissionData(typeDataActiveElement);
+				return permissionGetContainersData(typeDataActiveElement);
 			default:
 				return basePermission;
 		}
-	}, [typeActiveElement, basePermission, editorActiveElement]);
+	}, [typeActiveElement, basePermission, editorActiveElement, typeDataActiveElement]);
 }

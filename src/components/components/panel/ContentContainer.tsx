@@ -21,9 +21,10 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import TextFillContent from "@/components/features/app/panel/content/TextFillContent";
+import StoriesContent from "@/components/features/app/panel/content/StoriesContent";
 
-type AccessTypes = "video" | "photo" | "link";
-type ContentKeys = "photo" | "link" | "video";
+type AccessTypes = "video" | "photo" | "link" | "stories";
+type ContentKeys = "photo" | "link" | "video" | "stories";
 
 interface IContentActiveData {
 	content: {
@@ -40,7 +41,7 @@ interface Content {
 	title?: Record<string, unknown>;
 }
 
-const accessTypes: AccessTypes[] = ["video", "photo", "link"];
+const accessTypes: AccessTypes[] = ["video", "photo", "link", "stories"];
 
 /**
  * @author Zholaman Zhumanov
@@ -71,6 +72,7 @@ const ContentContainer: React.FC = () => {
 					photo: content?.photo,
 					video: content?.video ?? { videoSrc: "", poster: null },
 					title: content?.title ?? {},
+					stories: content?.stories ?? [],
 				},
 			};
 		} catch (error) {
@@ -91,8 +93,8 @@ const ContentContainer: React.FC = () => {
 		setExpanded(filteredKeys);
 	};
 
-	const removeSchemaDataHandle = () => {
-		editorEvent.updateComponent({}, "content", "content.link", true);
+	const removeSchemaDataHandle = (pathString: string) => {
+		editorEvent.updateComponent({}, "content", pathString, true);
 	};
 
 	useEffect(() => {
@@ -231,7 +233,9 @@ const ContentContainer: React.FC = () => {
 										"content.link"
 									);
 								}}
-								onRemoveParams={removeSchemaDataHandle}
+								onRemoveParams={() =>
+									removeSchemaDataHandle("content.link")
+								}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -259,6 +263,38 @@ const ContentContainer: React.FC = () => {
 										"content.title"
 									);
 								}}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.content.stories && (
+					<AccordionItem value="stories">
+						<AccordionTrigger>
+							<div
+								className={cn(
+									"w-full flex flex-row items-center gap-2"
+								)}
+							>
+								<TextIcon width={20} height={20} />
+								Stories
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<StoriesContent
+								defaultParams={
+									contentActiveData.content?.stories
+								}
+								onSendParams={(params) => {
+									editorEvent.updateComponent(
+										params,
+										"content",
+										"content.stories"
+									);
+								}}
+								onRemoveParams={() =>
+									removeSchemaDataHandle("content.stories")
+								}
 							/>
 						</AccordionContent>
 					</AccordionItem>

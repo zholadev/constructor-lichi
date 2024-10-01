@@ -12,6 +12,7 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import usePermission from "@/components/shared/hooks/usePermission";
 import SwiperContainer from "@/components/features/app/ui/container/swiper/container/v1/SwiperContainer";
+import Container from "@/components/features/app/ui/container/block/container/v1/Container";
 
 /**
  * @author Zholaman Zhumanov
@@ -35,8 +36,8 @@ const BoardContainer: React.FC = () => {
 
 	useMemo(() => {
 		console.log("spaceTemplateData", spaceTemplateData);
-		console.log("activeElementData", activeElementData);
 		console.log("permission", permission);
+		console.log("activeElementData", activeElementData);
 	}, [spaceTemplateData, activeElementData]);
 
 	return (
@@ -67,24 +68,10 @@ const BoardContainer: React.FC = () => {
 									container={container}
 								/>
 							) : (
-								<div
-									className={cn("size-full")}
-									style={{
-										...styleFormatted(container.style),
-									}}
-								>
-									{container.components.map((component) => {
-										return (
-											<BaseComponentRender
-												key={component.id}
-												containerData={container}
-												componentData={component.data}
-												type={component.data?.type}
-												componentId={component.id}
-											/>
-										);
-									})}
-								</div>
+								<Container
+									componentsData={container.components}
+									container={container}
+								/>
 							)}
 						</ContainerAction>
 					</div>

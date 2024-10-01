@@ -42,7 +42,7 @@ const BoardEmptyCard: React.FC<Props> = (props) => {
 	return (
 		<div
 			className={cn(
-				"border w-full h-full min-h-80 bg-white flex items-center justify-center transition-all duration-100 cursor-pointer",
+				"border w-full h-full min-h-80 bg-white text-xs flex items-center justify-center transition-all duration-100 cursor-pointer",
 				!editorDisabledEdit ? "hover:bg-[#bbf7d0]" : ""
 			)}
 			onClick={onClickHandle}

@@ -56,6 +56,7 @@ export interface IPermission {
 		video: boolean;
 		link: boolean;
 		textFill: boolean;
+		stories: boolean;
 	};
 	setting: {
 		show: {

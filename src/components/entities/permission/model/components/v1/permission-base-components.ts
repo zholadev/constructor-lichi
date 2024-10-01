@@ -58,6 +58,7 @@ export const permissionBaseComponents: IPermission = {
 		video: true,
 		link: true,
 		textFill: false,
+		stories: true,
 	},
 	setting: {
 		show: {

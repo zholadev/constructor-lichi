@@ -14,7 +14,7 @@ import "swiper/css/pagination";
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
 interface Props {
-	componentsData: IComponentTotalDataSchema;
+	componentsData: IComponentTotalDataSchema[];
 	swiperSettings: SwiperSettings;
 	swiperStyles: Record<string, unknown>;
 	container: ISchemaContainer;
@@ -62,11 +62,12 @@ const SwiperContainer: React.FC<Props> = (props) => {
 
 				// Перезапуск swiper для применения новых настроек
 				swiper.update();
+				swiper.updateSize();
 			}
 		} catch (error) {
 			errorHandler("swiperContainer", "effect", error);
 		}
-	}, [swiperSettings, swiperRef]);
+	}, [swiperSettings, swiperRef, componentsData, container]);
 
 	const updatedSwiperSettings = {
 		...swiperSettings,
@@ -90,7 +91,6 @@ const SwiperContainer: React.FC<Props> = (props) => {
 					return (
 						<SwiperSlide key={component.id}>
 							<BaseComponentRender
-								key={component.id}
 								containerData={container}
 								componentData={component.data}
 								type={component.data?.type}

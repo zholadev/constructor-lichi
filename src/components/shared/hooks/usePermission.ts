@@ -70,6 +70,7 @@ export const basePermission: IPermission = {
 		video: false,
 		link: false,
 		textFill: false,
+		stories: false,
 	},
 	setting: {
 		show: {

@@ -9,6 +9,7 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { Autoplay, Pagination, Controller } from "swiper/modules";
 import { cn } from "@/components/lib/utils";
+import "swiper/css/pagination";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
@@ -42,23 +43,11 @@ const SwiperContainer: React.FC<Props> = (props) => {
 			if (swiperSettings) {
 				const { swiper } = swiperRef.current;
 
-				// Применение всех настроек
 				swiper.params.loop = swiperSettings.loop;
 				swiper.params.slidesPerView = swiperSettings.slidePerView;
 				swiper.params.slidesPerGroup = swiperSettings.slidePerGroup;
 				swiper.params.centeredSlides = swiperSettings.centeredSlides;
 				swiper.params.direction = swiperSettings.direction;
-
-				if (swiperSettings.pagination) {
-					swiper.params.pagination = true;
-
-					// swiper.params.pagination = {
-					// 	el: ".swiper-pagination",
-					// 	type: swiperSettings.pagination_type || "bullets",
-					// };
-				} else {
-					swiper.params.pagination = false;
-				}
 
 				if (swiperSettings.autoplay) {
 					swiper.params.autoplay = {
@@ -93,8 +82,9 @@ const SwiperContainer: React.FC<Props> = (props) => {
 				ref={swiperRef}
 				controller={{ control: null }}
 				{...updatedSwiperSettings}
+				pagination={swiperSettings.pagination}
 				style={{ ...styleFormatted(swiperStyles) }}
-				className="swiper-container-v1"
+				className={`swiper-container-v1 swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`}
 			>
 				{componentsData.map((component) => {
 					return (

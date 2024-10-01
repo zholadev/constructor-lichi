@@ -5,7 +5,6 @@ import "./fonts.css";
 import "./styles.sass";
 import "./globals.css";
 import "swiper/css";
-import "swiper/css/pagination";
 import React from "react";
 import { Toaster } from "sonner";
 import ThemeProvider from "@/components/app/providers/ThemeProvider";

@@ -27,12 +27,12 @@ export const defaultSettings: IDefaultSettings = {
 				delay: 700,
 				duration: 1000,
 			},
-			speed: false,
 			centeredSlides: false,
 			direction: "horizontal",
 			pagination_type: "bullet",
 			autoHeight: false,
 			paginationPosition: "bottom",
+			paginationTheme: "light",
 		},
 	},
 };

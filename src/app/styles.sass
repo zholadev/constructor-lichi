@@ -3,33 +3,60 @@
 .swiper-container-v1
   width: 100%
 
-  //.swiper-pagination
-  //  position: absolute
-  //  width: 100% !important
-  //  text-align: center
-  //  top: inherit !important
-  //  left: inherit !important
-  //  bottom: 98px !important
-  //  z-index: 100
-  //  display: flex
-  //  justify-content: center
-  //  background: none !important
-  //  border-radius: 0 !important
-  //  opacity: 1 !important
-  //  align-items: center
-  //
-  //  .swiper-pagination-bullet
-  //    width: 5px
-  //    height: 5px
-  //    display: inline-block
-  //    background-color: #f3eee8
-  //    border-radius: 50%
-  //    transform: scale(0.66)
-  //    opacity: 0.4
-  //    margin: 0 4px
-  //    transition: all .3s cubic-bezier($cubic-bezier-lichi)
-  //
-  //    &.swiper-pagination-bullet-active
-  //      transform: scale(1)
-  //      opacity: 1 !important
+  .swiper-pagination
+    position: absolute
+    width: 100% !important
+    text-align: center
+    top: inherit !important
+    left: inherit !important
+    bottom: 98px !important
+    z-index: 100
+    display: flex
+    justify-content: center
+    background: none !important
+    border-radius: 0 !important
+    opacity: 1 !important
+    align-items: center
+
+    .swiper-pagination-bullet
+      width: 5px
+      height: 5px
+      display: inline-block
+      background-color: #f3eee8
+      border-radius: 50%
+      transform: scale(0.66)
+      opacity: 0.4
+      margin: 0 4px
+      transition: all .3s cubic-bezier($cubic-bezier-lichi)
+
+      &.swiper-pagination-bullet-active
+        transform: scale(1)
+        opacity: 1 !important
+
+  &.swiper-container-v1-paginate-light
+    .swiper-pagination
+
+      .swiper-pagination-bullet
+        background-color: #f3eee8
+        opacity: .4
+
+  &.swiper-container-v1-paginate-dark
+    .swiper-pagination
+
+      .swiper-pagination-bullet
+        background-color: #000000 !important
+        opacity: .6
+
+
+  &.swiper-container-v1-paginate-top
+    .swiper-pagination
+      top: 70px !important
+      left: inherit !important
+      bottom: inherit !important
+
+  &.swiper-container-v1-paginate-bottom
+    .swiper-pagination
+      top: inherit !important
+      left: inherit !important
+      bottom: 70px !important
 

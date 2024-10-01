@@ -9,6 +9,7 @@ export interface ISchemaSettingsView {
 export type SwiperDirectionType = "vertical" | "horizontal";
 export type SwiperPaginationType = "bullet" | "fraction";
 export type SwiperPaginationPositionType = "top" | "bottom" | "left" | "right";
+export type SwiperPaginationThemeType = "light" | "dark"
 
 export interface SwiperSettings {
 	pagination: boolean;
@@ -20,13 +21,13 @@ export interface SwiperSettings {
 		delay: number;
 		duration: number;
 	};
-	speed: boolean;
 	centeredSlides: boolean;
 	spaceBetween: number;
 	direction: SwiperDirectionType;
 	pagination_type: SwiperPaginationType;
 	autoHeight: boolean;
 	paginationPosition: SwiperPaginationPositionType;
+	paginationTheme: SwiperPaginationThemeType;
 }
 
 export type SchemaShowSiteType = "base" | "retail" | "all";

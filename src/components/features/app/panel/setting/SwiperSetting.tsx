@@ -23,6 +23,7 @@ import {
 import {
 	SwiperDirectionType,
 	SwiperPaginationPositionType,
+	SwiperPaginationThemeType,
 	SwiperPaginationType,
 	SwiperSettings,
 } from "@/components/shared/types/interface-schema-settings";
@@ -30,16 +31,24 @@ import {
 interface SwiperPaginationTypeData {
 	name: string;
 	value: SwiperPaginationType;
+	active: boolean;
 }
 
 interface SwiperDirectionTypeData {
 	name: string;
 	value: SwiperDirectionType;
+	active: boolean;
 }
 
 interface SwiperPaginationPositionTypeData {
 	name: string;
 	value: SwiperPaginationPositionType;
+	active: boolean;
+}
+
+interface SwiperPaginationThemeTypeData {
+	name: string;
+	value: SwiperPaginationThemeType;
 	active: boolean;
 }
 
@@ -52,20 +61,37 @@ const directionData: SwiperDirectionTypeData[] = [
 	{
 		name: "Vertical",
 		value: "vertical",
+		active: false,
 	},
 	{
 		name: "Horizontal",
 		value: "horizontal",
+		active: true,
 	},
 ];
 const paginationTypeData: SwiperPaginationTypeData[] = [
 	{
 		name: "Bullet",
 		value: "bullet",
+		active: true,
 	},
 	{
 		name: "Fraction",
 		value: "fraction",
+		active: false,
+	},
+];
+
+const paginationThemeTypeData: SwiperPaginationThemeTypeData[] = [
+	{
+		name: "Белый",
+		value: "light",
+		active: true,
+	},
+	{
+		name: "Темный",
+		value: "dark",
+		active: true,
 	},
 ];
 
@@ -117,12 +143,12 @@ const SwiperSetting: React.FC<Props> = (props) => {
 			duration: 3000,
 		},
 		spaceBetween: 0,
-		speed: false,
 		centeredSlides: false,
 		direction: "horizontal",
 		pagination_type: "bullet",
 		autoHeight: false,
 		paginationPosition: "bottom",
+		paginationTheme: "light",
 	});
 
 	const onChangeSettings = (
@@ -174,18 +200,18 @@ const SwiperSetting: React.FC<Props> = (props) => {
 					duration: 3000,
 				},
 				spaceBetween: 0,
-				speed: false,
 				centeredSlides: false,
 				direction: "horizontal",
 				pagination_type: "bullet",
 				autoHeight: false,
 				paginationPosition: "bottom",
+				paginationTheme: "light",
 			});
 		}
 	}, [settingValue]);
 
 	return (
-		<div className={cn("w-full py-3")}>
+		<div className={cn("w-full py-3 px-1")}>
 			<div
 				className={cn(
 					"flex justify-between cursor-pointer flex-row gap-2 mb-3"
@@ -216,7 +242,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 
 			<div
 				className={cn(
-					"flex justify-between items-center flex-row gap-2 pb-6 mb-6 border-b"
+					"flex justify-between items-center flex-row gap-2 pb-2 mb-2"
 				)}
 			>
 				<div className={cn("w-full")}>
@@ -238,6 +264,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 										<SelectItem
 											key={index}
 											value={paginate.value}
+											disabled={!paginate.active}
 										>
 											{paginate.name}
 										</SelectItem>
@@ -271,6 +298,44 @@ const SwiperSetting: React.FC<Props> = (props) => {
 												value={position.value}
 											>
 												{position.name}
+											</SelectItem>
+										);
+									}
+								)}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+			</div>
+
+			<div
+				className={cn(
+					"flex justify-between items-center flex-row gap-2 pb-6 mb-6 border-b"
+				)}
+			>
+				<div className={cn("w-full")}>
+					<Select
+						defaultValue={swiperSettings.paginationTheme}
+						value={swiperSettings.paginationTheme}
+						disabled={!swiperSettings.pagination}
+						onValueChange={(value) =>
+							onChangeSettings(value, "paginationTheme")
+						}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Выберите тему" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{paginationThemeTypeData.map(
+									(paginate, index) => {
+										return (
+											<SelectItem
+												key={index}
+												value={paginate.value}
+												disabled={!paginate.active}
+											>
+												{paginate.name}
 											</SelectItem>
 										);
 									}
@@ -462,16 +527,6 @@ const SwiperSetting: React.FC<Props> = (props) => {
 						Speed
 					</h3>
 				</Label>
-
-				<div className={cn("flex items-center gap-2")}>
-					<Switch
-						id="swiper-speed"
-						checked={swiperSettings.speed}
-						onCheckedChange={(value) => {
-							onChangeSettings(value, "speed");
-						}}
-					/>
-				</div>
 			</div>
 
 			<div className={cn("w-full mt-5")}>
@@ -494,16 +549,9 @@ const SwiperSetting: React.FC<Props> = (props) => {
 									"delay"
 								)
 							}
-							disabled={!swiperSettings.speed}
 							className={cn("w-[80px] h-[30px]")}
 						/>
-						<CircleGauge
-							width={20}
-							height={24}
-							className={cn(
-								!swiperSettings.speed ? "text-gray-300" : ""
-							)}
-						/>
+						<CircleGauge width={20} height={24} />
 					</div>
 				</div>
 
@@ -526,16 +574,9 @@ const SwiperSetting: React.FC<Props> = (props) => {
 									"duration"
 								)
 							}
-							disabled={!swiperSettings.speed}
 							className={cn("w-[80px] h-[30px]")}
 						/>
-						<ChevronsUp
-							width={20}
-							height={24}
-							className={cn(
-								!swiperSettings.speed ? "text-gray-300" : ""
-							)}
-						/>
+						<ChevronsUp width={20} height={24} />
 					</div>
 				</div>
 			</div>
@@ -567,6 +608,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 										<SelectItem
 											key={index}
 											value={dir.value}
+											disabled={!dir.active}
 										>
 											{dir.name}
 										</SelectItem>

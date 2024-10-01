@@ -45,6 +45,13 @@ export default function useTemplateEvent(): ITemplateEvent {
 	);
 
 	const addComponent = (updateData: IComponentBaseFullSchema) => {
+		if (!updateData) {
+			toastMessage(
+				"Такого компонента не существует! addComponent",
+				"error"
+			);
+			return;
+		}
 		const selected = editorSelectAddComponent;
 		const data = spaceTemplateData.map((container: ISchemaContainer) => {
 			if (container.id === selected.containerData.id) {

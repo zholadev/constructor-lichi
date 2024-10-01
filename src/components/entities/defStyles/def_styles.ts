@@ -35,27 +35,27 @@ export const defaultStyles: IDefaultStyles = {
 	COMPONENTS: {
 		card: {
 			backgroundColor: "#ffffff",
-			backgroundColorDark: "rgb(24, 26, 27)",
+			backgroundColorDark: "#181a1b",
 		},
 		card_outside: {
 			backgroundColor: "#ffffff",
-			backgroundColorDark: "rgb(24, 26, 27)",
+			backgroundColorDark: "#181a1b",
 		},
 		album: {
 			backgroundColor: "#ffffff",
-			backgroundColorDark: "rgb(24, 26, 27)",
+			backgroundColorDark: "#181a1b",
 		},
 		album_outside: {
 			backgroundColor: "#ffffff",
-			backgroundColorDark: "rgb(24, 26, 27)",
+			backgroundColorDark: "#181a1b",
 		},
 		video: {
 			backgroundColor: "#ffffff",
-			backgroundColorDark: "rgb(24, 26, 27)",
+			backgroundColorDark: "#181a1b",
 		},
 		video_outside: {
 			backgroundColor: "#ffffff",
-			backgroundColorDark: "rgb(24, 26, 27)",
+			backgroundColorDark: "#181a1b",
 		},
 	},
 };

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import useTimerCountdown from "@/components/shared/hooks/useTimerCountdown";
 import TimerDisplay from "./TimerDisplay";
+import {IElementTotal} from "@/components/features/app/ui/elements/types/interface-elements";
 
 interface Props {
 	targetDate: string | Date;
 	styles?: React.CSSProperties;
 	fontSTime?: string;
 	fontSType?: string;
+	data: IElementTotal;
 }
 
 /**
@@ -21,7 +23,7 @@ interface Props {
  * @constructor
  */
 const TimerContainer: React.FC<Props> = (props) => {
-	const { targetDate, styles, fontSTime, fontSType } = props;
+	const { targetDate, styles, fontSTime, fontSType, data } = props;
 
 	const [targetDateState, setTargetDateState] = useState<string | Date>();
 
@@ -41,6 +43,7 @@ const TimerContainer: React.FC<Props> = (props) => {
 			style={styles}
 			fontSTime={fontSTime}
 			fontSType={fontSType}
+			darkThemeSetting={!data.settings?.view?.darkTheme}
 		/>
 	);
 };

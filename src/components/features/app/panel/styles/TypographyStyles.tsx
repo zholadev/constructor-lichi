@@ -21,6 +21,8 @@ import {
 } from "@radix-ui/react-icons";
 import { ItalicIcon, UnderlineIcon } from "lucide-react";
 import usePermission from "@/components/shared/hooks/usePermission";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
 
 type FontFamilyTypes =
 	| "Futura PT"
@@ -62,6 +64,7 @@ interface IStylesValues {
 	color: string;
 	fontStyle: FontStylesType;
 	textDecoration: TextDecoration;
+	colorDark?: string;
 }
 
 type StylesValues = keyof IStylesValues;
@@ -197,6 +200,7 @@ const extractStyles = (styles: IStylesValues): IStylesValues => {
 		color: "#000000",
 		fontStyle: "normal",
 		textDecoration: "initial",
+		colorDark: "#ffffff",
 	};
 
 	let { fontSize } = defaultStyles;
@@ -223,6 +227,7 @@ const extractStyles = (styles: IStylesValues): IStylesValues => {
 		textDecoration:
 			(styles.textDecoration as TextDecoration) ||
 			defaultStyles.textDecoration,
+		colorDark: styles.colorDark || defaultStyles.colorDark,
 	};
 };
 
@@ -241,8 +246,8 @@ const TypographyStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
 
 	const permission = usePermission();
-
 	const toastMessage = useToastMessage();
+	const activeDarkTheme = useActiveDarkThemeSetting();
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({
 		fontFamily: "Futura PT",
@@ -253,6 +258,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		color: "#000000",
 		fontStyle: "normal",
 		textDecoration: "initial",
+		colorDark: "#ffffff",
 	});
 
 	const removeStylesHandle = () => {
@@ -268,6 +274,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 					"style.color",
 					"style.fontStyle",
 					"style.textDecoration",
+					"style.colorDark",
 				],
 				"removeKey"
 			);
@@ -627,11 +634,20 @@ const TypographyStyles: React.FC<Props> = (props) => {
 						>
 							<Input
 								className={cn("border-0 p-0")}
-								defaultValue={stylesValues.color}
+								defaultValue={
+									activeDarkTheme
+										? stylesValues.colorDark
+										: stylesValues.color
+								}
 								type="color"
+								value={
+									activeDarkTheme
+										? stylesValues.colorDark
+										: stylesValues.color
+								}
 								onInput={(e) => {
 									onChangeStyleHandle(
-										"color",
+										activeDarkTheme ? "colorDark" : "color",
 										e.target.value
 									);
 								}}
@@ -641,11 +657,20 @@ const TypographyStyles: React.FC<Props> = (props) => {
 								className={cn(
 									"col-span-2 border-0 focus-visible:ring-0"
 								)}
-								defaultValue={stylesValues.color}
+								defaultValue={
+									activeDarkTheme
+										? stylesValues.colorDark
+										: stylesValues.color
+								}
 								type="text"
+								value={
+									activeDarkTheme
+										? stylesValues.colorDark
+										: stylesValues.color
+								}
 								onChange={(e) => {
 									onChangeStyleHandle(
-										"color",
+										activeDarkTheme ? "colorDark" : "color",
 										e.target.value
 									);
 								}}

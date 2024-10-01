@@ -64,6 +64,7 @@ const ViewSetting: React.FC<Props> = (props) => {
 			heightFull: false,
 			navbarMode: false,
 			contentType: "image",
+			darkTheme: false,
 		});
 
 	/**
@@ -193,6 +194,30 @@ const ViewSetting: React.FC<Props> = (props) => {
 							checked={viewSettingValue.navbarMode}
 							onCheckedChange={(value) => {
 								viewSettingUpdateHandle(value, "navbarMode");
+							}}
+						/>
+					</div>
+				</div>
+			)}
+
+			{permission.setting.view.darkTheme && (
+				<div
+					className={cn(
+						"flex justify-between cursor-pointer items-center flex-row gap-2 mb-3"
+					)}
+				>
+					<Label htmlFor="view-header-mode-setting">
+						<h3 className={cn("text-xs uppercase text-gray-500")}>
+							Темная тема (вкл/выкл для стилей)
+						</h3>
+					</Label>
+
+					<div className={cn("flex items-center gap-2")}>
+						<Switch
+							id="view-header-mode-setting"
+							checked={viewSettingValue.darkTheme}
+							onCheckedChange={(value) => {
+								viewSettingUpdateHandle(value, "darkTheme");
 							}}
 						/>
 					</div>

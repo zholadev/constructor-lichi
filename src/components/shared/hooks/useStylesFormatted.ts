@@ -13,13 +13,20 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 export default function useStylesFormatted(): () => Record<string, unknown> {
 	const { spaceModeTheme } = useAppSelector((state) => state?.space);
 
-	return (componentStyles: Record<string, unknown>) => {
+	return (
+		componentStyles: Record<string, unknown>,
+		skipDarkStyles: boolean
+	) => {
 		let updatedStyles: Record<string, unknown> = {};
 
 		for (const key in componentStyles) {
 			if (componentStyles.hasOwnProperty(key)) {
 				// Если активна темная тема и существует свойство, заканчивающееся на "Dark"
-				if (spaceModeTheme === "dark" && key.endsWith("Dark")) {
+				if (
+					spaceModeTheme === "dark" &&
+					!skipDarkStyles &&
+					key.endsWith("Dark")
+				) {
 					// Заменяем стандартное свойство на темное, удаляя "Dark" из ключа
 					updatedStyles[key.slice(0, -4)] = componentStyles[key];
 				} else if (!key.endsWith("Dark")) {

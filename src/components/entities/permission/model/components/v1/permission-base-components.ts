@@ -70,6 +70,7 @@ export const permissionBaseComponents: IPermission = {
 			contentType: true,
 			navbarMode: false,
 			heightFull: false,
+			darkTheme: true,
 		},
 		action: {
 			root: true,

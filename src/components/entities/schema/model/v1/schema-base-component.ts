@@ -26,6 +26,7 @@ export const card_component_schema = (): IComponentBaseFullSchema => {
 			// @ts-ignore
 			view: {
 				contentType: "image",
+				darkTheme: true,
 			},
 			element: {
 				positionX: "center",
@@ -57,6 +58,7 @@ export const card_outside_component_schema = (): IComponentBaseFullSchema => {
 			// @ts-ignore
 			view: {
 				contentType: "image",
+				darkTheme: true,
 			},
 			element: {
 				positionX: "center",
@@ -88,6 +90,7 @@ export const album_component_schema = (): IComponentBaseFullSchema => {
 			// @ts-ignore
 			view: {
 				contentType: "image",
+				darkTheme: true,
 			},
 			element: {
 				positionX: "center",
@@ -119,6 +122,7 @@ export const album_outside_component_schema = (): IComponentBaseFullSchema => {
 			// @ts-ignore
 			view: {
 				contentType: "image",
+				darkTheme: true,
 			},
 			element: {
 				positionX: "center",
@@ -153,6 +157,7 @@ export const video_component_schema = (): IComponentBaseFullSchema => {
 			// @ts-ignore
 			view: {
 				contentType: "video",
+				darkTheme: true,
 			},
 			element: {
 				positionX: "center",
@@ -187,6 +192,7 @@ export const video_outside_component_schema = (): IComponentBaseFullSchema => {
 			// @ts-ignore
 			view: {
 				contentType: "video",
+				darkTheme: true,
 			},
 			element: {
 				positionX: "center",

@@ -113,7 +113,6 @@ const StylesContainer: React.FC = () => {
 			return;
 		}
 
-		console.log("border values: ", value, path, type);
 		if (type === "removeKey") {
 			editorEvent.updateComponent(
 				value,

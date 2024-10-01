@@ -30,7 +30,11 @@ const TextElement: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<h2 style={{ ...styleFormatted(data.style) }}>
+		<h2
+			style={{
+				...styleFormatted(data.style, !data.settings?.view?.darkTheme),
+			}}
+		>
 			{data.content.title[spaceModeLanguage].value}
 		</h2>
 	);

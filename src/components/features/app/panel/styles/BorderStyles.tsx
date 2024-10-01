@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
@@ -19,10 +19,8 @@ import {
 } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
-
-interface CssStyles {
-	[key: string]: any;
-}
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
 
 type BorderStyleType = "solid" | "dashed" | "dotted";
 
@@ -73,37 +71,6 @@ const parseBorderStyle = (border: string) => {
 		borderColor: parts[2],
 	};
 };
-
-const updateBorderStyles = (
-	styles: CSSProperties,
-	newBorderStyle: CSSProperties
-): CssStyles => {
-	// Получаем ключ новой границы (например, 'borderLeft')
-	const newBorder = Object.keys(newBorderStyle)[0];
-
-	// Создаем копию объекта стилей
-	const updatedStyles = { ...styles };
-
-	// Удаляем все остальные border стили, кроме переданного newBorder
-	borderKeys.forEach((key) => {
-		if (key !== newBorder) {
-			delete updatedStyles[key];
-		}
-	});
-
-	// Добавляем или обновляем значение для переданного newBorder
-	updatedStyles[newBorder] = newBorderStyle[newBorder];
-
-	return updatedStyles;
-};
-
-const borderKeys = [
-	"border",
-	"borderLeft",
-	"borderTop",
-	"borderBottom",
-	"borderRight",
-];
 
 const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 	const defaultValues: IStyleValues = {
@@ -219,8 +186,8 @@ const BorderStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
 
 	const permission = usePermission();
-
 	const toastMessage = useToastMessage();
+	const activeDarkTheme = useActiveDarkThemeSetting();
 
 	const [styleValues, setStyleValues] = useState<IStyleValues>({
 		borderWidth: [1],

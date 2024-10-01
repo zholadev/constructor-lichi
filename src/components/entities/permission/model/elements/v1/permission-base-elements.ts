@@ -58,6 +58,7 @@ export const permissionBaseElements: IPermission = {
 		video: false,
 		link: true,
 		textFill: true,
+		stories: false,
 	},
 	setting: {
 		show: {
@@ -65,10 +66,11 @@ export const permissionBaseElements: IPermission = {
 			siteType: false,
 		},
 		view: {
-			root: false,
+			root: true,
 			contentType: false,
 			navbarMode: false,
 			heightFull: false,
+			darkTheme: true,
 		},
 		action: {
 			root: true,

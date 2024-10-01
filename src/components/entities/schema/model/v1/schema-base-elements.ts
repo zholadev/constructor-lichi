@@ -13,6 +13,11 @@ export const button_schema_element = (): IElementTotal => {
 		style: {
 			...defaultStyles.ELEMENT.button,
 		},
+		settings: {
+			view: {
+				darkTheme: true,
+			},
+		},
 	};
 };
 
@@ -24,6 +29,11 @@ export const text_schema_element = (): IElementTotal => {
 		version: versionElementBase.text.version,
 		style: {
 			...defaultStyles.ELEMENT.text,
+		},
+		settings: {
+			view: {
+				darkTheme: true,
+			},
 		},
 	};
 };
@@ -41,6 +51,9 @@ export const timer_schema_element = (): IElementTotal => {
 			timer: {
 				targetDate: getFormattedDateSixDaysAhead(),
 				targetTime: "00:00:00",
+			},
+			view: {
+				darkTheme: true,
 			},
 		},
 	};

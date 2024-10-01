@@ -7,16 +7,19 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import useDebounce from "@/components/shared/hooks/useDebounce";
 import usePermission from "@/components/shared/hooks/usePermission";
 import { Button } from "@/components/shared/shadcn/ui/button";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
 
 interface IStylesValues {
 	backgroundColor: string;
+	backgroundColorDark?: string;
 }
 
 type StylesKeys = "backgroundColor";
 
 interface Props {
 	onStyleChange?: (values: IStylesValues) => void;
-	styles?: React.CSSProperties;
+	styles?: Record<string, unknown>;
 	hideTitle?: boolean;
 }
 
@@ -34,12 +37,13 @@ interface Props {
 const BackgroundStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle } = props;
 
-	const permission = usePermission();
-
 	const toastMessage = useToastMessage();
+	const permission = usePermission();
+	const activeDarkTheme = useActiveDarkThemeSetting();
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({
 		backgroundColor: "#000000",
+		backgroundColorDark: "#181a1b",
 	});
 
 	/**
@@ -78,15 +82,22 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 
 	const removeBorderStyles = () => {
 		if (onStyleChange) {
-			onStyleChange({}, ["style.backgroundColor"], "removeKey");
+			onStyleChange(
+				{},
+				["style.backgroundColor", "style.backgroundColorDark"],
+				"removeKey"
+			);
 		}
 	};
 
 	useEffect(() => {
 		if (styles) {
-			setStylesValues({
-				backgroundColor: styles.backgroundColor || "#000000",
-			});
+			let defaultStyle = {
+				backgroundColor: styles.backgroundColor || "#ffffff",
+				backgroundColorDark: styles?.backgroundColorDark || "#181a1b",
+			};
+
+			setStylesValues(defaultStyle);
 		}
 	}, [styles]);
 
@@ -128,12 +139,18 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 						>
 							<Input
 								className={cn("border-0 p-0")}
-								value={stylesValues.backgroundColor}
+								value={
+									activeDarkTheme
+										? stylesValues.backgroundColorDark
+										: stylesValues.backgroundColor
+								}
 								type="color"
 								onInput={(e) => {
 									onChangeStyleHandle(
 										e.target.value,
-										"backgroundColor"
+										activeDarkTheme
+											? "backgroundColorDark"
+											: "backgroundColor"
 									);
 								}}
 							/>
@@ -142,12 +159,18 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 								className={cn(
 									"col-span-2 border-0 focus-visible:ring-0"
 								)}
-								value={stylesValues.backgroundColor}
+								value={
+									activeDarkTheme
+										? stylesValues.backgroundColorDark
+										: stylesValues.backgroundColor
+								}
 								type="text"
 								onChange={(e) => {
 									debouncedHandleInput(
 										e.target.value,
-										"backgroundColor"
+										activeDarkTheme
+											? "backgroundColorDark"
+											: "backgroundColor"
 									);
 								}}
 							/>

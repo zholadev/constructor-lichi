@@ -32,7 +32,12 @@ const CardOutside: React.FC<Props> = (props) => {
 	return (
 		<ComponentAction data={componentData} containerId={containerId}>
 			<div
-				style={{ ...styleFormatted(componentData.style) }}
+				style={{
+					...styleFormatted(
+						componentData.style,
+						!componentData.settings?.view?.darkTheme
+					),
+				}}
 				className={styles.wrapper}
 			>
 				<MediaContainer componentData={componentData} />

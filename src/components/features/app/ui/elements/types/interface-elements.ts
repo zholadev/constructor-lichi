@@ -3,7 +3,10 @@ import {
 	ISchemaContentLink,
 	ISchemaContentText,
 } from "@/components/shared/types/interface-schema-content";
-import { ISchemaSettingsTimer } from "@/components/shared/types/interface-schema-settings";
+import {
+	ISchemaSettingsTimer,
+	ISchemaSettingsView,
+} from "@/components/shared/types/interface-schema-settings";
 
 export interface IElementSchema {
 	id: string;
@@ -11,6 +14,9 @@ export interface IElementSchema {
 	type: ElementBaseTypes;
 	style: Record<string, unknown>;
 	version: string;
+	settings?: {
+		view: ISchemaSettingsView;
+	};
 }
 
 export interface IButtonElement extends IElementSchema {

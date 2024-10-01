@@ -11,6 +11,7 @@ interface Props {
 	style?: React.CSSProperties;
 	fontSTime?: string;
 	fontSType?: string;
+	darkThemeSetting: boolean;
 }
 
 /**
@@ -25,13 +26,13 @@ interface Props {
  * @constructor
  */
 const TimerDisplay: React.FC<Props> = (props) => {
-	const { days, hours, minutes, seconds, style, fontSTime, fontSType } =
+	const { days, hours, minutes, seconds, style, fontSTime, fontSType, darkThemeSetting } =
 		props;
 
 	const styleFormatted = useStylesFormatted();
 
 	return (
-		<ul className={styles.timer} style={{ ...styleFormatted(style) }}>
+		<ul className={styles.timer} style={{ ...styleFormatted(style, darkThemeSetting) }}>
 			<TimerItem
 				fontSTime={fontSTime}
 				fontSType={fontSType}

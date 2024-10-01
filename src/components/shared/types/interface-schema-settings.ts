@@ -4,12 +4,13 @@ export interface ISchemaSettingsView {
 	heightFull: boolean;
 	navbarMode: boolean;
 	contentType: ISchemaContentMediaType;
+	darkTheme: boolean;
 }
 
 export type SwiperDirectionType = "vertical" | "horizontal";
 export type SwiperPaginationType = "bullet" | "fraction";
 export type SwiperPaginationPositionType = "top" | "bottom" | "left" | "right";
-export type SwiperPaginationThemeType = "light" | "dark"
+export type SwiperPaginationThemeType = "light" | "dark";
 
 export interface SwiperSettings {
 	pagination: boolean;

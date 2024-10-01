@@ -32,7 +32,12 @@ const Video: React.FC<Props> = (props) => {
 	return (
 		<ComponentAction containerId={containerId} data={componentData}>
 			<div
-				style={{ ...styleFormatted(componentData.style) }}
+				style={{
+					...styleFormatted(
+						componentData.style,
+						!componentData.settings?.view?.darkTheme
+					),
+				}}
 				className={styles.wrapper}
 			>
 				<MediaContainer componentData={componentData} />

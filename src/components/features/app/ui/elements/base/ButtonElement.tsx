@@ -30,7 +30,12 @@ const ButtonElement: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<button type="button" style={{ ...styleFormatted(data.style) }}>
+		<button
+			type="button"
+			style={{
+				...styleFormatted(data.style, !data.settings?.view?.darkTheme),
+			}}
+		>
 			{data.content.title[spaceModeLanguage].value}
 		</button>
 	);

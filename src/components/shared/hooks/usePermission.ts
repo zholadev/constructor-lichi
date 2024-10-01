@@ -129,7 +129,11 @@ export default function usePermission(): IPermission {
 		return activeElementData?.data?.type ?? "";
 	}, [activeElementData]);
 
-	return useMemo(() => {
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Получаем активный компонент с permission данными
+	 */
+	const currentPermission = useMemo(() => {
 		switch (typeActiveElement) {
 			case "component":
 				return permissionGetComponentsData(typeDataActiveElement);
@@ -140,7 +144,14 @@ export default function usePermission(): IPermission {
 			case "swiper":
 				return permissionGetContainersData(typeDataActiveElement);
 			default:
-				return basePermission;
+				return false;
 		}
-	}, [typeActiveElement, basePermission, editorActiveElement, typeDataActiveElement]);
+	}, [
+		typeActiveElement,
+		basePermission,
+		editorActiveElement,
+		typeDataActiveElement,
+	]);
+
+	return currentPermission || basePermission;
 }

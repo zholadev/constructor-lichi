@@ -5,10 +5,11 @@ import {
 	text_component_permission,
 	timer_component_permission,
 } from "@/components/features/app/ui/elements/permission/permission-element";
+import { basePermission } from "@/components/shared/hooks/usePermission";
 
 export const permissionGetElementsData = (
 	type: ElementBaseTypes
-): IPermission | Record<string, never> => {
+): IPermission => {
 	switch (type) {
 		case "button":
 			return button_component_permission;
@@ -17,6 +18,6 @@ export const permissionGetElementsData = (
 		case "timer":
 			return timer_component_permission;
 		default:
-			return {};
+			return basePermission;
 	}
 };

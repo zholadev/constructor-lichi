@@ -8,10 +8,11 @@ import {
 	video_outside_component_permission,
 } from "@/components/features/app/ui/components/permission/permission-component";
 import { IPermission } from "@/components/entities/permission/types/interface-permission";
+import { basePermission } from "@/components/shared/hooks/usePermission";
 
 export const permissionGetComponentsData = (
 	type: ComponentBaseTypes
-): IPermission | Record<string, never> => {
+): IPermission => {
 	switch (type) {
 		case "card":
 			return card_component_permission;
@@ -26,6 +27,6 @@ export const permissionGetComponentsData = (
 		case "video_outside":
 			return video_outside_component_permission;
 		default:
-			return {};
+			return basePermission;
 	}
 };

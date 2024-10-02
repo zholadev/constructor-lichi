@@ -114,7 +114,7 @@ const ViewSetting: React.FC<Props> = (props) => {
 				...settingValue,
 			});
 		}
-	}, []);
+	}, [settingValue]);
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>

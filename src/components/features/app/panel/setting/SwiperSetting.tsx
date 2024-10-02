@@ -279,7 +279,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 					<Select
 						defaultValue={swiperSettings.paginationPosition}
 						value={swiperSettings.paginationPosition}
-						disabled={!swiperSettings.paginationPosition}
+						disabled={!swiperSettings.pagination}
 						onValueChange={(value) =>
 							onChangeSettings(value, "paginationPosition")
 						}

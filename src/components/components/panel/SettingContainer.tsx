@@ -45,10 +45,10 @@ const SettingContainer: React.FC = () => {
 			view: activeElementData?.data?.settings?.view || {},
 			show: activeElementData?.data?.settings?.show || {},
 			swiper: activeElementData?.data?.settings?.swiper || {},
-		timer: activeElementData?.data?.settings?.timer || {},
+			timer: activeElementData?.data?.settings?.timer || {},
 			element: activeElementData?.data?.settings?.element || {},
 		};
-	}, [activeElementData]);
+	}, [activeElementData, permission]);
 
 	const updateContentHandle = (data, path) => {
 		editorEvent.updateComponent(data, "settings", path);

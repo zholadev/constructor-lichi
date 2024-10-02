@@ -54,8 +54,6 @@ const WhiteBoard: React.FC = () => {
 				style={{
 					...styleFormatted({
 						height: "calc(100vh - 50px)",
-						backgroundColor: "#ffffff",
-						backgroundColorDark: "rgb(24, 26, 27)",
 					}),
 				}}
 				className={cn("overflow-y-auto p-1")}

@@ -84,7 +84,12 @@ const SwiperContainer: React.FC<Props> = (props) => {
 				controller={{ control: null }}
 				{...updatedSwiperSettings}
 				pagination={swiperSettings.pagination}
-				style={{ ...styleFormatted(swiperStyles) }}
+				style={{
+					...styleFormatted(
+						swiperStyles,
+						!container.settings?.view?.darkTheme
+					),
+				}}
 				className={`swiper-container-v1 swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`}
 			>
 				{componentsData.map((component) => {

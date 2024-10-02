@@ -117,11 +117,18 @@ export default function useTemplateEvent(): ITemplateEvent {
 
 		const generateSettings = () => {
 			if (blockType === "container") {
-				return {};
+				return {
+					view: {
+						darkTheme: true,
+					},
+				};
 			}
 			if (blockType === "swiper") {
 				return {
 					swiper: defaultSettings.CONTAINERS.swiper,
+					view: {
+						darkTheme: true,
+					},
 				};
 			}
 		};

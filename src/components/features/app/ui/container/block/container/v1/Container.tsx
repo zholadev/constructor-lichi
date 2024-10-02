@@ -33,7 +33,7 @@ const Container: React.FC<Props> = (props) => {
 				height: container.settings?.view?.heightFull
 					? "calc(100vh - 110px)"
 					: "100%",
-				...styleFormatted(container.style),
+				...styleFormatted(container.style, !container?.settings?.view?.darkTheme),
 			}}
 		>
 			{componentsData.map((component) => {

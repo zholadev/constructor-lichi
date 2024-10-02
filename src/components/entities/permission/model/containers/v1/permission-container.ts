@@ -58,6 +58,7 @@ export const baseContainerPermission: IPermission = {
 		video: false,
 		link: false,
 		textFill: false,
+		stories: false,
 	},
 	setting: {
 		show: {
@@ -69,6 +70,7 @@ export const baseContainerPermission: IPermission = {
 			contentType: false,
 			navbarMode: true,
 			heightFull: true,
+			darkTheme: true,
 		},
 		action: {
 			root: true,

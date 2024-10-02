@@ -1,22 +1,30 @@
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import { TemplateBlockType } from "@/components/shared/types/types-components";
 import { v4 as uuidv4 } from "uuid";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { versionTemplate } from "@/components/app/versions/version-modules";
-import { IComponentBaseSchema } from "@/components/shared/types/interface-templates";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 import { defaultSettings } from "@/components/entities/defSettings/def_settings";
+import {
+	IContainerType,
+	ISaintLaurentComponentType,
+} from "@/components/shared/types/types";
+import { saint_laurent_component_schema } from "@/components/entities/schema/model/v1/schema-special-components";
 
 interface ITemplateEvent {
-	create: (
-		blockType: TemplateBlockType,
+	createBaseContainer: (
+		blockType: IContainerType,
 		countColumn: number,
 		cb: () => void
 	) => void;
-	addComponent: (data: IComponentBaseSchema) => void;
+	addComponent: (data: IComponentBaseFullSchema) => void;
 	deleteContainer: (id: string) => void;
+	createSaintLaurentContainerEvent: (
+		type: IContainerType,
+		componentType: ISaintLaurentComponentType,
+		cb: () => void
+	) => void;
 }
 
 /**
@@ -77,8 +85,8 @@ export default function useTemplateEvent(): ITemplateEvent {
 	 * @author Zholaman Zhumanov
 	 * @description Функция который подтверждает добавление шаблона в доску
 	 */
-	const create = (
-		blockType: TemplateBlockType,
+	const createBaseContainer = (
+		blockType: IContainerType,
 		countColumn: number,
 		cb: () => void
 	) => {
@@ -173,9 +181,101 @@ export default function useTemplateEvent(): ITemplateEvent {
 		toggleEditorRemoveTemplateHandle();
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для создания контейнера для saint laurent типа
+	 * @param type
+	 * @param componentType
+	 * @param cb
+	 */
+	const createSaintLaurentContainerEvent = (
+		type: IContainerType,
+		componentType: ISaintLaurentComponentType,
+		cb: () => void
+	) => {
+		if (!type) {
+			toastMessage("Вы не выбрали тип контейнера!", "error");
+			return;
+		}
+
+		const componentCount: number = componentType === "duo" ? 2 : 1;
+
+		const createTemplateColumns = () =>
+			Array(componentCount).fill("1fr").join(" ");
+
+		const generateStyles = () => {
+			const commonStyles = {
+				margin: "0 0 2px 0",
+				backgroundColor: "#ffffff",
+				backgroundColorDark: "#181a1b",
+			};
+
+			if (type === "container") {
+				return {
+					...commonStyles,
+					display: "grid",
+					gap: "60px",
+					gridTemplateColumns: createTemplateColumns() ?? "",
+				};
+			}
+			if (type === "swiper") {
+				return {
+					...commonStyles,
+					display: "block",
+				};
+			}
+
+			return commonStyles;
+		};
+
+		const generateSettings = () => {
+			if (type === "container") {
+				return {
+					view: {
+						darkTheme: true,
+						heightFull: true,
+					},
+				};
+			}
+			if (type === "swiper") {
+				return {
+					swiper: defaultSettings.CONTAINERS.swiper,
+					view: {
+						darkTheme: true,
+						heightFull: true,
+					},
+				};
+			}
+		};
+
+		const createChildren = () => {
+			return Array.from({ length: componentCount }, () => ({
+				id: uuidv4(),
+				data: saint_laurent_component_schema(),
+			}));
+		};
+
+		const newTemplate: ISchemaContainer = {
+			id: uuidv4(),
+			guid: uuidv4(),
+			type: "saint_laurent_container",
+			version: versionTemplate.version,
+			style: generateStyles(),
+			// @ts-ignore
+			components: createChildren(),
+			// @ts-ignore
+			settings: generateSettings(),
+		};
+
+		spaceTemplateDataAction([...spaceTemplateData, newTemplate]);
+
+		if (cb) cb();
+	};
+
 	return {
-		create,
+		createBaseContainer,
 		addComponent,
 		deleteContainer,
+		createSaintLaurentContainerEvent,
 	};
 }

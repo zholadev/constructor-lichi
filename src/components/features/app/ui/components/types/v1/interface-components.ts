@@ -1,11 +1,14 @@
-import { ComponentBaseTypes } from "@/components/shared/types/types-components";
+import {
+	ComponentBaseTypes,
+	ComponentSpecialTypes,
+} from "@/components/shared/types/types-components";
 import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
 import { ISchemaContent } from "@/components/shared/types/interface-schema-content";
 import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 
 export interface IComponentBaseFullSchema {
 	id: string;
-	type: ComponentBaseTypes;
+	type: ComponentBaseTypes | ComponentSpecialTypes;
 	version: string;
 	style: Record<string, unknown>;
 	elements: IElementTotal[];

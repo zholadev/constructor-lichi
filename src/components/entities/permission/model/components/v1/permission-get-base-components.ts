@@ -10,7 +10,7 @@ import {
 import { IPermission } from "@/components/entities/permission/types/interface-permission";
 import { basePermission } from "@/components/shared/hooks/usePermission";
 
-export const permissionGetComponentsData = (
+export const permissionGetBaseComponents = (
 	type: ComponentBaseTypes
 ): IPermission => {
 	switch (type) {

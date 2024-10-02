@@ -3,9 +3,10 @@ import { useMemo } from "react";
 import { ActiveElementType } from "@/components/shared/types/types";
 import { IPermission } from "@/components/entities/permission/types/interface-permission";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
-import { permissionGetComponentsData } from "@/components/entities/permission/model/components/v1/permission-get-components-data";
+import { permissionGetBaseComponents } from "@/components/entities/permission/model/components/v1/permission-get-base-components";
 import {
 	ComponentBaseTypes,
+	ComponentSpecialTypes,
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
 import { permissionGetElementsData } from "@/components/entities/permission/model/elements/v1/permission-get-elements-data";
@@ -126,7 +127,8 @@ export default function usePermission(): IPermission {
 	const typeDataActiveElement:
 		| ComponentBaseTypes
 		| ElementBaseTypes
-		| TemplateBaseType = useMemo(() => {
+		| TemplateBaseType
+		| ComponentSpecialTypes = useMemo(() => {
 		return activeElementData?.data?.type ?? "";
 	}, [activeElementData]);
 
@@ -137,7 +139,7 @@ export default function usePermission(): IPermission {
 	const currentPermission = useMemo(() => {
 		switch (typeActiveElement) {
 			case "component":
-				return permissionGetComponentsData(typeDataActiveElement);
+				return permissionGetBaseComponents(typeDataActiveElement);
 			case "element":
 				return permissionGetElementsData(typeDataActiveElement);
 			case "container":

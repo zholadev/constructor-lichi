@@ -8,10 +8,7 @@ export type ComponentBaseTypes =
 
 export type ComponentSwiperBaseTypes = "swiper" | "swiper_outside";
 
-export type ComponentSpecialTypes =
-	| "saint_laurent"
-	| "saint_laurent_double"
-	| "saint_laurent_swiper";
+export type ComponentSpecialTypes = "saint_laurent";
 
 export type ElementBaseTypes = "button" | "text" | "timer";
 export type ElementBasenameTypes = "Button" | "Text" | "Timer";

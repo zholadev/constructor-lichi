@@ -19,7 +19,15 @@ export type ActiveElementType =
 	| "none";
 
 export type ImageType = "card" | "album";
-export type ComponentType = "base" | "special";
+
+export type IContainerType =
+	| "container"
+	| "swiper"
+	| "saint_laurent_container"
+	| "category_list_container"
+	| "initial";
+
+export type ISaintLaurentComponentType = "single" | "duo";
 
 export type TotalComponentTypes =
 	| IComponentCardSchema

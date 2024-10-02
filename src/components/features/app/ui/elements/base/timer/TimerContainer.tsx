@@ -43,7 +43,7 @@ const TimerContainer: React.FC<Props> = (props) => {
 			style={styles}
 			fontSTime={fontSTime}
 			fontSType={fontSType}
-			darkThemeSetting={!data.settings?.view?.darkTheme}
+			darkThemeSetting={!data?.settings?.view?.darkTheme}
 		/>
 	);
 };

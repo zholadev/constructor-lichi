@@ -4,26 +4,26 @@ import { ImageIcon, PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { ComponentType } from "@/components/shared/types/types";
+import { IContainerType } from "@/components/shared/types/types";
 
 interface Props {}
 
 interface IBlockData {
 	id: number;
 	name: string;
-	type: ComponentType;
+	type: IContainerType;
 }
 
 const blocks: IBlockData[] = [
 	{
 		id: 1,
 		name: "Saint Laurent",
-		type: "special",
+		type: "saint_laurent_container",
 	},
 	{
 		id: 2,
 		name: "Category List",
-		type: "special",
+		type: "category_list_container",
 	},
 ];
 
@@ -57,7 +57,7 @@ const BlockContainer: React.FC<Props> = (props) => {
 					"flex flex-col mb-10 w-[120px] h-[140px] hover:text-green-500 "
 				)}
 				onClick={() => {
-					editorAddComponentTypeAction("base");
+					editorAddComponentTypeAction("container");
 					toggleDialogAddTemplateHandle();
 				}}
 			>

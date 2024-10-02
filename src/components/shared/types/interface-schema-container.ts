@@ -1,11 +1,12 @@
 import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 import { TemplateBaseType } from "@/components/shared/types/interface-templates";
 import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
+import {IContainerType} from "@/components/shared/types/types";
 
 export interface ISchemaContainer {
 	id: string;
 	guid: string;
-	type: TemplateBaseType;
+	type: IContainerType;
 	version: string;
 	style: Record<string, unknown>;
 	settings: ISchemaSettings;

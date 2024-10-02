@@ -16,11 +16,14 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
  * @constructor
  */
 const TemplateAddButton: React.FC = () => {
-	const { dialogAddTemplateAction } = useDispatchAction();
+	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
+		useDispatchAction();
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 
-	const toggleDialogAddTemplateHandle = () =>
+	const toggleDialogAddTemplateHandle = () => {
+		editorAddComponentTypeAction("container");
 		dialogAddTemplateAction(!dialogAddTemplate);
+	};
 
 	return (
 		<div

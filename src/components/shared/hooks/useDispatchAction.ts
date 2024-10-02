@@ -29,8 +29,8 @@ import {
 	schemaListDataReducer,
 } from "@/components/app/store/features/schemaListSlice";
 import {
-	ComponentType,
 	DeviceType,
+	IContainerType,
 	PlatformType,
 	TemplateType,
 	ThemeSpaceMode,
@@ -65,7 +65,8 @@ import {
 	updateBorderLoaderReducer,
 } from "@/components/app/store/features/boardSlice";
 import {
-	editorActiveElementReducer, editorAddComponentTypeReducer,
+	editorActiveElementReducer,
+	editorAddComponentTypeReducer,
 	editorDisabledEditReducer,
 	editorDraggingTemplateReducer,
 	editorNavigatorHoverIdReducer,
@@ -150,7 +151,7 @@ export default function useDispatchAction(): any {
 			dispatch(editorRemoveTemplateReducer(value)),
 		editorNavigatorHoverIdAction: (value: string | null) =>
 			dispatch(editorNavigatorHoverIdReducer(value)),
-		editorAddComponentTypeAction: (value: ComponentType) =>
+		editorAddComponentTypeAction: (value: IContainerType) =>
 			dispatch(editorAddComponentTypeReducer(value)),
 
 		// Space actions

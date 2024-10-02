@@ -5,14 +5,14 @@ import { cn } from "@/components/lib/utils";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import TemplateAddButton from "@/components/features/app/containerTemplate/TemplateAddButton";
-import BaseComponentRender from "@/components/features/app/ui/components/container/BaseComponentRender";
 import ContainerAction from "@/components/features/app/components/actions/container/ContainerAction";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import usePermission from "@/components/shared/hooks/usePermission";
-import SwiperContainer from "@/components/features/app/ui/container/swiper/container/v1/SwiperContainer";
-import Container from "@/components/features/app/ui/container/block/container/v1/Container";
+import SwiperContainer from "@/components/features/app/ui/container/swiper/v1/SwiperContainer";
+import Container from "@/components/features/app/ui/container/container/v1/Container";
+import SaintLaurentContainer from "@/components/features/app/ui/container/saint_laurent/v1/SaintLaurentContainer";
 
 /**
  * @author Zholaman Zhumanov
@@ -65,6 +65,11 @@ const BoardContainer: React.FC = () => {
 									componentsData={container.components}
 									swiperSettings={container.settings.swiper}
 									swiperStyles={container.style}
+									container={container}
+								/>
+							) : container.type === "saint_laurent_container" ? (
+								<SaintLaurentContainer
+									componentsData={container.components}
 									container={container}
 								/>
 							) : (

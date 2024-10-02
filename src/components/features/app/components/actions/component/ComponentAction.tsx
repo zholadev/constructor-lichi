@@ -10,6 +10,7 @@ interface Props {
 	children: React.ReactNode;
 	data: IComponentTotalDataSchema;
 	containerId: string;
+	cls?: string;
 }
 
 /**
@@ -24,7 +25,7 @@ interface Props {
  * @constructor
  */
 const ComponentAction: React.FC<Props> = (props) => {
-	const { children, data, containerId } = props;
+	const { children, data, containerId, cls } = props;
 
 	const activeElementHandle = useActiveElement();
 
@@ -35,7 +36,8 @@ const ComponentAction: React.FC<Props> = (props) => {
 			<div
 				className={cn(
 					`${editorActiveElement.id === data.id ? "border-emerald-400 border-2 box-border" : "border-box"}`,
-					styles.card
+					styles.card,
+					cls
 				)}
 				onClick={() => {
 					activeElementHandle({

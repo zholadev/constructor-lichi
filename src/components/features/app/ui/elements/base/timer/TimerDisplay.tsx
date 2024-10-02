@@ -26,13 +26,24 @@ interface Props {
  * @constructor
  */
 const TimerDisplay: React.FC<Props> = (props) => {
-	const { days, hours, minutes, seconds, style, fontSTime, fontSType, darkThemeSetting } =
-		props;
+	const {
+		days,
+		hours,
+		minutes,
+		seconds,
+		style,
+		fontSTime,
+		fontSType,
+		darkThemeSetting,
+	} = props;
 
 	const styleFormatted = useStylesFormatted();
 
 	return (
-		<ul className={styles.timer} style={{ ...styleFormatted(style, darkThemeSetting) }}>
+		<ul
+			className={styles.timer}
+			style={{ ...styleFormatted(style, darkThemeSetting) }}
+		>
 			<TimerItem
 				fontSTime={fontSTime}
 				fontSType={fontSType}

@@ -27,16 +27,22 @@ const SaintLaurent: React.FC<Props> = (props) => {
 	const { componentData, containerId, containerData } = props;
 
 	return (
-		<ComponentAction containerId={containerId} data={componentData}>
-			<div style={{ ...componentData.style }} className={styles.wrapper}>
-				<MediaContainer componentData={componentData} />
+		<ComponentAction
+			containerId={containerId}
+			data={componentData}
+			cls={styles.saint_laurent_block}
+		>
+			<div style={{ ...componentData.style }}>
+				<figure>
+					<MediaContainer componentData={componentData} />
 
-				<BaseElementWrapper
-					containerId={containerId}
-					elementData={componentData.elements}
-					componentData={componentData}
-					staticElement
-				/>
+					<BaseElementWrapper
+						containerId={containerId}
+						elementData={componentData.elements}
+						componentData={componentData}
+						staticElement
+					/>
+				</figure>
 			</div>
 		</ComponentAction>
 	);

@@ -215,6 +215,8 @@ export default function useTemplateEvent(): ITemplateEvent {
 					...commonStyles,
 					display: "grid",
 					gap: "60px",
+					justifyContent: "center",
+					alignItems: "center",
 					gridTemplateColumns: createTemplateColumns() ?? "",
 				};
 			}

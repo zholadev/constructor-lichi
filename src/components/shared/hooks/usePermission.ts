@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
-import { ActiveElementType } from "@/components/shared/types/types";
+import {ActiveElementType, IContainerType} from "@/components/shared/types/types";
 import { IPermission } from "@/components/entities/permission/types/interface-permission";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import { permissionGetBaseComponents } from "@/components/entities/permission/model/components/v1/permission-get-base-components";
@@ -127,7 +127,7 @@ export default function usePermission(): IPermission {
 	const typeDataActiveElement:
 		| ComponentBaseTypes
 		| ElementBaseTypes
-		| TemplateBaseType
+		| IContainerType
 		| ComponentSpecialTypes = useMemo(() => {
 		return activeElementData?.data?.type ?? "";
 	}, [activeElementData]);

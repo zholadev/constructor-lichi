@@ -4,6 +4,7 @@ import { cn } from "@/components/lib/utils";
 import { IComponentTotalDataSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import SpecialComponentRender from "@/components/features/app/ui/components/container/SpecialComponentRender";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
 interface Props {
 	componentsData: IComponentTotalDataSchema[];
@@ -26,6 +27,8 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 
 	const styleFormatted = useStylesFormatted();
 
+	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
+
 	return (
 		<div
 			className={cn("size-full flex justify-center items-center")}
@@ -40,7 +43,9 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 			}}
 		>
 			<div
-				className={cn("saint-laurent-container-v1")}
+				className={cn(
+					`saint-laurent-container-v1 ${spaceModeDeviceType === "tablet" ? "saint_laurent_container_table" : spaceModeDeviceType === "mobile" ? "saint_laurent_container_mobile" : ""}`
+				)}
 				style={{
 					height: container.settings?.view?.heightFull
 						? "100vh"

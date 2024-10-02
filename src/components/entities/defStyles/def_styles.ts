@@ -1,12 +1,16 @@
 import {
 	ComponentBaseTypes,
+	ComponentSpecialTypes,
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
 import { IContainerType } from "@/components/shared/types/types";
 
 interface IDefaultStyles {
 	ELEMENT: Record<ElementBaseTypes, Record<string, unknown>>;
-	COMPONENTS: Record<ComponentBaseTypes, Record<string, unknown>>;
+	COMPONENTS: Record<
+		ComponentBaseTypes | ComponentSpecialTypes,
+		Record<string, unknown>
+	>;
 	CONTAINERS: Record<IContainerType, Record<string, unknown>>;
 }
 
@@ -14,7 +18,7 @@ export const defaultStyles: IDefaultStyles = {
 	ELEMENT: {
 		button: {
 			border: "1px solid #000000",
-			padding: "10px 15px",
+			padding: "10px 15px 10px 15px",
 			textAlign: "center",
 			fontFamily: "Futura PT",
 			color: "#000000",
@@ -59,6 +63,10 @@ export const defaultStyles: IDefaultStyles = {
 			backgroundColor: "#ffffff",
 			backgroundColorDark: "#181a1b",
 		},
+		saint_laurent: {
+			backgroundColor: "#ffffff",
+			backgroundColorDark: "#181a1b",
+		}
 	},
 	CONTAINERS: {
 		saint_laurent_container: {

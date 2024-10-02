@@ -122,10 +122,9 @@ export const swiper_container_permission: IPermission = {
 		...baseContainerPermission.setting,
 		swiper: {
 			root: true,
-		}
+		},
 	},
-}
-
+};
 
 export const saint_laurent_container_permission: IPermission = {
 	...baseContainerPermission,
@@ -145,6 +144,10 @@ export const saint_laurent_container_permission: IPermission = {
 		...baseContainerPermission.setting,
 		swiper: {
 			root: true,
-		}
+		},
+		action: {
+			...baseContainerPermission.setting.action,
+			add: false,
+		},
 	},
-}
+};

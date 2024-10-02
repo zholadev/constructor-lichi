@@ -4,6 +4,7 @@ import BaseElementWrapper from "@/components/features/app/ui/elements/container/
 import ComponentAction from "@/components/features/app/components/actions/component/ComponentAction";
 import { IComponentTotalDataSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import styles from "../../../styles/v1/saint-laurent-1.0.0.module.sass";
 
 interface Props {
@@ -26,13 +27,22 @@ interface Props {
 const SaintLaurent: React.FC<Props> = (props) => {
 	const { componentData, containerId, containerData } = props;
 
+	const styleFormatted = useStylesFormatted();
+
 	return (
 		<ComponentAction
 			containerId={containerId}
 			data={componentData}
 			cls={styles.saint_laurent_block}
 		>
-			<div style={{ ...componentData.style }}>
+			<div
+				style={{
+					...styleFormatted(
+						componentData.style,
+						!componentData.settings?.view?.darkTheme
+					),
+				}}
+			>
 				<figure>
 					<MediaContainer componentData={componentData} />
 

@@ -90,7 +90,6 @@ const SpacingStyles: React.FC<Props> = (props) => {
 	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
 
 	const permission = usePermission();
-
 	const toastMessage = useToastMessage();
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({

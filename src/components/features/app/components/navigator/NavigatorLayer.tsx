@@ -38,6 +38,14 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 	const onMouseOverHandle = (id: string | null) =>
 		editorNavigatorHoverIdAction(id);
 
+	const formattedName = (name: string) => {
+		if (typeof name === "string") {
+			return name.replace(/_/g, " ");
+		}
+
+		return name;
+	};
+
 	const onClickHandle = (
 		type: ActiveElementType,
 		data: TotalComponentTypes
@@ -45,7 +53,7 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 		activeElementHandle({
 			data,
 			containerId,
-			type: type,
+			type,
 			componentId: data?.id,
 			currentId: data?.id,
 		});
@@ -62,7 +70,10 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 					)
 				}
 				onClick={() => {
-					onClickHandle(type, type === "component" ? data?.data : data);
+					onClickHandle(
+						type,
+						type === "component" ? data?.data : data
+					);
 				}}
 				onMouseLeave={() => onMouseOverHandle(null)}
 				className={cn(
@@ -78,7 +89,7 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 						<ButtonIcon />
 					) : null}
 				</span>{" "}
-				{data?.type || data?.data?.type}
+				{formattedName(data?.type) || formattedName(data?.data?.type)}
 			</div>
 			{data?.components &&
 				data?.components.map((component) => {

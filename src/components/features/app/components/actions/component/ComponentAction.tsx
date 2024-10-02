@@ -11,6 +11,7 @@ interface Props {
 	data: IComponentTotalDataSchema;
 	containerId: string;
 	cls?: string;
+	autoSizeComponent?: boolean;
 }
 
 /**
@@ -25,14 +26,14 @@ interface Props {
  * @constructor
  */
 const ComponentAction: React.FC<Props> = (props) => {
-	const { children, data, containerId, cls } = props;
+	const { children, data, containerId, cls, autoSizeComponent } = props;
 
 	const activeElementHandle = useActiveElement();
 
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	return (
-		<div className={cn("size-full relative")}>
+		<div className={cn("relative", autoSizeComponent ? "" : "size-full")}>
 			<div
 				className={cn(
 					`${editorActiveElement.id === data.id ? "border-emerald-400 border-2 box-border" : "border-box"}`,

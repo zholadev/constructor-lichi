@@ -31,7 +31,7 @@ import Navigator from "@/components/features/app/components/navigator/Navigator"
 const PanelComponent: React.FC = () => {
 	return (
 		<div
-			className={cn("w-[400px] border")}
+			className={cn("w-[367px] border")}
 			style={{ height: "calc(100vh - 60px)" }}
 		>
 			<Tabs defaultValue="components" className="w-full">

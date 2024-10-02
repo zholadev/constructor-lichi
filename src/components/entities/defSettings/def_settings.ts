@@ -20,7 +20,7 @@ export const defaultSettings: IDefaultSettings = {
 			pagination: false,
 			autoplay: false,
 			loop: false,
-			slidePerView: 5,
+			slidePerView: 3.2,
 			slidePerGroup: 1,
 			spaceBetween: 10,
 			speed_advanced: {

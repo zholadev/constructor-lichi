@@ -28,9 +28,11 @@ interface Props {
 const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 	const { children, devices } = props;
 
+	const [size, setSize] = React.useState(null);
+	console.log("size", size);
 	return (
 		<Suspense fallback={<div>Идет загрузка доски!</div>}>
-			<DeviceEmulator banDevices={devices} defaultValue={devices[0]}>
+			<DeviceEmulator banDevices={devices} defaultValue={devices[0]} onChange={event => setSize(event)}>
 				{(props: DeviceFramesetProps) => (
 					<DeviceFrameset {...props}>{children}</DeviceFrameset>
 				)}

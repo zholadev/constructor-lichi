@@ -1,7 +1,6 @@
 import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
-import { TemplateBaseType } from "@/components/shared/types/interface-templates";
 import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
-import {IContainerType} from "@/components/shared/types/types";
+import { IContainerType } from "@/components/shared/types/types";
 
 export interface ISchemaContainer {
 	id: string;
@@ -14,8 +13,4 @@ export interface ISchemaContainer {
 		id: string;
 		data: IComponentBaseFullSchema;
 	}>;
-}
-
-export interface ISchemaContainerComponents {
-
 }

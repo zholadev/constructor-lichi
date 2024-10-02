@@ -74,7 +74,7 @@ import {
 	editorRemoveTemplateReducer,
 	editorSelectAddComponentReducer,
 	editorSelectElementReducer,
-	editorSwiperAutoplayReducer,
+	editorSwiperAutoplayReducer, editorSwiperIndexShowReducer,
 	editorVideoPlayReducer,
 } from "@/components/app/store/features/editorSlice";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
@@ -153,6 +153,8 @@ export default function useDispatchAction(): any {
 			dispatch(editorNavigatorHoverIdReducer(value)),
 		editorAddComponentTypeAction: (value: IContainerType) =>
 			dispatch(editorAddComponentTypeReducer(value)),
+		editorSwiperIndexShowReducerAction: (value: boolean) =>
+			dispatch(editorSwiperIndexShowReducer(value)),
 
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>

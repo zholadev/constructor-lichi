@@ -10,6 +10,7 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { Autoplay, Pagination, Controller } from "swiper/modules";
 import { cn } from "@/components/lib/utils";
 import "swiper/css/pagination";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
@@ -37,6 +38,8 @@ const SwiperContainer: React.FC<Props> = (props) => {
 	const swiperRef = useRef({});
 
 	const styleFormatted = useStylesFormatted();
+
+	const { editorSwiperIndexShow } = useAppSelector((state) => state.editor);
 
 	useEffect(() => {
 		try {
@@ -92,9 +95,10 @@ const SwiperContainer: React.FC<Props> = (props) => {
 				}}
 				className={`swiper-container-v1 swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`}
 			>
-				{componentsData.map((component) => {
+				{componentsData.map((component, index) => {
 					return (
 						<SwiperSlide key={component.id}>
+							{editorSwiperIndexShow && <span className={cn("absolute top-1 left-1 rounded-full bg-white")}>{index}</span>}
 							<BaseComponentRender
 								containerData={container}
 								componentData={component.data}

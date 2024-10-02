@@ -32,6 +32,7 @@ const EditorSetting: React.FC = () => {
 		spaceModeLanguageAction,
 		editorVideoPlayAction,
 		editorSwiperAutoplayAction,
+		editorSwiperIndexShowReducerAction,
 	} = useDispatchAction();
 
 	const { languageData } = useAppSelector((state) => state.app);
@@ -39,9 +40,8 @@ const EditorSetting: React.FC = () => {
 		(state) => state.space
 	);
 
-	const { editorVideoPlay, editorSwiperAutoplay } = useAppSelector(
-		(state) => state.editor
-	);
+	const { editorVideoPlay, editorSwiperAutoplay, editorSwiperIndexShow } =
+		useAppSelector((state) => state.editor);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -153,6 +153,33 @@ const EditorSetting: React.FC = () => {
 						checked={editorSwiperAutoplay}
 						onCheckedChange={(value) => {
 							editorSwiperAutoplayAction(value);
+						}}
+					/>
+				</div>
+			</div>
+
+			<Divider spacing="medium" />
+
+			<div
+				className={cn(
+					"flex justify-between cursor-pointer items-center flex-row gap-2 mb-3"
+				)}
+			>
+				<Label htmlFor="swiper-index-show-editor">
+					<h3 className={cn("text-sm mb-1  font-bold")}>
+						Показать номер порядка swiper
+					</h3>
+					<p className={cn("text-gray-400 font-light")}>
+						Будет отключен или включен для редактора
+					</p>
+				</Label>
+
+				<div className={cn("flex items-center gap-2")}>
+					<Switch
+						id="swiper-index-show-editor"
+						checked={editorSwiperIndexShow}
+						onCheckedChange={(value) => {
+							editorSwiperIndexShowReducerAction(value);
 						}}
 					/>
 				</div>

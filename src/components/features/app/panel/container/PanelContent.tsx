@@ -26,7 +26,7 @@ import SettingContainer from "@/components/components/panel/SettingContainer";
 const PanelContent: React.FC = () => {
 	return (
 		<div
-			className={cn("w-[420px] border")}
+			className={cn("w-[340px] border")}
 			style={{ height: "calc(100vh - 60px)" }}
 		>
 			<Tabs defaultValue="styles" className="w-full">

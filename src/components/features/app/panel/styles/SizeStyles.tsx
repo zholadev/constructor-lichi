@@ -15,14 +15,11 @@ interface IStyleValues {
 
 type StyleKeys = keyof IStyleValues;
 
-interface SizeInputProps {
-	size: StyleKeys;
-}
-
 interface Props {
 	onStyleChange?: (value: IStyleValues) => void;
 	styles?: React.CSSProperties;
 	hideTitle?: boolean;
+	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
 
 /**
@@ -37,7 +34,7 @@ interface Props {
  * @constructor
  */
 const SizeStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
 
 	const permission = usePermission();
 
@@ -88,35 +85,18 @@ const SizeStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	const removeBorderStyles = () => {
-		if (onStyleChange) {
-			onStyleChange(
-				{},
-				["style.height", "style.width", "styles.widthFull"],
-				"removeKey"
-			);
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления всех стилей которые относится к модулю Position
+	 */
+	const removeStylesHandle = () => {
+		if (onRemoveStylesChange) {
+			onRemoveStylesChange("removeKey", [
+				"style.height",
+				"style.width",
+				"styles.widthFull",
+			]);
 		}
-	};
-
-	const SizeInput: React.FC<SizeInputProps> = ({ size }) => {
-		return (
-			<div
-				className={cn("w-full grid grid-cols-3 items-center gap-4 p-1")}
-			>
-				<Label className={cn("uppercase")} style={{ fontSize: "10px" }}>
-					{size}
-				</Label>
-				<Input
-					className={cn("col-span-2")}
-					value={sizeValues[size]}
-					type="number"
-					placeholder={size}
-					onChange={(e) => {
-						onChangeSizeHandle(e.target.value, size);
-					}}
-				/>
-			</div>
-		);
 	};
 
 	/**
@@ -145,9 +125,7 @@ const SizeStyles: React.FC<Props> = (props) => {
 						type="button"
 						variant="ghost"
 						className={cn("text-xs")}
-						onClick={() => {
-							removeBorderStyles();
-						}}
+						onClick={removeStylesHandle}
 					>
 						Очистить
 					</Button>

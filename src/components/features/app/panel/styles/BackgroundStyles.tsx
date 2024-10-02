@@ -21,6 +21,7 @@ interface Props {
 	onStyleChange?: (values: IStylesValues) => void;
 	styles?: Record<string, unknown>;
 	hideTitle?: boolean;
+	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
 
 /**
@@ -35,7 +36,7 @@ interface Props {
  * @constructor
  */
 const BackgroundStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
 
 	const toastMessage = useToastMessage();
 	const permission = usePermission();
@@ -80,13 +81,16 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 
 	const debouncedHandleInput = useDebounce(onChangeStyleHandle, 1000);
 
-	const removeBorderStyles = () => {
-		if (onStyleChange) {
-			onStyleChange(
-				{},
-				["style.backgroundColor", "style.backgroundColorDark"],
-				"removeKey"
-			);
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления всех стилей которые относится к модулю Position
+	 */
+	const removeStylesHandle = () => {
+		if (onRemoveStylesChange) {
+			onRemoveStylesChange("removeKey", [
+				"style.backgroundColor",
+				"style.backgroundColorDark",
+			]);
 		}
 	};
 
@@ -115,9 +119,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 							type="button"
 							variant="ghost"
 							className={cn("text-xs")}
-							onClick={() => {
-								removeBorderStyles();
-							}}
+							onClick={removeStylesHandle}
 						>
 							Очистить
 						</Button>

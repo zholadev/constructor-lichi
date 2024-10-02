@@ -9,7 +9,7 @@ import { cn } from "@/components/lib/utils";
 import {
 	AlignItems,
 	JustifyContent,
-} from "@/components/features/app/panel/styles/LayoutStyles";
+} from "@/components/features/app/panel/styles/PositionStyles";
 import {Input} from "@/components/shared/shadcn/ui/input";
 
 interface Props {

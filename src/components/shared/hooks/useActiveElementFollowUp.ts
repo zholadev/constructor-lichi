@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from "react";
+import { useMemo } from "react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import {
@@ -12,7 +12,7 @@ interface IActiveElementFollowUp {
 	id: string;
 	currentActiveId: string;
 	data: TotalComponentTypes;
-	style: CSSProperties;
+	style: Record<string, unknown>;
 	componentData: TotalComponentTypes;
 }
 

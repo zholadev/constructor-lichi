@@ -58,7 +58,7 @@ const WhiteBoard: React.FC = () => {
 						backgroundColorDark: "rgb(24, 26, 27)",
 					}),
 				}}
-				className={cn("overflow-y-auto")}
+				className={cn("overflow-y-auto p-1")}
 			>
 				{editorDraggingTemplate ? (
 					<BoardDraggingDisplay />

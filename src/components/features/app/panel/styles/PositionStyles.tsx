@@ -44,6 +44,7 @@ interface Props {
 	onStyleChange?: (values: IStylesValues) => void;
 	styles?: React.CSSProperties;
 	hideTitle?: boolean;
+	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
 
 /**
@@ -57,8 +58,8 @@ interface Props {
  * @param props
  * @constructor
  */
-const LayoutStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle } = props;
+const PositionStyles: React.FC<Props> = (props) => {
+	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
 
 	const permission = usePermission();
 
@@ -105,13 +106,17 @@ const LayoutStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	const removeBorderStyles = () => {
-		if (onStyleChange) {
-			onStyleChange(
-				{},
-				["style.display", "style.justifyContent", "style.alignItems"],
-				"removeKey"
-			);
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления всех стилей которые относится к модулю Position
+	 */
+	const removeStylesHandle = () => {
+		if (onRemoveStylesChange) {
+			onRemoveStylesChange("removeKey", [
+				"style.display",
+				"style.justifyContent",
+				"style.alignItems",
+			]);
 		}
 	};
 
@@ -165,9 +170,7 @@ const LayoutStyles: React.FC<Props> = (props) => {
 						type="button"
 						variant="ghost"
 						className={cn("text-xs")}
-						onClick={() => {
-							removeBorderStyles();
-						}}
+						onClick={removeStylesHandle}
 					>
 						Очистить
 					</Button>
@@ -253,4 +256,4 @@ const LayoutStyles: React.FC<Props> = (props) => {
 	);
 };
 
-export default LayoutStyles;
+export default PositionStyles;

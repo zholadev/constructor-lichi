@@ -21,7 +21,7 @@ interface IEditorEvent {
 	updateComponent: (
 		data: unknown,
 		type: UpdateContentKeys,
-		pathString: string,
+		pathString: string | string[],
 		removeObj?: boolean,
 		removeKey?: boolean
 	) => void;
@@ -409,7 +409,7 @@ export default function useEditorEvent(): IEditorEvent {
 		}
 	}
 
-	function deleteMultiplePaths(obj: any, paths: striung | string[]) {
+	function deleteMultiplePaths(obj: any, paths: string | string[]) {
 		paths.forEach((path) => {
 			deleteObjectByPath(obj, path); // Удаляем каждый ключ по переданному пути
 		});

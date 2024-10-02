@@ -21,7 +21,6 @@ import {
 } from "@radix-ui/react-icons";
 import { ItalicIcon, UnderlineIcon } from "lucide-react";
 import usePermission from "@/components/shared/hooks/usePermission";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
 
 type FontFamilyTypes =
@@ -85,6 +84,7 @@ interface Props {
 	onStyleChange?: (values: CSSProperties) => void;
 	styles?: IStylesValues;
 	hideTitle?: boolean;
+	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
 
 const fontStyleData: IFontStyleData[] = [
@@ -243,7 +243,7 @@ const extractStyles = (styles: IStylesValues): IStylesValues => {
  * @constructor
  */
 const TypographyStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
 
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
@@ -261,23 +261,23 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		colorDark: "#ffffff",
 	});
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления всех стилей которые относится к модулю Position
+	 */
 	const removeStylesHandle = () => {
-		if (onStyleChange) {
-			onStyleChange(
-				{},
-				[
-					"style.fontFamily",
-					"style.fontSize",
-					"style.textAlign",
-					"style.unit",
-					"style.fontWeight",
-					"style.color",
-					"style.fontStyle",
-					"style.textDecoration",
-					"style.colorDark",
-				],
-				"removeKey"
-			);
+		if (onRemoveStylesChange) {
+			onRemoveStylesChange("removeKey", [
+				"style.fontFamily",
+				"style.fontSize",
+				"style.textAlign",
+				"style.unit",
+				"style.fontWeight",
+				"style.color",
+				"style.fontStyle",
+				"style.textDecoration",
+				"style.colorDark",
+			]);
 		}
 	};
 

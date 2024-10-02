@@ -13,7 +13,7 @@ import {
 	PaddingIcon,
 	SizeIcon,
 } from "@radix-ui/react-icons";
-import LayoutStyles from "@/components/features/app/panel/styles/LayoutStyles";
+import PositionStyles from "@/components/features/app/panel/styles/PositionStyles";
 import SizeStyles from "@/components/features/app/panel/styles/SizeStyles";
 import SpacingStyles from "@/components/features/app/panel/styles/SpacingStyles";
 import BorderStyles from "@/components/features/app/panel/styles/BorderStyles";
@@ -77,13 +77,13 @@ const StylesContainer: React.FC = () => {
 	 * @author Zholaman Zhumanov
 	 * @description Метод для получения стиля активного компонента
 	 */
-	const styleActiveData = useMemo(() => {
+	const styleActiveData: Record<string, unknown> = useMemo(() => {
 		return activeElementData?.style ?? {};
 	}, [editorActiveElement, spaceTemplateData, activeElementData]);
 
 	const activeUpdateTypeData = useMemo(() => {
 		return editorActiveElement.type ?? "";
-	}, [editorActiveElement, spaceTemplateData]);
+	}, [editorActiveElement, spaceTemplateData, activeElementData]);
 
 	const filterContentKeys = (
 		content: Content,
@@ -96,15 +96,7 @@ const StylesContainer: React.FC = () => {
 		setExpanded(filteredKeys);
 	};
 
-	const onUpdateHandle = (value, path = "style", type?: string) => {
-		if (!value && type !== "removeKey") {
-			toastMessage(
-				"Данные не прилетают для обновление! Проверьте onStyleChange",
-				"error"
-			);
-			return;
-		}
-
+	const onUpdateHandle = (value: unknown, path: string = "style") => {
 		if (!activeUpdateTypeData) {
 			toastMessage(
 				"Тип не найден! Проверьте activeUpdateTypeData",
@@ -112,25 +104,31 @@ const StylesContainer: React.FC = () => {
 			);
 			return;
 		}
+		console.log("update style", value, path);
+		editorEvent.updateComponent(value, activeUpdateTypeData, path);
+	};
 
+	const removeStylesHandle = (
+		type?: string,
+		valueKeys: string | string[]
+	) => {
+		console.log("type", type, valueKeys);
 		if (type === "removeKey") {
 			editorEvent.updateComponent(
-				value,
+				{},
 				activeUpdateTypeData,
-				path,
+				valueKeys,
 				false,
 				true
 			);
 		} else if (type === "removeObj") {
 			editorEvent.updateComponent(
-				value,
+				{},
 				activeUpdateTypeData,
-				path,
+				valueKeys,
 				true,
 				false
 			);
-		} else {
-			editorEvent.updateComponent(value, activeUpdateTypeData, path);
 		}
 	};
 
@@ -188,10 +186,11 @@ const StylesContainer: React.FC = () => {
 							</div>
 						</AccordionTrigger>
 						<AccordionContent>
-							<LayoutStyles
+							<PositionStyles
 								hideTitle
 								styles={styleActiveData}
 								onStyleChange={onUpdateHandle}
+								onRemoveStylesChange={removeStylesHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -210,6 +209,7 @@ const StylesContainer: React.FC = () => {
 								hideTitle
 								styles={styleActiveData}
 								onStyleChange={onUpdateHandle}
+								onRemoveStylesChange={removeStylesHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -230,6 +230,7 @@ const StylesContainer: React.FC = () => {
 								hideTitle
 								styles={styleActiveData}
 								onStyleChange={onUpdateHandle}
+								onRemoveStylesChange={removeStylesHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -250,6 +251,7 @@ const StylesContainer: React.FC = () => {
 								onStyleChange={(...params) =>
 									onUpdateHandle(...params)
 								}
+								onRemoveStylesChange={removeStylesHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -270,6 +272,7 @@ const StylesContainer: React.FC = () => {
 								hideTitle
 								styles={styleActiveData}
 								onStyleChange={onUpdateHandle}
+								onRemoveStylesChange={removeStylesHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -288,6 +291,7 @@ const StylesContainer: React.FC = () => {
 								hideTitle
 								styles={styleActiveData}
 								onStyleChange={onUpdateHandle}
+								onRemoveStylesChange={removeStylesHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -299,7 +303,7 @@ const StylesContainer: React.FC = () => {
 					<Button
 						variant="outline"
 						className={cn("w-full")}
-						onClick={() => onUpdateHandle({}, "style", "removeObj")}
+						onClick={() => removeStylesHandle("removeObj", "style")}
 					>
 						Очистить все стили
 					</Button>

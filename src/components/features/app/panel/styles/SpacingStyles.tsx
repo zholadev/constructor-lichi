@@ -23,8 +23,9 @@ interface IStylesValues {
 
 interface Props {
 	onStyleChange?: (values: { margin: string; padding: string }) => void;
-	styles?: React.CSSProperties;
+	styles?: Record<string, unknown>;
 	hideTitle?: boolean;
+	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
 
 function convertToCssString(styles: IStylesValues): {
@@ -48,12 +49,14 @@ function convertToObject(styles: { margin: string; padding: string }) {
 
 	const [marginTop, marginRight, marginBottom, marginLeft] =
 		marginValues.length === 4
-			? marginValues.map((value) => parseInt(value.replace("px", "")))
+			? marginValues.map((value) => parseInt(value.replace("px", ""), 10))
 			: [0, 0, 0, 0];
 
 	const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
 		paddingValues.length === 4
-			? paddingValues.map((value) => parseInt(value.replace("px", "")))
+			? paddingValues.map((value) =>
+					parseInt(value.replace("px", ""), 10)
+				)
 			: [0, 0, 0, 0];
 
 	return {
@@ -84,7 +87,7 @@ function convertToObject(styles: { margin: string; padding: string }) {
  * @constructor
  */
 const SpacingStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
 
 	const permission = usePermission();
 
@@ -150,9 +153,16 @@ const SpacingStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	const removeBorderStyles = () => {
-		if (onStyleChange) {
-			onStyleChange({}, ["style.padding", "style.margin"], "removeKey");
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления всех стилей которые относится к модулю Position
+	 */
+	const removeStylesHandle = () => {
+		if (onRemoveStylesChange) {
+			onRemoveStylesChange("removeKey", [
+				"style.padding",
+				"style.margin",
+			]);
 		}
 	};
 
@@ -200,9 +210,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 						type="button"
 						variant="ghost"
 						className={cn("text-xs")}
-						onClick={() => {
-							removeBorderStyles();
-						}}
+						onClick={removeStylesHandle}
 					>
 						Очистить
 					</Button>

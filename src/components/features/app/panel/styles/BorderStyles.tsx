@@ -19,7 +19,6 @@ import {
 } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
 
 type BorderStyleType = "solid" | "dashed" | "dotted";
@@ -34,11 +33,16 @@ interface IStyleValues {
 	borderColor: string;
 	borderEnabled: boolean;
 	borderStyle: BorderStyleType;
-	borderAll: boolean;
+	border: boolean;
 	borderLeft: boolean;
 	borderRight: boolean;
 	borderTop: boolean;
 	borderBottom: boolean;
+	borderDark: boolean;
+	borderLeftDark: boolean;
+	borderRightDark: boolean;
+	borderTopDark: boolean;
+	borderBottomDark: boolean;
 }
 
 type StyleKeys =
@@ -51,7 +55,7 @@ type StyleKeys =
 	| "borderColor"
 	| "borderEnabled"
 	| "borderStyle"
-	| "borderAll"
+	| "border"
 	| "borderLeft"
 	| "borderRight"
 	| "borderTop"
@@ -61,6 +65,7 @@ interface Props {
 	onStyleChange?: (value: unknown, path?: string, type?: string) => void;
 	styles?: React.CSSProperties;
 	hideTitle?: boolean;
+	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
 
 const parseBorderStyle = (border: string) => {
@@ -71,6 +76,19 @@ const parseBorderStyle = (border: string) => {
 		borderColor: parts[2],
 	};
 };
+
+const borderTypesList = [
+	"style.border",
+	"style.borderLeft",
+	"style.borderRight",
+	"style.borderTop",
+	"style.borderBottom",
+	"style.borderDark",
+	"style.borderLeftDark",
+	"style.borderRightDark",
+	"style.borderTopDark",
+	"style.borderBottomDark",
+];
 
 const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 	const defaultValues: IStyleValues = {
@@ -83,11 +101,16 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 		borderColor: "#000000",
 		borderEnabled: false,
 		borderStyle: "solid",
-		borderAll: true,
+		border: true,
 		borderLeft: false,
 		borderRight: false,
 		borderTop: false,
 		borderBottom: false,
+		borderDark: true,
+		borderLeftDark: false,
+		borderRightDark: false,
+		borderTopDark: false,
+		borderBottomDark: false,
 	};
 
 	const isBorderStyle =
@@ -110,31 +133,31 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 	}
 
 	if (styles?.border) {
-		defaultValues.borderAll = true;
+		defaultValues.border = true;
 		defaultValues.borderLeft = false;
 		defaultValues.borderRight = false;
 		defaultValues.borderTop = false;
 		defaultValues.borderBottom = false;
 	} else if (styles?.borderLeft) {
-		defaultValues.borderAll = false;
+		defaultValues.border = false;
 		defaultValues.borderLeft = true;
 		defaultValues.borderRight = false;
 		defaultValues.borderTop = false;
 		defaultValues.borderBottom = false;
 	} else if (styles?.borderRight) {
-		defaultValues.borderAll = false;
+		defaultValues.border = false;
 		defaultValues.borderLeft = false;
 		defaultValues.borderRight = true;
 		defaultValues.borderTop = false;
 		defaultValues.borderBottom = false;
 	} else if (styles?.borderTop) {
-		defaultValues.borderAll = false;
+		defaultValues.border = false;
 		defaultValues.borderLeft = false;
 		defaultValues.borderRight = false;
 		defaultValues.borderTop = true;
 		defaultValues.borderBottom = false;
 	} else if (styles?.borderBottom) {
-		defaultValues.borderAll = false;
+		defaultValues.border = false;
 		defaultValues.borderLeft = false;
 		defaultValues.borderRight = false;
 		defaultValues.borderTop = false;
@@ -183,7 +206,7 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
  * @constructor
  */
 const BorderStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle } = props;
+	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
 
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
@@ -199,30 +222,56 @@ const BorderStyles: React.FC<Props> = (props) => {
 		borderColor: "#000000",
 		borderEnabled: false,
 		borderStyle: "solid",
-		borderAll: true,
+		border: true,
 		borderLeft: false,
 		borderRight: false,
 		borderTop: false,
 		borderBottom: false,
+		borderDark: true,
+		borderLeftDark: false,
+		borderRightDark: false,
+		borderTopDark: false,
+		borderBottomDark: false,
 	});
 
-	const removeBorderStyles = (type: "all" | "key") => {
-		if (onStyleChange) {
-			if (type === "all") {
-				onStyleChange(
-					{},
-					[
-						"style.border",
-						"style.borderLeft",
-						"style.borderRight",
-						"style.borderTop",
-						"style.borderBottom",
-					],
-					"removeKey"
-				);
-			}
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления всех стилей которые относится к модулю Position
+	 */
+	const removeStylesHandle = (valueKeys: string[]) => {
+		if (onRemoveStylesChange) {
+			onRemoveStylesChange("removeKey", valueKeys);
 		}
 	};
+
+	function removeAllBorders() {
+		// Создаем копию стиля, чтобы избежать мутаций исходного объекта
+		let updatedStyle: Record<string, unknown> = { ...styles };
+
+		// Определяем ключи, относящиеся к границе
+		const borderKeys = [
+			"border",
+			"borderLeft",
+			"borderTop",
+			"borderRight",
+			"borderBottom",
+		];
+
+		// Массив для хранения ключей, которые будут удалены
+		let removedKeys: string[] = [];
+
+		// Собираем ключи для удаления, если они есть в объекте стилей
+		borderKeys.forEach((key) => {
+			if (updatedStyle.hasOwnProperty(key)) {
+				// Добавляем ключ с префиксом "style." сразу при сборе
+				removedKeys.push(`style.${key}`);
+			}
+		});
+
+		removeStylesHandle(removedKeys);
+
+		return updatedStyle;
+	}
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -234,6 +283,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 		key: StyleKeys,
 		value: number[] | number | string | boolean
 	) => {
+		removeAllBorders();
 		try {
 			if (!key) {
 				toastMessage("TypeError: key is not defined", "error");
@@ -258,13 +308,13 @@ const BorderStyles: React.FC<Props> = (props) => {
 			}
 
 			if (
-				key === "borderAll" ||
+				key === "border" ||
 				key === "borderRight" ||
 				key === "borderLeft" ||
 				key === "borderTop" ||
 				key === "borderBottom"
 			) {
-				updatedValues.borderAll = key === "borderAll";
+				updatedValues.border = key === "border";
 				updatedValues.borderRight = key === "borderRight";
 				updatedValues.borderLeft = key === "borderLeft";
 				updatedValues.borderTop = key === "borderTop";
@@ -272,11 +322,9 @@ const BorderStyles: React.FC<Props> = (props) => {
 			}
 
 			setStyleValues(updatedValues);
-			removeBorderStyles("all");
 
 			if (onStyleChange) {
 				const getBorderType = () => {
-					if (updatedValues.borderAll) return "border";
 					if (updatedValues.borderRight) return "borderRight";
 					if (updatedValues.borderLeft) return "borderLeft";
 					if (updatedValues.borderTop) return "borderTop";
@@ -322,6 +370,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 					}),
 					...borderRadiusCorner,
 				};
+				console.log("buildBorderStyles", buildBorderStyles)
 
 				onStyleChange(buildBorderStyles);
 			}
@@ -333,8 +382,11 @@ const BorderStyles: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		const defaultStyles = computeInitialStyles(styles);
-		setStyleValues(defaultStyles);
+		if (styles) {
+			const defaultStyles = computeInitialStyles(styles);
+			// console.log("styles", styles, defaultStyles)
+			setStyleValues(defaultStyles);
+		}
 	}, [styles]);
 
 	const cornerOptions: Array<{
@@ -366,7 +418,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 
 	const borderOptions: Array<{ value: StyleKeys; icon: React.ReactNode }> = [
 		{
-			value: "borderAll",
+			value: "border",
 			icon: <BorderAllIcon width={20} height={20} />,
 		},
 		{
@@ -419,9 +471,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 							type="button"
 							variant="ghost"
 							className={cn("text-xs")}
-							onClick={() => {
-								removeBorderStyles("all");
-							}}
+							onClick={() => removeStylesHandle(borderTypesList)}
 						>
 							Очистить
 						</Button>

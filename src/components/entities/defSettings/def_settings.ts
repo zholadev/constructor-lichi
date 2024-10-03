@@ -3,7 +3,7 @@ import {
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
 import { SwiperSettings } from "@/components/shared/types/interface-schema-settings";
-
+// @todo переделать
 interface IDefaultSettings {
 	ELEMENT: Record<ElementBaseTypes, Record<string, unknown>>;
 	COMPONENTS: Record<ComponentBaseTypes, Record<string, unknown>>;
@@ -24,8 +24,8 @@ export const defaultSettings: IDefaultSettings = {
 			slidePerGroup: 1,
 			spaceBetween: 10,
 			speed_advanced: {
-				delay: 700,
-				duration: 1000,
+				delay: 1000,
+				speed: 700,
 			},
 			centeredSlides: false,
 			direction: "horizontal",
@@ -33,6 +33,9 @@ export const defaultSettings: IDefaultSettings = {
 			autoHeight: false,
 			paginationPosition: "bottom",
 			paginationTheme: "light",
+			mousewheel: false,
 		},
 	},
+	COMPONENTS: {},
+	ELEMENT: {},
 };

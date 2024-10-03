@@ -1,9 +1,9 @@
 import { ISchemaContentMediaType } from "@/components/shared/types/interface-schema-content";
 
 export interface ISchemaSettingsView {
-	heightFull: boolean;
-	navbarMode: boolean;
-	contentType: ISchemaContentMediaType;
+	heightFull?: boolean;
+	navbarMode?: boolean;
+	contentType?: ISchemaContentMediaType;
 	darkTheme: boolean;
 }
 
@@ -20,7 +20,7 @@ export interface SwiperSettings {
 	slidePerGroup: number;
 	speed_advanced: {
 		delay: number;
-		duration: number;
+		speed: number;
 	};
 	centeredSlides: boolean;
 	spaceBetween: number;
@@ -29,6 +29,7 @@ export interface SwiperSettings {
 	autoHeight: boolean;
 	paginationPosition: SwiperPaginationPositionType;
 	paginationTheme: SwiperPaginationThemeType;
+	mousewheel: boolean;
 }
 
 export type SchemaShowSiteType = "base" | "retail" | "all";
@@ -59,9 +60,17 @@ export interface ISchemaSettingsElement {
 	};
 }
 
+export interface ISchemaSettingCategoryListParams {
+	shop: number;
+	category: string;
+	limit: number;
+	cardType: "card" | "card_outside";
+}
+
 export interface ISchemaSettings {
 	view: ISchemaSettingsView;
 	show: SchemaShowSiteType;
 	element: ISchemaSettingsElement;
 	swiper?: SwiperSettings;
+	categoryList?: ISchemaSettingCategoryListParams;
 }

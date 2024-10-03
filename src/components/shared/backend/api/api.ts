@@ -18,4 +18,9 @@ export const API: Record<string, Record<string, string>> = {
 		setActive: "SetActive",
 		updateMeta: "UpdateMeta",
 	},
+	site: {
+		categoryList: "/category/get_category_list",
+		siteInfo: "/site/info",
+		categoryProductList: "/category/get_category_product_list",
+	},
 };

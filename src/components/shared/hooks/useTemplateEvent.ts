@@ -11,6 +11,8 @@ import {
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
 import { saint_laurent_component_schema } from "@/components/entities/schema/model/v1/schema-special-components";
+import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
+import { card_outside_component_schema } from "@/components/entities/schema/model/v1/schema-base-component";
 
 interface ITemplateEvent {
 	createBaseContainer: (
@@ -23,6 +25,11 @@ interface ITemplateEvent {
 	createSaintLaurentContainerEvent: (
 		type: IContainerType,
 		componentType: ISaintLaurentComponentType,
+		cb: () => void
+	) => void;
+	createCategoryListContainerEvent: (
+		type: IContainerType,
+		params: ISchemaSettingCategoryListParams,
 		cb: () => void
 	) => void;
 }
@@ -274,10 +281,62 @@ export default function useTemplateEvent(): ITemplateEvent {
 		if (cb) cb();
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для создания контейнера для saint laurent типа
+	 * @param type
+	 * @param params
+	 * @param cb
+	 */
+	const createCategoryListContainerEvent = (
+		type: IContainerType,
+		params: ISchemaSettingCategoryListParams,
+		cb: () => void
+	) => {
+		if (!type) {
+			toastMessage("Вы не выбрали тип контейнера!", "error");
+			return;
+		}
+
+		const generateStyles = () => {
+			const commonStyles = {
+				margin: "0 0 2px 0",
+				backgroundColor: "#ffffff",
+				backgroundColorDark: "#181a1b",
+			};
+
+			return {
+				...commonStyles,
+				display: "block",
+			};
+		};
+
+		const newTemplate: ISchemaContainer = {
+			id: uuidv4(),
+			guid: uuidv4(),
+			type: "category_list_container",
+			version: versionTemplate.version,
+			style: generateStyles(),
+			// @ts-ignore
+			settings: {
+				swiper: defaultSettings.CONTAINERS.swiper,
+				view: {
+					darkTheme: true,
+				},
+				categoryList: params || {},
+			},
+		};
+
+		spaceTemplateDataAction([...spaceTemplateData, newTemplate]);
+
+		if (cb) cb();
+	};
+
 	return {
 		createBaseContainer,
 		addComponent,
 		deleteContainer,
 		createSaintLaurentContainerEvent,
+		createCategoryListContainerEvent,
 	};
 }

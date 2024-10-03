@@ -117,7 +117,7 @@ export default function usePermission(): IPermission {
 	 * @description Получаем тип глобального элемента
 	 */
 	const typeActiveElement: ActiveElementType = useMemo(() => {
-		return activeElementData.type;
+		return activeElementData.type ?? "";
 	}, [activeElementData]);
 
 	/**

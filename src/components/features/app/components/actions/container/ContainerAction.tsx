@@ -36,7 +36,7 @@ const ContainerAction: React.FC<Props> = (props) => {
 			<div
 				className={cn(
 					`${editorActiveElement.id === containerId ? "border-emerald-400 border-2 box-border" : "border-box"}`,
-					// styles.card
+					"min-h-[10px]"
 				)}
 				// onClick={() => {
 				// 	activeElementHandle({

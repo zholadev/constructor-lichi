@@ -8,11 +8,11 @@ import TemplateAddButton from "@/components/features/app/containerTemplate/Templ
 import ContainerAction from "@/components/features/app/components/actions/container/ContainerAction";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import usePermission from "@/components/shared/hooks/usePermission";
 import SwiperContainer from "@/components/features/app/ui/container/swiper/v1/SwiperContainer";
 import Container from "@/components/features/app/ui/container/container/v1/Container";
 import SaintLaurentContainer from "@/components/features/app/ui/container/saint_laurent/v1/SaintLaurentContainer";
+import CategoryListContainer from "@/components/features/app/ui/container/categoryList/v1/CategoryListContainer";
 
 /**
  * @author Zholaman Zhumanov
@@ -30,7 +30,6 @@ const BoardContainer: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
 
-	const styleFormatted = useStylesFormatted();
 	const permission = usePermission();
 	const activeElementData = useActiveElementFollowUp();
 
@@ -71,6 +70,16 @@ const BoardContainer: React.FC = () => {
 								<SaintLaurentContainer
 									componentsData={container.components}
 									container={container}
+								/>
+							) : container.type === "category_list_container" ? (
+								<CategoryListContainer
+									componentsData={container.components}
+									swiperSettings={container.settings.swiper}
+									swiperStyles={container.style}
+									container={container}
+									categoryListParams={
+										container.settings?.categoryList
+									}
 								/>
 							) : (
 								<Container

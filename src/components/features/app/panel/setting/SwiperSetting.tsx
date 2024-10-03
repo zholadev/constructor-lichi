@@ -139,8 +139,8 @@ const SwiperSetting: React.FC<Props> = (props) => {
 		slidePerView: 3,
 		slidePerGroup: 1,
 		speed_advanced: {
-			delay: 700,
-			duration: 3000,
+			delay: 1000,
+			speed: 700,
 		},
 		spaceBetween: 0,
 		centeredSlides: false,
@@ -149,6 +149,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 		autoHeight: false,
 		paginationPosition: "bottom",
 		paginationTheme: "light",
+		mousewheel: false,
 	});
 
 	const onChangeSettings = (
@@ -196,8 +197,8 @@ const SwiperSetting: React.FC<Props> = (props) => {
 				slidePerView: 3,
 				slidePerGroup: 1,
 				speed_advanced: {
-					delay: 700,
-					duration: 3000,
+					delay: 1000,
+					speed: 700,
 				},
 				spaceBetween: 0,
 				centeredSlides: false,
@@ -206,6 +207,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 				autoHeight: false,
 				paginationPosition: "bottom",
 				paginationTheme: "light",
+				mousewheel: false,
 			});
 		}
 	}, [settingValue]);
@@ -407,6 +409,34 @@ const SwiperSetting: React.FC<Props> = (props) => {
 					"flex justify-between items-center  cursor-pointer flex-row gap-2 mb-3"
 				)}
 			>
+				<Label htmlFor="swiper-mousewheel">
+					<h3 className={cn("text-xs uppercase text-gray-500")}>
+						Mousewheel
+					</h3>
+				</Label>
+
+				<div className={cn("flex items-center gap-2")}>
+					<Switch
+						id="swiper-mousewheel"
+						checked={swiperSettings.mousewheel}
+						onCheckedChange={(value) => {
+							onChangeSettings(value, "mousewheel");
+						}}
+					/>
+
+					<Play
+						className={cn(
+							!swiperSettings.mousewheel ? "text-gray-300" : ""
+						)}
+					/>
+				</div>
+			</div>
+
+			<div
+				className={cn(
+					"flex justify-between items-center  cursor-pointer flex-row gap-2 mb-3"
+				)}
+			>
 				<Label htmlFor="swiper-centeredSlides">
 					<h3 className={cn("text-xs uppercase text-gray-500")}>
 						Center
@@ -536,6 +566,31 @@ const SwiperSetting: React.FC<Props> = (props) => {
 					)}
 				>
 					<h3 className={cn("text-xs uppercase text-gray-500")}>
+						Speed
+					</h3>
+					<div className={cn("flex items-center gap-2")}>
+						<Input
+							type="number"
+							value={swiperSettings.speed_advanced.speed}
+							onChange={(e) =>
+								onChangeSettings(
+									e.target.value,
+									"speed_advanced",
+									"speed"
+								)
+							}
+							className={cn("w-[80px] h-[30px]")}
+						/>
+						<ChevronsUp width={20} height={24} />
+					</div>
+				</div>
+
+				<div
+					className={cn(
+						"flex justify-between items-center flex-row gap-2 mb-5 border-b pb-5"
+					)}
+				>
+					<h3 className={cn("text-xs uppercase text-gray-500")}>
 						Delay
 					</h3>
 					<div className={cn("flex items-center gap-2")}>
@@ -552,31 +607,6 @@ const SwiperSetting: React.FC<Props> = (props) => {
 							className={cn("w-[80px] h-[30px]")}
 						/>
 						<CircleGauge width={20} height={24} />
-					</div>
-				</div>
-
-				<div
-					className={cn(
-						"flex justify-between items-center flex-row gap-2 mb-5 border-b pb-5"
-					)}
-				>
-					<h3 className={cn("text-xs uppercase text-gray-500")}>
-						Duration
-					</h3>
-					<div className={cn("flex items-center gap-2")}>
-						<Input
-							type="number"
-							value={swiperSettings.speed_advanced.duration}
-							onChange={(e) =>
-								onChangeSettings(
-									e.target.value,
-									"speed_advanced",
-									"duration"
-								)
-							}
-							className={cn("w-[80px] h-[30px]")}
-						/>
-						<ChevronsUp width={20} height={24} />
 					</div>
 				</div>
 			</div>

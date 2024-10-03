@@ -35,8 +35,6 @@ const SpaceProvider: React.FC<Props> = (props) => {
 
 	const {
 		spaceTemplatePageIdAction,
-		spaceModeTemplateTypeAction,
-		spaceTemplateDataAction,
 		spaceTemplateApiLoadingAction,
 		spaceModeDeviceTypeAction,
 		spaceModePlatformTypeAction,
@@ -49,12 +47,7 @@ const SpaceProvider: React.FC<Props> = (props) => {
 
 	const {
 		spaceTemplateData,
-		spaceModeTheme,
-		spaceModeLanguage,
-		spaceModePreviewShop,
 		spaceModeDeviceType,
-		spaceModeDeviceFrame,
-		spaceModeTemplateType,
 		spaceModePlatformType,
 		spaceTemplatePageId,
 		spaceTemplateSchemaDevicesData,

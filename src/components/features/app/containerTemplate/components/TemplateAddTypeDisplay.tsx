@@ -1,6 +1,7 @@
 import React from "react";
 import { IContainerType } from "@/components/shared/types/types";
 import TemplateAddBaseContainer from "./TemplateAddBaseContainer";
+import TemplateAddCategoryListContainer from "./TemplateAddCategoryListContainer";
 import TemplateAddSaintLaurentContainer from "./TemplateAddSaintLaurentContainer";
 
 interface Props {
@@ -29,6 +30,8 @@ const TemplateAddTypeDisplay: React.FC<Props> = (props) => {
 				return <TemplateAddBaseContainer />;
 			case "saint_laurent_container":
 				return <TemplateAddSaintLaurentContainer />;
+			case "category_list_container":
+				return <TemplateAddCategoryListContainer />;
 			case "initial":
 				return null;
 			default:

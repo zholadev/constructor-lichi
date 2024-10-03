@@ -142,9 +142,6 @@ export const saint_laurent_container_permission: IPermission = {
 	},
 	setting: {
 		...baseContainerPermission.setting,
-		swiper: {
-			root: true,
-		},
 		action: {
 			...baseContainerPermission.setting.action,
 			add: false,

@@ -19,6 +19,12 @@ const axiosInstance: AxiosInstance = axios.create({
 	timeout: 5000,
 });
 
+const axiosInstanceSite: AxiosInstance = axios.create({
+	baseURL: process.env.BACKEND_SITE_API_URL || "https://api.lichi.com/",
+	withCredentials: false,
+	timeout: 5000,
+});
+
 export async function sendApiPostRequest(
 	url: string,
 	formDataAdd?: FormData,
@@ -45,6 +51,35 @@ export async function sendApiPostRequest(
 		if (error instanceof Error) {
 			return errorInstance(error, url);
 		}
+		return errorInstance(error, url);
+	}
+}
+
+export async function sendApiSitePostRequest(
+	url: string,
+	params = {}
+): Promise<AxiosResponse | ResponseObject> {
+	try {
+		let api_data: AxiosResponse | boolean = false;
+
+		let apiDataConfig = {
+			__v: 2.0,
+			platform: "browser",
+			...params,
+		};
+
+		let response = await axiosInstanceSite.post(url, apiDataConfig, {
+			params: {
+				...params,
+			},
+		});
+
+		if (response) {
+			api_data = response;
+		}
+
+		return api_data;
+	} catch (error) {
 		return errorInstance(error, url);
 	}
 }

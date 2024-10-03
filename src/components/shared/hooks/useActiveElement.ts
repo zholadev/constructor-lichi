@@ -1,5 +1,4 @@
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import {
 	ActiveElementType,
@@ -30,8 +29,6 @@ export default function useActiveElement(): (
 	const { editorActiveElementAction } = useDispatchAction();
 
 	const toastMessage = useToastMessage();
-
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	return ({
 		data,

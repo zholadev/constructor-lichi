@@ -33,7 +33,12 @@ const ComponentAction: React.FC<Props> = (props) => {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	return (
-		<div className={cn("relative", autoSizeComponent ? "" : "size-full")}>
+		<div
+			className={cn(
+				"relative select-none",
+				autoSizeComponent ? "" : "size-full"
+			)}
+		>
 			<div
 				className={cn(
 					`${editorActiveElement.id === data.id ? "border-emerald-400 border-2 box-border" : "border-box"}`,

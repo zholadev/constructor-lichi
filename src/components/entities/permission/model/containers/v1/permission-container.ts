@@ -159,6 +159,19 @@ export const category_list_container_permission: IPermission = {
 	},
 	styles: {
 		...baseContainerPermission.styles,
+		typography: {
+			root: true,
+			fontSize: true,
+			fontFamily: true,
+			color: true,
+			fontStyle: true,
+			fontWeight: true,
+			textAlign: true,
+		},
+		grid: {
+			root: false,
+			gap: false,
+		},
 	},
 	content: {
 		...baseContainerPermission.content,

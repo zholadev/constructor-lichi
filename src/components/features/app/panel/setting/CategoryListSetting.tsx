@@ -224,7 +224,7 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 
 			<div className={cn("mt-5 flex items-center justify-end gap-2")}>
 				<Button onClick={onConfirmHandle} type="button">
-					Подтвердить
+					Сохранить
 				</Button>
 			</div>
 		</div>

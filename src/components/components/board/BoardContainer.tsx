@@ -56,6 +56,7 @@ const BoardContainer: React.FC = () => {
 						)}
 
 						<ContainerAction
+							data={container}
 							containerId={container.id}
 							componentType={container.type}
 						>

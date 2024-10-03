@@ -2,13 +2,12 @@ import React from "react";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
-import styles from "@/components/styles/card.module.sass";
 import { IComponentTotalDataSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 import SelectionElementOverlay from "@/components/features/app/components/actions/selection/SelectionElementOverlay";
 
 interface Props {
 	children: React.ReactNode;
-	data?: IComponentTotalDataSchema;
+	data: IComponentTotalDataSchema;
 	containerId: string;
 	componentType: "container" | "swiper";
 }
@@ -38,15 +37,15 @@ const ContainerAction: React.FC<Props> = (props) => {
 					`${editorActiveElement.id === containerId ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					"min-h-[10px]"
 				)}
-				// onClick={() => {
-				// 	activeElementHandle({
-				// 		data,
-				// 		containerId,
-				// 		type: "container",
-				// 		componentId: data?.id,
-				// 		currentId: data?.id,
-				// 	});
-				// }}
+				onDoubleClick={() => {
+					activeElementHandle({
+						data,
+						containerId,
+						type: "container",
+						componentId: data?.id,
+						currentId: containerId,
+					});
+				}}
 			>
 				<SelectionElementOverlay id={containerId} />
 				{children}

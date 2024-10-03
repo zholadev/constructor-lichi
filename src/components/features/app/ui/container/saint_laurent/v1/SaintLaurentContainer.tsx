@@ -56,14 +56,16 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 					),
 				}}
 			>
-				{componentsData.map((component) => {
+				{componentsData.map((component, index: number) => {
 					return (
 						<SpecialComponentRender
 							key={component.id}
-							containerData={container}
-							componentData={component.data}
 							type="saint_laurent"
+							componentIndex={index}
+							containerData={container}
 							componentId={component.id}
+							componentData={component.data}
+							componentLen={componentsData?.length}
 						/>
 					);
 				})}

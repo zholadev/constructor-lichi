@@ -98,7 +98,15 @@ const SwiperContainer: React.FC<Props> = (props) => {
 				{componentsData.map((component, index) => {
 					return (
 						<SwiperSlide key={component.id}>
-							{editorSwiperIndexShow && <span className={cn("absolute top-1 left-1 rounded-full bg-white")}>{index}</span>}
+							{editorSwiperIndexShow && (
+								<span
+									className={cn(
+										"absolute top-1 left-1 rounded-full bg-white"
+									)}
+								>
+									{index}
+								</span>
+							)}
 							<BaseComponentRender
 								containerData={container}
 								componentData={component.data}

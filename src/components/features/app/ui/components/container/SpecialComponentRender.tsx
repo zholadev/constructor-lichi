@@ -10,6 +10,8 @@ interface Props {
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
 	componentId: string;
+	componentIndex?: number;
+	componentLen?: number;
 }
 
 /**
@@ -24,7 +26,14 @@ interface Props {
  * @constructor
  */
 const SpecialComponentRender: React.FC<Props> = (props) => {
-	const { type, componentData, containerData, componentId } = props;
+	const {
+		type,
+		componentData,
+		containerData,
+		componentId,
+		componentIndex,
+		componentLen,
+	} = props;
 
 	const renderComponents = () => {
 		switch (type) {
@@ -34,6 +43,8 @@ const SpecialComponentRender: React.FC<Props> = (props) => {
 						componentData={componentData}
 						containerId={containerData.id}
 						containerData={containerData}
+						componentLen={componentLen}
+						componentIndex={componentIndex}
 					/>
 				);
 			default:

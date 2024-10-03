@@ -11,6 +11,8 @@ interface Props {
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
 	containerId: string;
+	componentIndex?: number;
+	componentLen?: number;
 }
 
 /**
@@ -25,7 +27,13 @@ interface Props {
  * @constructor
  */
 const SaintLaurent: React.FC<Props> = (props) => {
-	const { componentData, containerId, containerData } = props;
+	const {
+		componentData,
+		containerId,
+		containerData,
+		componentIndex,
+		componentLen,
+	} = props;
 
 	const styleFormatted = useStylesFormatted();
 
@@ -43,6 +51,15 @@ const SaintLaurent: React.FC<Props> = (props) => {
 						!componentData.settings?.view?.darkTheme
 					),
 				}}
+				className={
+					componentLen === 1
+						? styles.single
+						: componentIndex === 0
+							? styles.first
+							: componentIndex === 1
+								? styles.second
+								: ""
+				}
 			>
 				<figure>
 					<MediaContainer componentData={componentData} />

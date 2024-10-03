@@ -43,6 +43,13 @@ interface Category {
 	type: string;
 }
 
+const categoryDefaultData: ISchemaSettingCategoryListParams = {
+	shop: 1,
+	category: "new",
+	limit: 11,
+	cardType: "card",
+}
+
 /**
  * @author Zholaman Zhumanov
  * @created 03.10.2024
@@ -67,22 +74,12 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 	const [categoryList, setCategoryList] = React.useState<Category[]>([]);
 
 	const [categoryParamsSetting, setCategoryParamsSetting] =
-		React.useState<ISchemaSettingCategoryListParams>({
-			shop: 1,
-			category: "new",
-			limit: 11,
-			cardType: "card",
-		});
+		React.useState<ISchemaSettingCategoryListParams>(categoryDefaultData);
 
 	const toggleDialogHandle = () => {
 		editorAddComponentTypeAction("initial");
 		dialogAddTemplateAction(!dialogAddTemplate);
-		setCategoryParamsSetting({
-			shop: 1,
-			category: "new",
-			limit: 11,
-			cardType: "card",
-		});
+		setCategoryParamsSetting(categoryDefaultData);
 	};
 
 	const fetchGetSiteInfo = async () => {

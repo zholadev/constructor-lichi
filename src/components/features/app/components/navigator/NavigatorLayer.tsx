@@ -9,7 +9,6 @@ import {
 	TotalComponentTypes,
 } from "@/components/shared/types/types";
 import { ITemplateSchemaGlobal } from "@/components/shared/types/interface";
-import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
 
 interface Props {
 	data: ITemplateSchemaGlobal;

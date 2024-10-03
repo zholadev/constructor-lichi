@@ -148,3 +148,31 @@ export const saint_laurent_container_permission: IPermission = {
 		},
 	},
 };
+
+export const category_list_container_permission: IPermission = {
+	...baseContainerPermission,
+	panel: {
+		...baseContainerPermission.panel,
+	},
+	editor: {
+		...baseContainerPermission.editor,
+	},
+	styles: {
+		...baseContainerPermission.styles,
+	},
+	content: {
+		...baseContainerPermission.content,
+	},
+	setting: {
+		...baseContainerPermission.setting,
+		swiper: {
+			root: true,
+		},
+		action: {
+			root: true,
+			remove: true,
+			add: false,
+		},
+		categoryList: true,
+	},
+};

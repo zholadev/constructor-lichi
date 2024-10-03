@@ -38,12 +38,12 @@ export default function useActiveElementFollowUp(): IActiveElementFollowUp {
 				(container) => container.id === editorActiveElement.containerId
 			);
 
-			const foundComponentData = foundContainerData?.components.find(
-				(component) => component.data.id === editorActiveElement.id
+			const foundComponentData = foundContainerData?.components?.find(
+				(component) => component?.data?.id === editorActiveElement?.id
 			);
 
 			const foundElement = foundComponentData?.data.elements.find(
-				(element) => element.id === editorActiveElement.currentActiveId
+				(element) => element?.id === editorActiveElement?.currentActiveId
 			);
 
 			const type = editorActiveElement.type ?? "none";

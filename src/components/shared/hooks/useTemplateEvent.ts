@@ -12,7 +12,6 @@ import {
 } from "@/components/shared/types/types";
 import { saint_laurent_component_schema } from "@/components/entities/schema/model/v1/schema-special-components";
 import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
-import { card_outside_component_schema } from "@/components/entities/schema/model/v1/schema-base-component";
 
 interface ITemplateEvent {
 	createBaseContainer: (

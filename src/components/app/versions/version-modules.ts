@@ -17,12 +17,6 @@ export const versionComponentBase: Record<
 	card_outside: {
 		version: "dev-1.0.0",
 	},
-	card_outside_left: {
-		version: "dev-1.0.0",
-	},
-	card_outside_right: {
-		version: "dev-1.0.0",
-	},
 	album: {
 		version: "dev-1.0.0",
 	},

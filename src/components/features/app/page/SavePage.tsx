@@ -14,6 +14,7 @@ import { TemplateType } from "@/components/shared/types/types";
 import { ITemplatePageType } from "@/components/shared/types/interface";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import Divider from "@/components/shared/uikit/divider/Divider";
 
 const templatePageTypeData: ITemplatePageType[] = [
 	{
@@ -83,6 +84,31 @@ const SavePage: React.FC = () => {
 					</Select>
 				</div>
 			</div>
+
+			<Divider />
+
+			<div className={cn("w-full mb-5 mt-5")}>
+				<h3 className={cn("mb-2 font-bold")}>
+					Перед тем как сохранить!
+				</h3>
+
+				<ul className={cn("list-inside list-disc text-sm")}>
+					<li className={cn("mb-1")}>Выбрали тип страницы</li>
+					<li className={cn("mb-1")}>
+						Создали страницы для всех версий устройств!
+					</li>
+					<li className={cn("mb-1")}>
+						Стилизовали темную тему, чтоб ее включить нужно
+						поставить галочку в настройки редактора
+					</li>
+					<li className={cn("mb-1")}>
+						Для всех компонентов проставили видео или картинку для
+						вывода
+					</li>
+				</ul>
+			</div>
+
+			<Divider />
 
 			<div
 				className={cn(

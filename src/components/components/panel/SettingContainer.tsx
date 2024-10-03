@@ -18,6 +18,7 @@ import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElement
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import TimerSetting from "@/components/features/app/panel/setting/TimerSetting";
 import ElementSetting from "@/components/features/app/panel/setting/ElementSetting";
+import CategoryListSetting from "@/components/features/app/panel/setting/CategoryListSetting";
 
 export type SettingTypes = "view" | "show" | "action" | "swiper";
 
@@ -47,6 +48,7 @@ const SettingContainer: React.FC = () => {
 			swiper: activeElementData?.data?.settings?.swiper || {},
 			timer: activeElementData?.data?.settings?.timer || {},
 			element: activeElementData?.data?.settings?.element || {},
+			categoryList: activeElementData?.data?.settings?.categoryList || {},
 		};
 	}, [activeElementData, permission]);
 
@@ -143,16 +145,24 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.action.root && (
-				<AccordionItem value="action">
+			{permission.setting.categoryList && (
+				<AccordionItem value="categoryList">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
 							<LayoutIcon width={13} height={13} />
-							<span style={{ fontSize: "13px" }}>Событие</span>
+							<span style={{ fontSize: "13px" }}>Категории</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent>
-						<ActionSetting />
+						<CategoryListSetting
+							settingValue={settingDefaultData.categoryList}
+							onSettingChange={(data) =>
+								updateContentHandle(
+									data,
+									"settings.categoryList"
+								)
+							}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 			)}
@@ -172,6 +182,20 @@ const SettingContainer: React.FC = () => {
 								updateContentHandle(data, "settings.timer")
 							}
 						/>
+					</AccordionContent>
+				</AccordionItem>
+			)}
+
+			{permission.setting.action.root && (
+				<AccordionItem value="action">
+					<AccordionTrigger>
+						<div className={cn("flex items-center gap-1")}>
+							<LayoutIcon width={13} height={13} />
+							<span style={{ fontSize: "13px" }}>Событие</span>
+						</div>
+					</AccordionTrigger>
+					<AccordionContent>
+						<ActionSetting />
 					</AccordionContent>
 				</AccordionItem>
 			)}

@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
+import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { cn } from "@/components/lib/utils";
-import { Button } from "@/components/shared/shadcn/ui/button";
 import {
 	Select,
 	SelectContent,
@@ -12,15 +10,19 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
-import useApiRequest from "@/components/shared/hooks/useApiRequest";
+import { Input } from "@/components/shared/shadcn/ui/input";
 import {
 	apiMethodSiteCategoryList,
 	apiMethodSiteSiteInfo,
 } from "@/components/shared/backend/requests/site/requests";
 import { IGetApiParams } from "@/components/shared/types/interface";
-import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
-import { Input } from "@/components/shared/shadcn/ui/input";
-import { ImageIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/shared/shadcn/ui/button";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
+
+interface Props {
+	settingValue?: ISchemaSettingCategoryListParams;
+	onSettingChange?: (value: ISchemaSettingCategoryListParams) => void;
+}
 
 interface Country {
 	id: number;
@@ -48,7 +50,7 @@ const categoryDefaultData: ISchemaSettingCategoryListParams = {
 	category: "new",
 	limit: 11,
 	cardType: "card",
-}
+};
 
 /**
  * @author Zholaman Zhumanov
@@ -58,29 +60,20 @@ const categoryDefaultData: ISchemaSettingCategoryListParams = {
  * @update-description
  * @todo
  * @fixme
+ * @param props
  * @constructor
  */
-const TemplateAddCategoryListContainer: React.FC = () => {
-	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
-		useDispatchAction();
+const CategoryListSetting: React.FC<Props> = (props) => {
+	const { settingValue, onSettingChange } = props;
 
-	const templateEvent = useTemplateEvent();
-
+	const toastMessage = useToastMessage();
 	const { apiFetchHandler, loading } = useApiRequest();
-
-	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 
 	const [countryList, setCountryList] = React.useState<Country[]>([]);
 	const [categoryList, setCategoryList] = React.useState<Category[]>([]);
 
 	const [categoryParamsSetting, setCategoryParamsSetting] =
 		React.useState<ISchemaSettingCategoryListParams>(categoryDefaultData);
-
-	const toggleDialogHandle = () => {
-		editorAddComponentTypeAction("initial");
-		dialogAddTemplateAction(!dialogAddTemplate);
-		setCategoryParamsSetting(categoryDefaultData);
-	};
 
 	const onChangeHandle = (
 		key: keyof ISchemaSettingCategoryListParams,
@@ -92,6 +85,22 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 				[key]: value,
 			};
 		});
+	};
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Функция который подтверждает добавление шаблона в доску
+	 */
+	const onConfirmHandle = () => {
+		if (!onSettingChange) {
+			toastMessage(
+				"Метод для сохранения не передан в компонент!",
+				"error"
+			);
+			return;
+		}
+
+		onSettingChange(categoryParamsSetting);
 	};
 
 	const fetchGetSiteInfo = async () => {
@@ -124,22 +133,17 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 
 	useEffect(() => {
 		fetchGetSiteInfo();
-	}, []);
+	}, [settingValue]);
 
 	useEffect(() => {
 		fetchGetCategoryList();
-	}, []);
+	}, [settingValue]);
 
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Функция который подтверждает добавление шаблона в доску
-	 */
-	const onConfirmHandle = () =>
-		templateEvent.createCategoryListContainerEvent(
-			"swiper",
-			categoryParamsSetting,
-			toggleDialogHandle
-		);
+	useEffect(() => {
+		if (settingValue) {
+			setCategoryParamsSetting(settingValue);
+		}
+	}, [settingValue]);
 
 	return (
 		<div className="w-full">
@@ -218,45 +222,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 				</div>
 			</div>
 
-			<div className="grid grid-cols-2 gap-3 mb-7 mt-4">
-				<Button
-					variant={
-						categoryParamsSetting.cardType === "card"
-							? "default"
-							: "outline"
-					}
-					className={cn(
-						"p-3 text-xs border w-full h-[120px] flex flex-col"
-					)}
-					onClick={() => {
-						onChangeHandle("cardType", "card");
-					}}
-				>
-					<ImageIcon width={60} height={60} className={cn("mb-3")} />{" "}
-					Карточка с инфо
-				</Button>
-				<Button
-					variant={
-						categoryParamsSetting.cardType === "card_outside"
-							? "default"
-							: "outline"
-					}
-					className={cn(
-						"p-3 text-xs border w-full h-[120px] flex flex-col"
-					)}
-					onClick={() => {
-						onChangeHandle("cardType", "card_outside");
-					}}
-				>
-					<ImageIcon width={60} height={60} className={cn("mb-3")} />{" "}
-					Карточка с инфо (снаружи)
-				</Button>
-			</div>
-
 			<div className={cn("mt-5 flex items-center justify-end gap-2")}>
-				<Button variant="outline" onClick={toggleDialogHandle}>
-					Отмена
-				</Button>
 				<Button onClick={onConfirmHandle} type="button">
 					Подтвердить
 				</Button>
@@ -265,4 +231,4 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 	);
 };
 
-export default TemplateAddCategoryListContainer;
+export default CategoryListSetting;

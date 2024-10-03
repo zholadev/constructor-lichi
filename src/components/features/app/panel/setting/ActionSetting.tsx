@@ -6,24 +6,18 @@ import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import ActionAddComponentSetting from "@/components/features/app/panel/setting/ActionAddComponentSetting";
 import usePermission from "@/components/shared/hooks/usePermission";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 20.09.2024
- * @description
+ * @description Компонент для удаления или добавить (только компонент в контейнер) компонентов, элементов и контейнеров с редактора
  * @last-updated
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const ActionSetting: React.FC<Props> = (props) => {
-	const {} = props;
-
+const ActionSetting: React.FC = () => {
 	const permission = usePermission();
-
 	const dialog = useDialogAction();
 	const editorEvent = useEditorEvent();
 

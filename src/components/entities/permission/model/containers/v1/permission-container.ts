@@ -95,6 +95,11 @@ export const container_permission: IPermission = {
 	},
 	styles: {
 		...baseContainerPermission.styles,
+		position: {
+			justifyContent: true,
+			alignItems: true,
+			root: true,
+		},
 	},
 	content: {
 		...baseContainerPermission.content,

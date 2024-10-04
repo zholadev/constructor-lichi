@@ -7,7 +7,6 @@ import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import BoardDisplay from "@/components/components/board/BoardDisplay";
 import BoardToolbar from "@/components/components/board/BoardToolbar";
 import BoardDraggingDisplay from "@/components/components/board/BoardDraggingDisplay";
-import HeaderModeView from "@/components/components/board/HeaderModeView";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 
 /**

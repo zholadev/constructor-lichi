@@ -17,6 +17,7 @@ import { apiMethodSiteCategoryProductList } from "@/components/shared/backend/re
 import { IGetApiParams } from "@/components/shared/types/interface";
 import CategoryCard from "@/components/features/app/ui/container/categoryList/v1/components/CategoryCard";
 import CategoryCardOutside from "@/components/features/app/ui/container/categoryList/v1/components/CategoryCardOutside";
+import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import { ProductV1 } from "./types/interface-category-list-v1";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
@@ -59,6 +60,10 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 
 	const [productListData, setProductDataList] = useState<ProductV1[]>([]);
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для получения список товаров
+	 */
 	const fetchGetCategoryList = async () => {
 		await apiFetchHandler(
 			apiMethodSiteCategoryProductList,
@@ -137,26 +142,38 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 				}}
 				className={`swiper-container-v1 swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`}
 			>
-				{productListData.map((product, index) => {
-					return (
-						<SwiperSlide key={product.id}>
-							{editorSwiperIndexShow && (
-								<span
-									className={cn(
-										"absolute top-1 w-[20px] h-[20px] text-xs left-1 z-10 rounded-full bg-white flex justify-center items-center"
-									)}
-								>
-									{index}
-								</span>
-							)}
-							{categoryListParams.cardType === "card_outside" ? (
-								<CategoryCardOutside product={product} />
-							) : (
-								<CategoryCard product={product} />
-							)}
-						</SwiperSlide>
-					);
-				})}
+				{loading ? (
+					<div className={cn("p-1 size-full grid grid-cols-6 gap-1")}>
+						{Array.from({ length: 6 }).map((_, index) => (
+							<Skeleton
+								key={index}
+								className="h-[320px] w-full mb-4"
+							/>
+						))}
+					</div>
+				) : (
+					productListData.map((product, index) => {
+						return (
+							<SwiperSlide key={product.id}>
+								{editorSwiperIndexShow && (
+									<span
+										className={cn(
+											"absolute top-1 w-[20px] h-[20px] text-xs left-1 z-10 rounded-full bg-white flex justify-center items-center"
+										)}
+									>
+										{index}
+									</span>
+								)}
+								{categoryListParams.cardType ===
+								"card_outside" ? (
+									<CategoryCardOutside product={product} />
+								) : (
+									<CategoryCard product={product} />
+								)}
+							</SwiperSlide>
+						);
+					})
+				)}
 			</Swiper>
 		</div>
 	);

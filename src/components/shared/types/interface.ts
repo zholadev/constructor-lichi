@@ -3,7 +3,7 @@ import {
 	ITemplateBaseSchema,
 	TemplateBaseType,
 } from "@/components/shared/types/interface-templates";
-import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
+import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 
 export interface IGetApiParams {
 	data: any;
@@ -92,14 +92,6 @@ export interface ITemplatePageType {
 	id: number;
 	name: string;
 	value: TemplateType;
-}
-
-export interface ITemplateSchemaGlobal {
-	id: string;
-	type: TemplateBaseType;
-	version: string;
-	style: Record<string, unknown>;
-	components?: IComponentBaseFullSchema[];
 }
 
 export interface ITemplateSpaceActionData {

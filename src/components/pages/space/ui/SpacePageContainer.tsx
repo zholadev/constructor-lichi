@@ -3,16 +3,16 @@
 import React from "react";
 import HeaderToolbar from "@/components/widgets/header/HeaderToolbar";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import PanelComponent from "@/components/features/app/panel/container/PanelComponent";
+import PanelComponent from "@/components/components/panel/PanelComponent";
 import { cn } from "@/components/lib/utils";
 import WhiteBoard from "@/components/components/editor/WhiteBoard";
-import PanelContent from "@/components/features/app/panel/container/PanelContent";
+import PanelContent from "@/components/components/panel/PanelContent";
 import DialogCreateDirectory from "@/components/widgets/gallery/dialog/DialogCreateDirectory";
 import DialogUploadFile from "@/components/widgets/gallery/dialog/DialogUploadFile";
-import TemplateAddDialog from "@/components/features/app/containerTemplate/TemplateAddDialog";
+import TemplateAddDialog from "@/components/features/app/template/TemplateAddDialog";
 import DialogContainer from "@/components/widgets/dialog/DialogContainer";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import AddBaseComponent from "@/components/features/app/components/add/AddBaseComponent";
+import ComponentLibrary from "@/components/features/app/modules/components/library/v1/ComponentLibrary";
 import StoriesContainer from "@/components/features/app/panel/content/stories/StoriesContainer";
 
 /**
@@ -45,7 +45,7 @@ const SpacePageContainer: React.FC = () => {
 				open={dialog.dialogAddComponent.open}
 				toggle={dialog.dialogAddComponent.toggle}
 			>
-				<AddBaseComponent eventType="new" />
+				<ComponentLibrary eventType="new" />
 			</DialogContainer>
 
 			<DialogCreateDirectory />

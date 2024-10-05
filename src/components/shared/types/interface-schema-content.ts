@@ -7,7 +7,7 @@ import {
 export type ISchemaContentMediaType = "video" | "image";
 
 export interface ISchemaContentPhoto {
-	photo: {
+	photo?: {
 		desktop: IGalleryImageItem;
 		tablet: IGalleryImageItem;
 		mobile: IGalleryImageItem;
@@ -15,7 +15,7 @@ export interface ISchemaContentPhoto {
 }
 
 export interface ISchemaContentVideo {
-	video: {
+	video?: {
 		videoSrc: string;
 		poster: IGalleryImageItem;
 	};
@@ -35,8 +35,6 @@ export interface ISchemaContentLink {
 export interface ISchemaContentText {
 	title: Record<string, Record<"value", string>>;
 }
-
-export interface ISchemaContentTextFill extends ISchemaContentText {}
 
 export interface ISchemaContent
 	extends ISchemaContentPhoto,

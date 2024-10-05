@@ -4,14 +4,14 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { versionTemplate } from "@/components/app/versions/version-modules";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
+import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import { defaultSettings } from "@/components/entities/defSettings/def_settings";
 import {
 	IContainerType,
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
-import { saint_laurent_component_schema } from "@/components/entities/schema/model/v1/schema-special-components";
 import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
+import {saint_laurent_component_schema} from "@/components/app/schema/model/v1/schema-special-components";
 
 interface ITemplateEvent {
 	createBaseContainer: (

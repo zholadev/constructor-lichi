@@ -10,22 +10,17 @@ import SchemaListPageCreate from "@/components/pages/schemaList/ui/SchemaListPag
 import ThemeModeToggle from "@/components/entities/packages/theme/switch/ThemeModeToggle";
 import SchemaListTableData from "./SchemaListTableData";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 14.08.2024
- * @description
+ * @description Главный компонент для вывода список страниц
  * @last-updated
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const SchemaListPage: React.FC<Props> = (props) => {
-	const {} = props;
-
+const SchemaListPage: React.FC = () => {
 	const { schemaListApiParamsPageAction } = useDispatchAction();
 
 	const fetchSchemaListData = useFetchSchemaListData();
@@ -58,18 +53,12 @@ const SchemaListPage: React.FC<Props> = (props) => {
 			<div>
 				{schemaListApiLoading ? (
 					<div>
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
-						<Skeleton className="h-[45px] w-full mb-1" />
+						{Array.from({ length: 10 }).map((_, index) => (
+							<Skeleton
+								key={index}
+								className="h-[45px] w-full mb-1"
+							/>
+						))}
 					</div>
 				) : (
 					<SchemaListTableData

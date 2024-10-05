@@ -1,7 +1,7 @@
-import {useAppSelector} from "@/components/app/store/hooks/hooks";
-import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
-import {useMemo} from "react";
-import {errorHandler} from "@/components/entities/errorHandler/errorHandler";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
+import { useMemo } from "react";
+import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
 /**
  * @author Zholaman Zhumanov
@@ -14,7 +14,7 @@ import {errorHandler} from "@/components/entities/errorHandler/errorHandler";
  * @constructor
  */
 export default function useActiveDarkThemeSetting(): boolean {
-	const activeElementData = useActiveElementFollowUp();
+	const activeElementData = useActiveElementObserver();
 
 	const { spaceModeTheme } = useAppSelector((state) => state?.space);
 
@@ -27,5 +27,5 @@ export default function useActiveDarkThemeSetting(): boolean {
 		} catch (error) {
 			errorHandler("useActiveDarkThemeSetting", "memo", error);
 		}
-	}, [activeElementData, spaceModeTheme])
+	}, [activeElementData, spaceModeTheme]);
 }

@@ -4,9 +4,9 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { v4 as uuidv4 } from "uuid";
-import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
+import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 type UpdateContentKeys =
@@ -44,7 +44,7 @@ interface IEditorEvent {
 export default function useEditorEvent(): IEditorEvent {
 	const toastMessage = useToastMessage();
 
-	const activeElementData = useActiveElementFollowUp();
+	const activeElementData = useActiveElementObserver();
 	const { spaceTemplateDataAction } = useDispatchAction();
 	const dialog = useDialogAction();
 
@@ -71,7 +71,7 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
-			if (!editorActiveElement.id) {
+			if (!editorActiveElement?.componentId) {
 				toastMessage("Выбранный id не найден", "error");
 				return;
 			}
@@ -85,7 +85,7 @@ export default function useEditorEvent(): IEditorEvent {
 								(component) => {
 									if (
 										component.data.id ===
-										editorActiveElement.id
+										activeElementData?.componentId
 									) {
 										return {
 											...component,
@@ -125,7 +125,7 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
-			if (!activeElementData?.currentActiveId) {
+			if (!activeElementData?.activeId) {
 				toastMessage("Вы не выбрали компонент", "error");
 				return;
 			}
@@ -188,7 +188,7 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
-			if (!activeElementData?.currentActiveId) {
+			if (!activeElementData?.activeId) {
 				toastMessage("Вы не выбрали компонент", "error");
 				return;
 			}
@@ -204,13 +204,17 @@ export default function useEditorEvent(): IEditorEvent {
 						const updatedComponents = container.components.map(
 							(component) => {
 								// Проверяем, является ли этот компонент тем, который нужно обновить
-								if (component.data?.id === activeElementData.id) {
+								if (
+									component.data?.id ===
+									activeElementData.componentId
+								) {
 									console.log("component", component);
 									// Проверяем, есть ли поле content и stories
 									if (component.data?.content?.stories) {
 										// Обновляем stories.components
 										const updatedStoriesComponents = [
-											...component.data.content.stories.components,
+											...component.data.content.stories
+												.components,
 											{
 												id: uuidv4(),
 												data: {
@@ -226,8 +230,10 @@ export default function useEditorEvent(): IEditorEvent {
 												content: {
 													...component.data.content,
 													stories: {
-														...component.data.content.stories,
-														components: updatedStoriesComponents, // Обновляем массив components в stories
+														...component.data
+															.content.stories,
+														components:
+															updatedStoriesComponents, // Обновляем массив components в stories
 													},
 												},
 											},
@@ -285,7 +291,7 @@ export default function useEditorEvent(): IEditorEvent {
 	 * @description Метод для удаления компонента
 	 */
 	const removeComponent = () => {
-		if (!activeElementData?.id) {
+		if (!activeElementData?.activeId) {
 			toastMessage(
 				"Произошла ошибка id не найдено, обратитесь разработчику",
 				"error"
@@ -299,7 +305,7 @@ export default function useEditorEvent(): IEditorEvent {
 					// Удаляем нужный компонент
 					const filteredComponents = container.components.filter(
 						(component) =>
-							component.data.id !== activeElementData?.id
+							component.data.id !== activeElementData?.componentId
 					);
 
 					// Если компонентов не осталось, удаляем контейнер
@@ -335,7 +341,7 @@ export default function useEditorEvent(): IEditorEvent {
 	 * @description Метод для удаления элемента с компонента
 	 */
 	const removeElement = () => {
-		if (!activeElementData?.currentActiveId) {
+		if (!activeElementData?.activeId) {
 			toastMessage(
 				"Произошла ошибка id не найдено, обратитесь разработчику",
 				"error"
@@ -358,7 +364,7 @@ export default function useEditorEvent(): IEditorEvent {
 											component.data.elements.filter(
 												(element) =>
 													element.id !==
-													activeElementData?.currentActiveId
+													activeElementData?.activeId
 											),
 									},
 								};
@@ -386,7 +392,7 @@ export default function useEditorEvent(): IEditorEvent {
 				return;
 			}
 
-			if (!activeElementData.currentActiveId) {
+			if (!activeElementData.activeId) {
 				toastMessage("Выбранный id не найден", "error");
 				return;
 			}

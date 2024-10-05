@@ -1,5 +1,5 @@
 import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
-import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
+import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import { IContainerType } from "@/components/shared/types/types";
 
 export interface ISchemaContainer {

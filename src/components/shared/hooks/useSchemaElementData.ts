@@ -1,5 +1,5 @@
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
-import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
+import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
@@ -8,7 +8,7 @@ import {
 	button_schema_element,
 	text_schema_element,
 	timer_schema_element,
-} from "@/components/entities/schema/model/v1/schema-base-elements";
+} from "@/components/app/schema/model/v1/schema-base-elements";
 
 interface LanguageObject {
 	[key: string]: { value: string };

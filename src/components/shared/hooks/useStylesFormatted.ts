@@ -10,7 +10,10 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
  * @fixme
  * @constructor
  */
-export default function useStylesFormatted(): () => Record<string, unknown> {
+export default function useStylesFormatted(): (
+	componentStyles: Record<string, unknown>,
+	skipDarkStyles: boolean
+) => Record<string, unknown> {
 	const { spaceModeTheme } = useAppSelector((state) => state?.space);
 
 	return (

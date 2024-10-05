@@ -4,17 +4,16 @@ import {
 	ActiveElementType,
 	IContainerType,
 } from "@/components/shared/types/types";
-import { IPermission } from "@/components/entities/permission/types/interface-permission";
-import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
-import { permissionGetBaseComponents } from "@/components/entities/permission/model/components/v1/permission-get-base-components";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import {
 	ComponentBaseTypes,
 	ComponentSpecialTypes,
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
-import { permissionGetElementsData } from "@/components/entities/permission/model/elements/v1/permission-get-elements-data";
-import { TemplateBaseType } from "@/components/shared/types/interface-templates";
-import { permissionGetContainersData } from "@/components/entities/permission/model/containers/v1/permission-get-containers-data";
+import { IPermission } from "@/components/app/permission/types/interface-permission";
+import { permissionGetBaseComponents } from "@/components/app/permission/model/components/v1/permission-get-base-components";
+import { permissionGetElementsData } from "@/components/app/permission/model/elements/v1/permission-get-elements-data";
+import { permissionGetContainersData } from "@/components/app/permission/model/containers/v1/permission-get-containers-data";
 
 export const basePermission: IPermission = {
 	panel: {
@@ -86,6 +85,7 @@ export const basePermission: IPermission = {
 			contentType: false,
 			navbarMode: false,
 			heightFull: false,
+			darkTheme: true,
 		},
 		timer: false,
 		action: {
@@ -113,7 +113,7 @@ export const basePermission: IPermission = {
 export default function usePermission(): IPermission {
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	const activeElementData = useActiveElementFollowUp();
+	const activeElementData = useActiveElementObserver();
 
 	/**
 	 * @author Zholaman Zhumanov

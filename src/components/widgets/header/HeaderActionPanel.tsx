@@ -6,7 +6,7 @@ import { Button } from "@/components/shared/shadcn/ui/button";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { Eye, SaveIcon, SettingsIcon } from "lucide-react";
 import DialogContainer from "@/components/widgets/dialog/DialogContainer";
-import SavePage from "@/components/features/app/page/SavePage";
+import SavePage from "@/components/components/editor/SavePage";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import EditorSetting from "@/components/components/editor/EditorSetting";
 

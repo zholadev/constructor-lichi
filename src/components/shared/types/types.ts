@@ -1,8 +1,5 @@
-import {
-	IComponentCardSchema,
-	IComponentCardVideoSchema,
-} from "@/components/features/app/ui/components/types/v1/interface-components";
-import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
+import { IComponentCardSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
+import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 
 export type ToastType = "success" | "info" | "warning" | "error";
@@ -28,10 +25,9 @@ export type IContainerType =
 	| "initial";
 
 export type ISaintLaurentComponentType = "single" | "duo";
-export type AdditionalTypes = "stories" | "none";
+export type WidgetTypes = "stories" | "none";
 
 export type TotalComponentTypes =
 	| IComponentCardSchema
-	| IComponentCardVideoSchema
 	| IElementTotal
 	| ITemplateBaseSchema;

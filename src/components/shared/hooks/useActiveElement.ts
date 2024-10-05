@@ -2,19 +2,20 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import {
 	ActiveElementType,
-	AdditionalTypes,
 	TotalComponentTypes,
+	WidgetTypes,
 } from "@/components/shared/types/types";
 
 interface IElementActiveParams {
-	data: TotalComponentTypes;
-	containerId: string;
 	type: ActiveElementType;
-	currentId: string;
-	componentId: string;
-	additionalData?: TotalComponentTypes;
-	additionalType?: AdditionalTypes;
-	additionalCurrentId?: string;
+	containerId: string;
+	componentId?: string;
+	elementId?: string;
+	activeId: string;
+	activeData: TotalComponentTypes;
+	widgetData?: TotalComponentTypes;
+	widgetType?: WidgetTypes;
+	widgetActiveComponentId?: string;
 }
 
 /**
@@ -35,32 +36,33 @@ export default function useActiveElement(): (
 	const toastMessage = useToastMessage();
 
 	return ({
-		data,
-		containerId,
 		type,
-		currentId,
+		containerId,
 		componentId,
-		additionalData,
-		additionalType,
-		additionalCurrentId,
+		elementId,
+		activeId,
+		activeData,
+		widgetData,
+		widgetType,
+		widgetActiveComponentId,
 	}: IElementActiveParams) => {
-		if (!data || !containerId || !type) {
+		if (!activeData || !containerId || !type) {
 			toastMessage(
-				`Ошибка! ${!containerId ? "containerId" : !currentId ? "currentId" : !componentId ? "componentId" : !data ? "data" : !type ? "type" : "unknown"} не найдено!`,
+				"Ошибка! параметр не найдено! useActiveElement",
 				"error"
 			);
 			return;
 		}
 		editorActiveElementAction({
-			id: componentId,
-			containerId,
 			type,
-			style: data?.style,
-			componentData: data,
-			currentActiveId: currentId,
-			additionalData,
-			additionalType,
-			additionalCurrentId: additionalCurrentId ?? "",
+			containerId,
+			componentId,
+			elementId,
+			activeId,
+			activeData,
+			widgetData,
+			widgetType,
+			widgetActiveComponentId,
 		});
 	};
 }

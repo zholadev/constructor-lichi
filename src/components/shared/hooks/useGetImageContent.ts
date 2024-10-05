@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { DeviceType } from "@/components/shared/types/types";
 import { IGalleryImageItem } from "@/components/shared/types/interface";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 /**
  * @author Zholaman Zhumanov
@@ -18,6 +19,8 @@ import { IGalleryImageItem } from "@/components/shared/types/interface";
 export default function useGetImageContent(
 	imageData: ISchemaContentPhoto
 ): IGalleryImageItem | null {
+	const toastMessage = useToastMessage();
+
 	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
 
 	const typeDeviceForImage: DeviceType = useMemo(() => {
@@ -38,7 +41,11 @@ export default function useGetImageContent(
 		try {
 			return imageData.photo?.[typeDeviceForImage];
 		} catch (error) {
-			errorHandler("useGetImageContent", "root", error);
+			toastMessage(
+				"Произошла ошибка в useGetImageContent, обратитесь разработчику",
+				"error"
+			);
+			return errorHandler("useGetImageContent", "root", error);
 		}
 	}, [imageData]);
 }

@@ -3,7 +3,7 @@ import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useFetchSchemaListData from "@/components/shared/hooks/useFetchSchemaListData";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { apiMethodSchemaSetActive } from "@/components/shared/backend/requests/schema/requests";
@@ -31,8 +31,6 @@ import {
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/shared/shadcn/ui/checkbox";
 
-interface Props {}
-
 const FormSchema = z.object({
 	countries: z
 		.array(z.string())
@@ -46,12 +44,11 @@ const FormSchema = z.object({
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo Типизация
  * @fixme
- * @param props
  * @constructor
  */
-const SchemaListPageActivate: React.FC<Props> = (props) => {
+const SchemaListPageActivate: React.FC = () => {
 	const { apiFetchHandler, loading } = useApiRequest();
 
 	const { dialogActivatePageAction } = useDispatchAction();
@@ -76,6 +73,30 @@ const SchemaListPageActivate: React.FC<Props> = (props) => {
 		},
 	});
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод собирает id стран для активации страницы
+	 * @param checked
+	 * @param field
+	 * @param shop
+	 */
+	const onCheckedChangeAction = (
+		checked: boolean | string,
+		field: ControllerRenderProps,
+		shop: IShopsListDataItem
+	) => {
+		if (checked) {
+			field.onChange([...field.value, shop.id]);
+		} else {
+			field.onChange(field.value.filter((name) => name !== shop.id));
+		}
+	};
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Активируем страницу
+	 * @param data
+	 */
 	const onSubmit = async (data: z.infer<typeof FormSchema>) => {
 		await apiFetchHandler(
 			apiMethodSchemaSetActive,
@@ -133,26 +154,11 @@ const SchemaListPageActivate: React.FC<Props> = (props) => {
 																onCheckedChange={(
 																	checked
 																) => {
-																	if (
-																		checked
-																	) {
-																		field.onChange(
-																			[
-																				...field.value,
-																				shop.id,
-																			]
-																		);
-																	} else {
-																		field.onChange(
-																			field.value.filter(
-																				(
-																					name
-																				) =>
-																					name !==
-																					shop.id
-																			)
-																		);
-																	}
+																	onCheckedChangeAction(
+																		checked,
+																		field,
+																		shop
+																	);
 																}}
 															/>
 															<div className="grid gap-1.5 leading-none">

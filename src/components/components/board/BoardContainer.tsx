@@ -4,15 +4,15 @@ import React, { useMemo } from "react";
 import { cn } from "@/components/lib/utils";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
-import TemplateAddButton from "@/components/features/app/containerTemplate/TemplateAddButton";
-import ContainerAction from "@/components/features/app/components/actions/container/ContainerAction";
-import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import TemplateAddButton from "@/components/features/app/template/TemplateAddButton";
+import ContainerAction from "@/components/features/app/activeElement/wrappers/v1/container/ContainerAction";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import usePermission from "@/components/shared/hooks/usePermission";
-import SwiperContainer from "@/components/features/app/ui/container/swiper/v1/SwiperContainer";
-import Container from "@/components/features/app/ui/container/container/v1/Container";
-import SaintLaurentContainer from "@/components/features/app/ui/container/saint_laurent/v1/SaintLaurentContainer";
-import CategoryListContainer from "@/components/features/app/ui/container/categoryList/v1/CategoryListContainer";
+import SwiperContainer from "@/components/features/app/modules/container/swiper/v1/SwiperContainer";
+import Container from "@/components/features/app/modules/container/container/v1/Container";
+import SaintLaurentContainer from "@/components/features/app/modules/container/saint_laurent/v1/SaintLaurentContainer";
+import CategoryListContainer from "@/components/features/app/modules/container/categoryList/v1/CategoryListContainer";
 
 /**
  * @author Zholaman Zhumanov
@@ -31,7 +31,7 @@ const BoardContainer: React.FC = () => {
 	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
 
 	const permission = usePermission();
-	const activeElementData = useActiveElementFollowUp();
+	const activeElementData = useActiveElementObserver();
 
 	useMemo(() => {
 		console.log("spaceTemplateData", spaceTemplateData);

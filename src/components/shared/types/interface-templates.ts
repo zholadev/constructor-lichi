@@ -1,4 +1,4 @@
-import { IComponentTotalDataSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
+import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import { ComponentBaseTypes, ComponentSpecialTypes } from "./types-components";
 
 export type TemplateBaseType = "container" | "swiper";

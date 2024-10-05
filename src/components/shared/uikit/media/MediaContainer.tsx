@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import VideoRender from "@/components/shared/uikit/media/VideoRender";
 import ImageRender from "@/components/shared/uikit/media/ImageRender";
-import { IComponentTotalDataSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
+import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 
 interface Props {
 	componentData: IComponentTotalDataSchema;

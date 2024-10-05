@@ -2,7 +2,7 @@ import {
 	ComponentBaseTypes,
 	ComponentSpecialTypes,
 } from "@/components/shared/types/types-components";
-import { IComponentBaseFullSchema } from "@/components/features/app/ui/components/types/v1/interface-components";
+import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import {
 	album_component_schema,
 	album_outside_component_schema,
@@ -10,8 +10,8 @@ import {
 	card_outside_component_schema,
 	video_component_schema,
 	video_outside_component_schema,
-} from "@/components/entities/schema/model/v1/schema-base-component";
-import { saint_laurent_component_schema } from "@/components/entities/schema/model/v1/schema-special-components";
+} from "@/components/app/schema/model/v1/schema-base-component";
+import { saint_laurent_component_schema } from "@/components/app/schema/model/v1/schema-special-components";
 
 /**
  * @author Zholaman Zhumanov

@@ -86,7 +86,7 @@ export default function useDialogAction(): DialogsState {
 		dialogEditorSettingAction,
 		dialogAddComponentAction,
 		dialogSettingActionAddComponentAction,
-		dialogStoriesContainerAction
+		dialogStoriesContainerAction,
 	} = useDispatchAction();
 
 	const {
@@ -103,7 +103,7 @@ export default function useDialogAction(): DialogsState {
 		dialogEditorSetting,
 		dialogAddComponent,
 		dialogSettingActionAddComponent,
-		dialogStoriesContainer
+		dialogStoriesContainer,
 	} = useAppSelector((state: RootState) => state.dialog);
 
 	const toggleDialogCreatePageHandle = () =>
@@ -133,7 +133,7 @@ export default function useDialogAction(): DialogsState {
 	const dialogSettingActionAddComponentActionHandle = () =>
 		dialogSettingActionAddComponentAction(!dialogSettingActionAddComponent);
 	const dialogStoriesContainerHandle = () =>
-		dialogStoriesContainerAction(!dialogStoriesContainer)
+		dialogStoriesContainerAction(!dialogStoriesContainer);
 
 	return {
 		dialogCreatePage: {

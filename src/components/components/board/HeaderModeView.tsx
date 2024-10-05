@@ -1,6 +1,6 @@
 import React from "react";
 import usePermission from "@/components/shared/hooks/usePermission";
-import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import Image from "next/image";
 import { IMAGES } from "@/components/shared/constants/images";
 import styles from "@/components/styles/header-mode-view.module.sass";
@@ -22,7 +22,7 @@ const HeaderModeView: React.FC<Props> = (props) => {
 	const {} = props;
 
 	const permission = usePermission();
-	const activeElementData = useActiveElementFollowUp();
+	const activeElementData = useActiveElementObserver();
 
 	return (
 		<header className={styles.header}>

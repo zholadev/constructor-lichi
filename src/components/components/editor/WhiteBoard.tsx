@@ -8,7 +8,7 @@ import BoardDisplay from "@/components/components/board/BoardDisplay";
 import BoardToolbar from "@/components/components/board/BoardToolbar";
 import BoardDraggingDisplay from "@/components/components/board/BoardDraggingDisplay";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
-import StoriesContainer from "@/components/features/app/panel/content/stories/StoriesContainer";
+import StoriesContainer from "@/components/features/app/modules/editor/content/stories/StoriesContainer";
 
 /**
  * @author Zholaman Zhumanov

@@ -1,0 +1,56 @@
+import React from "react";
+import styles from "@/components/styles/card.module.sass";
+import ComponentAction from "@/components/features/app/activeElement/wrappers/v1/component/ComponentAction";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
+import BaseElementWrapper from "@/components/features/app/modules/elements/container/v1/BaseElementWrapper";
+import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
+import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
+
+interface Props {
+	componentData: IComponentTotalDataSchema;
+	containerData: ISchemaContainer;
+	containerId: string;
+}
+
+/**
+ * @author Zholaman Zhumanov
+ * @created 03.09.2024
+ * @description
+ * @last-updated
+ * @update-description
+ * @todo
+ * @fixme
+ * @param props
+ * @constructor
+ */
+const CardOutside: React.FC<Props> = (props) => {
+	const { componentData, containerId, containerData } = props;
+
+	const styleFormatted = useStylesFormatted();
+
+	return (
+		<ComponentAction data={componentData} containerId={containerId}>
+			<div
+				style={{
+					...styleFormatted(
+						componentData.style,
+						!componentData.settings?.view?.darkTheme
+					),
+				}}
+				className={styles.wrapper}
+			>
+				<MediaContainer componentData={componentData} />
+
+				<BaseElementWrapper
+					containerId={containerId}
+					elementData={componentData.elements}
+					componentData={componentData}
+					staticElement
+				/>
+			</div>
+		</ComponentAction>
+	);
+};
+
+export default CardOutside;

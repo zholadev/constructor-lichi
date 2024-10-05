@@ -1,8 +1,7 @@
-import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
+import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
@@ -21,15 +20,13 @@ interface IWidgetActions {
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
 export default function useWidgetActions(): IWidgetActions {
 	const toastMessage = useToastMessage();
 
-	const dialog = useDialogAction();
 	const { spaceTemplateDataAction } = useDispatchAction();
-	const activeElementData = useActiveElementFollowUp();
+	const activeElementData = useActiveElementObserver();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
@@ -151,7 +148,7 @@ export default function useWidgetActions(): IWidgetActions {
 				return;
 			}
 
-			if (!activeElementData?.currentActiveId) {
+			if (!activeElementData?.activeId) {
 				toastMessage("Вы не выбрали компонент", "error");
 				return;
 			}
@@ -168,7 +165,8 @@ export default function useWidgetActions(): IWidgetActions {
 							(component) => {
 								// Проверяем, является ли этот компонент тем, который нужно обновить
 								if (
-									component.data?.id === activeElementData.id
+									component.data?.id ===
+									activeElementData.componentId
 								) {
 									// Проверяем, есть ли поле content и stories
 									if (component.data?.content?.stories) {

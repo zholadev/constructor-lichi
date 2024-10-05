@@ -2,6 +2,7 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import {
 	ActiveElementType,
+	AdditionalTypes,
 	TotalComponentTypes,
 } from "@/components/shared/types/types";
 
@@ -11,6 +12,9 @@ interface IElementActiveParams {
 	type: ActiveElementType;
 	currentId: string;
 	componentId: string;
+	additionalData?: TotalComponentTypes;
+	additionalType?: AdditionalTypes;
+	additionalCurrentId?: string;
 }
 
 /**
@@ -36,6 +40,9 @@ export default function useActiveElement(): (
 		type,
 		currentId,
 		componentId,
+		additionalData,
+		additionalType,
+		additionalCurrentId,
 	}: IElementActiveParams) => {
 		if (!data || !containerId || !type) {
 			toastMessage(
@@ -51,6 +58,9 @@ export default function useActiveElement(): (
 			style: data?.style,
 			componentData: data,
 			currentActiveId: currentId,
+			additionalData,
+			additionalType,
+			additionalCurrentId: additionalCurrentId ?? "",
 		});
 	};
 }

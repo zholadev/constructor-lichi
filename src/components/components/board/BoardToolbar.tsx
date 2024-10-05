@@ -58,7 +58,7 @@ const BoardToolbar: React.FC = () => {
 			<div className={cn("flex items-center gap-2")}>
 				{permission.editor.dnd && (
 					<Button
-						className={cn("")}
+						className={cn("text-xs")}
 						variant="outline"
 						disabled={
 							spaceTemplateData.length < 2 || editorRemoveTemplate
@@ -77,7 +77,7 @@ const BoardToolbar: React.FC = () => {
 
 				{permission.editor.remove && (
 					<Button
-						className={cn("")}
+						className={cn("text-xs")}
 						variant="destructive"
 						onClick={toggleEditorRemoveTemplateHandle}
 						disabled={

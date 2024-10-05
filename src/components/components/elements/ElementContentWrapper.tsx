@@ -4,6 +4,8 @@ import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useSchemaElementData from "@/components/shared/hooks/useSchemaElementData";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useWidgetActions from "@/components/shared/hooks/useWidgetActions";
 
 interface Props {
 	children: ReactNode;
@@ -26,8 +28,13 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 
 	const toastMessage = useToastMessage();
 
-	const editorEvent = useEditorEvent();
 	const getElementSchema = useSchemaElementData();
+	const editorEvent = useEditorEvent();
+	const widgetActions = useWidgetActions();
+
+	const { editorAdditionalActiveElement } = useAppSelector(
+		(state) => state.editor
+	);
 
 	return (
 		<div
@@ -40,6 +47,11 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 
 				if (!element) {
 					toastMessage("Не удалось найти схему!", "error");
+					return;
+				}
+
+				if (editorAdditionalActiveElement === "stories") {
+					widgetActions.widgetAddElement(element);
 					return;
 				}
 

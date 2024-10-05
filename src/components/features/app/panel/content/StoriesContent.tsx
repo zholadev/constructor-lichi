@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Button } from "@/components/shared/shadcn/ui/button";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import StoriesContainer from "@/components/features/app/panel/content/stories/StoriesContainer";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
 interface IStoriesContent {
 	add: boolean;
@@ -27,6 +30,9 @@ interface Props {
 const StoriesContent: React.FC<Props> = (props) => {
 	const { defaultParams, onSendParams, onRemoveParams } = props;
 
+	const { editorAdditionalActiveElementAction } = useDispatchAction();
+	const dialog = useDialogAction();
+
 	const [contentValues, setContentValues] = useState<IStoriesContent>({
 		add: false,
 	});
@@ -39,7 +45,7 @@ const StoriesContent: React.FC<Props> = (props) => {
 			};
 
 			if (value) {
-				onSendParams([]);
+				onSendParams({ components: [] });
 			} else {
 				onRemoveParams();
 			}
@@ -74,7 +80,15 @@ const StoriesContent: React.FC<Props> = (props) => {
 				</div>
 			</div>
 
-			<Button disabled={!contentValues.add}>Редактировать</Button>
+			<Button
+				disabled={!contentValues.add}
+				onClick={() => {
+					editorAdditionalActiveElementAction("stories");
+					dialog.dialogStoriesContainer.toggle();
+				}}
+			>
+				Редактировать
+			</Button>
 		</div>
 	);
 };

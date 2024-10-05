@@ -15,6 +15,7 @@ interface Props {
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
 	componentId: string;
+	additionalActiveEvent?: boolean;
 }
 
 /**
@@ -29,7 +30,13 @@ interface Props {
  * @constructor
  */
 const BaseComponentRender: React.FC<Props> = (props) => {
-	const { type, componentData, containerData, componentId } = props;
+	const {
+		type,
+		componentData,
+		containerData,
+		componentId,
+		additionalActiveEvent = false,
+	} = props;
 
 	const renderComponents = () => {
 		switch (type) {
@@ -39,6 +46,7 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 						componentData={componentData}
 						containerId={containerData.id}
 						containerData={containerData}
+						additionalActiveEvent={additionalActiveEvent}
 					/>
 				);
 			case "card_outside":

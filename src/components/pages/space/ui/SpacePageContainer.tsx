@@ -13,6 +13,7 @@ import TemplateAddDialog from "@/components/features/app/containerTemplate/Templ
 import DialogContainer from "@/components/widgets/dialog/DialogContainer";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import AddBaseComponent from "@/components/features/app/components/add/AddBaseComponent";
+import StoriesContainer from "@/components/features/app/panel/content/stories/StoriesContainer";
 
 /**
  * @author Zholaman Zhumanov

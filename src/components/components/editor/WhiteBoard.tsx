@@ -8,6 +8,7 @@ import BoardDisplay from "@/components/components/board/BoardDisplay";
 import BoardToolbar from "@/components/components/board/BoardToolbar";
 import BoardDraggingDisplay from "@/components/components/board/BoardDraggingDisplay";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
+import StoriesContainer from "@/components/features/app/panel/content/stories/StoriesContainer";
 
 /**
  * @author Zholaman Zhumanov
@@ -48,10 +49,13 @@ const WhiteBoard: React.FC = () => {
 			style={{ width: "calc(100% - 700px)" }}
 		>
 			<BoardToolbar />
+			<StoriesContainer />
 			{/*{spaceTemplateData.length > 0 && <HeaderModeView />}*/}
 			<div
 				style={{
 					...styleFormatted({
+						backgroundColor: "#ffffff",
+						backgroundColorDark: "#181a1b",
 						height: "calc(100vh - 50px)",
 					}),
 				}}

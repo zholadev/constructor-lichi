@@ -11,6 +11,7 @@ interface Props {
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
 	containerId: string;
+	additionalActiveEvent?: boolean;
 }
 
 /**
@@ -25,12 +26,17 @@ interface Props {
  * @constructor
  */
 const Card: React.FC<Props> = (props) => {
-	const { componentData, containerId, containerData } = props;
+	const { componentData, containerId, containerData, additionalActiveEvent } =
+		props;
 
 	const styleFormatted = useStylesFormatted();
 
 	return (
-		<ComponentAction containerId={containerId} data={componentData}>
+		<ComponentAction
+			containerId={containerId}
+			data={componentData}
+			additionalActiveEvent={additionalActiveEvent}
+		>
 			<div
 				style={{
 					...styleFormatted(

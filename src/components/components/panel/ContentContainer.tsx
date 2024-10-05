@@ -54,11 +54,12 @@ const accessTypes: AccessTypes[] = ["video", "photo", "link", "stories"];
  * @constructor
  */
 const ContentContainer: React.FC = () => {
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
-
 	const editorEvent = useEditorEvent();
 	const permission = usePermission();
 	const activeElementData = useActiveElementFollowUp();
+
+	const { editorActiveElement, editorAdditionalActiveElement } =
+		useAppSelector((state) => state.editor);
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 

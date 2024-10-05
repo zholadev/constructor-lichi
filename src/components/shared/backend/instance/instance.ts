@@ -14,13 +14,13 @@ import { ResponseObject } from "../types/api-types";
  * @type {AxiosInstance}
  */
 const axiosInstance: AxiosInstance = axios.create({
-	baseURL: "https://app3.lichishop.com/api/",
+	baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL,
 	withCredentials: false,
 	timeout: 5000,
 });
 
 const axiosInstanceSite: AxiosInstance = axios.create({
-	baseURL: process.env.BACKEND_SITE_API_URL || "https://api.lichi.com/",
+	baseURL: process.env.NEXT_PUBLIC_BACKEND_SITE_API_URL,
 	withCredentials: false,
 	timeout: 5000,
 });

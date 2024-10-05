@@ -8,10 +8,14 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/components/shared/shadcn/ui/tabs";
+import { Bolt, BookImage, Paintbrush } from "lucide-react";
 import StylesContainer from "@/components/components/panel/StylesContainer";
 import ContentContainer from "@/components/components/panel/ContentContainer";
-import { Bolt, BookImage, Paintbrush } from "lucide-react";
 import SettingContainer from "@/components/components/panel/SettingContainer";
+
+interface Props {
+	isStatic?: boolean;
+}
 
 /**
  * @author Zholaman Zhumanov
@@ -23,11 +27,13 @@ import SettingContainer from "@/components/components/panel/SettingContainer";
  * @fixme
  * @constructor
  */
-const PanelContent: React.FC = () => {
+const PanelContent: React.FC<Props> = (props) => {
+	const { isStatic = false } = props;
+
 	return (
 		<div
-			className={cn("w-[340px] border")}
-			style={{ height: "calc(100vh - 60px)" }}
+			className={cn(`w-[340px] border ${isStatic ? "bg-white" : ""}`)}
+			style={{ height: isStatic ? "100%" : "calc(100vh - 60px)" }}
 		>
 			<Tabs defaultValue="styles" className="w-full">
 				<div className={cn("p-2")}>
@@ -68,26 +74,32 @@ const PanelContent: React.FC = () => {
 				</div>
 				<div
 					className={cn("p-2 overflow-hidden")}
-					style={{ height: "calc(100vh - 60px)" }}
+					style={{ height: isStatic ? "100%" : "calc(100vh - 60px)" }}
 				>
 					<TabsContent
 						value="styles"
 						className={cn("overflow-y-auto")}
-						style={{ height: "calc(100vh - 120px)" }}
+						style={{
+							height: isStatic ? "100%" : "calc(100vh - 120px)",
+						}}
 					>
 						<StylesContainer />
 					</TabsContent>
 					<TabsContent
 						value="content"
 						className={cn("overflow-y-auto")}
-						style={{ height: "calc(100vh - 100px)" }}
+						style={{
+							height: isStatic ? "100%" : "calc(100vh - 100px)",
+						}}
 					>
 						<ContentContainer />
 					</TabsContent>
 					<TabsContent
 						value="settings"
 						className={cn("overflow-y-auto")}
-						style={{ height: "calc(100vh - 120px)" }}
+						style={{
+							height: isStatic ? "100%" : "calc(100vh - 120px)",
+						}}
 					>
 						<SettingContainer />
 					</TabsContent>

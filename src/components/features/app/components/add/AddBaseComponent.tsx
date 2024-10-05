@@ -15,6 +15,7 @@ import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useWidgetActions from "@/components/shared/hooks/useWidgetActions";
 
 const baseData: IComponentBaseAddList[] = [
 	{
@@ -36,16 +37,6 @@ const baseData: IComponentBaseAddList[] = [
 		id: 6,
 		type: "album_outside",
 		version: versionComponentBase.album_outside.version,
-	},
-	{
-		id: 7,
-		type: "video",
-		version: versionComponentBase.video.version,
-	},
-	{
-		id: 8,
-		type: "video_outside",
-		version: versionComponentBase.video_outside.version,
 	},
 ];
 
@@ -79,11 +70,13 @@ const AddBaseComponent: React.FC<IAddBaseComponent> = (props) => {
 		useDispatchAction();
 
 	const editorEvent = useEditorEvent();
+	const widgetActions = useWidgetActions();
 	const templateEvent = useTemplateEvent();
 
 	const getSchemaComponent = useSchemaComponentData();
 
-	const { editorAddComponentType } = useAppSelector((state) => state.editor);
+	const { editorAddComponentType, editorAdditionalActiveElement } =
+		useAppSelector((state) => state.editor);
 
 	const [selectComponent, setSelectComponent] =
 		useState<ComponentBaseTypes | null>(null);
@@ -100,7 +93,7 @@ const AddBaseComponent: React.FC<IAddBaseComponent> = (props) => {
 
 			<Divider spacing="large" />
 
-			{editorAddComponentType === "special" ? (
+			{editorAddComponentType === "saint_laurent" ? (
 				<ul className={cn("p-0 m-0 list-none grid grid-cols-3 gap-2")}>
 					{specialData.map((component) => {
 						return (
@@ -165,6 +158,13 @@ const AddBaseComponent: React.FC<IAddBaseComponent> = (props) => {
 							dialogAddComponentAction(false);
 						if (dialogSettingActionAddComponentAction)
 							dialogSettingActionAddComponentAction(false);
+
+						if (editorAdditionalActiveElement === "stories") {
+							widgetActions.widgetCreateComponent(
+								getSchemaComponent(selectComponent)
+							);
+							return;
+						}
 
 						eventType === "new"
 							? templateEvent.addComponent(

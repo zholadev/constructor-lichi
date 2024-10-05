@@ -12,6 +12,7 @@ import {
 	dialogRenameTitleReducer,
 	dialogSaveSchemaReducer,
 	dialogSettingActionAddComponentReducer,
+	dialogStoriesContainerReducer,
 	dialogUploadFileReducer,
 } from "@/components/app/store/features/dialogSlice";
 import {
@@ -29,6 +30,7 @@ import {
 	schemaListDataReducer,
 } from "@/components/app/store/features/schemaListSlice";
 import {
+	AdditionalTypes,
 	DeviceType,
 	IContainerType,
 	PlatformType,
@@ -67,6 +69,7 @@ import {
 import {
 	editorActiveElementReducer,
 	editorAddComponentTypeReducer,
+	editorAdditionalActiveElementReducer,
 	editorDisabledEditReducer,
 	editorDraggingTemplateReducer,
 	editorNavigatorHoverIdReducer,
@@ -74,7 +77,8 @@ import {
 	editorRemoveTemplateReducer,
 	editorSelectAddComponentReducer,
 	editorSelectElementReducer,
-	editorSwiperAutoplayReducer, editorSwiperIndexShowReducer,
+	editorSwiperAutoplayReducer,
+	editorSwiperIndexShowReducer,
 	editorVideoPlayReducer,
 } from "@/components/app/store/features/editorSlice";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
@@ -111,6 +115,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogAddComponentReducer(value)),
 		dialogSettingActionAddComponentAction: (value: boolean) =>
 			dispatch(dialogSettingActionAddComponentReducer(value)),
+		dialogStoriesContainerAction: (value: boolean) =>
+			dispatch(dialogStoriesContainerReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>
@@ -155,6 +161,8 @@ export default function useDispatchAction(): any {
 			dispatch(editorAddComponentTypeReducer(value)),
 		editorSwiperIndexShowReducerAction: (value: boolean) =>
 			dispatch(editorSwiperIndexShowReducer(value)),
+		editorAdditionalActiveElementAction: (value: AdditionalTypes) =>
+			dispatch(editorAdditionalActiveElementReducer(value)),
 
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>

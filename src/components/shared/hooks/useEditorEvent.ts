@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import useActiveElementFollowUp from "@/components/shared/hooks/useActiveElementFollowUp";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { IElementTotal } from "@/components/features/app/ui/elements/types/interface-elements";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 type UpdateContentKeys =
 	| "content"
@@ -27,6 +28,7 @@ interface IEditorEvent {
 	) => void;
 	removeEvent: () => void;
 	appendComponent: (data: unknown) => void;
+	appendAdditionalComponent: (data: unknown) => void;
 }
 
 /**
@@ -44,6 +46,7 @@ export default function useEditorEvent(): IEditorEvent {
 
 	const activeElementData = useActiveElementFollowUp();
 	const { spaceTemplateDataAction } = useDispatchAction();
+	const dialog = useDialogAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
@@ -158,6 +161,90 @@ export default function useEditorEvent(): IEditorEvent {
 							},
 						};
 					}
+					return container;
+				}
+			);
+
+			if (newBuildData) {
+				toastMessage("Компонент был успешно добавлен!", "success");
+				spaceTemplateDataAction(newBuildData);
+			}
+		} catch (error) {
+			if (error instanceof Error) {
+				errorHandler("useEditorEvent", "addElement", error);
+			}
+		}
+	};
+
+	const appendAdditionalComponent = (
+		data: unknown
+	): ISchemaContainer[] | void => {
+		try {
+			if (!data) {
+				toastMessage(
+					"Произошла ошибка при добавлении - not found",
+					"error"
+				);
+				return;
+			}
+
+			if (!activeElementData?.currentActiveId) {
+				toastMessage("Вы не выбрали компонент", "error");
+				return;
+			}
+
+			if (!activeElementData?.containerId) {
+				toastMessage("Выбранный контейнер не найден", "error");
+				return;
+			}
+
+			const newBuildData = spaceTemplateData.map(
+				(container: ISchemaContainer) => {
+					if (container.id === activeElementData.containerId) {
+						const updatedComponents = container.components.map(
+							(component) => {
+								// Проверяем, является ли этот компонент тем, который нужно обновить
+								if (component.data?.id === activeElementData.id) {
+									console.log("component", component);
+									// Проверяем, есть ли поле content и stories
+									if (component.data?.content?.stories) {
+										// Обновляем stories.components
+										const updatedStoriesComponents = [
+											...component.data.content.stories.components,
+											{
+												id: uuidv4(),
+												data: {
+													...data,
+												},
+											},
+										];
+
+										return {
+											...component,
+											data: {
+												...component.data,
+												content: {
+													...component.data.content,
+													stories: {
+														...component.data.content.stories,
+														components: updatedStoriesComponents, // Обновляем массив components в stories
+													},
+												},
+											},
+										};
+									}
+								}
+
+								return component;
+							}
+						);
+
+						return {
+							...container,
+							components: updatedComponents,
+						};
+					}
+
 					return container;
 				}
 			);
@@ -608,12 +695,67 @@ export default function useEditorEvent(): IEditorEvent {
 				});
 			};
 
+			const componentStoriesUpdateHandle = () => {
+				return spaceTemplateData.map((container: ISchemaContainer) => {
+					if (container.id === editorActiveElement.containerId) {
+						return {
+							...container,
+							components: container.components.map(
+								(component) => {
+									if (
+										component.data.id ===
+										editorActiveElement.id
+									) {
+										const updatedComponent =
+											deepCopy(component);
+
+										if (removeObj) {
+											updateDataHandle(
+												updatedComponent.data?.content
+													?.stories,
+												true,
+												true
+											);
+										} else if (removeKey) {
+											removeKeyDataHandle(
+												updatedComponent.data?.content
+													?.stories
+											);
+										} else {
+											updateDataHandle(
+												updatedComponent.data?.content
+													?.stories,
+												true
+											);
+										}
+
+										return {
+											...component,
+											...updatedComponent,
+										};
+									}
+									return component;
+								}
+							),
+						};
+					}
+					return container;
+				});
+			};
+
 			if (activeElementData.type === "container") {
 				const newUpdateContent = containerUpdateHandle();
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
 			} else if (activeElementData.type === "component") {
-				const newUpdateContent = componentUpdateHandle();
-				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
+				if (dialog.dialogStoriesContainer.open) {
+					const newUpdateContent = componentStoriesUpdateHandle();
+					if (newUpdateContent)
+						spaceTemplateDataAction(newUpdateContent);
+				} else {
+					const newUpdateContent = componentUpdateHandle();
+					if (newUpdateContent)
+						spaceTemplateDataAction(newUpdateContent);
+				}
 			} else if (activeElementData.type === "element") {
 				const newUpdateContent = elementUpdateHandle();
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
@@ -632,5 +774,6 @@ export default function useEditorEvent(): IEditorEvent {
 		updateComponent,
 		removeEvent,
 		appendComponent,
+		appendAdditionalComponent,
 	};
 }

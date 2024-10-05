@@ -28,6 +28,7 @@ export type IContainerType =
 	| "initial";
 
 export type ISaintLaurentComponentType = "single" | "duo";
+export type AdditionalTypes = "stories" | "none";
 
 export type TotalComponentTypes =
 	| IComponentCardSchema

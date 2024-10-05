@@ -3,8 +3,10 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import {
 	ActiveElementType,
+	AdditionalTypes,
 	TotalComponentTypes,
 } from "@/components/shared/types/types";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 interface IActiveElementFollowUp {
 	type: ActiveElementType;
@@ -14,6 +16,10 @@ interface IActiveElementFollowUp {
 	data: TotalComponentTypes;
 	style: Record<string, unknown>;
 	componentData: TotalComponentTypes;
+	additionalData?: TotalComponentTypes;
+	additionalType?: AdditionalTypes;
+	additionalCurrentId?: string;
+	containerData: ISchemaContainer;
 }
 
 /**
@@ -28,7 +34,8 @@ interface IActiveElementFollowUp {
  */
 export default function useActiveElementFollowUp(): IActiveElementFollowUp {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
+	const { editorActiveElement, editorAdditionalActiveElement } =
+		useAppSelector((state) => state.editor);
 
 	return useMemo(() => {
 		try {
@@ -43,7 +50,8 @@ export default function useActiveElementFollowUp(): IActiveElementFollowUp {
 			);
 
 			const foundElement = foundComponentData?.data.elements.find(
-				(element) => element?.id === editorActiveElement?.currentActiveId
+				(element) =>
+					element?.id === editorActiveElement?.currentActiveId
 			);
 
 			const type = editorActiveElement.type ?? "none";
@@ -83,10 +91,16 @@ export default function useActiveElementFollowUp(): IActiveElementFollowUp {
 				id: foundComponentData?.data?.id ?? "",
 				componentData: foundComponentData?.data ?? {},
 				containerId: editorActiveElement?.containerId ?? "",
+				additionalData:
+					foundComponentData?.data?.content?.stories || {},
+				additionalType: editorAdditionalActiveElement ?? "none",
+				additionalCurrentId:
+					editorActiveElement.additionalCurrentId ?? "",
+				containerData: foundContainerData ?? {},
 			};
 		} catch (error) {
 			errorHandler("useActiveElementFollowUp", "root", error);
-			return null; // Ensure a null return if there's an error
+			return null;
 		}
-	}, [editorActiveElement, spaceTemplateData]);
+	}, [editorActiveElement, spaceTemplateData, editorAdditionalActiveElement]);
 }

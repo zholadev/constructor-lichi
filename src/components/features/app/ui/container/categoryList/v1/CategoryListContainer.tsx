@@ -85,7 +85,12 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		fetchGetCategoryList();
-	}, [categoryListParams]);
+	}, [
+		categoryListParams.category,
+		categoryListParams.shop,
+		categoryListParams.limit,
+		categoryListParams.cardType,
+	]);
 
 	useEffect(() => {
 		try {

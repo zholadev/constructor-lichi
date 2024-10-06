@@ -13,7 +13,6 @@ import {
 	VideoIcon,
 } from "@radix-ui/react-icons";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
@@ -22,6 +21,8 @@ import VideoContent from "@/components/features/app/modules/editor/content/Video
 import LinkContent from "@/components/features/app/modules/editor/content/LinkContent";
 import StoriesContent from "@/components/features/app/modules/editor/content/StoriesContent";
 import TextFillContent from "@/components/features/app/modules/editor/content/TextFillContent";
+import useUpdateActions from "@/components/shared/hooks/ actions/useUpdateActions";
+import useUpdateWidgetActions from "@/components/shared/hooks/ actions/useUpdateWidgetActions";
 
 type AccessTypes = "video" | "photo" | "link" | "stories";
 type ContentKeys = "photo" | "link" | "video" | "stories";
@@ -31,6 +32,8 @@ interface IContentActiveData {
 		link: Record<string, unknown>;
 		photo: Record<string, unknown>;
 		video: Record<string, unknown>;
+		title?: Record<string, unknown>;
+		stories?: Record<string, unknown>;
 	};
 }
 
@@ -54,18 +57,18 @@ const accessTypes: AccessTypes[] = ["video", "photo", "link", "stories"];
  * @constructor
  */
 const ContentContainer: React.FC = () => {
-	const editorEvent = useEditorEvent();
 	const permission = usePermission();
+	const updateActions = useUpdateActions();
+	const updateWidgetActions = useUpdateWidgetActions();
 	const activeElementData = useActiveElementObserver();
 
-	const { editorActiveElement, editorAdditionalActiveElement } =
-		useAppSelector((state) => state.editor);
+	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	const contentActiveData: IContentActiveData = useMemo(() => {
 		try {
-			const content = activeElementData?.data?.content;
+			const content = activeElementData?.activeData?.content;
 
 			return {
 				content: {
@@ -73,7 +76,7 @@ const ContentContainer: React.FC = () => {
 					photo: content?.photo,
 					video: content?.video ?? { videoSrc: "", poster: null },
 					title: content?.title ?? {},
-					stories: content?.stories ?? [],
+					stories: content?.stories ?? {},
 				},
 			};
 		} catch (error) {
@@ -95,7 +98,11 @@ const ContentContainer: React.FC = () => {
 	};
 
 	const removeSchemaDataHandle = (pathString: string) => {
-		editorEvent.updateComponent({}, "content", pathString, true);
+		if (activeElementData?.widgetType === "stories") {
+			updateWidgetActions.update({}, pathString, true);
+			return;
+		}
+		updateActions.update({}, pathString, true);
 	};
 
 	useEffect(() => {
@@ -162,9 +169,18 @@ const ContentContainer: React.FC = () => {
 													<ImageContent
 														imageSrc={value}
 														onChange={(data) => {
-															editorEvent.updateComponent(
+															if (
+																activeElementData?.widgetType ===
+																"stories"
+															) {
+																updateWidgetActions.update(
+																	data,
+																	`content.photo.${key}`
+																);
+																return;
+															}
+															updateActions.update(
 																data,
-																"content",
 																`content.photo.${key}`
 															);
 														}}
@@ -201,9 +217,19 @@ const ContentContainer: React.FC = () => {
 										?.poster,
 								}}
 								onSendParams={(params) => {
-									editorEvent.updateComponent(
+									if (
+										activeElementData?.widgetType ===
+										"stories"
+									) {
+										updateWidgetActions.update(
+											params,
+											"content.video"
+										);
+										return;
+									}
+
+									updateActions.update(
 										params,
-										"content",
 										"content.video"
 									);
 								}}
@@ -228,9 +254,18 @@ const ContentContainer: React.FC = () => {
 							<LinkContent
 								defaultParams={contentActiveData.content.link}
 								onSendParams={(params) => {
-									editorEvent.updateComponent(
+									if (
+										activeElementData?.widgetType ===
+										"stories"
+									) {
+										updateWidgetActions.update(
+											params,
+											"content.link"
+										);
+										return;
+									}
+									updateActions.update(
 										params,
-										"content",
 										"content.link"
 									);
 								}}
@@ -258,9 +293,18 @@ const ContentContainer: React.FC = () => {
 							<TextFillContent
 								defaultParams={contentActiveData.content?.title}
 								onSendParams={(params) => {
-									editorEvent.updateComponent(
+									if (
+										activeElementData?.widgetType ===
+										"stories"
+									) {
+										updateWidgetActions.update(
+											params,
+											"content.title"
+										);
+										return;
+									}
+									updateActions.update(
 										params,
-										"content",
 										"content.title"
 									);
 								}}
@@ -287,9 +331,18 @@ const ContentContainer: React.FC = () => {
 									contentActiveData.content?.stories
 								}
 								onSendParams={(params) => {
-									editorEvent.updateComponent(
+									if (
+										activeElementData?.widgetType ===
+										"stories"
+									) {
+										updateWidgetActions.update(
+											params,
+											"content.stories"
+										);
+										return;
+									}
+									updateActions.update(
 										params,
-										"content",
 										"content.stories"
 									);
 								}}

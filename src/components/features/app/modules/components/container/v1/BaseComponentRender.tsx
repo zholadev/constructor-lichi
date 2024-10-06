@@ -9,13 +9,14 @@ import Video from "@/components/features/app/modules/components/components/base/
 import Card from "@/components/features/app/modules/components/components/base/v1/Card";
 import CardOutside from "@/components/features/app/modules/components/components/base/v1/CardOutside";
 import Album from "@/components/features/app/modules/components/components/base/v1/Album";
+import ComponentAction from "@/components/features/app/activeElement/wrappers/v1/component/ComponentAction";
 
 interface Props {
 	type: ComponentBaseTypes;
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
 	componentId: string;
-	additionalActiveEvent?: boolean;
+	widgetComponent?: boolean;
 }
 
 /**
@@ -24,7 +25,7 @@ interface Props {
  * @description Компонент для вывода обычных компонентов v1
  * @last-updated
  * @update-description
- * @todo refactoring - types, code
+ * @todo refactoring
  * @fixme
  * @param props
  * @constructor
@@ -35,7 +36,7 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 		componentData,
 		containerData,
 		componentId,
-		additionalActiveEvent = false,
+		widgetComponent = false,
 	} = props;
 
 	const renderComponents = () => {
@@ -46,7 +47,7 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 						componentData={componentData}
 						containerId={containerData.id}
 						containerData={containerData}
-						additionalActiveEvent={additionalActiveEvent}
+						widgetComponent={widgetComponent}
 					/>
 				);
 			case "card_outside":
@@ -83,7 +84,16 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 		}
 	};
 
-	return renderComponents();
+	return (
+		<ComponentAction
+			containerId={containerData.id}
+			data={componentData}
+			widgetComponent={widgetComponent}
+			containerData={containerData}
+		>
+			{renderComponents()}
+		</ComponentAction>
+	);
 };
 
 export default BaseComponentRender;

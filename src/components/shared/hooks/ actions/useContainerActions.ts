@@ -1,26 +1,23 @@
-import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import { v4 as uuidv4 } from "uuid";
-import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { versionTemplate } from "@/components/app/versions/version-modules";
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
-import { defaultSettings } from "@/components/entities/defSettings/def_settings";
 import {
 	IContainerType,
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
 import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
-import {saint_laurent_component_schema} from "@/components/app/schema/model/v1/schema-special-components";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import { v4 as uuidv4 } from "uuid";
+import { defaultSettings } from "@/components/entities/defSettings/def_settings";
+import { versionTemplate } from "@/components/app/versions/version-modules";
+import { saint_laurent_component_schema } from "@/components/app/schema/model/v1/schema-special-components";
 
-interface ITemplateEvent {
+interface IContainerActions {
 	createBaseContainer: (
 		blockType: IContainerType,
 		countColumn: number,
 		cb: () => void
 	) => void;
-	addComponent: (data: IComponentBaseFullSchema) => void;
-	deleteContainer: (id: string) => void;
 	createSaintLaurentContainerEvent: (
 		type: IContainerType,
 		componentType: ISaintLaurentComponentType,
@@ -35,15 +32,15 @@ interface ITemplateEvent {
 
 /**
  * @author Zholaman Zhumanov
- * @created 29.08.2024
+ * @created 06.10.2024
  * @description
  * @last-updated
  * @update-description
- * @todo refactoring, gap update for swiper
+ * @todo
  * @fixme
  * @constructor
  */
-export default function useTemplateEvent(): ITemplateEvent {
+export default function useContainerActions(): IContainerActions {
 	const { editorRemoveTemplateAction } = useDispatchAction();
 
 	const toggleEditorRemoveTemplateHandle = () =>
@@ -54,38 +51,7 @@ export default function useTemplateEvent(): ITemplateEvent {
 	const { spaceTemplateDataAction } = useDispatchAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorSelectAddComponent, editorRemoveTemplate } = useAppSelector(
-		(state) => state.editor
-	);
-
-	const addComponent = (updateData: IComponentBaseFullSchema) => {
-		if (!updateData) {
-			toastMessage(
-				"Такого компонента не существует! addComponent",
-				"error"
-			);
-			return;
-		}
-		const selected = editorSelectAddComponent;
-		const data = spaceTemplateData.map((container: ISchemaContainer) => {
-			if (container.id === selected.containerData.id) {
-				return {
-					...container,
-					components: container.components.map((component) => {
-						if (component.id === selected.componentId) {
-							return {
-								...component,
-								data: updateData,
-							};
-						}
-						return component;
-					}),
-				};
-			}
-			return container;
-		});
-		spaceTemplateDataAction(data);
-	};
+	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -333,8 +299,6 @@ export default function useTemplateEvent(): ITemplateEvent {
 
 	return {
 		createBaseContainer,
-		addComponent,
-		deleteContainer,
 		createSaintLaurentContainerEvent,
 		createCategoryListContainerEvent,
 	};

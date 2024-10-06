@@ -2,6 +2,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import BaseComponentRender from "../../../components/container/v1/BaseComponentRender";
 import useActiveElementObserver from "../../../../../../shared/hooks/useActiveElementObserver";
 import StoriesAddButton from "./StoriesAddButton";
@@ -48,8 +49,11 @@ const StoriesContent: React.FC = () => {
 							speed={400}
 							controller={{ control: null }}
 						>
-							{activeElementData.additionalData?.components?.map(
-								(component, index) => {
+							{activeElementData.widgetData?.components?.map(
+								(
+									component: ISchemaComponent,
+									index: number
+								) => {
 									return (
 										<SwiperSlide key={component.id}>
 											{editorSwiperIndexShow && (
@@ -62,7 +66,7 @@ const StoriesContent: React.FC = () => {
 												</span>
 											)}
 											<BaseComponentRender
-												additionalActiveEvent
+												widgetComponent
 												key={component.id}
 												componentId={component.id}
 												type={component.data?.type}

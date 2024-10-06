@@ -46,8 +46,8 @@ export default function useWidgetActions(): IWidgetActions {
 				return;
 			}
 
-			if (!activeElementData.id) {
-				toastMessage("Выбранный id не найден", "error");
+			if (!activeElementData.widgetActiveComponentId) {
+				toastMessage("widgetActiveComponentId не найден", "error");
 				return;
 			}
 
@@ -61,7 +61,7 @@ export default function useWidgetActions(): IWidgetActions {
 									// Находим нужный компонент по id
 									if (
 										component.data.id ===
-										editorActiveElement.id
+										activeElementData.componentId
 									) {
 										// Проверяем, есть ли stories и components внутри stories
 										if (
@@ -74,7 +74,7 @@ export default function useWidgetActions(): IWidgetActions {
 														if (
 															storyComponent.data
 																?.id ===
-															activeElementData.additionalCurrentId
+															activeElementData.widgetActiveComponentId
 														) {
 															return {
 																...storyComponent,

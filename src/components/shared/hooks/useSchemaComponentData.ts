@@ -2,7 +2,6 @@ import {
 	ComponentBaseTypes,
 	ComponentSpecialTypes,
 } from "@/components/shared/types/types-components";
-import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import {
 	album_component_schema,
 	album_outside_component_schema,
@@ -12,6 +11,7 @@ import {
 	video_outside_component_schema,
 } from "@/components/app/schema/model/v1/schema-base-component";
 import { saint_laurent_component_schema } from "@/components/app/schema/model/v1/schema-special-components";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 /**
  * @author Zholaman Zhumanov
@@ -25,11 +25,11 @@ import { saint_laurent_component_schema } from "@/components/app/schema/model/v1
  */
 export default function useSchemaComponentData(): (
 	type: ComponentBaseTypes | ComponentSpecialTypes
-) => IComponentBaseFullSchema {
-	return (type: ComponentBaseTypes): IComponentBaseFullSchema => {
+) => ISchemaComponent {
+	return (type: ComponentBaseTypes): ISchemaComponent => {
 		const schemaMap: Record<
 			ComponentBaseTypes | ComponentSpecialTypes,
-			IComponentBaseFullSchema
+			ISchemaComponent
 		> = {
 			card: card_component_schema(),
 			card_outside: card_outside_component_schema(),

@@ -14,7 +14,6 @@ import {
 	SizeIcon,
 } from "@radix-ui/react-icons";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
@@ -25,6 +24,9 @@ import SpacingStyles from "@/components/features/app/modules/editor/styles/Spaci
 import BorderStyles from "@/components/features/app/modules/editor/styles/BorderStyles";
 import TypographyStyles from "@/components/features/app/modules/editor/styles/TypographyStyles";
 import BackgroundStyles from "@/components/features/app/modules/editor/styles/BackgroundStyles";
+import SizeStyles from "@/components/features/app/modules/editor/styles/SizeStyles";
+import useUpdateActions from "@/components/shared/hooks/ actions/useUpdateActions";
+import useUpdateWidgetActions from "@/components/shared/hooks/ actions/useUpdateWidgetActions";
 
 type AccessTypes =
 	| "position"
@@ -66,7 +68,8 @@ const StylesContainer: React.FC = () => {
 
 	// console.log("editorActiveElement", editorActiveElement);
 	const toastMessage = useToastMessage();
-	const editorEvent = useEditorEvent();
+	const updateActions = useUpdateActions();
+	const updateWidgetActions = useUpdateWidgetActions();
 	const permission = usePermission();
 	const activeElementData = useActiveElementObserver();
 
@@ -77,7 +80,7 @@ const StylesContainer: React.FC = () => {
 	 * @description Метод для получения стиля активного компонента
 	 */
 	const styleActiveData: Record<string, unknown> = useMemo(() => {
-		return activeElementData?.style ?? {};
+		return activeElementData?.activeStyle ?? {};
 	}, [editorActiveElement, spaceTemplateData, activeElementData]);
 
 	const activeUpdateTypeData = useMemo(() => {
@@ -103,31 +106,31 @@ const StylesContainer: React.FC = () => {
 			);
 			return;
 		}
-		console.log("update style", value, path);
-		editorEvent.updateComponent(value, activeUpdateTypeData, path);
+
+		if (activeElementData?.widgetType === "stories") {
+			updateWidgetActions.update(value, path);
+			return;
+		}
+
+		updateActions.update(value, path);
 	};
 
 	const removeStylesHandle = (
 		type?: string,
 		valueKeys: string | string[]
 	) => {
-		console.log("type", type, valueKeys);
 		if (type === "removeKey") {
-			editorEvent.updateComponent(
-				{},
-				activeUpdateTypeData,
-				valueKeys,
-				false,
-				true
-			);
+			if (activeElementData?.widgetType === "stories") {
+				updateWidgetActions.update({}, valueKeys, false, true);
+				return;
+			}
+			updateActions.update({}, valueKeys, false, true);
 		} else if (type === "removeObj") {
-			editorEvent.updateComponent(
-				{},
-				activeUpdateTypeData,
-				valueKeys,
-				true,
-				false
-			);
+			if (activeElementData?.widgetType === "stories") {
+				updateWidgetActions.update({}, valueKeys, true, false);
+				return;
+			}
+			updateActions.update({}, valueKeys, true, false);
 		}
 	};
 

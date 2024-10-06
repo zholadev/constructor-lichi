@@ -6,8 +6,8 @@ import { GalleryHorizontal } from "lucide-react";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { IContainerType } from "@/components/shared/types/types";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import useContainerActions from "@/components/shared/hooks/ actions/useContainerActions";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,7 +23,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
 		useDispatchAction();
 
-	const templateEvent = useTemplateEvent();
+	const containerActions = useContainerActions();
 
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 
@@ -55,7 +55,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 	 * @description Функция который подтверждает добавление шаблона в доску
 	 */
 	const onConfirmHandle = () =>
-		templateEvent.createBaseContainer(
+		containerActions.createBaseContainer(
 			blockType,
 			countColumn,
 			toggleDialogHandle

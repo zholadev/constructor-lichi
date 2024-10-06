@@ -24,6 +24,7 @@ export const errorInstance = (
 			success: false,
 			data: error.response?.data,
 			error: error?.message,
+			code: error?.code,
 			status,
 			message_fail:
 				"An error occurred, please reload the page or contact support",
@@ -34,6 +35,7 @@ export const errorInstance = (
 		error: error?.message,
 		data: error?.response?.data,
 		status: error?.response?.status,
+		code: error?.code,
 		message_fail:
 			"An error occurred, please reload the page or contact support",
 	};

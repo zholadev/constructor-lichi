@@ -5,7 +5,6 @@ import { cn } from "@/components/lib/utils";
 import Divider from "@/components/shared/uikit/divider/Divider";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
-import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import useSchemaComponentData from "@/components/shared/hooks/useSchemaComponentData";
 import {
 	IComponentBaseAddList,
@@ -13,9 +12,9 @@ import {
 } from "@/components/shared/types/interface-templates";
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useWidgetActions from "@/components/shared/hooks/useWidgetActions";
+import useComponentActions from "@/components/shared/hooks/ actions/useComponentActions";
 
 const baseData: IComponentBaseAddList[] = [
 	{
@@ -69,9 +68,8 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 	const { dialogAddComponentAction, dialogSettingActionAddComponentAction } =
 		useDispatchAction();
 
-	const editorEvent = useEditorEvent();
 	const widgetActions = useWidgetActions();
-	const templateEvent = useTemplateEvent();
+	const componentActions = useComponentActions();
 
 	const getSchemaComponent = useSchemaComponentData();
 
@@ -167,10 +165,10 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 						}
 
 						eventType === "new"
-							? templateEvent.addComponent(
+							? componentActions.componentCreate(
 									getSchemaComponent(selectComponent)
 								)
-							: editorEvent.appendComponent(
+							: componentActions.componentAppend(
 									getSchemaComponent(selectComponent)
 								);
 					}}

@@ -1,9 +1,9 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
-import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import usePermission from "@/components/shared/hooks/usePermission";
+import useRemoveActions from "@/components/shared/hooks/ actions/useRemoveActions";
 import ActionAddComponentSetting from "@/components/features/app/modules/editor/setting/ActionAddComponentSetting";
 
 /**
@@ -19,7 +19,7 @@ import ActionAddComponentSetting from "@/components/features/app/modules/editor/
 const ActionSetting: React.FC = () => {
 	const permission = usePermission();
 	const dialog = useDialogAction();
-	const editorEvent = useEditorEvent();
+	const removeActions = useRemoveActions();
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>
@@ -39,7 +39,7 @@ const ActionSetting: React.FC = () => {
 					<Button
 						type="button"
 						variant="destructive"
-						onClick={editorEvent.removeEvent}
+						onClick={removeActions.remove}
 					>
 						Удалить
 					</Button>

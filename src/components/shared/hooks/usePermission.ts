@@ -106,7 +106,7 @@ export const basePermission: IPermission = {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo РЕФАКТОРИНГ
  * @fixme
  * @constructor
  */
@@ -120,7 +120,7 @@ export default function usePermission(): IPermission {
 	 * @description Получаем тип глобального элемента
 	 */
 	const typeActiveElement: ActiveElementType = useMemo(() => {
-		return activeElementData?.type ?? "";
+		return activeElementData?.type ?? "none";
 	}, [activeElementData]);
 
 	/**
@@ -131,8 +131,9 @@ export default function usePermission(): IPermission {
 		| ComponentBaseTypes
 		| ElementBaseTypes
 		| IContainerType
-		| ComponentSpecialTypes = useMemo(() => {
-		return activeElementData?.data?.type ?? "";
+		| ComponentSpecialTypes
+		| "none" = useMemo(() => {
+		return activeElementData?.activeData?.type ?? "none";
 	}, [activeElementData]);
 
 	/**

@@ -12,6 +12,7 @@ interface Props {
 	containerId: string;
 	componentId: string;
 	timerData?: string | Date;
+	widgetComponent?: boolean;
 }
 
 /**
@@ -26,7 +27,7 @@ interface Props {
  * @constructor
  */
 const BaseElementRender: React.FC<Props> = (props) => {
-	const { type, data, containerId, componentId, timerData } = props;
+	const { type, data, containerId, componentId, timerData, widgetComponent } = props;
 
 	const renderComponents = () => {
 		switch (type) {
@@ -50,6 +51,7 @@ const BaseElementRender: React.FC<Props> = (props) => {
 	return (
 		<ElementAction
 			data={data}
+			widgetComponent={widgetComponent}
 			containerId={containerId}
 			componentId={componentId}
 		>

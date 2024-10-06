@@ -50,11 +50,11 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 		data: TotalComponentTypes
 	) => {
 		activeElementHandle({
-			data,
+			activeData: data,
 			containerId,
 			type,
 			componentId: data?.id,
-			currentId: data?.id,
+			activeId: data?.id,
 		});
 	};
 

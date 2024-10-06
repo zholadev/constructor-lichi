@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
@@ -21,6 +20,7 @@ import { IGetApiParams } from "@/components/shared/types/interface";
 import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { ImageIcon } from "@radix-ui/react-icons";
+import useContainerActions from "@/components/shared/hooks/ actions/useContainerActions";
 
 interface Country {
 	id: number;
@@ -64,7 +64,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
 		useDispatchAction();
 
-	const templateEvent = useTemplateEvent();
+	const containerActions = useContainerActions();
 
 	const { apiFetchHandler, loading } = useApiRequest();
 
@@ -135,7 +135,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 	 * @description Функция который подтверждает добавление шаблона в доску
 	 */
 	const onConfirmHandle = () =>
-		templateEvent.createCategoryListContainerEvent(
+		containerActions.createCategoryListContainerEvent(
 			"swiper",
 			categoryParamsSetting,
 			toggleDialogHandle

@@ -27,6 +27,13 @@ interface IActiveElementObserver {
 	widgetData?: TotalComponentTypes;
 	widgetType?: WidgetTypes;
 	widgetActiveComponentId?: string;
+	widgetActiveElementId?: string;
+	widgetActiveType?: ActiveElementType;
+	widgetActiveData?:
+		| ISchemaComponent
+		| ISchemaContainer
+		| IElementSchema
+		| unknown;
 }
 
 /**
@@ -52,31 +59,23 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 	 */
 	const foundContainerData: ISchemaContainer | null = useMemo(() => {
 		try {
-			if (editorActiveElement?.type === "") {
-				return null;
-			}
-			if (!editorActiveElement?.containerId) {
-				toastMessage(
-					"Не удалось найти выбранный контейнер! Убедитесь, что containerId выбран!",
-					"error"
+			if (editorActiveElement?.containerId) {
+				const containerData = spaceTemplateData.find(
+					(container: ISchemaContainer) =>
+						container?.id === editorActiveElement?.containerId
 				);
-				return null;
+
+				if (!containerData) {
+					toastMessage(
+						"Контейнер с данными не найден! Проверьте корректность containerId. useActiveElementObserver",
+						"error"
+					);
+					return null;
+				}
+
+				return containerData;
 			}
-
-			const containerData = spaceTemplateData.find(
-				(container: ISchemaContainer) =>
-					container?.id === editorActiveElement?.containerId
-			);
-
-			if (!containerData) {
-				toastMessage(
-					"Контейнер с данным ID не найден! Проверьте корректность containerId.",
-					"error"
-				);
-				return null;
-			}
-
-			return containerData;
+			return null;
 		} catch (error) {
 			toastMessage(
 				"Произошла ошибка в foundContainerData в useActiveElementObserver",
@@ -96,30 +95,23 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 	 */
 	const foundComponentData = useMemo(() => {
 		try {
-			if (
-				!editorActiveElement?.componentId &&
-				editorActiveElement?.containerId
-			) {
-				toastMessage(
-					"Не удалось найти выбранный компонент! Убедитесь, что componentId выбран!",
-					"error"
+			if (editorActiveElement?.componentId) {
+				const componentData = foundContainerData?.components?.find(
+					(component) =>
+						component?.data?.id === editorActiveElement?.componentId
 				);
-				return null;
-			}
-			const componentData = foundContainerData?.components?.find(
-				(component) =>
-					component?.data?.id === editorActiveElement?.componentId
-			);
 
-			if (!componentData && editorActiveElement?.componentId) {
-				toastMessage(
-					"Компонент с данным ID не найден! Проверьте корректность componentId.",
-					"error"
-				);
-				return null;
-			}
+				if (!componentData && editorActiveElement?.componentId) {
+					toastMessage(
+						"Компонент с данными не найден! Проверьте корректность componentId. useActiveElementObserver",
+						"error"
+					);
+					return null;
+				}
 
-			return componentData;
+				return componentData;
+			}
+			return null;
 		} catch (error) {
 			toastMessage(
 				"Произошла ошибка в foundComponentData  в useActiveElementObserver",
@@ -139,34 +131,23 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 	 */
 	const foundElementData = useMemo(() => {
 		try {
-			if (editorActiveElement.type !== "element") {
-				return null;
-			}
-			if (
-				!editorActiveElement?.elementId &&
-				editorActiveElement.componentId
-			) {
-				toastMessage(
-					"Не удалось найти выбранный элемент! Убедитесь, что elementId выбран!",
-					"error"
+			if (editorActiveElement?.elementId) {
+				const elementData = foundComponentData?.data.elements.find(
+					(element: IElementSchema) =>
+						element?.id === editorActiveElement?.activeId
 				);
-				return null;
+
+				if (!elementData && editorActiveElement?.elementId) {
+					toastMessage(
+						"Элемент с данными не найден! Проверьте корректность elementId. useActiveElementObserver",
+						"error"
+					);
+					return null;
+				}
+
+				return elementData;
 			}
-
-			const elementData = foundComponentData?.data.elements.find(
-				(element: IElementSchema) =>
-					element?.id === editorActiveElement?.elementId
-			);
-
-			if (!elementData && editorActiveElement?.elementId) {
-				toastMessage(
-					"Элемент с данным ID не найден! Проверьте корректность elementId.",
-					"error"
-				);
-				return null;
-			}
-
-			return elementData;
+			return null;
 		} catch (error) {
 			toastMessage(
 				"Произошла ошибка в foundElementData в useActiveElementObserver",
@@ -191,19 +172,19 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 
 			const type = editorActiveElement.type ?? "none";
 
-			const data = {
+			const activeDataFound = {
 				container: foundContainerData,
 				component: foundComponentData?.data,
 				element: foundElementData,
 			}[type];
 
-			const currentActiveId = {
+			const activeIdFound = {
 				container: foundContainerData?.id,
 				component: foundComponentData?.data?.id,
 				element: foundElementData?.id,
 			}[type];
 
-			const style = {
+			const activeStyleFound = {
 				container: foundContainerData?.style,
 				component: foundComponentData?.data?.style,
 				element: foundElementData?.style,
@@ -211,17 +192,22 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 
 			return {
 				type,
-				activeData: data,
-				activeId: currentActiveId,
-				activeStyle: style,
+				activeData: activeDataFound,
+				activeId: activeIdFound,
+				activeStyle: activeStyleFound,
 				containerData: foundContainerData,
 				componentId: foundComponentData?.data?.id ?? "",
 				componentData: foundComponentData?.data ?? {},
 				containerId: editorActiveElement?.containerId ?? "",
 				widgetData: foundComponentData?.data?.content?.stories || {},
 				widgetType: editorAdditionalActiveElement ?? "none",
+				widgetActiveData: editorActiveElement?.widgetActiveData ?? {},
+				widgetActiveType:
+					editorActiveElement?.widgetActiveType ?? "none",
 				widgetActiveComponentId:
-					editorActiveElement.additionalCurrentId ?? "",
+					editorActiveElement.widgetActiveComponentId ?? "",
+				widgetActiveElementId:
+					editorActiveElement.widgetActiveElementId ?? "",
 			};
 		} catch (error) {
 			errorHandler("useActiveElementFollowUp", "root", error);

@@ -11,7 +11,6 @@ import { cn } from "@/components/lib/utils";
 import { LayoutIcon } from "@radix-ui/react-icons";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
-import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import ElementSetting from "@/components/features/app/modules/editor/setting/ElementSetting";
 import ViewSetting from "@/components/features/app/modules/editor/setting/ViewSetting";
 import ShowSetting from "@/components/features/app/modules/editor/setting/ShowSetting";
@@ -19,6 +18,8 @@ import SwiperSetting from "@/components/features/app/modules/editor/setting/Swip
 import CategoryListSetting from "@/components/features/app/modules/editor/setting/CategoryListSetting";
 import TimerSetting from "@/components/features/app/modules/editor/setting/TimerSetting";
 import ActionSetting from "@/components/features/app/modules/editor/setting/ActionSetting";
+import useUpdateActions from "@/components/shared/hooks/ actions/useUpdateActions";
+import useUpdateWidgetActions from "@/components/shared/hooks/ actions/useUpdateWidgetActions";
 
 export type SettingTypes = "view" | "show" | "action" | "swiper";
 
@@ -34,7 +35,8 @@ export type SettingTypes = "view" | "show" | "action" | "swiper";
  */
 const SettingContainer: React.FC = () => {
 	const permission = usePermission();
-	const editorEvent = useEditorEvent();
+	const updateActions = useUpdateActions();
+	const updateWidgetActions = useUpdateWidgetActions();
 	const activeElementData = useActiveElementObserver();
 
 	const [defaultExpanded, setExpanded] = React.useState<SettingTypes[]>([
@@ -43,17 +45,22 @@ const SettingContainer: React.FC = () => {
 
 	const settingDefaultData = useMemo(() => {
 		return {
-			view: activeElementData?.data?.settings?.view || {},
-			show: activeElementData?.data?.settings?.show || {},
-			swiper: activeElementData?.data?.settings?.swiper || {},
-			timer: activeElementData?.data?.settings?.timer || {},
-			element: activeElementData?.data?.settings?.element || {},
-			categoryList: activeElementData?.data?.settings?.categoryList || {},
+			view: activeElementData?.activeData?.settings?.view || {},
+			show: activeElementData?.activeData?.settings?.show || {},
+			swiper: activeElementData?.activeData?.settings?.swiper || {},
+			timer: activeElementData?.activeData?.settings?.timer || {},
+			element: activeElementData?.activeData?.settings?.element || {},
+			categoryList:
+				activeElementData?.activeData?.settings?.categoryList || {},
 		};
 	}, [activeElementData, permission]);
 
 	const updateContentHandle = (data, path) => {
-		editorEvent.updateComponent(data, "settings", path);
+		if (activeElementData?.widgetType === "stories") {
+			updateWidgetActions.update(data, path);
+			return;
+		}
+		updateActions.update(data, path);
 	};
 
 	if (!permission.panel.setting) {

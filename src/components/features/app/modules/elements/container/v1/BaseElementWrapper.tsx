@@ -10,6 +10,7 @@ interface Props {
 	elementData: IElementTotal[];
 	componentData: IComponentTotalDataSchema;
 	staticElement?: boolean;
+	widgetComponent?: boolean;
 }
 
 /**
@@ -24,8 +25,13 @@ interface Props {
  * @constructor
  */
 const BaseElementWrapper: React.FC<Props> = (props) => {
-	const { elementData, containerId, componentData, staticElement } = props;
-
+	const {
+		elementData,
+		containerId,
+		componentData,
+		staticElement,
+		widgetComponent,
+	} = props;
 
 	if (!elementData) {
 		return null;
@@ -49,6 +55,7 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 						type={element.type}
 						containerId={containerId}
 						componentId={componentData.id}
+						widgetComponent={widgetComponent}
 						timerData={element?.settings?.timer?.targetDate}
 					/>
 				);

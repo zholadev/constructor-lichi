@@ -33,7 +33,7 @@ const ContainerAction: React.FC<Props> = (props) => {
 		<div className={cn("size-full relative")}>
 			<div
 				className={cn(
-					`${editorActiveElement?.containerId === containerId ? "border-emerald-400 border-2 box-border" : "border-box"}`,
+					`${editorActiveElement?.activeId === containerId ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					"min-h-[10px]"
 				)}
 				onDoubleClick={() => {

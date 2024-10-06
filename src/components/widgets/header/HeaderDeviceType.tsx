@@ -9,8 +9,6 @@ import { DeviceType } from "@/components/shared/types/types";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { Tablet } from "lucide-react";
 
-interface Props {}
-
 /**
  * @author Zholaman Zhumanov
  * @created 19.08.2024
@@ -19,12 +17,9 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const HeaderDeviceType: React.FC<Props> = (props) => {
-	const {} = props;
-
+const HeaderDeviceType: React.FC = () => {
 	const {
 		spaceModeDeviceTypeAction,
 		spaceTemplateDataAction,

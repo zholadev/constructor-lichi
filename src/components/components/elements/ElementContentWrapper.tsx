@@ -6,6 +6,7 @@ import { ElementBaseTypes } from "@/components/shared/types/types-components";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useWidgetActions from "@/components/shared/hooks/useWidgetActions";
+import useElementActions from "@/components/shared/hooks/ actions/useElementActions";
 
 interface Props {
 	children: ReactNode;
@@ -29,7 +30,7 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 	const toastMessage = useToastMessage();
 
 	const getElementSchema = useSchemaElementData();
-	const editorEvent = useEditorEvent();
+	const elementActions = useElementActions();
 	const widgetActions = useWidgetActions();
 
 	const { editorAdditionalActiveElement } = useAppSelector(
@@ -55,7 +56,7 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 					return;
 				}
 
-				editorEvent.addElement(element);
+				elementActions.elementCreate(element);
 			}}
 		>
 			{children}

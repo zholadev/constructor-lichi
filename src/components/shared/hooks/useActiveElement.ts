@@ -16,6 +16,9 @@ interface IElementActiveParams {
 	widgetData?: TotalComponentTypes;
 	widgetType?: WidgetTypes;
 	widgetActiveComponentId?: string;
+	widgetActiveElementId?: string;
+	widgetActiveType?: ActiveElementType;
+	widgetActiveData?: TotalComponentTypes;
 }
 
 /**
@@ -44,7 +47,10 @@ export default function useActiveElement(): (
 		activeData,
 		widgetData,
 		widgetType,
+		widgetActiveData,
 		widgetActiveComponentId,
+		widgetActiveElementId,
+		widgetActiveType,
 	}: IElementActiveParams) => {
 		if (!activeData || !containerId || !type) {
 			toastMessage(
@@ -62,7 +68,10 @@ export default function useActiveElement(): (
 			activeData,
 			widgetData,
 			widgetType,
+			widgetActiveData,
 			widgetActiveComponentId,
+			widgetActiveElementId,
+			widgetActiveType,
 		});
 	};
 }

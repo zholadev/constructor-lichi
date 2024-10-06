@@ -11,7 +11,7 @@ interface Props {
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
 	containerId: string;
-	additionalActiveEvent?: boolean;
+	widgetComponent?: boolean;
 }
 
 /**
@@ -26,36 +26,30 @@ interface Props {
  * @constructor
  */
 const Card: React.FC<Props> = (props) => {
-	const { componentData, containerId, containerData, additionalActiveEvent } =
+	const { componentData, containerId, containerData, widgetComponent } =
 		props;
 
 	const styleFormatted = useStylesFormatted();
 
 	return (
-		<ComponentAction
-			containerId={containerId}
-			data={componentData}
-			additionalActiveEvent={additionalActiveEvent}
-			containerData={containerData}
+		<div
+			style={{
+				...styleFormatted(
+					componentData.style,
+					!componentData.settings?.view?.darkTheme
+				),
+			}}
+			className={styles.wrapper}
 		>
-			<div
-				style={{
-					...styleFormatted(
-						componentData.style,
-						!componentData.settings?.view?.darkTheme
-					),
-				}}
-				className={styles.wrapper}
-			>
-				<MediaContainer componentData={componentData} />
+			<MediaContainer componentData={componentData} />
 
-				<BaseElementWrapper
-					containerId={containerId}
-					elementData={componentData.elements}
-					componentData={componentData}
-				/>
-			</div>
-		</ComponentAction>
+			<BaseElementWrapper
+				containerId={containerId}
+				elementData={componentData.elements}
+				componentData={componentData}
+				widgetComponent={widgetComponent}
+			/>
+		</div>
 	);
 };
 

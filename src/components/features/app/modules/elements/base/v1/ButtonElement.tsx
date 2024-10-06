@@ -36,7 +36,7 @@ const ButtonElement: React.FC<Props> = (props) => {
 				...styleFormatted(data.style, !data.settings?.view?.darkTheme),
 			}}
 		>
-			{data.content.title[spaceModeLanguage].value}
+			{data?.content?.title?.[spaceModeLanguage]?.value}
 		</button>
 	);
 };

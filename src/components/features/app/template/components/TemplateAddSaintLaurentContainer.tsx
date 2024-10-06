@@ -5,11 +5,11 @@ import { ImageIcon } from "@radix-ui/react-icons";
 import { GalleryHorizontal } from "lucide-react";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import useTemplateEvent from "@/components/shared/hooks/useTemplateEvent";
 import {
 	IContainerType,
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
+import useContainerActions from "@/components/shared/hooks/ actions/useContainerActions";
 
 /**
  * @author Zholaman Zhumanov
@@ -25,7 +25,7 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
 		useDispatchAction();
 
-	const templateEvent = useTemplateEvent();
+	const containerActions = useContainerActions();
 
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 
@@ -56,7 +56,7 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 	 * @description Функция который подтверждает добавление шаблона в доску
 	 */
 	const onConfirmHandle = () =>
-		templateEvent.createSaintLaurentContainerEvent(
+		containerActions.createSaintLaurentContainerEvent(
 			blockType,
 			componentType,
 			toggleDialogHandle

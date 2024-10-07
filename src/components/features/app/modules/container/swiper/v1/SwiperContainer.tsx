@@ -2,10 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { SwiperSettings } from "@/components/shared/types/interface-schema-settings";
-import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import BaseComponentRender from "@/components/features/app/modules/components/container/v1/BaseComponentRender";
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import {
+	ISchemaContainer,
+	ISchemaContainerComponentWrapper,
+} from "@/components/shared/types/interface-schema-container";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { Autoplay, Pagination, Controller } from "swiper/modules";
 import { cn } from "@/components/lib/utils";
@@ -15,10 +17,10 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
 interface Props {
-	componentsData: IComponentTotalDataSchema[];
+	componentsData: ISchemaContainerComponentWrapper;
 	swiperSettings: SwiperSettings;
 	swiperStyles: Record<string, unknown>;
-	container: ISchemaContainer;
+	containerData: ISchemaContainer;
 }
 
 /**
@@ -33,7 +35,8 @@ interface Props {
  * @constructor
  */
 const SwiperContainer: React.FC<Props> = (props) => {
-	const { componentsData, swiperSettings, swiperStyles, container } = props;
+	const { componentsData, swiperSettings, swiperStyles, containerData } =
+		props;
 
 	const swiperRef = useRef({});
 
@@ -71,7 +74,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 		} catch (error) {
 			errorHandler("swiperContainer", "effect", error);
 		}
-	}, [swiperSettings, swiperRef, componentsData, container]);
+	}, [swiperSettings, swiperRef, componentsData, containerData]);
 
 	const updatedSwiperSettings = {
 		...swiperSettings,
@@ -91,7 +94,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 				style={{
 					...styleFormatted(
 						swiperStyles,
-						!container.settings?.view?.darkTheme
+						!containerData.settings?.view?.darkTheme
 					),
 				}}
 				className={`swiper-container-v1 swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`}
@@ -109,7 +112,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 								</span>
 							)}
 							<BaseComponentRender
-								containerData={container}
+								containerData={containerData}
 								componentData={component.data}
 								type={component.data?.type}
 								componentId={component.id}

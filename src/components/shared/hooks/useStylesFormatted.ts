@@ -12,13 +12,13 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
  */
 export default function useStylesFormatted(): (
 	componentStyles: Record<string, unknown>,
-	skipDarkStyles: boolean
+	skipDarkStyles?: boolean
 ) => Record<string, unknown> {
 	const { spaceModeTheme } = useAppSelector((state) => state?.space);
 
 	return (
 		componentStyles: Record<string, unknown>,
-		skipDarkStyles: boolean
+		skipDarkStyles?: boolean
 	) => {
 		let updatedStyles: Record<string, unknown> = {};
 

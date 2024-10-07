@@ -38,7 +38,7 @@ const blocks: IBlockData[] = [
  * @param props
  * @constructor
  */
-const BlockContainer: React.FC<Props> = (props) => {
+const ComponentContent: React.FC<Props> = (props) => {
 	const {} = props;
 
 	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
@@ -102,4 +102,4 @@ const BlockContainer: React.FC<Props> = (props) => {
 	);
 };
 
-export default BlockContainer;
+export default ComponentContent;

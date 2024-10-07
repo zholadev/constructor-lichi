@@ -32,7 +32,7 @@ const templatePageTypeData: ITemplatePageType[] = [
 /**
  * @author Zholaman Zhumanov
  * @created 28.08.2024
- * @description
+ * @description Компонент для сохранения страницы и дополнительными настройками перед сохранением
  * @last-updated
  * @update-description
  * @todo

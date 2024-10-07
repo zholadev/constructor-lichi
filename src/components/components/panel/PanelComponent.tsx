@@ -8,7 +8,6 @@ import {
 	TabsTrigger,
 } from "@/components/shared/shadcn/ui/tabs";
 import { cn } from "@/components/lib/utils";
-import BlockContainer from "@/components/components/blocks/BlockContainer";
 import ElementBaseContainer from "@/components/components/elements/ElementBaseContainer";
 import ElementSpecialContainer from "@/components/components/elements/ElementSpecialContainer";
 import {
@@ -17,6 +16,7 @@ import {
 	LayersIcon,
 } from "@radix-ui/react-icons";
 import Navigator from "@/components/components/panel/navigator/Navigator";
+import ComponentContent from "./components/ComponentContent";
 
 /**
  * @author Zholaman Zhumanov
@@ -73,7 +73,7 @@ const PanelComponent: React.FC = () => {
 				</div>
 				<div className={cn("p-3")}>
 					<TabsContent value="components">
-						<BlockContainer />
+						<ComponentContent />
 					</TabsContent>
 					<TabsContent value="elements">
 						<ElementBaseContainer />

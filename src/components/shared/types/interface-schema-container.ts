@@ -1,6 +1,6 @@
 import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
-import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import { IContainerType } from "@/components/shared/types/types";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 export interface ISchemaContainer {
 	id: string;
@@ -11,6 +11,11 @@ export interface ISchemaContainer {
 	settings: ISchemaSettings;
 	components: Array<{
 		id: string;
-		data: IComponentBaseFullSchema;
+		data: ISchemaComponent;
 	}>;
 }
+
+export type ISchemaContainerComponentWrapper = Array<{
+	id: string;
+	data: ISchemaComponent;
+}>;

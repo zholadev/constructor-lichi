@@ -101,13 +101,13 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 						component?.data?.id === editorActiveElement?.componentId
 				);
 
-				if (!componentData && editorActiveElement?.componentId) {
-					toastMessage(
-						"Компонент с данными не найден! Проверьте корректность componentId. useActiveElementObserver",
-						"error"
-					);
-					return null;
-				}
+				// if (!componentData && editorActiveElement?.componentId) {
+				// 	toastMessage(
+				// 		"Компонент с данными не найден! Проверьте корректность componentId. useActiveElementObserver",
+				// 		"error"
+				// 	);
+				// 	return null;
+				// }
 
 				return componentData;
 			}
@@ -123,7 +123,11 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 				error
 			);
 		}
-	}, [foundContainerData, spaceTemplateData, editorActiveElement]);
+	}, [
+		foundContainerData,
+		editorActiveElement,
+		editorActiveElement?.componentId,
+	]);
 
 	/**
 	 * @author Zholaman Zhumanov

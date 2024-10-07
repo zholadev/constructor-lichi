@@ -109,7 +109,7 @@ export const spaceSlice = createSlice({
 		},
 		spaceTemplateActionDataReducer: (
 			state,
-			action: PayloadAction<unknown>
+			action: PayloadAction<ITemplateSpaceActionData>
 		) => {
 			state.spaceTemplateActionData = action.payload;
 		},

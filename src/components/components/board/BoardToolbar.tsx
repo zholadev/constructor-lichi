@@ -11,7 +11,7 @@ import usePermission from "@/components/shared/hooks/usePermission";
 /**
  * @author Zholaman Zhumanov
  * @created 29.08.2024
- * @description
+ * @description Компонент предназначен как шапка для доски с дополнительными действиями для компонентов и контейнеров
  * @last-updated
  * @update-description
  * @todo

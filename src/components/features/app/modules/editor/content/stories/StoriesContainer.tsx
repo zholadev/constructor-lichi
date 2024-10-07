@@ -19,7 +19,7 @@ const StoriesContainer: React.FC = () => {
 	return (
 		<div
 			className={cn(
-				`${dialog.dialogStoriesContainer.open ? "opacity-100 visible translate-y-full pointer-events-auto" : "opacity-0 hidden pointer-events-none translate-y-0"} relative top-[260px] w-full z-30 duration-75 transition-all`
+				`${dialog.dialogStoriesContainer.open ? "opacity-100 visible translate-y-full pointer-events-auto" : "opacity-0 hidden pointer-events-none translate-y-0"} fixed top-[50%] w-full z-30 duration-75 transition-all`
 			)}
 		>
 			<StoriesContent />

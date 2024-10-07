@@ -12,7 +12,7 @@ interface Props {
 /**
  * @author Zholaman Zhumanov
  * @created 29.08.2024
- * @description
+ * @description Компонент для
  * @last-updated
  * @update-description
  * @todo

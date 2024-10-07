@@ -13,7 +13,7 @@ import DeviceEmulatorContainer from "@/components/widgets/device/DeviceEmulatorC
 /**
  * @author Zholaman Zhumanov
  * @created 29.08.2024
- * @description
+ * @description Компонент для вывода доски с текущим выбранным устройством
  * @last-updated
  * @update-description
  * @todo

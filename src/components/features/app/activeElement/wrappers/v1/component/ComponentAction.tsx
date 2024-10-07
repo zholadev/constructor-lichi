@@ -75,7 +75,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 		<div className={cn("relative select-none")}>
 			<div
 				className={cn(
-					`${editorActiveElement.activeId === data.id || activeElementData?.widgetActiveComponentId === data.id ? "border-emerald-400 border-2 box-border" : "border-box"}`,
+					`${editorActiveElement.componentId === data.id || activeElementData?.widgetActiveComponentId === data.id ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					styles.card,
 					cls
 				)}

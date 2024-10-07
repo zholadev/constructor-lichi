@@ -13,7 +13,7 @@ interface Props {
 /**
  * @author Zholaman Zhumanov
  * @created 28.08.2024
- * @description
+ * @description Компонент выводит что компонент не выбран и есть событие клика для вызова диалога выбор компонента
  * @last-updated
  * @update-description
  * @todo refactoring
@@ -30,6 +30,10 @@ const BoardEmptyCard: React.FC<Props> = (props) => {
 
 	const { editorDisabledEdit } = useAppSelector((state) => state.editor);
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для вызова диалога выбора компонента
+	 */
 	const onClickHandle = () => {
 		if (editorDisabledEdit) return;
 		dialog.dialogAddComponent.toggle();

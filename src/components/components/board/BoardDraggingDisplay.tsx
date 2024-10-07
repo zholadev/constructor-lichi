@@ -19,13 +19,13 @@ import {
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import BoardSortableItem from "@/components/components/board/BoardSortableItem";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import BaseComponentRender from "@/components/features/app/modules/components/container/v1/BaseComponentRender";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import BoardContainerDisplay from "@/components/components/board/BoardContainerDisplay";
 
 /**
  * @author Zholaman Zhumanov
  * @created 29.08.2024
- * @description
+ * @description Компонент для перемещения контейнеров между собой
  * @last-updated
  * @update-description
  * @todo refactoring
@@ -36,11 +36,9 @@ const BoardDraggingDisplay: React.FC = () => {
 	const { spaceTemplateDataAction } = useDispatchAction();
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
-	const [items, setItems] = useState<ISchemaContainer[]>([]);
-
-	useEffect(() => {
-		setItems(spaceTemplateData || []);
-	}, [spaceTemplateData]);
+	const [sortContainerData, setSortContainerData] = useState<
+		ISchemaContainer[]
+	>([]);
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -49,16 +47,33 @@ const BoardDraggingDisplay: React.FC = () => {
 		})
 	);
 
+	useEffect(() => {
+		setSortContainerData(spaceTemplateData || []);
+	}, [spaceTemplateData]);
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод выполняет сортировку данных по перемещению
+	 * @param event
+	 */
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 
 		if (over && active.id !== over.id) {
-			const oldIndex = items.findIndex((item) => item.id === active.id);
-			const newIndex = items.findIndex((item) => item.id === over.id);
+			const oldIndex = sortContainerData.findIndex(
+				(item: ISchemaContainer) => item.id === active.id
+			);
+			const newIndex = sortContainerData.findIndex(
+				(item: ISchemaContainer) => item.id === over.id
+			);
 
 			if (oldIndex !== -1 && newIndex !== -1) {
-				const updatedItems = arrayMove(items, oldIndex, newIndex);
-				setItems(updatedItems);
+				const updatedItems = arrayMove(
+					sortContainerData,
+					oldIndex,
+					newIndex
+				);
+				setSortContainerData(updatedItems);
 				spaceTemplateDataAction(updatedItems);
 			}
 		}
@@ -71,24 +86,19 @@ const BoardDraggingDisplay: React.FC = () => {
 			onDragEnd={handleDragEnd}
 		>
 			<SortableContext
-				items={items.map((item) => item.id)}
+				items={sortContainerData.map((item) => item.id)}
 				strategy={verticalListSortingStrategy}
 			>
-				{items.map((container) => (
+				{sortContainerData.map((container) => (
 					<BoardSortableItem
 						id={container.id}
 						key={container.id}
 						styles={container.style}
 					>
-						{container.components.map((component) => (
-							<BaseComponentRender
-								key={component.id}
-								containerData={container}
-								componentData={component.data}
-								type={component.data?.type}
-								componentId={component.id}
-							/>
-						))}
+						<BoardContainerDisplay
+							containerType={container.type}
+							containerData={container}
+						/>
 					</BoardSortableItem>
 				))}
 			</SortableContext>

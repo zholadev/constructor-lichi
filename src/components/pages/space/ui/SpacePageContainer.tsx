@@ -13,7 +13,7 @@ import TemplateAddDialog from "@/components/features/app/template/TemplateAddDia
 import DialogContainer from "@/components/widgets/dialog/DialogContainer";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import ComponentLibrary from "@/components/features/app/modules/components/library/v1/ComponentLibrary";
-import StoriesContainer from "@/components/features/app/panel/content/stories/StoriesContainer";
+import StoriesContainer from "@/components/features/app/modules/editor/content/stories/StoriesContainer";
 
 /**
  * @author Zholaman Zhumanov
@@ -48,6 +48,7 @@ const SpacePageContainer: React.FC = () => {
 				<ComponentLibrary eventType="new" />
 			</DialogContainer>
 
+			<StoriesContainer />
 			<DialogCreateDirectory />
 			<DialogUploadFile />
 			<TemplateAddDialog />

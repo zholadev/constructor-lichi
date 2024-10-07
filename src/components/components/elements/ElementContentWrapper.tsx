@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import { cn } from "@/components/lib/utils";
-import useEditorEvent from "@/components/shared/hooks/useEditorEvent";
 import useSchemaElementData from "@/components/shared/hooks/useSchemaElementData";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";

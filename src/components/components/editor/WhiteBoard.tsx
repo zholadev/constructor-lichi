@@ -8,12 +8,11 @@ import BoardDisplay from "@/components/components/board/BoardDisplay";
 import BoardToolbar from "@/components/components/board/BoardToolbar";
 import BoardDraggingDisplay from "@/components/components/board/BoardDraggingDisplay";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
-import StoriesContainer from "@/components/features/app/modules/editor/content/stories/StoriesContainer";
 
 /**
  * @author Zholaman Zhumanov
  * @created 20.08.2024
- * @description
+ * @description Компонент для вывода компонентов Board доска
  * @last-updated
  * @update-description
  * @todo
@@ -21,9 +20,7 @@ import StoriesContainer from "@/components/features/app/modules/editor/content/s
  * @constructor
  */
 const WhiteBoard: React.FC = () => {
-	const { spaceTemplateApiLoading, spaceTemplateData } = useAppSelector(
-		(state) => state.space
-	);
+	const { spaceTemplateApiLoading } = useAppSelector((state) => state.space);
 
 	const { editorDraggingTemplate } = useAppSelector((state) => state.editor);
 
@@ -49,8 +46,6 @@ const WhiteBoard: React.FC = () => {
 			style={{ width: "calc(100% - 700px)" }}
 		>
 			<BoardToolbar />
-			<StoriesContainer />
-			{/*{spaceTemplateData.length > 0 && <HeaderModeView />}*/}
 			<div
 				style={{
 					...styleFormatted({

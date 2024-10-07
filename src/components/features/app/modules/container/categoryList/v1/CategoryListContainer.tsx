@@ -6,12 +6,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import SwiperCore from "swiper";
 import { Autoplay, Controller, Pagination } from "swiper/modules";
-import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import {
 	ISchemaSettingCategoryListParams,
 	SwiperSettings,
 } from "@/components/shared/types/interface-schema-settings";
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import {
+	ISchemaContainer,
+	ISchemaContainerComponentWrapper,
+} from "@/components/shared/types/interface-schema-container";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { apiMethodSiteCategoryProductList } from "@/components/shared/backend/requests/site/requests";
 import { IGetApiParams } from "@/components/shared/types/interface";
@@ -23,10 +25,10 @@ import { ProductV1 } from "@/components/features/app/modules/components/types/v1
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
 interface Props {
-	componentsData: IComponentTotalDataSchema[];
+	componentsData: ISchemaContainerComponentWrapper;
 	swiperSettings: SwiperSettings;
 	swiperStyles: Record<string, unknown>;
-	container: ISchemaContainer;
+	containerData: ISchemaContainer;
 	categoryListParams: ISchemaSettingCategoryListParams;
 }
 
@@ -46,7 +48,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 		componentsData,
 		swiperSettings,
 		swiperStyles,
-		container,
+		containerData,
 		categoryListParams,
 	} = props;
 
@@ -122,7 +124,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 		} catch (error) {
 			errorHandler("swiperContainer", "effect", error);
 		}
-	}, [swiperSettings, swiperRef, componentsData, container]);
+	}, [swiperSettings, swiperRef, componentsData, containerData]);
 
 	const updatedSwiperSettings = {
 		...swiperSettings,
@@ -142,7 +144,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 				style={{
 					...styleFormatted(
 						swiperStyles,
-						!container.settings?.view?.darkTheme
+						!containerData.settings?.view?.darkTheme
 					),
 				}}
 				className={`swiper-container-v1 swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`}

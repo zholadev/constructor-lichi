@@ -2,12 +2,12 @@ import React from "react";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
-import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import SelectionElementOverlay from "@/components/features/app/activeElement/wrappers/v1/selection/SelectionElementOverlay";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 interface Props {
 	children: React.ReactNode;
-	data: IComponentTotalDataSchema;
+	containerData: ISchemaContainer;
 	containerId: string;
 }
 
@@ -23,7 +23,7 @@ interface Props {
  * @constructor
  */
 const ContainerAction: React.FC<Props> = (props) => {
-	const { children, data, containerId } = props;
+	const { children, containerData, containerId } = props;
 
 	const activeElementHandle = useActiveElement();
 
@@ -38,10 +38,10 @@ const ContainerAction: React.FC<Props> = (props) => {
 				)}
 				onDoubleClick={() => {
 					activeElementHandle({
-						activeData: data,
+						activeData: containerData,
 						containerId,
 						type: "container",
-						componentId: data?.id,
+						componentId: containerData?.id,
 						activeId: containerId,
 					});
 				}}

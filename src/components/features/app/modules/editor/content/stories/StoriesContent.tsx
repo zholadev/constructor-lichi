@@ -3,6 +3,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import { Button } from "@/components/shared/shadcn/ui/button";
+import { Cross1Icon } from "@radix-ui/react-icons";
 import BaseComponentRender from "../../../components/container/v1/BaseComponentRender";
 import useActiveElementObserver from "../../../../../../shared/hooks/useActiveElementObserver";
 import StoriesAddButton from "./StoriesAddButton";
@@ -20,6 +23,8 @@ import StoriesAddButton from "./StoriesAddButton";
 const StoriesContent: React.FC = () => {
 	const activeElementData = useActiveElementObserver();
 
+	const dialog = useDialogAction();
+
 	const { editorSwiperIndexShow } = useAppSelector((state) => state.editor);
 
 	if (!activeElementData?.componentId) {
@@ -34,15 +39,27 @@ const StoriesContent: React.FC = () => {
 		>
 			<div
 				className={cn(
-					"min-w-[300px] p-3 w-[60%] min-h-[300px] bg-white rounded-md"
+					"min-w-[300px] max-h-[40vw] p-3 w-[60%] relative min-h-[300px] bg-white rounded-md"
 				)}
 			>
+				<div
+					className={cn(
+						"w-full absolute right-4 top-4 flex justify-end"
+					)}
+				>
+					<Button
+						variant="ghost"
+						onClick={dialog.dialogStoriesContainer.toggle}
+					>
+						<Cross1Icon width={20} height={20} />
+					</Button>
+				</div>
 				<h3 className={cn("w-full text-sm mb-6 text-center uppercase")}>
 					Добавить stories для компонента
 				</h3>
 
 				<div className={cn("grid grid-cols-3")}>
-					<div className={cn("col-span-2")}>
+					<div className={cn("col-span-2 overflow-hidden w-full h-auto")}>
 						<Swiper
 							slidesPerView={1}
 							slidesPerGroup={1}

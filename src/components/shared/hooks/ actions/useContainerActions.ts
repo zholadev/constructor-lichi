@@ -41,17 +41,11 @@ interface IContainerActions {
  * @constructor
  */
 export default function useContainerActions(): IContainerActions {
-	const { editorRemoveTemplateAction } = useDispatchAction();
-
-	const toggleEditorRemoveTemplateHandle = () =>
-		editorRemoveTemplateAction(!editorRemoveTemplate);
-
 	const toastMessage = useToastMessage();
 
 	const { spaceTemplateDataAction } = useDispatchAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -135,22 +129,6 @@ export default function useContainerActions(): IContainerActions {
 		spaceTemplateDataAction([...spaceTemplateData, newTemplate]);
 
 		if (cb) cb();
-	};
-
-	const deleteContainer = (id: string) => {
-		if (!id) {
-			toastMessage(
-				"Произошла ошибка id не найдено, обратитесь разработчику",
-				"error"
-			);
-			return;
-		}
-
-		const filteredRemovedData = spaceTemplateData.filter(
-			(item: ISchemaContainer) => item.id !== id
-		);
-		spaceTemplateDataAction(filteredRemovedData);
-		toggleEditorRemoveTemplateHandle();
 	};
 
 	/**

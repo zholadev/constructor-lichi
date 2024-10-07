@@ -19,7 +19,7 @@ import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 /**
  * @author Zholaman Zhumanov
  * @created 28.08.2024
- * @description
+ * @description Компонент для вывода настроек для редактора
  * @last-updated
  * @update-description
  * @todo

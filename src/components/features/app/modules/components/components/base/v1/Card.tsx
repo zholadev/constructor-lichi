@@ -1,5 +1,4 @@
 import React from "react";
-import ComponentAction from "@/components/features/app/activeElement/wrappers/v1/component/ComponentAction";
 import BaseElementWrapper from "@/components/features/app/modules/elements/container/v1/BaseElementWrapper";
 import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
@@ -41,7 +40,10 @@ const Card: React.FC<Props> = (props) => {
 			}}
 			className={styles.wrapper}
 		>
-			<MediaContainer componentData={componentData} />
+			<MediaContainer
+				containerData={containerData}
+				componentData={componentData}
+			/>
 
 			<BaseElementWrapper
 				containerId={containerId}

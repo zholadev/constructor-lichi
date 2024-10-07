@@ -65,6 +65,7 @@ const ElementAction: React.FC<Props> = (props) => {
 				type: "element",
 				componentId: componentId,
 				activeId: data?.id,
+				elementId: data?.id,
 			});
 		}
 	};

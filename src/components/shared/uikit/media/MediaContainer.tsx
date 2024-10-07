@@ -2,9 +2,11 @@ import React, { useMemo } from "react";
 import VideoRender from "@/components/shared/uikit/media/VideoRender";
 import ImageRender from "@/components/shared/uikit/media/ImageRender";
 import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 interface Props {
 	componentData: IComponentTotalDataSchema;
+	containerData: ISchemaContainer;
 }
 
 /**
@@ -19,7 +21,7 @@ interface Props {
  * @constructor
  */
 const MediaContainer: React.FC<Props> = (props) => {
-	const { componentData } = props;
+	const { componentData, containerData } = props;
 
 	/**
 	 * @description Получаем тип контента для вывода
@@ -33,7 +35,7 @@ const MediaContainer: React.FC<Props> = (props) => {
 	) : (
 		<ImageRender
 			imageData={componentData.content}
-			fullHeight={componentData?.settings?.view?.heightFull}
+			fullHeight={containerData?.settings?.view?.heightFull ?? false}
 		/>
 	);
 };

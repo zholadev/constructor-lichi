@@ -27,7 +27,7 @@ const Container: React.FC<Props> = (props) => {
 	const { componentsData, container } = props;
 
 	const styleFormatted = useStylesFormatted();
-	console.log("componentsData", componentsData)
+
 	return (
 		<div
 			className={cn("size-full")}

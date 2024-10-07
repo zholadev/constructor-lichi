@@ -39,7 +39,7 @@ const SchemaView: React.FC = () => {
 			mobile: spaceTemplateSchemaDevicesData?.mobile ?? [],
 		};
 	}, [spaceTemplateSchemaDevicesData]);
-	console.log(darkStyles);
+
 	return (
 		<DialogContainer
 			open={dialog.dialogSchemaView.open}

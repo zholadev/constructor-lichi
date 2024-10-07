@@ -13,6 +13,7 @@ interface Props {
 	open: boolean;
 	toggle?: () => void;
 	footer?: React.ReactNode;
+	clsContent?: string;
 }
 
 /**
@@ -27,7 +28,7 @@ interface Props {
  * @constructor
  */
 const DialogContainer: React.FC<Props> = (props) => {
-	const { children, title, open, toggle, footer } = props;
+	const { children, title, open, toggle, footer, clsContent } = props;
 
 	const onOpenChange = () => {
 		if (toggle) toggle();
@@ -35,7 +36,7 @@ const DialogContainer: React.FC<Props> = (props) => {
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-md">
+			<DialogContent className={cn("sm:max-w-md", clsContent)}>
 				{title && (
 					<DialogHeader>
 						<DialogTitle className={cn("text-md")}>

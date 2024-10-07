@@ -90,11 +90,7 @@ const BoardDraggingDisplay: React.FC = () => {
 				strategy={verticalListSortingStrategy}
 			>
 				{sortContainerData.map((container) => (
-					<BoardSortableItem
-						id={container.id}
-						key={container.id}
-						styles={container.style}
-					>
+					<BoardSortableItem id={container.id} key={container.id}>
 						<BoardContainerDisplay
 							containerType={container.type}
 							containerData={container}

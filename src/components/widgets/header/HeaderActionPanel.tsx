@@ -37,6 +37,14 @@ const HeaderActionPanel: React.FC = () => {
 				<span>{spaceModeTheme}</span> | <span>{spaceModeLanguage}</span>
 			</div>
 
+			<Button
+				variant="outline"
+				className={cn("text-xs")}
+				onClick={dialog.dialogSchemaView.toggle}
+			>
+				Посмотреть схему
+			</Button>
+
 			<Button variant="outline">
 				<Eye />
 			</Button>

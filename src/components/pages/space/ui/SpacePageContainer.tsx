@@ -14,6 +14,7 @@ import DialogContainer from "@/components/widgets/dialog/DialogContainer";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import ComponentLibrary from "@/components/features/app/modules/components/library/v1/ComponentLibrary";
 import StoriesContainer from "@/components/features/app/modules/editor/content/stories/StoriesContainer";
+import SchemaView from "@/components/components/editor/SchemaView";
 
 /**
  * @author Zholaman Zhumanov
@@ -29,7 +30,6 @@ const SpacePageContainer: React.FC = () => {
 	const dialog = useDialogAction();
 
 	const { spaceTemplateActionData } = useAppSelector((state) => state.space);
-	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
 	return (
 		<>
@@ -48,6 +48,7 @@ const SpacePageContainer: React.FC = () => {
 				<ComponentLibrary eventType="new" />
 			</DialogContainer>
 
+			<SchemaView />
 			<StoriesContainer />
 			<DialogCreateDirectory />
 			<DialogUploadFile />

@@ -1,9 +1,5 @@
 import { TemplateType } from "@/components/shared/types/types";
-import {
-	ITemplateBaseSchema,
-	TemplateBaseType,
-} from "@/components/shared/types/interface-templates";
-import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 export interface IGetApiParams {
 	data: any;
@@ -102,8 +98,8 @@ export interface ITemplateSpaceActionData {
 	name: string;
 }
 
-export interface ITemplateSchemaDevices {
-	desktop: ITemplateBaseSchema[] | [];
-	tablet: ITemplateBaseSchema[] | [];
-	mobile: ITemplateBaseSchema[] | [];
+export interface ISchemaTotalData {
+	desktop: ISchemaContainer[] | [];
+	tablet: ISchemaContainer[] | [];
+	mobile: ISchemaContainer[] | [];
 }

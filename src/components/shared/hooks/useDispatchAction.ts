@@ -11,6 +11,7 @@ import {
 	dialogRemovePageReducer,
 	dialogRenameTitleReducer,
 	dialogSaveSchemaReducer,
+	dialogSchemaViewReducer,
 	dialogSettingActionAddComponentReducer,
 	dialogStoriesContainerReducer,
 	dialogUploadFileReducer,
@@ -18,8 +19,8 @@ import {
 import {
 	ILangListDataItem,
 	ISchemaListData,
+	ISchemaTotalData,
 	IShopsListDataItem,
-	ITemplateSchemaDevices,
 	ITemplateSpaceActionData,
 } from "@/components/shared/types/interface";
 import {
@@ -30,13 +31,13 @@ import {
 	schemaListDataReducer,
 } from "@/components/app/store/features/schemaListSlice";
 import {
-	AdditionalTypes,
 	DeviceType,
 	IContainerType,
 	PlatformType,
 	TemplateType,
 	ThemeSpaceMode,
 	TypeMethodSchema,
+	WidgetTypes,
 } from "@/components/shared/types/types";
 import {
 	languageDataReducer,
@@ -83,6 +84,7 @@ import {
 } from "@/components/app/store/features/editorSlice";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { IActiveElement } from "@/components/shared/types/interface-editor";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -117,6 +119,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogSettingActionAddComponentReducer(value)),
 		dialogStoriesContainerAction: (value: boolean) =>
 			dispatch(dialogStoriesContainerReducer(value)),
+		dialogSchemaViewAction: (value: boolean) =>
+			dispatch(dialogSchemaViewReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>
@@ -161,7 +165,7 @@ export default function useDispatchAction(): any {
 			dispatch(editorAddComponentTypeReducer(value)),
 		editorSwiperIndexShowReducerAction: (value: boolean) =>
 			dispatch(editorSwiperIndexShowReducer(value)),
-		editorAdditionalActiveElementAction: (value: AdditionalTypes) =>
+		editorAdditionalActiveElementAction: (value: WidgetTypes) =>
 			dispatch(editorAdditionalActiveElementReducer(value)),
 
 		// Space actions
@@ -188,8 +192,8 @@ export default function useDispatchAction(): any {
 		spaceTemplateActionDataAction: (value: ITemplateSpaceActionData) =>
 			dispatch(spaceTemplateActionDataReducer(value)),
 		spaceTemplateSchemaDevicesDataAction: (
-			key: keyof ITemplateSchemaDevices,
-			data: ITemplateBaseSchema[]
+			key: keyof ISchemaTotalData,
+			data: ISchemaContainer[]
 		) =>
 			dispatch(
 				spaceTemplateSchemaDevicesDataReducer({

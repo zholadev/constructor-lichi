@@ -59,6 +59,10 @@ interface DialogsState {
 		open: boolean;
 		toggle: () => void;
 	};
+	dialogSchemaView: {
+		open: boolean;
+		toggle: () => void;
+	};
 }
 
 /**
@@ -87,6 +91,7 @@ export default function useDialogAction(): DialogsState {
 		dialogAddComponentAction,
 		dialogSettingActionAddComponentAction,
 		dialogStoriesContainerAction,
+		dialogSchemaViewAction,
 	} = useDispatchAction();
 
 	const {
@@ -104,6 +109,7 @@ export default function useDialogAction(): DialogsState {
 		dialogAddComponent,
 		dialogSettingActionAddComponent,
 		dialogStoriesContainer,
+		dialogSchemaView,
 	} = useAppSelector((state: RootState) => state.dialog);
 
 	const toggleDialogCreatePageHandle = () =>
@@ -134,6 +140,8 @@ export default function useDialogAction(): DialogsState {
 		dialogSettingActionAddComponentAction(!dialogSettingActionAddComponent);
 	const dialogStoriesContainerHandle = () =>
 		dialogStoriesContainerAction(!dialogStoriesContainer);
+	const dialogSchemaViewActionHandle = () =>
+		dialogSchemaViewAction(!dialogSchemaView);
 
 	return {
 		dialogCreatePage: {
@@ -191,6 +199,10 @@ export default function useDialogAction(): DialogsState {
 		dialogStoriesContainer: {
 			open: dialogStoriesContainer,
 			toggle: dialogStoriesContainerHandle,
+		},
+		dialogSchemaView: {
+			open: dialogSchemaView,
+			toggle: dialogSchemaViewActionHandle,
 		},
 	};
 }

@@ -8,14 +8,15 @@ import {
 } from "@/components/shared/types/types";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import {
-	ITemplateSchemaDevices,
+	ISchemaTotalData,
 	ITemplateSpaceActionData,
 } from "@/components/shared/types/interface";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 interface stateSlice {
 	spaceTemplateActionData: ITemplateSpaceActionData;
 	spaceTemplateData: ITemplateBaseSchema[];
-	spaceTemplateSchemaDevicesData: ITemplateSchemaDevices;
+	spaceTemplateSchemaDevicesData: ISchemaTotalData;
 	spaceTemplateApiLoading: boolean;
 	spaceModeTheme: ThemeSpaceMode;
 	spaceModeLanguage: string;
@@ -116,8 +117,8 @@ export const spaceSlice = createSlice({
 		spaceTemplateSchemaDevicesDataReducer: (
 			state,
 			action: PayloadAction<{
-				deviceType: keyof ITemplateSchemaDevices;
-				data: ITemplateBaseSchema[] | [];
+				deviceType: keyof ISchemaTotalData;
+				data: ISchemaContainer[] | [];
 			}>
 		) => {
 			const { deviceType, data } = action.payload;

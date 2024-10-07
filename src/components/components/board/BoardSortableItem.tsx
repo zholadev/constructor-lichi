@@ -6,7 +6,6 @@ import { cn } from "@/components/lib/utils";
 interface Props {
 	id: number | string;
 	children: React.ReactNode;
-	styles: React.CSSProperties;
 }
 
 /**
@@ -21,7 +20,7 @@ interface Props {
  * @constructor
  */
 const BoardSortableItem: React.FC<Props> = (props) => {
-	const { id, children, styles } = props;
+	const { id, children } = props;
 
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id });
@@ -36,7 +35,6 @@ const BoardSortableItem: React.FC<Props> = (props) => {
 			ref={setNodeRef}
 			style={{
 				...style,
-				...styles,
 			}}
 			{...attributes}
 			{...listeners}

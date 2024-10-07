@@ -84,7 +84,7 @@ const ContentContainer: React.FC = () => {
 				errorHandler("SettingContainer", "contentActiveData", error);
 			}
 		}
-	}, [editorActiveElement, activeElementData]);
+	}, [activeElementData]);
 
 	const filterContentKeys = (
 		content: Content,

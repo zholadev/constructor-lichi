@@ -5,6 +5,8 @@ import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useRemoveActions from "@/components/shared/hooks/ actions/useRemoveActions";
 import ActionAddComponentSetting from "@/components/features/app/modules/editor/setting/ActionAddComponentSetting";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
+import useRemoveWidgetActions from "@/components/shared/hooks/ actions/useRemoveWidgetActions";
 
 /**
  * @author Zholaman Zhumanov
@@ -20,6 +22,18 @@ const ActionSetting: React.FC = () => {
 	const permission = usePermission();
 	const dialog = useDialogAction();
 	const removeActions = useRemoveActions();
+	const removeWidgetActions = useRemoveWidgetActions();
+
+	const activeElementData = useActiveElementObserver();
+
+	const removeClickHandle = () => {
+		if (activeElementData?.widgetType === "stories") {
+			removeWidgetActions.removeWidget();
+			return;
+		}
+
+		removeActions.remove();
+	};
 
 	return (
 		<div className={cn("w-full px-1 mb-3")}>
@@ -39,7 +53,7 @@ const ActionSetting: React.FC = () => {
 					<Button
 						type="button"
 						variant="destructive"
-						onClick={removeActions.remove}
+						onClick={removeClickHandle}
 					>
 						Удалить
 					</Button>

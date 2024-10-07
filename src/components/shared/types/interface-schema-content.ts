@@ -1,10 +1,23 @@
 import { IGalleryImageItem } from "@/components/shared/types/interface";
-import {
-	LinkRelType,
-	LinkTargetType,
-} from "@/components/shared/types/types-design";
 
 export type ISchemaContentMediaType = "video" | "image";
+
+export type LinkRelType =
+	| "alternate"
+	| "author"
+	| "bookmark"
+	| "external"
+	| "help"
+	| "license"
+	| "next"
+	| "nofollow"
+	| "noreferrer"
+	| "noopener"
+	| "prev"
+	| "search"
+	| "tag";
+
+export type LinkTargetType = "_blank" | "_parent" | "_self" | "_top";
 
 export interface ISchemaContentPhoto {
 	photo?: {
@@ -22,13 +35,15 @@ export interface ISchemaContentVideo {
 }
 
 export interface ISchemaContentLink {
-	href: {
-		src: string;
-		internal_src: string;
-	};
-	settings?: {
-		rel: LinkRelType;
-		target: LinkTargetType;
+	link: {
+		href: {
+			src: string;
+			internal_src: string;
+		};
+		settings?: {
+			rel: LinkRelType;
+			target: LinkTargetType;
+		};
 	};
 }
 

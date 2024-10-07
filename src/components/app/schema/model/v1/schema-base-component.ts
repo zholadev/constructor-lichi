@@ -1,14 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 import { versionComponentBase } from "@/components/app/versions/version-modules";
-import { IComponentBaseFullSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import { defaultStyles } from "@/components/entities/defStyles/def_styles";
 import { getRandomImageSchema } from "@/components/app/schema/schema-image-data";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 /**
  * @todo Removed // @ts-ignore
  */
 
-export const card_component_schema = (): IComponentBaseFullSchema => {
+export const card_component_schema = (): ISchemaComponent => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -40,7 +40,7 @@ export const card_component_schema = (): IComponentBaseFullSchema => {
 	};
 };
 
-export const card_outside_component_schema = (): IComponentBaseFullSchema => {
+export const card_outside_component_schema = (): ISchemaComponent => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -72,7 +72,7 @@ export const card_outside_component_schema = (): IComponentBaseFullSchema => {
 	};
 };
 
-export const album_component_schema = (): IComponentBaseFullSchema => {
+export const album_component_schema = (): ISchemaComponent => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -103,7 +103,7 @@ export const album_component_schema = (): IComponentBaseFullSchema => {
 	};
 };
 
-export const album_outside_component_schema = (): IComponentBaseFullSchema => {
+export const album_outside_component_schema = (): ISchemaComponent => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -135,7 +135,7 @@ export const album_outside_component_schema = (): IComponentBaseFullSchema => {
 	};
 };
 
-export const video_component_schema = (): IComponentBaseFullSchema => {
+export const video_component_schema = (): ISchemaComponent => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -170,7 +170,7 @@ export const video_component_schema = (): IComponentBaseFullSchema => {
 	};
 };
 
-export const video_outside_component_schema = (): IComponentBaseFullSchema => {
+export const video_outside_component_schema = (): ISchemaComponent => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),

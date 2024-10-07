@@ -6,16 +6,15 @@ import {
 	TemplateType,
 	ThemeSpaceMode,
 } from "@/components/shared/types/types";
-import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
-import {
-	ISchemaTotalData,
-	ITemplateSpaceActionData,
-} from "@/components/shared/types/interface";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import {
+	ISchemaPageData,
+	ISchemaTotalData,
+} from "@/components/shared/types/interface-schema";
 
 interface stateSlice {
-	spaceTemplateActionData: ITemplateSpaceActionData;
-	spaceTemplateData: ITemplateBaseSchema[];
+	spaceTemplateActionData: ISchemaPageData;
+	spaceTemplateData: ISchemaContainer[];
 	spaceTemplateSchemaDevicesData: ISchemaTotalData;
 	spaceTemplateApiLoading: boolean;
 	spaceModeTheme: ThemeSpaceMode;
@@ -59,7 +58,7 @@ export const spaceSlice = createSlice({
 	reducers: {
 		spaceTemplateDataReducer: (
 			state,
-			action: PayloadAction<ITemplateBaseSchema[]>
+			action: PayloadAction<ISchemaContainer[]>
 		) => {
 			state.spaceTemplateData = action.payload;
 		},
@@ -110,7 +109,7 @@ export const spaceSlice = createSlice({
 		},
 		spaceTemplateActionDataReducer: (
 			state,
-			action: PayloadAction<ITemplateSpaceActionData>
+			action: PayloadAction<ISchemaPageData>
 		) => {
 			state.spaceTemplateActionData = action.payload;
 		},

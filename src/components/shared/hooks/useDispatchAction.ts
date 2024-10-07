@@ -19,9 +19,7 @@ import {
 import {
 	ILangListDataItem,
 	ISchemaListData,
-	ISchemaTotalData,
 	IShopsListDataItem,
-	ITemplateSpaceActionData,
 } from "@/components/shared/types/interface";
 import {
 	schemaListApiLoadingReducer,
@@ -82,9 +80,12 @@ import {
 	editorSwiperIndexShowReducer,
 	editorVideoPlayReducer,
 } from "@/components/app/store/features/editorSlice";
-import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 import { IActiveElement } from "@/components/shared/types/interface-editor";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import {
+	ISchemaPageData,
+	ISchemaTotalData,
+} from "@/components/shared/types/interface-schema";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -171,7 +172,7 @@ export default function useDispatchAction(): any {
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>
 			dispatch(spaceModePlatformTypeReducer(value)),
-		spaceTemplateDataAction: (schema: ITemplateBaseSchema[]) =>
+		spaceTemplateDataAction: (schema: ISchemaContainer[]) =>
 			dispatch(spaceTemplateDataReducer(schema)),
 		spaceModeThemeAction: (theme: ThemeSpaceMode) =>
 			dispatch(spaceModeThemeReducer(theme)),
@@ -189,7 +190,7 @@ export default function useDispatchAction(): any {
 			dispatch(spaceTemplatePageIdReducer(value)),
 		spaceTemplateApiLoadingAction: (value: boolean) =>
 			dispatch(spaceTemplateApiLoadingReducer(value)),
-		spaceTemplateActionDataAction: (value: ITemplateSpaceActionData) =>
+		spaceTemplateActionDataAction: (value: ISchemaPageData) =>
 			dispatch(spaceTemplateActionDataReducer(value)),
 		spaceTemplateSchemaDevicesDataAction: (
 			key: keyof ISchemaTotalData,

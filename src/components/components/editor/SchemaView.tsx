@@ -5,7 +5,6 @@ import DialogContainer from "@/components/widgets/dialog/DialogContainer";
 import { cn } from "@/components/lib/utils";
 import { JsonView, allExpanded, darkStyles } from "react-json-view-lite";
 import "react-json-view-lite/dist/index.css";
-import { ISchemaTotalData } from "@/components/shared/types/interface";
 import {
 	Accordion,
 	AccordionContent,
@@ -14,6 +13,7 @@ import {
 } from "@/components/shared/shadcn/ui/accordion";
 import { DesktopIcon, MobileIcon } from "@radix-ui/react-icons";
 import { Tablet } from "lucide-react";
+import {ISchemaTotalData} from "@/components/shared/types/interface-schema";
 
 /**
  * @author Zholaman Zhumanov

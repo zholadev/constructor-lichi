@@ -11,12 +11,12 @@ import {
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { TemplateType } from "@/components/shared/types/types";
-import { ITemplatePageType } from "@/components/shared/types/interface";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import Divider from "@/components/shared/uikit/divider/Divider";
+import { ISchemaPageType } from "@/components/shared/types/interface-schema";
 
-const templatePageTypeData: ITemplatePageType[] = [
+const templatePageTypeData: ISchemaPageType[] = [
 	{
 		id: 1,
 		name: "Page",

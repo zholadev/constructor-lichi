@@ -39,7 +39,7 @@ const StoriesContent: React.FC = () => {
 		>
 			<div
 				className={cn(
-					"min-w-[300px] max-h-[40vw] p-3 w-[60%] relative min-h-[300px] bg-white rounded-md"
+					"min-w-[300px] max-h-[40vw] p-3 max-w-[900px] relative min-h-[300px] bg-white rounded-md overflow-hidden"
 				)}
 			>
 				<div
@@ -59,7 +59,11 @@ const StoriesContent: React.FC = () => {
 				</h3>
 
 				<div className={cn("grid grid-cols-3")}>
-					<div className={cn("col-span-2 overflow-hidden w-full h-auto")}>
+					<div
+						className={cn(
+							"col-span-2 overflow-hidden w-full h-auto"
+						)}
+					>
 						<Swiper
 							slidesPerView={1}
 							slidesPerGroup={1}

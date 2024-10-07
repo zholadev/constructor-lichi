@@ -1,6 +1,3 @@
-import { TemplateType } from "@/components/shared/types/types";
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-
 export interface IGetApiParams {
 	data: any;
 	errorFields: [];
@@ -82,24 +79,4 @@ export interface INextImageData {
 	blurDataURL: string;
 	blurWidth: number;
 	blurHeight: number;
-}
-
-export interface ITemplatePageType {
-	id: number;
-	name: string;
-	value: TemplateType;
-}
-
-export interface ITemplateSpaceActionData {
-	active: [];
-	guid: string;
-	id: number;
-	meta: Record<string, unknown>;
-	name: string;
-}
-
-export interface ISchemaTotalData {
-	desktop: ISchemaContainer[] | [];
-	tablet: ISchemaContainer[] | [];
-	mobile: ISchemaContainer[] | [];
 }

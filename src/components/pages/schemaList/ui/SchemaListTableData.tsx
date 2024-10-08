@@ -98,6 +98,7 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 							<TableHead />
 							<TableHead />
 							<TableHead />
+							<TableHead />
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -198,6 +199,9 @@ const SchemaListTableData: React.FC<Props> = (props) => {
 									>
 										Перейти <ArrowRightIcon />
 									</Button>
+								</TableCell>
+								<TableCell>
+									<Badge>Не поддерживается</Badge>
 								</TableCell>
 							</TableRow>
 						))}

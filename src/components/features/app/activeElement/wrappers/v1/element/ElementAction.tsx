@@ -4,6 +4,7 @@ import { cn } from "@/components/lib/utils";
 import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import SelectionElementOverlay from "../selection/SelectionElementOverlay";
 
 interface Props {
@@ -29,6 +30,7 @@ const ElementAction: React.FC<Props> = (props) => {
 	const { children, data, containerId, componentId, widgetComponent } = props;
 
 	const activeElementHandle = useActiveElement();
+	const previewMode = usePreviewMode();
 	const activeElementData = useActiveElementObserver();
 
 	const { editorActiveElement, editorAdditionalActiveElement } =
@@ -39,6 +41,7 @@ const ElementAction: React.FC<Props> = (props) => {
 	 * @description Метод для выбора активного элемента
 	 */
 	const onClickHandle = () => {
+		if (previewMode.previewModeEditor) return;
 		if (widgetComponent) {
 			if (editorAdditionalActiveElement === "stories") {
 				activeElementHandle({
@@ -63,7 +66,7 @@ const ElementAction: React.FC<Props> = (props) => {
 				activeData: data,
 				containerId,
 				type: "element",
-				componentId: componentId,
+				componentId,
 				activeId: data?.id,
 				elementId: data?.id,
 			});
@@ -74,7 +77,7 @@ const ElementAction: React.FC<Props> = (props) => {
 		<div
 			className={cn(
 				"cursor-pointer box-border relative",
-				`${editorActiveElement.elementId === data.id || activeElementData?.widgetActiveElementId === data.id ? "border-orange-400 border-2" : ""}`
+				`${(editorActiveElement.elementId === data.id && !previewMode.previewModeEditor) || (activeElementData?.widgetActiveElementId === data.id && !previewMode.previewModeEditor) ? "border-orange-400 border-2" : ""}`
 			)}
 			onClick={(e) => {
 				e.stopPropagation();

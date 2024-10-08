@@ -12,6 +12,7 @@ import { Bolt, BookImage, Paintbrush } from "lucide-react";
 import StylesContainer from "@/components/components/panel/container/StylesContainer";
 import ContentContainer from "@/components/components/panel/container/ContentContainer";
 import SettingContainer from "@/components/components/panel/container/SettingContainer";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 
 interface Props {
 	isStatic?: boolean;
@@ -29,6 +30,12 @@ interface Props {
  */
 const PanelContent: React.FC<Props> = (props) => {
 	const { isStatic = false } = props;
+
+	const previewMode = usePreviewMode();
+
+	if (previewMode.previewModeEditor) {
+		return null;
+	}
 
 	return (
 		<div

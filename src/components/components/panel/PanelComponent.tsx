@@ -16,6 +16,7 @@ import {
 	LayersIcon,
 } from "@radix-ui/react-icons";
 import Navigator from "@/components/components/panel/navigator/Navigator";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import ComponentContent from "./components/ComponentContent";
 
 /**
@@ -29,6 +30,12 @@ import ComponentContent from "./components/ComponentContent";
  * @constructor
  */
 const PanelComponent: React.FC = () => {
+	const previewMode = usePreviewMode();
+
+	if (previewMode.previewModeEditor) {
+		return null;
+	}
+
 	return (
 		<div
 			className={cn("w-[367px] border")}

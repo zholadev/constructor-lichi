@@ -21,6 +21,7 @@ import CategoryCard from "@/components/features/app/modules/components/component
 import CategoryCardOutside from "@/components/features/app/modules/components/components/special/v1/categoryList/CategoryCardOutside";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import { ProductV1 } from "@/components/features/app/modules/components/types/v1/interface-category-list";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
@@ -57,6 +58,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 	const { apiFetchHandler, loading } = useApiRequest();
 
 	const styleFormatted = useStylesFormatted();
+	const previewMode = usePreviewMode();
 
 	const { editorSwiperIndexShow } = useAppSelector((state) => state.editor);
 
@@ -162,7 +164,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 					productListData.map((product, index) => {
 						return (
 							<SwiperSlide key={product.id}>
-								{editorSwiperIndexShow && (
+								{previewMode.showIndexSwiper && (
 									<span
 										className={cn(
 											"absolute top-1 w-[20px] h-[20px] text-xs left-1 z-10 rounded-full bg-white flex justify-center items-center"

@@ -13,6 +13,7 @@ import { Autoplay, Pagination, Controller } from "swiper/modules";
 import { cn } from "@/components/lib/utils";
 import "swiper/css/pagination";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
@@ -41,8 +42,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 	const swiperRef = useRef({});
 
 	const styleFormatted = useStylesFormatted();
-
-	const { editorSwiperIndexShow } = useAppSelector((state) => state.editor);
+	const previewMode = usePreviewMode();
 
 	useEffect(() => {
 		try {
@@ -102,7 +102,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 				{componentsData.map((component, index) => {
 					return (
 						<SwiperSlide key={component.id}>
-							{editorSwiperIndexShow && (
+							{previewMode.showIndexSwiper && (
 								<span
 									className={cn(
 										"absolute top-1 w-[20px] h-[20px] text-xs left-1 z-10 rounded-full bg-white flex justify-center items-center"

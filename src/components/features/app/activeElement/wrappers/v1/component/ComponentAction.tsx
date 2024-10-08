@@ -6,6 +6,7 @@ import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import SelectionElementOverlay from "../selection/SelectionElementOverlay";
 
 interface Props {
@@ -33,6 +34,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 		props;
 
 	const activeElementHandle = useActiveElement();
+	const previewMode = usePreviewMode();
 	const activeElementData = useActiveElementObserver();
 
 	const { editorActiveElement, editorAdditionalActiveElement } =
@@ -43,6 +45,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 	 * @description Метод для выбора активного элемента
 	 */
 	const onClickHandle = () => {
+		if (previewMode.previewModeEditor) return;
 		if (widgetComponent) {
 			if (editorAdditionalActiveElement === "stories") {
 				activeElementHandle({
@@ -75,7 +78,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 		<div className={cn("relative select-none")}>
 			<div
 				className={cn(
-					`${editorActiveElement.componentId === data.id || activeElementData?.widgetActiveComponentId === data.id ? "border-emerald-400 border-2 box-border" : "border-box"}`,
+					`${(editorActiveElement.componentId === data.id && !previewMode.previewModeEditor) || (activeElementData?.widgetActiveComponentId === data.id && !previewMode.previewModeEditor) ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					styles.card,
 					cls
 				)}

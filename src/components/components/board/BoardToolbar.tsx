@@ -7,6 +7,7 @@ import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import usePermission from "@/components/shared/hooks/usePermission";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 
 /**
  * @author Zholaman Zhumanov
@@ -27,6 +28,7 @@ const BoardToolbar: React.FC = () => {
 	} = useDispatchAction();
 
 	const permission = usePermission();
+	const previewMode = usePreviewMode();
 
 	const { editorDisabledEdit, editorDraggingTemplate, editorRemoveTemplate } =
 		useAppSelector((state) => state.editor);
@@ -40,6 +42,10 @@ const BoardToolbar: React.FC = () => {
 
 	const toggleEditorRemoveTemplateHandle = () =>
 		editorRemoveTemplateAction(!editorRemoveTemplate);
+
+	if (previewMode.previewModeEditor) {
+		return null;
+	}
 
 	return (
 		<div

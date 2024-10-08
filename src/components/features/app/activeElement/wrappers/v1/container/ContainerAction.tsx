@@ -4,6 +4,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import SelectionElementOverlay from "@/components/features/app/activeElement/wrappers/v1/selection/SelectionElementOverlay";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 
 interface Props {
 	children: React.ReactNode;
@@ -26,25 +27,29 @@ const ContainerAction: React.FC<Props> = (props) => {
 	const { children, containerData, containerId } = props;
 
 	const activeElementHandle = useActiveElement();
+	const previewMode = usePreviewMode();
 
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
+
+	const onClickHandle = () => {
+		if (previewMode.previewModeEditor) return;
+		activeElementHandle({
+			activeData: containerData,
+			containerId,
+			type: "container",
+			componentId: containerData?.id,
+			activeId: containerId,
+		});
+	};
 
 	return (
 		<div className={cn("size-full relative")}>
 			<div
 				className={cn(
-					`${editorActiveElement?.activeId === containerId ? "border-emerald-400 border-2 box-border" : "border-box"}`,
+					`${editorActiveElement?.activeId === containerId && !previewMode.previewModeEditor ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					"min-h-[10px]"
 				)}
-				onDoubleClick={() => {
-					activeElementHandle({
-						activeData: containerData,
-						containerId,
-						type: "container",
-						componentId: containerData?.id,
-						activeId: containerId,
-					});
-				}}
+				onDoubleClick={onClickHandle}
 			>
 				<SelectionElementOverlay id={containerId} />
 				{children}

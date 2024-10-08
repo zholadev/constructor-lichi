@@ -9,6 +9,7 @@ import DialogContainer from "@/components/widgets/dialog/DialogContainer";
 import SavePage from "@/components/components/editor/SavePage";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import EditorSetting from "@/components/components/editor/EditorSetting";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,8 +24,15 @@ import EditorSetting from "@/components/components/editor/EditorSetting";
 const HeaderActionPanel: React.FC = () => {
 	const dialog = useDialogAction();
 
+	const { editorPreviewModeAction } = useDispatchAction();
+
 	const { spaceModeTheme, spaceModeDeviceType, spaceModeLanguage } =
 		useAppSelector((state) => state.space);
+
+	const { editorPreviewMode } = useAppSelector((state) => state.editor);
+
+	const togglePreviewModeHandle = () =>
+		editorPreviewModeAction(!editorPreviewMode);
 
 	return (
 		<div className={cn("flex items-center p-2 gap-4")}>
@@ -45,7 +53,7 @@ const HeaderActionPanel: React.FC = () => {
 				Посмотреть схему
 			</Button>
 
-			<Button variant="outline">
+			<Button variant="outline" onClick={togglePreviewModeHandle}>
 				<Eye />
 			</Button>
 

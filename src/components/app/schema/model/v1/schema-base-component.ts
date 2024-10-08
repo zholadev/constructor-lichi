@@ -10,7 +10,7 @@ import { ISchemaComponent } from "@/components/shared/types/interface-schema-com
 
 export const card_component_schema = (): ISchemaComponent => {
 	return {
-		id: uuidv4(),
+		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "card",
 		version: versionComponentBase.card.version,
@@ -42,7 +42,7 @@ export const card_component_schema = (): ISchemaComponent => {
 
 export const card_outside_component_schema = (): ISchemaComponent => {
 	return {
-		id: uuidv4(),
+		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "card_outside",
 		version: versionComponentBase.card.version,
@@ -74,7 +74,7 @@ export const card_outside_component_schema = (): ISchemaComponent => {
 
 export const album_component_schema = (): ISchemaComponent => {
 	return {
-		id: uuidv4(),
+		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "album",
 		version: versionComponentBase.card.version,
@@ -105,7 +105,7 @@ export const album_component_schema = (): ISchemaComponent => {
 
 export const album_outside_component_schema = (): ISchemaComponent => {
 	return {
-		id: uuidv4(),
+		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "album_outside",
 		version: versionComponentBase.card.version,
@@ -137,7 +137,7 @@ export const album_outside_component_schema = (): ISchemaComponent => {
 
 export const video_component_schema = (): ISchemaComponent => {
 	return {
-		id: uuidv4(),
+		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "video",
 		version: versionComponentBase.card.version,
@@ -146,6 +146,8 @@ export const video_component_schema = (): ISchemaComponent => {
 		},
 		elements: [],
 		content: {
+			// @ts-ignore
+			photo: getRandomImageSchema(),
 			video: {
 				videoSrc: "",
 				// @ts-ignore
@@ -172,7 +174,7 @@ export const video_component_schema = (): ISchemaComponent => {
 
 export const video_outside_component_schema = (): ISchemaComponent => {
 	return {
-		id: uuidv4(),
+		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "video_outside",
 		version: versionComponentBase.card.version,
@@ -181,6 +183,8 @@ export const video_outside_component_schema = (): ISchemaComponent => {
 		},
 		elements: [],
 		content: {
+			// @ts-ignore
+			photo: getRandomImageSchema(),
 			video: {
 				videoSrc: "",
 				// @ts-ignore

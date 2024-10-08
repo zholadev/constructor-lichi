@@ -26,8 +26,12 @@ const HeaderActionPanel: React.FC = () => {
 
 	const { editorPreviewModeAction } = useDispatchAction();
 
-	const { spaceModeTheme, spaceModeDeviceType, spaceModeLanguage } =
-		useAppSelector((state) => state.space);
+	const {
+		spaceModeTheme,
+		spaceModeDeviceType,
+		spaceModeLanguage,
+		spaceTemplateData,
+	} = useAppSelector((state) => state.space);
 
 	const { editorPreviewMode } = useAppSelector((state) => state.editor);
 
@@ -53,8 +57,13 @@ const HeaderActionPanel: React.FC = () => {
 				Посмотреть схему
 			</Button>
 
-			<Button variant="outline" onClick={togglePreviewModeHandle}>
-				<Eye />
+			<Button
+				disabled={spaceTemplateData?.length === 0}
+				variant="outline"
+				className={cn("text-xs flex gap-1 items-center flex-row")}
+				onClick={togglePreviewModeHandle}
+			>
+				<Eye width={20} height={20} /> Просмотр в редакторе
 			</Button>
 
 			<Button

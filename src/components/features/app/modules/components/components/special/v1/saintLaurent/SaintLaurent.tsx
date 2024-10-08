@@ -42,7 +42,7 @@ const SaintLaurent: React.FC<Props> = (props) => {
 			containerId={containerId}
 			data={componentData}
 			cls={styles.saint_laurent_block}
-			autoSizeComponent
+			containerData={containerData}
 		>
 			<div
 				style={{
@@ -62,7 +62,10 @@ const SaintLaurent: React.FC<Props> = (props) => {
 				}
 			>
 				<figure>
-					<MediaContainer componentData={componentData} />
+					<MediaContainer
+						componentData={componentData}
+						containerData={containerData}
+					/>
 
 					<BaseElementWrapper
 						containerId={containerId}

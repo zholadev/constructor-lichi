@@ -8,10 +8,12 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
+import { errorMessage } from "@/components/shared/constants/text";
 
 interface IComponentActions {
 	componentAppend: (data: unknown) => void;
-	componentCreate: (data: unknown) => void;
+	componentCreate: (data: ISchemaComponent) => void;
 }
 
 /**
@@ -29,6 +31,7 @@ export default function useComponentActions(): IComponentActions {
 	const activeElementHandle = useActiveElement();
 	const dialog = useDialogAction();
 	const { spaceTemplateDataAction } = useDispatchAction();
+	const { containerUpdateWrapper } = useUpdateContainerWrapper();
 	const activeElementData = useActiveElementObserver();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
@@ -39,10 +42,10 @@ export default function useComponentActions(): IComponentActions {
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для создания компонента в контейнере
-	 * @param updateData
+	 * @param data
 	 */
-	const componentCreate = (updateData: ISchemaComponent) => {
-		if (!updateData) {
+	const componentCreate = (data: ISchemaComponent) => {
+		if (!data) {
 			toastMessage(
 				"Такого компонента не существует! componentCreate - useComponentActions",
 				"error"
@@ -50,24 +53,23 @@ export default function useComponentActions(): IComponentActions {
 			return;
 		}
 		const selected = editorSelectAddComponent;
-		const data = spaceTemplateData.map((container: ISchemaContainer) => {
-			if (container.id === selected.containerData.id) {
+		const updateData = containerUpdateWrapper((component) => {
+			if (component.id === selected.componentId) {
 				return {
-					...container,
-					components: container.components.map((component) => {
-						if (component.id === selected.componentId) {
-							return {
-								...component,
-								data: updateData,
-							};
-						}
-						return component;
-					}),
+					...component,
+					...data,
 				};
 			}
-			return container;
+			return component;
 		});
-		spaceTemplateDataAction(data);
+
+		if (updateData) {
+			toastMessage(
+				"Компонент успешно добавлен! componentCreate - useComponentActions",
+				"success"
+			);
+			spaceTemplateDataAction(updateData);
+		}
 	};
 
 	/**
@@ -103,9 +105,7 @@ export default function useComponentActions(): IComponentActions {
 							...container.components,
 							{
 								id: uuidv4(),
-								data: {
-									...data,
-								},
+								...data,
 							},
 						];
 
@@ -143,9 +143,15 @@ export default function useComponentActions(): IComponentActions {
 				spaceTemplateDataAction(newBuildData);
 			}
 		} catch (error) {
-			if (error instanceof Error) {
-				errorHandler("useEditorEvent", "addElement", error);
-			}
+			toastMessage(
+				`${errorMessage}! componentAppend - useComponentActions`,
+				"error"
+			);
+			return errorHandler(
+				"useComponentActions",
+				"componentAppend",
+				error
+			);
 		}
 	};
 

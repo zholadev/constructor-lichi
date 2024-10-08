@@ -41,29 +41,26 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 	 */
 	const removeComponent = () => {
 		const updatedData = containerUpdateWrapper((component) => {
-			if (component.data.id === activeElementData?.componentId) {
+			if (component.id === activeElementData?.componentId) {
 				const updatedComponent = deepCopy(component);
 
 				// Check and update stories if they exist
-				if (updatedComponent.data.content?.stories?.components) {
+				if (updatedComponent?.content?.stories?.components) {
 					const updatedStoriesComponents =
-						updatedComponent.data.content.stories.components.filter(
+						updatedComponent.content.stories.components.filter(
 							(storyComponent) =>
-								storyComponent.data.id !==
+								storyComponent.id !==
 								activeElementData?.widgetActiveComponentId
 						);
 
 					// Return updated component with updated stories
 					return {
 						...component,
-						data: {
-							...component.data,
-							content: {
-								...component.data.content,
-								stories: {
-									...component.data.content.stories,
-									components: updatedStoriesComponents,
-								},
+						content: {
+							...component.content,
+							stories: {
+								...component.content.stories,
+								components: updatedStoriesComponents,
 							},
 						},
 					};
@@ -82,20 +79,20 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 	 */
 	const removeElement = () => {
 		const updatedData = containerUpdateWrapper((component) => {
-			if (component.data.id === activeElementData?.componentId) {
+			if (component.id === activeElementData?.componentId) {
 				const updatedComponent = deepCopy(component);
 
 				// Check and update elements if they exist in stories
-				if (updatedComponent.data.content?.stories?.components) {
+				if (updatedComponent.content?.stories?.components) {
 					const updatedStoriesComponents =
-						updatedComponent.data.content.stories.components.map(
+						updatedComponent.content.stories.components.map(
 							(storyComponent) => {
 								if (
-									storyComponent.data.id ===
+									storyComponent.id ===
 									activeElementData.widgetActiveComponentId
 								) {
 									const updatedElements =
-										storyComponent.data.elements.filter(
+										storyComponent.elements.filter(
 											(el: IElementTotal) =>
 												el.id !==
 												activeElementData.widgetActiveElementId
@@ -104,10 +101,7 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 									// Return storyComponent with updated elements
 									return {
 										...storyComponent,
-										data: {
-											...storyComponent.data,
-											elements: updatedElements,
-										},
+										elements: updatedElements,
 									};
 								}
 								return storyComponent;
@@ -116,14 +110,11 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 
 					return {
 						...component,
-						data: {
-							...component.data,
-							content: {
-								...component.data.content,
-								stories: {
-									...component.data.content.stories,
-									components: updatedStoriesComponents,
-								},
+						content: {
+							...component.content,
+							stories: {
+								...component.content.stories,
+								components: updatedStoriesComponents,
 							},
 						},
 					};

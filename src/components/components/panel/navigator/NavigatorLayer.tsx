@@ -9,6 +9,7 @@ import {
 	TotalComponentTypes,
 } from "@/components/shared/types/types";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import { GalleryThumbnailsIcon } from "lucide-react";
 
 interface Props {
 	data: ISchemaContainer;
@@ -58,37 +59,35 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 		});
 	};
 
+	const getIconsRender = () => {
+		switch (type) {
+			case "container":
+				return <LayersIcon />;
+			case "element":
+				return <ButtonIcon />;
+			case "swiper":
+				return <GalleryThumbnailsIcon />;
+			case "component":
+				return <Component1Icon />;
+			default:
+				return <Component1Icon />;
+		}
+	};
+
 	return (
 		<div className={cn("pl-3")}>
 			<div
-				onMouseMove={() =>
-					onMouseOverHandle(
-						type === "container" || type === "element"
-							? data?.id
-							: data?.data?.id
-					)
-				}
+				onMouseMove={() => onMouseOverHandle(data?.id)}
 				onClick={() => {
-					onClickHandle(
-						type,
-						type === "component" ? data?.data : data
-					);
+					onClickHandle(type, data);
 				}}
 				onMouseLeave={() => onMouseOverHandle(null)}
 				className={cn(
 					"w-full flex uppercase text-xs flex-row items-center gap-2 py-2 border-b cursor-pointer hover:bg-secondary transition-bg"
 				)}
 			>
-				<span>
-					{type === "container" ? (
-						<LayersIcon />
-					) : type === "component" ? (
-						<Component1Icon />
-					) : type === "element" ? (
-						<ButtonIcon />
-					) : null}
-				</span>{" "}
-				{formattedName(data?.type) || formattedName(data?.data?.type)}
+				<span>{getIconsRender()}</span>{" "}
+				{formattedName(data?.type) ?? "Выберите компонент"}
 			</div>
 			{data?.components &&
 				data?.components.map((component) => {

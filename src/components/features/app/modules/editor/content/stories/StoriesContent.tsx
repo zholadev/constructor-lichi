@@ -6,6 +6,7 @@ import { ISchemaComponent } from "@/components/shared/types/interface-schema-com
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import BaseComponentRender from "../../../components/container/v1/BaseComponentRender";
 import useActiveElementObserver from "../../../../../../shared/hooks/useActiveElementObserver";
 import StoriesAddButton from "./StoriesAddButton";
@@ -21,11 +22,17 @@ import StoriesAddButton from "./StoriesAddButton";
  * @constructor
  */
 const StoriesContent: React.FC = () => {
+	const dialog = useDialogAction();
+	const { editorAdditionalActiveElementAction } = useDispatchAction();
+
 	const activeElementData = useActiveElementObserver();
 
-	const dialog = useDialogAction();
-
 	const { editorSwiperIndexShow } = useAppSelector((state) => state.editor);
+
+	const closeStoriesHandle = () => {
+		editorAdditionalActiveElementAction("none");
+		dialog.dialogStoriesContainer.toggle();
+	};
 
 	if (!activeElementData?.componentId) {
 		return null;
@@ -47,10 +54,7 @@ const StoriesContent: React.FC = () => {
 						"w-full absolute right-4 top-4 flex justify-end"
 					)}
 				>
-					<Button
-						variant="ghost"
-						onClick={dialog.dialogStoriesContainer.toggle}
-					>
+					<Button variant="ghost" onClick={closeStoriesHandle}>
 						<Cross1Icon width={20} height={20} />
 					</Button>
 				</div>
@@ -90,8 +94,8 @@ const StoriesContent: React.FC = () => {
 												widgetComponent
 												key={component.id}
 												componentId={component.id}
-												type={component.data?.type}
-												componentData={component.data}
+												type={component?.type}
+												componentData={component}
 												containerData={
 													activeElementData.containerData
 												}

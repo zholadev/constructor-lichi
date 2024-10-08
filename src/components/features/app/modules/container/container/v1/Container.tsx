@@ -46,8 +46,8 @@ const Container: React.FC<Props> = (props) => {
 					<BaseComponentRender
 						key={component.id}
 						containerData={container}
-						componentData={component.data}
-						type={component.data?.type}
+						componentData={component}
+						type={component?.type}
 						componentId={component.id}
 					/>
 				);

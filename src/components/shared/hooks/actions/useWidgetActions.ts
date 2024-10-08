@@ -30,6 +30,11 @@ export default function useWidgetActions(): IWidgetActions {
 
 	const { containerUpdateWrapper } = useUpdateContainerWrapper();
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для добавления элемента в компонент виджета
+	 * @param data
+	 */
 	const widgetAddElement = (data: IElementTotal) => {
 		try {
 			if (!data) {
@@ -52,26 +57,22 @@ export default function useWidgetActions(): IWidgetActions {
 
 			const updateData = containerUpdateWrapper((component) => {
 				// Находим нужный компонент по id
-				if (component.data.id === activeElementData.componentId) {
+				if (component.id === activeElementData.componentId) {
 					// Проверяем, есть ли stories и components внутри stories
-					if (component.data.content?.stories?.components) {
+					if (component.content?.stories?.components) {
 						const updatedComponents =
-							component.data.content.stories.components.map(
+							component.content.stories.components.map(
 								(storyComponent) => {
 									if (
-										storyComponent.data?.id ===
+										storyComponent?.id ===
 										activeElementData.widgetActiveComponentId
 									) {
 										return {
 											...storyComponent,
-											data: {
-												...storyComponent.data,
-												elements: [
-													...storyComponent?.data
-														?.elements,
-													data,
-												],
-											},
+											elements: [
+												...storyComponent?.elements,
+												data,
+											],
 										};
 									}
 									return storyComponent;
@@ -81,14 +82,11 @@ export default function useWidgetActions(): IWidgetActions {
 						// Обновляем компонент с новым массивом components в stories
 						return {
 							...component,
-							data: {
-								...component.data,
-								content: {
-									...component.data.content,
-									stories: {
-										...component.data.content?.stories,
-										components: updatedComponents, // Обновляем components в stories
-									},
+							content: {
+								...component.content,
+								stories: {
+									...component.content?.stories,
+									components: updatedComponents, // Обновляем components в stories
 								},
 							},
 						};
@@ -138,30 +136,25 @@ export default function useWidgetActions(): IWidgetActions {
 
 			const updateData = containerUpdateWrapper((component) => {
 				// Проверяем, является ли этот компонент тем, который нужно обновить
-				if (component.data?.id === activeElementData.componentId) {
+				if (component?.id === activeElementData.componentId) {
 					// Проверяем, есть ли поле content и stories
-					if (component.data?.content?.stories) {
+					if (component?.content?.stories) {
 						// Обновляем stories.components
 						const updatedStoriesComponents = [
-							...component.data.content.stories.components,
+							...component.content.stories.components,
 							{
 								id: uuidv4(),
-								data: {
-									...data,
-								},
+								...data,
 							},
 						];
 
 						return {
 							...component,
-							data: {
-								...component.data,
-								content: {
-									...component.data.content,
-									stories: {
-										...component.data.content.stories,
-										components: updatedStoriesComponents, // Обновляем массив components в stories
-									},
+							content: {
+								...component.content,
+								stories: {
+									...component.content.stories,
+									components: updatedStoriesComponents, // Обновляем массив components в stories
 								},
 							},
 						};

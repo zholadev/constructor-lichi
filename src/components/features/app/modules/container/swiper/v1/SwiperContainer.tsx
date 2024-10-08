@@ -113,8 +113,8 @@ const SwiperContainer: React.FC<Props> = (props) => {
 							)}
 							<BaseComponentRender
 								containerData={containerData}
-								componentData={component.data}
-								type={component.data?.type}
+								componentData={component}
+								type={component?.type}
 								componentId={component.id}
 							/>
 						</SwiperSlide>

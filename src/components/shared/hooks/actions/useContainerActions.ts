@@ -110,7 +110,6 @@ export default function useContainerActions(): IContainerActions {
 		const createChildren = () => {
 			return Array.from({ length: countColumn }, () => ({
 				id: uuidv4(),
-				data: [],
 			}));
 		};
 
@@ -203,7 +202,7 @@ export default function useContainerActions(): IContainerActions {
 		const createChildren = () => {
 			return Array.from({ length: componentCount }, () => ({
 				id: uuidv4(),
-				data: saint_laurent_component_schema(),
+				...saint_laurent_component_schema(),
 			}));
 		};
 

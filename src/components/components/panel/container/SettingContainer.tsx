@@ -8,7 +8,7 @@ import {
 	AccordionTrigger,
 } from "@/components/shared/shadcn/ui/accordion";
 import { cn } from "@/components/lib/utils";
-import { LayoutIcon } from "@radix-ui/react-icons";
+import {LayoutIcon, TimerIcon} from "@radix-ui/react-icons";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import ElementSetting from "@/components/features/app/modules/editor/setting/ElementSetting";
@@ -178,7 +178,7 @@ const SettingContainer: React.FC = () => {
 				<AccordionItem value="timer">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
-							<LayoutIcon width={13} height={13} />
+							<TimerIcon width={13} height={13} />
 							<span style={{ fontSize: "13px" }}>Таймер</span>
 						</div>
 					</AccordionTrigger>

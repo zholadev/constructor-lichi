@@ -98,7 +98,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			if (editorActiveElement?.componentId) {
 				const componentData = foundContainerData?.components?.find(
 					(component) =>
-						component?.data?.id === editorActiveElement?.componentId
+						component?.id === editorActiveElement?.componentId
 				);
 
 				// if (!componentData && editorActiveElement?.componentId) {
@@ -136,7 +136,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 	const foundElementData = useMemo(() => {
 		try {
 			if (editorActiveElement?.elementId) {
-				const elementData = foundComponentData?.data.elements.find(
+				const elementData = foundComponentData?.elements.find(
 					(element: IElementSchema) =>
 						element?.id === editorActiveElement?.activeId
 				);
@@ -178,19 +178,19 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 
 			const activeDataFound = {
 				container: foundContainerData,
-				component: foundComponentData?.data,
+				component: foundComponentData,
 				element: foundElementData,
 			}[type];
 
 			const activeIdFound = {
 				container: foundContainerData?.id,
-				component: foundComponentData?.data?.id,
+				component: foundComponentData?.id,
 				element: foundElementData?.id,
 			}[type];
 
 			const activeStyleFound = {
 				container: foundContainerData?.style,
-				component: foundComponentData?.data?.style,
+				component: foundComponentData?.style,
 				element: foundElementData?.style,
 			}[type];
 
@@ -200,10 +200,10 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 				activeId: activeIdFound,
 				activeStyle: activeStyleFound,
 				containerData: foundContainerData,
-				componentId: foundComponentData?.data?.id ?? "",
-				componentData: foundComponentData?.data ?? {},
+				componentId: foundComponentData?.id ?? "",
+				componentData: foundComponentData ?? {},
 				containerId: editorActiveElement?.containerId ?? "",
-				widgetData: foundComponentData?.data?.content?.stories || {},
+				widgetData: foundComponentData?.content?.stories || {},
 				widgetType: editorAdditionalActiveElement ?? "none",
 				widgetActiveData: editorActiveElement?.widgetActiveData ?? {},
 				widgetActiveType:

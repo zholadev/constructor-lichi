@@ -8,7 +8,7 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface IUpdateContainerWrapper {
-	containerUpdateWrapper: (component: ISchemaComponent) => any;
+	containerUpdateWrapper: (component: ISchemaComponent) => unknown;
 }
 
 /**

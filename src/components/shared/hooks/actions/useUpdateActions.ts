@@ -1,11 +1,17 @@
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import useActiveElement from "@/components/shared/hooks/useActiveElement";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
+import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import {
+	deepCopy,
+	deleteMultiplePaths,
+	updateObjectByPath,
+} from "@/components/shared/utils/schema-helpers";
+import { errorMessage } from "@/components/shared/constants/text";
 
 interface IUpdateActions {
 	update: (
@@ -28,109 +34,12 @@ interface IUpdateActions {
  */
 export default function useUpdateActions(): IUpdateActions {
 	const toastMessage = useToastMessage();
-	const activeElementHandle = useActiveElement();
-	const dialog = useDialogAction();
 	const { spaceTemplateDataAction } = useDispatchAction();
 	const activeElementData = useActiveElementObserver();
 
+	const { containerUpdateWrapper } = useUpdateContainerWrapper();
+
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
-
-	// Функция для обновления объекта по заданному пути (string)
-	function updateObjectByPath(
-		obj: Record<string, unknown>,
-		path: string,
-		value: unknown,
-		save = false,
-		remove = false
-	) {
-		try {
-			const keys = path?.split("."); // Разбиваем строку пути на массив ключей
-			let current = obj;
-
-			// Проходим по объекту, создавая отсутствующие ключи
-			for (let i = 0; i < keys.length - 1; i++) {
-				const key = keys[i];
-				if (!current[key]) {
-					current[key] = {}; // Создаем объект, если ключ отсутствует
-				}
-				current = current[key];
-			}
-
-			const lastKey = keys[keys.length - 1];
-
-			if (
-				save &&
-				typeof current[lastKey] === "object" &&
-				current[lastKey] !== null
-			) {
-				// Если save: true, объединяем старые значения с новыми, если старое значение — объект
-				current[lastKey] = { ...current[lastKey], ...value };
-			} else {
-				// Иначе просто присваиваем новое значение
-				current[lastKey] = value;
-			}
-
-			if (remove) {
-				// Если флаг удаления, удаляем последний ключ
-				delete current[lastKey];
-			} else if (
-				save &&
-				typeof current[lastKey] === "object" &&
-				current[lastKey] !== null
-			) {
-				// Если save: true, объединяем старые значения с новыми
-				current[lastKey] = { ...current[lastKey], ...value };
-			} else {
-				// Иначе просто присваиваем новое значение
-				current[lastKey] = value;
-			}
-		} catch (error) {
-			toastMessage(
-				"Ошибка при изменение! Обратитесь разработчику!",
-				"error"
-			);
-			errorHandler("useEditorEvent", "updateObjectByPath", error);
-		}
-	}
-
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод удаление
-	 * @param obj
-	 * @param path
-	 */
-	function deleteObjectByPath(obj: any, path: string) {
-		const keys = path.split("."); // Разбиваем строку пути на массив ключей
-		let current = obj;
-
-		// Проходим по объекту, доходя до предпоследнего уровня
-		for (let i = 0; i < keys.length - 1; i++) {
-			const key = keys[i];
-			if (!current[key]) {
-				return; // Если путь не существует, просто выходим
-			}
-			current = current[key]; // Переходим на следующий уровень
-		}
-
-		const lastKey = keys[keys.length - 1];
-
-		// Проверяем, существует ли ключ
-		if (current && current.hasOwnProperty(lastKey)) {
-			delete current[lastKey]; // Удаляем ключ
-		}
-	}
-
-	function deleteMultiplePaths(obj: any, paths: string | string[]) {
-		paths.forEach((path) => {
-			deleteObjectByPath(obj, path); // Удаляем каждый ключ по переданному пути
-		});
-	}
-
-	// Простая функция глубокого копирования объекта
-	function deepCopy(obj: unknown) {
-		return JSON.parse(JSON.stringify(obj));
-	}
 
 	const update = (
 		newValue: unknown,
@@ -188,130 +97,145 @@ export default function useUpdateActions(): IUpdateActions {
 				toastMessage("Успешно удалено!", "success");
 			};
 
+			/**
+			 * @author Zholaman Zhumanov
+			 * @description Метод для обновления контейнера
+			 */
 			const containerUpdateHandle = () => {
-				return spaceTemplateData.map((container: ISchemaContainer) => {
-					if (container.id === activeElementData.containerId) {
-						const updatedContainer = deepCopy(container);
+				try {
+					return spaceTemplateData.map(
+						(container: ISchemaContainer) => {
+							if (
+								container.id === activeElementData.containerId
+							) {
+								const updatedContainer = deepCopy(container);
 
-						if (removeObj) {
-							updateDataHandle(updatedContainer, false, true);
-						} else if (removeKey) {
-							removeKeyDataHandle(updatedContainer);
-						} else {
-							updateDataHandle(updatedContainer, true);
+								if (removeObj) {
+									updateDataHandle(
+										updatedContainer,
+										false,
+										true
+									);
+								} else if (removeKey) {
+									removeKeyDataHandle(updatedContainer);
+								} else {
+									updateDataHandle(updatedContainer, true);
+								}
+
+								return {
+									...container,
+									...updatedContainer,
+								};
+							}
+							return container;
 						}
-
-						return {
-							...container,
-							...updatedContainer,
-						};
-					}
-					return container;
-				});
+					);
+				} catch (error) {
+					toastMessage(
+						`${errorMessage}! containerUpdateHandle - useUpdateActions`,
+						"error"
+					);
+					return errorHandler(
+						"useUpdateActions",
+						"containerUpdateHandle",
+						error
+					);
+				}
 			};
 
+			/**
+			 * @author Zholaman Zhumanov
+			 * @description Метод для обновления компонентов
+			 */
 			const componentUpdateHandle = () => {
-				return spaceTemplateData.map((container: ISchemaContainer) => {
-					if (container.id === activeElementData?.containerId) {
-						return {
-							...container,
-							components: container.components.map(
-								(component) => {
-									if (
-										component.data.id ===
-										activeElementData?.activeId
-									) {
-										const updatedComponent =
-											deepCopy(component);
+				try {
+					return containerUpdateWrapper((component) => {
+						if (component?.id === activeElementData?.activeId) {
+							const updatedComponent = deepCopy(component);
 
-										if (removeObj) {
-											updateDataHandle(
-												updatedComponent.data,
-												true,
-												true
-											);
-										} else if (removeKey) {
-											removeKeyDataHandle(
-												updatedComponent.data
-											);
-										} else {
-											updateDataHandle(
-												updatedComponent.data,
-												true
-											);
-										}
+							if (removeObj) {
+								updateDataHandle(updatedComponent, true, true);
+							} else if (removeKey) {
+								removeKeyDataHandle(updatedComponent);
+							} else {
+								updateDataHandle(updatedComponent, true);
+							}
 
-										return {
-											...component,
-											...updatedComponent,
-										};
-									}
-									return component;
-								}
-							),
-						};
-					}
-					return container;
-				});
+							return {
+								...component,
+								...updatedComponent,
+							};
+						}
+						return component;
+					});
+				} catch (error) {
+					toastMessage(
+						`${errorMessage}! componentUpdateHandle - useUpdateActions`,
+						"error"
+					);
+					return errorHandler(
+						"useUpdateActions",
+						"componentUpdateHandle",
+						error
+					);
+				}
 			};
 
+			/**
+			 * @author Zholaman Zhumanov
+			 * @description Метод для обновления элемента
+			 */
 			const elementUpdateHandle = () => {
-				return spaceTemplateData.map((container: ISchemaContainer) => {
-					if (container.id === activeElementData?.containerId) {
-						return {
-							...container,
-							components: container.components.map(
-								(component) => {
-									if (
-										component.data.id ===
-										activeElementData?.componentId
-									) {
-										const updatedComponent =
-											deepCopy(component);
+				try {
+					return containerUpdateWrapper((component) => {
+						if (component.id === activeElementData?.componentId) {
+							const updatedComponent = deepCopy(component);
 
-										const elementIndex =
-											updatedComponent.data.elements.findIndex(
-												(el: any) =>
-													el.id ===
-													activeElementData.activeId
-											);
+							const elementIndex =
+								updatedComponent.elements.findIndex(
+									(el: IElementTotal) =>
+										el.id === activeElementData.activeId
+								);
 
-										if (elementIndex !== -1) {
-											if (removeObj) {
-												updateDataHandle(
-													updatedComponent.data
-														.elements[elementIndex],
-													true,
-													true
-												);
-											} else if (removeKey) {
-												removeKeyDataHandle(
-													updatedComponent.data
-														.elements[elementIndex]
-												);
-											} else {
-												updateDataHandle(
-													updatedComponent.data
-														.elements[elementIndex],
-													true
-												);
-											}
-
-											return {
-												...component,
-												...updatedComponent,
-											};
-										}
-
-										return component;
-									}
-									return component;
+							if (elementIndex !== -1) {
+								if (removeObj) {
+									updateDataHandle(
+										updatedComponent.elements[elementIndex],
+										true,
+										true
+									);
+								} else if (removeKey) {
+									removeKeyDataHandle(
+										updatedComponent.elements[elementIndex]
+									);
+								} else {
+									updateDataHandle(
+										updatedComponent.elements[elementIndex],
+										true
+									);
 								}
-							),
-						};
-					}
-					return container;
-				});
+
+								return {
+									...component,
+									...updatedComponent,
+								};
+							}
+
+							return component;
+						}
+						return component;
+					});
+				} catch (error) {
+					toastMessage(
+						`${errorMessage}! elementUpdateHandle - useUpdateActions`,
+						"error"
+					);
+					return errorHandler(
+						"useUpdateActions",
+						"elementUpdateHandle",
+						error
+					);
+				}
 			};
 
 			if (activeElementData.type === "container") {

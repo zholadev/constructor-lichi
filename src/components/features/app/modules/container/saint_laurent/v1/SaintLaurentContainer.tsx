@@ -1,16 +1,14 @@
 import React from "react";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import { cn } from "@/components/lib/utils";
-import {
-	ISchemaContainer,
-	ISchemaContainerComponentWrapper,
-} from "@/components/shared/types/interface-schema-container";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import SpecialComponentRender from "@/components/features/app/modules/components/container/v1/SpecialComponentRender";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { DeviceType } from "@/components/shared/types/types";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface Props {
-	componentsData: ISchemaContainerComponentWrapper;
+	componentsData: ISchemaComponent;
 	containerData: ISchemaContainer;
 }
 
@@ -69,7 +67,7 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 							componentIndex={index}
 							containerData={containerData}
 							componentId={component.id}
-							componentData={component.data}
+							componentData={component}
 							componentLen={componentsData?.length}
 						/>
 					);

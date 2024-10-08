@@ -13,7 +13,7 @@ import {
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import useWidgetActions from "@/components/shared/hooks/useWidgetActions";
+import useWidgetActions from "@/components/shared/hooks/actions/useWidgetActions";
 import useComponentActions from "@/components/shared/hooks/actions/useComponentActions";
 
 const baseData: IComponentBaseAddList[] = [

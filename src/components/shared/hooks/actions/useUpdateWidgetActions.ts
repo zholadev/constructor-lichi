@@ -11,6 +11,8 @@ import {
 	deleteMultiplePaths,
 	updateObjectByPath,
 } from "@/components/shared/utils/schema-helpers";
+import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
+import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 
 interface IUpdateWidgetActions {
 	update: (
@@ -36,6 +38,8 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 	const activeElementHandle = useActiveElement();
 	const dialog = useDialogAction();
 	const { spaceTemplateDataAction } = useDispatchAction();
+	const { containerUpdateWrapper } = useUpdateContainerWrapper();
+
 	const activeElementData = useActiveElementObserver();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
@@ -98,229 +102,157 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 			};
 
 			const componentUpdateHandle = () => {
-				return spaceTemplateData.map((container: ISchemaContainer) => {
-					if (container.id === activeElementData?.containerId) {
-						return {
-							...container,
-							components: container.components.map(
-								(component) => {
-									if (
-										component.data.id ===
-										activeElementData?.componentId
-									) {
-										const updatedComponent =
-											deepCopy(component);
+				return containerUpdateWrapper((component) => {
+					if (component.id === activeElementData?.componentId) {
+						const updatedComponent = deepCopy(component);
 
-										// Проверяем, есть ли stories и components внутри stories
+						// Проверяем, есть ли stories и components внутри stories
+						if (updatedComponent?.content?.stories?.components) {
+							const updatedStoriesComponents =
+								updatedComponent.content.stories.components.map(
+									(storyComponent) => {
+										// Проверяем widgetActiveIdComponent внутри storyComponent
 										if (
-											updatedComponent.data.content
-												?.stories?.components
+											storyComponent.id ===
+											activeElementData?.widgetActiveComponentId
 										) {
-											const updatedStoriesComponents =
-												updatedComponent.data.content.stories.components.map(
-													(storyComponent) => {
-														// Проверяем widgetActiveIdComponent внутри storyComponent
-														if (
-															storyComponent.data
-																.id ===
-															activeElementData?.widgetActiveComponentId
-														) {
-															const updatedStoryComponent =
-																deepCopy(
-																	storyComponent
-																);
+											const updatedStoryComponent =
+												deepCopy(storyComponent);
 
-															// Выполняем нужное действие с storyComponent
-															if (removeObj) {
-																updateDataHandle(
-																	updatedStoryComponent.data,
-																	true,
-																	true
-																);
-															} else if (
-																removeKey
-															) {
-																removeKeyDataHandle(
-																	updatedStoryComponent.data
-																);
-															} else {
-																updateDataHandle(
-																	updatedStoryComponent.data,
-																	true
-																);
-															}
-
-															return {
-																...storyComponent,
-																...updatedStoryComponent,
-															};
-														}
-
-														return storyComponent;
-													}
+											// Выполняем нужное действие с storyComponent
+											if (removeObj) {
+												updateDataHandle(
+													updatedStoryComponent,
+													true,
+													true
 												);
+											} else if (removeKey) {
+												removeKeyDataHandle(
+													updatedStoryComponent
+												);
+											} else {
+												updateDataHandle(
+													updatedStoryComponent,
+													true
+												);
+											}
 
-											// Обновляем компонент с обновлёнными stories
 											return {
-												...component,
-												data: {
-													...component.data,
-													content: {
-														...component.data
-															.content,
-														stories: {
-															...component.data
-																.content
-																.stories,
-															components:
-																updatedStoriesComponents,
-														},
-													},
-												},
+												...storyComponent,
+												...updatedStoryComponent,
 											};
 										}
 
-										return component;
+										return storyComponent;
 									}
+								);
 
-									return component;
-								}
-							),
-						};
+							// Обновляем компонент с обновлёнными stories
+							return {
+								...component,
+								content: {
+									...component.content,
+									stories: {
+										...component.content.stories,
+										components: updatedStoriesComponents,
+									},
+								},
+							};
+						}
+
+						return component;
 					}
-					return container;
+
+					return component;
 				});
 			};
 
 			const elementUpdateHandle = () => {
-				return spaceTemplateData.map((container: ISchemaContainer) => {
-					if (container.id === activeElementData?.containerId) {
-						return {
-							...container,
-							components: container.components.map(
-								(component) => {
-									if (
-										component.data.id ===
-										activeElementData?.componentId
-									) {
-										const updatedComponent =
-											deepCopy(component);
+				return containerUpdateWrapper((component) => {
+					if (component?.id === activeElementData?.componentId) {
+						const updatedComponent = deepCopy(component);
 
-										// Проверяем, есть ли stories и components внутри stories
+						// Проверяем, есть ли stories и components внутри stories
+						if (updatedComponent?.content?.stories?.components) {
+							const updatedStoriesComponents =
+								updatedComponent.content.stories.components.map(
+									(storyComponent) => {
 										if (
-											updatedComponent.data.content
-												?.stories?.components
+											storyComponent.id ===
+											activeElementData.widgetActiveComponentId
 										) {
-											const updatedStoriesComponents =
-												updatedComponent.data.content.stories.components.map(
-													(storyComponent) => {
-														if (
-															storyComponent.data
-																.id ===
-															activeElementData.widgetActiveComponentId
-														) {
-															// Находим элемент в storyComponent.data.elements
-															const elementIndex =
-																storyComponent.data.elements.findIndex(
-																	(el: any) =>
-																		el.id ===
-																		activeElementData.widgetActiveElementId
-																);
-
-															if (
-																elementIndex !==
-																-1
-															) {
-																// Если элемент найден, обновляем его
-																if (removeObj) {
-																	updateDataHandle(
-																		storyComponent
-																			.data
-																			.elements[
-																			elementIndex
-																		],
-																		true,
-																		true
-																	);
-																} else if (
-																	removeKey
-																) {
-																	removeKeyDataHandle(
-																		storyComponent
-																			.data
-																			.elements[
-																			elementIndex
-																		]
-																	);
-																} else {
-																	updateDataHandle(
-																		storyComponent
-																			.data
-																			.elements[
-																			elementIndex
-																		],
-																		true
-																	);
-																}
-
-																// Обновляем storyComponent с изменённым элементом
-																return {
-																	...storyComponent,
-																	data: {
-																		...storyComponent.data,
-																		elements:
-																			[
-																				...storyComponent.data.elements.slice(
-																					0,
-																					elementIndex
-																				),
-																				storyComponent
-																					.data
-																					.elements[
-																					elementIndex
-																				],
-																				...storyComponent.data.elements.slice(
-																					elementIndex +
-																						1
-																				),
-																			],
-																	},
-																};
-															}
-														}
-														return storyComponent;
-													}
+											// Находим элемент в storyComponent.data.elements
+											const elementIndex =
+												storyComponent.elements.findIndex(
+													(el: IElementTotal) =>
+														el.id ===
+														activeElementData.widgetActiveElementId
 												);
 
-											// Обновляем компонент с новыми stories
-											return {
-												...component,
-												data: {
-													...component.data,
-													content: {
-														...component.data
-															.content,
-														stories: {
-															...component.data
-																.content
-																.stories,
-															components:
-																updatedStoriesComponents,
-														},
-													},
-												},
-											};
+											if (elementIndex !== -1) {
+												// Если элемент найден, обновляем его
+												if (removeObj) {
+													updateDataHandle(
+														storyComponent.elements[
+															elementIndex
+														],
+														true,
+														true
+													);
+												} else if (removeKey) {
+													removeKeyDataHandle(
+														storyComponent.elements[
+															elementIndex
+														]
+													);
+												} else {
+													updateDataHandle(
+														storyComponent.elements[
+															elementIndex
+														],
+														true
+													);
+												}
+
+												// Обновляем storyComponent с изменённым элементом
+												return {
+													...storyComponent,
+													elements: [
+														...storyComponent.elements.slice(
+															0,
+															elementIndex
+														),
+														storyComponent.elements[
+															elementIndex
+														],
+														...storyComponent.elements.slice(
+															elementIndex + 1
+														),
+													],
+												};
+											}
 										}
-
-										return component;
+										return storyComponent;
 									}
+								);
 
-									return component;
-								}
-							),
-						};
+							// Обновляем компонент с новыми stories
+							return {
+								...component,
+								content: {
+									...component.content,
+									stories: {
+										...component.content.stories,
+										components: updatedStoriesComponents,
+									},
+								},
+							};
+						}
+
+						return component;
 					}
-					return container;
+
+					return component;
 				});
 			};
 

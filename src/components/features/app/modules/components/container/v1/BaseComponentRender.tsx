@@ -3,17 +3,17 @@
 import React from "react";
 import { ComponentBaseTypes } from "@/components/shared/types/types-components";
 import BoardEmptyCard from "@/components/components/board/BoardEmptyCard";
-import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import Video from "@/components/features/app/modules/components/components/base/v1/Video";
 import Card from "@/components/features/app/modules/components/components/base/v1/Card";
 import CardOutside from "@/components/features/app/modules/components/components/base/v1/CardOutside";
 import Album from "@/components/features/app/modules/components/components/base/v1/Album";
 import ComponentAction from "@/components/features/app/activeElement/wrappers/v1/component/ComponentAction";
+import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface Props {
 	type: ComponentBaseTypes;
-	componentData: IComponentTotalDataSchema;
+	componentData: ISchemaComponent;
 	containerData: ISchemaContainer;
 	componentId: string;
 	widgetComponent?: boolean;
@@ -38,6 +38,8 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 		componentId,
 		widgetComponent = false,
 	} = props;
+
+	const previewMode = usePreviewMode();
 
 	const renderComponents = () => {
 		switch (type) {
@@ -66,16 +68,8 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 						containerData={containerData}
 					/>
 				);
-			case "video":
-				return (
-					<Video
-						componentData={componentData}
-						containerId={containerData.id}
-						containerData={containerData}
-					/>
-				);
 			default:
-				return (
+				return previewMode.previewModeEditor ? null : (
 					<BoardEmptyCard
 						componentId={componentId}
 						containerData={containerData}

@@ -9,7 +9,7 @@ import {
 	IContainerType,
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
-import useContainerActions from "@/components/shared/hooks/ actions/useContainerActions";
+import useContainerActions from "@/components/shared/hooks/actions/useContainerActions";
 
 /**
  * @author Zholaman Zhumanov

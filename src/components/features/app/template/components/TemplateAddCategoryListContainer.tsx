@@ -20,7 +20,7 @@ import { IGetApiParams } from "@/components/shared/types/interface";
 import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { ImageIcon } from "@radix-ui/react-icons";
-import useContainerActions from "@/components/shared/hooks/ actions/useContainerActions";
+import useContainerActions from "@/components/shared/hooks/actions/useContainerActions";
 
 interface Country {
 	id: number;

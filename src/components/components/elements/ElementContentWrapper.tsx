@@ -5,7 +5,7 @@ import { ElementBaseTypes } from "@/components/shared/types/types-components";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useWidgetActions from "@/components/shared/hooks/useWidgetActions";
-import useElementActions from "@/components/shared/hooks/ actions/useElementActions";
+import useElementActions from "@/components/shared/hooks/actions/useElementActions";
 
 interface Props {
 	children: ReactNode;

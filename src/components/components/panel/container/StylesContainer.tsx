@@ -25,8 +25,8 @@ import BorderStyles from "@/components/features/app/modules/editor/styles/Border
 import TypographyStyles from "@/components/features/app/modules/editor/styles/TypographyStyles";
 import BackgroundStyles from "@/components/features/app/modules/editor/styles/BackgroundStyles";
 import SizeStyles from "@/components/features/app/modules/editor/styles/SizeStyles";
-import useUpdateActions from "@/components/shared/hooks/ actions/useUpdateActions";
-import useUpdateWidgetActions from "@/components/shared/hooks/ actions/useUpdateWidgetActions";
+import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
+import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
 
 type AccessTypes =
 	| "position"

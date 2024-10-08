@@ -21,8 +21,8 @@ import VideoContent from "@/components/features/app/modules/editor/content/Video
 import LinkContent from "@/components/features/app/modules/editor/content/LinkContent";
 import StoriesContent from "@/components/features/app/modules/editor/content/StoriesContent";
 import TextFillContent from "@/components/features/app/modules/editor/content/TextFillContent";
-import useUpdateActions from "@/components/shared/hooks/ actions/useUpdateActions";
-import useUpdateWidgetActions from "@/components/shared/hooks/ actions/useUpdateWidgetActions";
+import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
+import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
 
 type AccessTypes = "video" | "photo" | "link" | "stories";
 type ContentKeys = "photo" | "link" | "video" | "stories";

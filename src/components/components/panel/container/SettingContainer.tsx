@@ -18,8 +18,8 @@ import SwiperSetting from "@/components/features/app/modules/editor/setting/Swip
 import CategoryListSetting from "@/components/features/app/modules/editor/setting/CategoryListSetting";
 import TimerSetting from "@/components/features/app/modules/editor/setting/TimerSetting";
 import ActionSetting from "@/components/features/app/modules/editor/setting/ActionSetting";
-import useUpdateActions from "@/components/shared/hooks/ actions/useUpdateActions";
-import useUpdateWidgetActions from "@/components/shared/hooks/ actions/useUpdateWidgetActions";
+import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
+import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
 
 export type SettingTypes = "view" | "show" | "action" | "swiper";
 

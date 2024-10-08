@@ -3,10 +3,10 @@ import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import usePermission from "@/components/shared/hooks/usePermission";
-import useRemoveActions from "@/components/shared/hooks/ actions/useRemoveActions";
+import useRemoveActions from "@/components/shared/hooks/actions/useRemoveActions";
 import ActionAddComponentSetting from "@/components/features/app/modules/editor/setting/ActionAddComponentSetting";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
-import useRemoveWidgetActions from "@/components/shared/hooks/ actions/useRemoveWidgetActions";
+import useRemoveWidgetActions from "@/components/shared/hooks/actions/useRemoveWidgetActions";
 
 /**
  * @author Zholaman Zhumanov

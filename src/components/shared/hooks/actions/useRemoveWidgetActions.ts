@@ -4,9 +4,10 @@ import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { deepCopy } from "@/components/shared/utils/schema-helpers";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
+import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
+import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 
 interface IRemoveWidgetActions {
 	removeWidget: () => void;
@@ -32,30 +33,14 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	/**
-	 * Helper function to update the container's components.
-	 * @param updateFn Callback to handle component update logic.
-	 */
-	const updateContainerComponents = (updateFn: (component: any) => any) => {
-		return spaceTemplateData.map((container: ISchemaContainer) => {
-			if (container.id === activeElementData?.containerId) {
-				return {
-					...container,
-					components: container.components.map((component) =>
-						updateFn(component, activeElementData)
-					),
-				};
-			}
-			return container;
-		});
-	};
+	const { containerUpdateWrapper } = useUpdateContainerWrapper();
 
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для удаления компонента с виджета сторис
 	 */
 	const removeComponent = () => {
-		const updatedData = updateContainerComponents((component) => {
+		const updatedData = containerUpdateWrapper((component) => {
 			if (component.data.id === activeElementData?.componentId) {
 				const updatedComponent = deepCopy(component);
 
@@ -96,7 +81,7 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 	 * @description Метод для удаления элемента с виджета
 	 */
 	const removeElement = () => {
-		const updatedData = updateContainerComponents((component) => {
+		const updatedData = containerUpdateWrapper((component) => {
 			if (component.data.id === activeElementData?.componentId) {
 				const updatedComponent = deepCopy(component);
 
@@ -111,7 +96,7 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 								) {
 									const updatedElements =
 										storyComponent.data.elements.filter(
-											(el: any) =>
+											(el: IElementTotal) =>
 												el.id !==
 												activeElementData.widgetActiveElementId
 										);
@@ -129,7 +114,6 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 							}
 						);
 
-					// Return updated component with updated stories
 					return {
 						...component,
 						data: {

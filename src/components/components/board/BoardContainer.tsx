@@ -7,7 +7,7 @@ import TemplateAddButton from "@/components/features/app/template/TemplateAddBut
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import usePermission from "@/components/shared/hooks/usePermission";
-import useRemoveActions from "@/components/shared/hooks/ actions/useRemoveActions";
+import useRemoveActions from "@/components/shared/hooks/actions/useRemoveActions";
 import BoardContainerDisplay from "@/components/components/board/BoardContainerDisplay";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 

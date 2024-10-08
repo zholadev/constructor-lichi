@@ -13,7 +13,7 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import { IElementSchema } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
-interface IActiveElementObserver {
+export interface IActiveElementObserver {
 	type: ActiveElementType;
 	containerId: string;
 	componentId: string;

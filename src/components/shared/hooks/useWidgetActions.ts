@@ -2,10 +2,10 @@ import { IElementTotal } from "@/components/features/app/modules/elements/types/
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { v4 as uuidv4 } from "uuid";
+import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
 
 interface IWidgetActions {
 	widgetAddElement: (data: IElementTotal) => void;
@@ -28,8 +28,7 @@ export default function useWidgetActions(): IWidgetActions {
 	const { spaceTemplateDataAction } = useDispatchAction();
 	const activeElementData = useActiveElementObserver();
 
-	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
+	const { containerUpdateWrapper } = useUpdateContainerWrapper();
 
 	const widgetAddElement = (data: IElementTotal) => {
 		try {
@@ -51,79 +50,58 @@ export default function useWidgetActions(): IWidgetActions {
 				return;
 			}
 
-			const newBuildData = spaceTemplateData.map(
-				(container: ISchemaContainer) => {
-					if (container.id === editorActiveElement.containerId) {
-						return {
-							...container,
-							components: container.components.map(
-								(component) => {
-									// Находим нужный компонент по id
+			const updateData = containerUpdateWrapper((component) => {
+				// Находим нужный компонент по id
+				if (component.data.id === activeElementData.componentId) {
+					// Проверяем, есть ли stories и components внутри stories
+					if (component.data.content?.stories?.components) {
+						const updatedComponents =
+							component.data.content.stories.components.map(
+								(storyComponent) => {
 									if (
-										component.data.id ===
-										activeElementData.componentId
+										storyComponent.data?.id ===
+										activeElementData.widgetActiveComponentId
 									) {
-										// Проверяем, есть ли stories и components внутри stories
-										if (
-											component.data.content?.stories
-												?.components
-										) {
-											const updatedComponents =
-												component.data.content.stories.components.map(
-													(storyComponent) => {
-														if (
-															storyComponent.data
-																?.id ===
-															activeElementData.widgetActiveComponentId
-														) {
-															return {
-																...storyComponent,
-																data: {
-																	...storyComponent.data,
-																	elements: [
-																		...storyComponent
-																			?.data
-																			?.elements,
-																		data,
-																	],
-																},
-															};
-														}
-														return storyComponent;
-													}
-												);
-
-											// Обновляем компонент с новым массивом components в stories
-											return {
-												...component,
-												data: {
-													...component.data,
-													content: {
-														...component.data
-															.content,
-														stories: {
-															...component.data
-																.content
-																?.stories,
-															components:
-																updatedComponents, // Обновляем components в stories
-														},
-													},
-												},
-											};
-										}
+										return {
+											...storyComponent,
+											data: {
+												...storyComponent.data,
+												elements: [
+													...storyComponent?.data
+														?.elements,
+													data,
+												],
+											},
+										};
 									}
-
-									return component;
+									return storyComponent;
 								}
-							),
+							);
+
+						// Обновляем компонент с новым массивом components в stories
+						return {
+							...component,
+							data: {
+								...component.data,
+								content: {
+									...component.data.content,
+									stories: {
+										...component.data.content?.stories,
+										components: updatedComponents, // Обновляем components в stories
+									},
+								},
+							},
 						};
 					}
-					return container;
 				}
-			);
-			console.log("newBuildData", newBuildData);
-			if (newBuildData) spaceTemplateDataAction(newBuildData);
+
+				return component;
+			});
+
+			if (updateData) {
+				toastMessage("Элемент был успешно добавлен!", "success");
+				spaceTemplateDataAction(updateData);
+			}
 		} catch (error) {
 			if (error instanceof Error) {
 				errorHandler("useEditorEvent", "addElement", error);
@@ -158,65 +136,44 @@ export default function useWidgetActions(): IWidgetActions {
 				return;
 			}
 
-			const newBuildData = spaceTemplateData.map(
-				(container: ISchemaContainer) => {
-					if (container.id === activeElementData.containerId) {
-						const updatedComponents = container.components.map(
-							(component) => {
-								// Проверяем, является ли этот компонент тем, который нужно обновить
-								if (
-									component.data?.id ===
-									activeElementData.componentId
-								) {
-									// Проверяем, есть ли поле content и stories
-									if (component.data?.content?.stories) {
-										// Обновляем stories.components
-										const updatedStoriesComponents = [
-											...component.data.content.stories
-												.components,
-											{
-												id: uuidv4(),
-												data: {
-													...data,
-												},
-											},
-										];
-
-										return {
-											...component,
-											data: {
-												...component.data,
-												content: {
-													...component.data.content,
-													stories: {
-														...component.data
-															.content.stories,
-														components:
-															updatedStoriesComponents, // Обновляем массив components в stories
-													},
-												},
-											},
-										};
-									}
-								}
-
-								return component;
-							}
-						);
+			const updateData = containerUpdateWrapper((component) => {
+				// Проверяем, является ли этот компонент тем, который нужно обновить
+				if (component.data?.id === activeElementData.componentId) {
+					// Проверяем, есть ли поле content и stories
+					if (component.data?.content?.stories) {
+						// Обновляем stories.components
+						const updatedStoriesComponents = [
+							...component.data.content.stories.components,
+							{
+								id: uuidv4(),
+								data: {
+									...data,
+								},
+							},
+						];
 
 						return {
-							...container,
-							components: updatedComponents,
+							...component,
+							data: {
+								...component.data,
+								content: {
+									...component.data.content,
+									stories: {
+										...component.data.content.stories,
+										components: updatedStoriesComponents, // Обновляем массив components в stories
+									},
+								},
+							},
 						};
 					}
-
-					return container;
 				}
-			);
 
-			if (newBuildData) {
+				return component;
+			});
+
+			if (updateData) {
 				toastMessage("Компонент был успешно добавлен!", "success");
-				spaceTemplateDataAction(newBuildData);
+				spaceTemplateDataAction(updateData);
 			}
 		} catch (error) {
 			if (error instanceof Error) {

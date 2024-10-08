@@ -9,23 +9,25 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { v4 as uuidv4 } from "uuid";
 import { defaultSettings } from "@/components/entities/defSettings/def_settings";
-import { versionTemplate } from "@/components/app/versions/version-modules";
 import { saint_laurent_component_schema } from "@/components/app/schema/model/v1/schema-special-components";
 
 interface IContainerActions {
 	createBaseContainer: (
 		blockType: IContainerType,
 		countColumn: number,
+		version: string,
 		cb: () => void
 	) => void;
 	createSaintLaurentContainerEvent: (
 		type: IContainerType,
 		componentType: ISaintLaurentComponentType,
+		version: string,
 		cb: () => void
 	) => void;
 	createCategoryListContainerEvent: (
 		type: IContainerType,
 		params: ISchemaSettingCategoryListParams,
+		version: string,
 		cb: () => void
 	) => void;
 }
@@ -54,8 +56,14 @@ export default function useContainerActions(): IContainerActions {
 	const createBaseContainer = (
 		blockType: IContainerType,
 		countColumn: number,
+		version: string,
 		cb: () => void
 	) => {
+		if (!version) {
+			toastMessage("Вы не выбрали версию контейнера!", "error");
+			return;
+		}
+
 		if (blockType === "initial") {
 			toastMessage("Вы не выбрали тип блока!", "error");
 			return;
@@ -117,7 +125,7 @@ export default function useContainerActions(): IContainerActions {
 			id: uuidv4(),
 			guid: uuidv4(),
 			type: blockType,
-			version: versionTemplate.version,
+			version,
 			style: generateStyles(),
 			// @ts-ignore
 			components: createChildren(),
@@ -140,9 +148,15 @@ export default function useContainerActions(): IContainerActions {
 	const createSaintLaurentContainerEvent = (
 		type: IContainerType,
 		componentType: ISaintLaurentComponentType,
+		version: string,
 		cb: () => void
 	) => {
-		if (!type) {
+		if (!version) {
+			toastMessage("Вы не выбрали версию контейнера!", "error");
+			return;
+		}
+
+		if (type === "initial") {
 			toastMessage("Вы не выбрали тип контейнера!", "error");
 			return;
 		}
@@ -210,7 +224,7 @@ export default function useContainerActions(): IContainerActions {
 			id: uuidv4(),
 			guid: uuidv4(),
 			type: "saint_laurent_container",
-			version: versionTemplate.version,
+			version,
 			style: generateStyles(),
 			// @ts-ignore
 			components: createChildren(),
@@ -233,9 +247,15 @@ export default function useContainerActions(): IContainerActions {
 	const createCategoryListContainerEvent = (
 		type: IContainerType,
 		params: ISchemaSettingCategoryListParams,
+		version: string,
 		cb: () => void
 	) => {
-		if (!type) {
+		if (!version) {
+			toastMessage("Вы не выбрали версию контейнера!", "error");
+			return;
+		}
+
+		if (type === "initial") {
 			toastMessage("Вы не выбрали тип контейнера!", "error");
 			return;
 		}
@@ -257,7 +277,7 @@ export default function useContainerActions(): IContainerActions {
 			id: uuidv4(),
 			guid: uuidv4(),
 			type: "category_list_container",
-			version: versionTemplate.version,
+			version,
 			style: generateStyles(),
 			// @ts-ignore
 			settings: {

@@ -40,7 +40,7 @@ const TemplateAddDialog: React.FC = () => {
 			<Button onClick={toggleDialogHandle}>Создать страницу</Button>
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader>
-					<DialogTitle className={cn("text-md")}>
+					<DialogTitle className={cn("text-md text-center w-full")}>
 						Добавить контейнер
 					</DialogTitle>
 				</DialogHeader>

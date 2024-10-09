@@ -4,17 +4,18 @@ import { ButtonIcon, Component1Icon, LayersIcon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
-import {
-	ActiveElementType,
-	TotalComponentTypes,
-} from "@/components/shared/types/types";
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import { ActiveElementType } from "@/components/shared/types/types";
 import { GalleryThumbnailsIcon } from "lucide-react";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 
 interface Props {
-	data: ISchemaContainer;
 	type: ActiveElementType;
 	containerId: string;
+	componentId?: string;
+	elementId?: string;
+	activeId: string;
+	data: ISchemaContainer | ISchemaComponent | IElementTotal;
 }
 
 /**
@@ -29,7 +30,7 @@ interface Props {
  * @constructor
  */
 const NavigatorLayer: React.FC<Props> = (props) => {
-	const { data, onSelect, type, containerId } = props;
+	const { type, containerId, data, activeId, elementId, componentId } = props;
 
 	const { editorNavigatorHoverIdAction } = useDispatchAction();
 
@@ -46,16 +47,25 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 		return name;
 	};
 
-	const onClickHandle = (
-		type: ActiveElementType,
-		data: TotalComponentTypes
-	) => {
+	const onClickHandle = () => {
+		if (type === "element") {
+			activeElementHandle({
+				activeData: data,
+				containerId,
+				type,
+				componentId,
+				activeId,
+				elementId,
+			});
+			return;
+		}
+
 		activeElementHandle({
 			activeData: data,
 			containerId,
 			type,
-			componentId: data?.id,
-			activeId: data?.id,
+			componentId,
+			activeId,
 		});
 	};
 
@@ -78,9 +88,7 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 		<div className={cn("pl-3")}>
 			<div
 				onMouseMove={() => onMouseOverHandle(data?.id)}
-				onClick={() => {
-					onClickHandle(type, data);
-				}}
+				onClick={onClickHandle}
 				onMouseLeave={() => onMouseOverHandle(null)}
 				className={cn(
 					"w-full flex uppercase text-xs flex-row items-center gap-2 py-2 border-b cursor-pointer hover:bg-secondary transition-bg"
@@ -90,7 +98,7 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 				{formattedName(data?.type) ?? "Выберите компонент"}
 			</div>
 			{data?.components &&
-				data?.components.map((component) => {
+				data?.components.map((component: ISchemaComponent) => {
 					return (
 						<div
 							className={cn("w-full flex flex-col")}
@@ -98,29 +106,28 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 						>
 							<NavigatorLayer
 								containerId={containerId}
-								key={component.id}
 								data={component}
-								onSelect={onSelect}
 								type="component"
+								componentId={component?.id}
+								activeId={component?.id}
 							/>
 
-							{component.data?.elements &&
-								component.data?.elements.map(
-									(element: IElementTotal) => (
-										<div
-											className={cn("pl-3")}
-											key={element.id}
-										>
-											<NavigatorLayer
-												containerId={containerId}
-												key={element.id}
-												data={element}
-												onSelect={onSelect}
-												type="element"
-											/>
-										</div>
-									)
-								)}
+							{component?.elements &&
+								component?.elements.map((element) => (
+									<div
+										className={cn("pl-3")}
+										key={element.id}
+									>
+										<NavigatorLayer
+											containerId={containerId}
+											data={element}
+											type="element"
+											componentId={component?.id}
+											activeId={element?.id}
+											elementId={element?.id}
+										/>
+									</div>
+								))}
 						</div>
 					);
 				})}

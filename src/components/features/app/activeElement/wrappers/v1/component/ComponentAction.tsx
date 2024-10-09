@@ -45,6 +45,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 	 * @description Метод для выбора активного элемента
 	 */
 	const onClickHandle = () => {
+		// if (!data?.type) return;
 		if (previewMode.previewModeEditor) return;
 		if (widgetComponent) {
 			if (editorAdditionalActiveElement === "stories") {

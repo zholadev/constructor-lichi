@@ -1,13 +1,23 @@
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 
-export // Функция для обновления объекта по заданному пути (string)
-function updateObjectByPath(
-	obj: Record<string, unknown>,
+type GenericObject = Record<string, any>;
+
+/**
+ * @author Zholaman Zhumanov
+ * @description Метод обновление данных
+ * @param obj
+ * @param path
+ * @param value
+ * @param save
+ * @param remove
+ */
+export function updateObjectByPath(
+	obj: GenericObject,
 	path: string,
-	value: unknown,
+	value: any,
 	save = false,
 	remove = false
-) {
+): void {
 	try {
 		const keys = path?.split("."); // Разбиваем строку пути на массив ключей
 		let current = obj;
@@ -60,7 +70,7 @@ function updateObjectByPath(
  * @param obj
  * @param path
  */
-export function deleteObjectByPath(obj: any, path: string) {
+export function deleteObjectByPath(obj: GenericObject, path: string): void {
 	const keys = path.split("."); // Разбиваем строку пути на массив ключей
 	let current = obj;
 
@@ -81,13 +91,29 @@ export function deleteObjectByPath(obj: any, path: string) {
 	}
 }
 
-export function deleteMultiplePaths(obj: any, paths: string | string[]) {
+/**
+ * @author Zholaman Zhumanov
+ * @description Метод удаление несколько ключей
+ * @param obj
+ * @param paths
+ */
+export function deleteMultiplePaths(
+	obj: GenericObject,
+	paths: string | string[]
+): void {
+	if (typeof paths === "string") {
+		paths = [paths]; // Convert to an array if a single path is passed
+	}
 	paths.forEach((path) => {
-		deleteObjectByPath(obj, path); // Удаляем каждый ключ по переданному пути
+		deleteObjectByPath(obj, path); // Delete each property by its path
 	});
 }
 
-// Простая функция глубокого копирования объекта
-export function deepCopy(obj: unknown) {
+/**
+ * @author Zholaman Zhumanov
+ * @description Метод копирования объекта для мутации данных
+ * @param obj
+ */
+export function deepCopy<T>(obj: T): T {
 	return JSON.parse(JSON.stringify(obj));
 }

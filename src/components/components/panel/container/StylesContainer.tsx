@@ -98,7 +98,11 @@ const StylesContainer: React.FC = () => {
 		setExpanded(filteredKeys);
 	};
 
-	const onUpdateHandle = (value: unknown, path: string = "style") => {
+	const onUpdateHandle = (
+		value: unknown,
+		path: string = "style",
+		save?: boolean = true
+	) => {
 		if (!activeUpdateTypeData) {
 			toastMessage(
 				"Тип не найден! Проверьте activeUpdateTypeData",
@@ -108,11 +112,11 @@ const StylesContainer: React.FC = () => {
 		}
 
 		if (activeElementData?.widgetType === "stories") {
-			updateWidgetActions.update(value, path);
+			updateWidgetActions.update(value, path, false, false, save);
 			return;
 		}
 
-		updateActions.update(value, path);
+		updateActions.update(value, path, false, false, save);
 	};
 
 	const removeStylesHandle = (
@@ -251,7 +255,7 @@ const StylesContainer: React.FC = () => {
 								hideTitle
 								styles={styleActiveData}
 								onStyleChange={(...params) =>
-									onUpdateHandle(...params)
+									onUpdateHandle(...params, "style", false)
 								}
 								onRemoveStylesChange={removeStylesHandle}
 							/>

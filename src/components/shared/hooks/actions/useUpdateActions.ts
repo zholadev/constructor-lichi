@@ -18,7 +18,8 @@ interface IUpdateActions {
 		data: unknown,
 		pathString: string | string[],
 		removeObj?: boolean,
-		removeKey?: boolean
+		removeKey?: boolean,
+		save?: boolean
 	) => void;
 }
 
@@ -45,7 +46,8 @@ export default function useUpdateActions(): IUpdateActions {
 		newValue: unknown,
 		pathString: string | string[],
 		removeObj: boolean = false,
-		removeKey: boolean = false
+		removeKey: boolean = false,
+		save: boolean = true
 	) => {
 		try {
 			if (!newValue) {
@@ -158,7 +160,7 @@ export default function useUpdateActions(): IUpdateActions {
 							} else if (removeKey) {
 								removeKeyDataHandle(updatedComponent);
 							} else {
-								updateDataHandle(updatedComponent, true);
+								updateDataHandle(updatedComponent, save);
 							}
 
 							return {
@@ -211,7 +213,7 @@ export default function useUpdateActions(): IUpdateActions {
 								} else {
 									updateDataHandle(
 										updatedComponent.elements[elementIndex],
-										true
+										save
 									);
 								}
 

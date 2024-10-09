@@ -244,11 +244,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	function removeAllBorders() {
-		// Создаем копию стиля, чтобы избежать мутаций исходного объекта
-		let updatedStyle: Record<string, unknown> = { ...styles };
-
-		// Определяем ключи, относящиеся к границе
+	function updateStyleWithBorder(style, borderStyle) {
 		const borderKeys = [
 			"border",
 			"borderLeft",
@@ -257,20 +253,16 @@ const BorderStyles: React.FC<Props> = (props) => {
 			"borderBottom",
 		];
 
-		// Массив для хранения ключей, которые будут удалены
-		let removedKeys: string[] = [];
-
-		// Собираем ключи для удаления, если они есть в объекте стилей
-		borderKeys.forEach((key) => {
-			if (updatedStyle.hasOwnProperty(key)) {
-				// Добавляем ключ с префиксом "style." сразу при сборе
-				removedKeys.push(`style.${key}`);
+		// Создаем новый объект, удаляя старые ключи границы
+		const updatedStyle = Object.keys(style).reduce((acc, key) => {
+			if (!borderKeys.includes(key)) {
+				acc[key] = style[key];
 			}
-		});
+			return acc;
+		}, {});
 
-		removeStylesHandle(removedKeys);
-
-		return updatedStyle;
+		// Возвращаем объединенный объект с новым стилем границы
+		return { ...updatedStyle, ...borderStyle };
 	}
 
 	/**
@@ -283,7 +275,6 @@ const BorderStyles: React.FC<Props> = (props) => {
 		key: StyleKeys,
 		value: number[] | number | string | boolean
 	) => {
-		removeAllBorders();
 		try {
 			if (!key) {
 				toastMessage("TypeError: key is not defined", "error");
@@ -370,9 +361,10 @@ const BorderStyles: React.FC<Props> = (props) => {
 					}),
 					...borderRadiusCorner,
 				};
-				console.log("buildBorderStyles", buildBorderStyles)
 
-				onStyleChange(buildBorderStyles);
+				const buildNewStyle = updateStyleWithBorder(styles, buildBorderStyles);
+
+				onStyleChange(buildNewStyle);
 			}
 		} catch (error) {
 			if (error instanceof Error) {

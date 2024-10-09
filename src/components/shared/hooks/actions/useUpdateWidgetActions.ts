@@ -19,7 +19,8 @@ interface IUpdateWidgetActions {
 		data: unknown,
 		pathString: string | string[],
 		removeObj?: boolean,
-		removeKey?: boolean
+		removeKey?: boolean,
+		save?: boolean
 	) => void;
 }
 
@@ -49,7 +50,8 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 		newValue: unknown,
 		pathString: string | string[],
 		removeObj: boolean = false,
-		removeKey: boolean = false
+		removeKey: boolean = false,
+		save: boolean = true
 	) => {
 		try {
 			if (!newValue) {
@@ -133,7 +135,7 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 											} else {
 												updateDataHandle(
 													updatedStoryComponent,
-													true
+													save
 												);
 											}
 

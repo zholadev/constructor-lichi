@@ -10,6 +10,32 @@ import {
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
 import useContainerActions from "@/components/shared/hooks/actions/useContainerActions";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/shared/shadcn/ui/select";
+import { versionContainer } from "@/components/app/versions/types/interface-version-container";
+import { versionComponents } from "@/components/app/versions/types/interface-version-components";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
+
+interface ITemplateAddSaintLaurent {
+	blockType: IContainerType;
+	componentType: ISaintLaurentComponentType;
+	versionContainer: string;
+	versionComponent: string;
+}
+
+const containerValueDefaultState: ITemplateAddSaintLaurent = {
+	blockType: "container",
+	componentType: "single",
+	versionContainer:
+		versionContainer.saint_laurent_container?.[0]?.version ?? "0.1",
+	versionComponent: versionComponents.saint_laurent?.[0]?.version,
+};
 
 /**
  * @author Zholaman Zhumanov
@@ -25,30 +51,44 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
 		useDispatchAction();
 
+	const toastMessage = useToastMessage();
 	const containerActions = useContainerActions();
 
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 
-	const [blockType, setBlockType] = useState<IContainerType>("container");
-	const [componentType, setComponentType] =
-		useState<ISaintLaurentComponentType>("single");
+	const [containerValue, setContainerValue] =
+		React.useState<ITemplateAddSaintLaurent>(containerValueDefaultState);
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных
+	 * @param key
+	 * @param value
+	 */
+	const onChangeHandle = (
+		key: keyof ITemplateAddSaintLaurent,
+		value: IContainerType | ISaintLaurentComponentType | string
+	) => {
+		if (!key || !value) {
+			toastMessage("ValueError: value or key is not defined", "error");
+			return;
+		}
+		setContainerValue((prevState) => {
+			return {
+				...prevState,
+				[key]: value,
+			};
+		});
+	};
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для сброса данных
+	 */
 	const toggleDialogHandle = () => {
 		editorAddComponentTypeAction("initial");
 		dialogAddTemplateAction(!dialogAddTemplate);
-		setBlockType("container");
-		setComponentType("single");
-	};
-
-	const onChangeHandle = (
-		type: IContainerType | ISaintLaurentComponentType,
-		key: "componentType" | "blockType"
-	) => {
-		if (key === "componentType") {
-			setComponentType(type);
-			return;
-		}
-		setBlockType(type);
+		setContainerValue(containerValueDefaultState);
 	};
 
 	/**
@@ -57,32 +97,42 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 	 */
 	const onConfirmHandle = () =>
 		containerActions.createSaintLaurentContainerEvent(
-			blockType,
-			componentType,
+			containerValue.blockType,
+			containerValue.componentType,
+			containerValue.versionContainer,
+			containerValue.versionComponent,
 			toggleDialogHandle
 		);
 
 	return (
 		<div className="w-full">
-			<h3 className={cn("")}>
+			<h3 className={cn("text-sm")}>
 				Выберите тип контейнера для Saint Laurent
 			</h3>
 			<div className="grid grid-cols-2 gap-3 mb-7 mt-4">
 				<Button
-					variant={blockType === "container" ? "default" : "outline"}
+					variant={
+						containerValue.blockType === "container"
+							? "default"
+							: "outline"
+					}
 					className={cn("p-3 border w-full h-[120px] flex flex-col")}
 					onClick={() => {
-						onChangeHandle("container", "blockType");
+						onChangeHandle("blockType", "container");
 					}}
 				>
 					<ImageIcon width={60} height={60} className={cn("mb-3")} />{" "}
 					Block
 				</Button>
 				<Button
-					variant={blockType === "swiper" ? "default" : "outline"}
+					variant={
+						containerValue.blockType === "swiper"
+							? "default"
+							: "outline"
+					}
 					className={cn("p-3 border w-full h-[120px] flex flex-col")}
 					onClick={() => {
-						onChangeHandle("swiper", "blockType");
+						onChangeHandle("blockType", "swiper");
 					}}
 				>
 					<GalleryHorizontal
@@ -94,37 +144,129 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 				</Button>
 			</div>
 
-			<h3 className={cn("")}>
-				Выберите тип компонента для вывода для Saint Laurent
-			</h3>
-			<div className="grid grid-cols-2 gap-3 mb-7 mt-4">
-				<Button
-					variant={componentType === "single" ? "default" : "outline"}
-					className={cn("p-3 border w-full h-[120px] flex flex-col")}
-					onClick={() => {
-						onChangeHandle("single", "componentType");
-					}}
-				>
-					<ImageIcon width={60} height={60} className={cn("mb-3")} />{" "}
-					Один
-				</Button>
-				<Button
-					variant={componentType === "duo" ? "default" : "outline"}
-					className={cn("p-3 border w-full h-[120px] flex flex-col")}
-					onClick={() => {
-						onChangeHandle("duo", "componentType");
-					}}
-				>
-					<div
-						className={cn(
-							"w-full flex flex-row justify-center items-center mb-3"
-						)}
+			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
+				<h3 className={cn("text-sm")}>Выберите версию контейнера</h3>
+				<div className={cn("w-full")}>
+					<Select
+						defaultValue={containerValue.versionContainer}
+						value={containerValue.versionContainer}
+						disabled={
+							versionContainer.saint_laurent_container?.length ===
+								0 || containerValue.blockType === "initial"
+						}
+						onValueChange={(value) =>
+							onChangeHandle("versionContainer", value)
+						}
 					>
-						<ImageIcon width={60} height={60} />
-						<ImageIcon width={60} height={60} />
-					</div>
-					Два
-				</Button>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Выберите" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{versionContainer.saint_laurent_container?.map(
+									(version) => {
+										return (
+											<SelectItem
+												key={version.version}
+												value={version.version}
+											>
+												{version.version}
+											</SelectItem>
+										);
+									}
+								)}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+			</div>
+
+			<div className={cn("w-full")}>
+				<h3 className={cn("text-sm")}>
+					Выберите тип компонента для Saint Laurent
+				</h3>
+				<div className="grid grid-cols-2 gap-3 mb-7 mt-4">
+					<Button
+						variant={
+							containerValue.componentType === "single"
+								? "default"
+								: "outline"
+						}
+						className={cn(
+							"p-3 border w-full h-[120px] flex flex-col"
+						)}
+						onClick={() => {
+							onChangeHandle("componentType", "single");
+						}}
+					>
+						<ImageIcon
+							width={60}
+							height={60}
+							className={cn("mb-3")}
+						/>{" "}
+						Один
+					</Button>
+					<Button
+						variant={
+							containerValue.componentType === "duo"
+								? "default"
+								: "outline"
+						}
+						className={cn(
+							"p-3 border w-full h-[120px] flex flex-col"
+						)}
+						onClick={() => {
+							onChangeHandle("componentType", "duo");
+						}}
+					>
+						<div
+							className={cn(
+								"w-full flex flex-row justify-center items-center mb-3"
+							)}
+						>
+							<ImageIcon width={60} height={60} />
+							<ImageIcon width={60} height={60} />
+						</div>
+						Два
+					</Button>
+				</div>
+			</div>
+
+			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
+				<h3 className={cn("text-sm")}>Выберите версию компонента</h3>
+				<div className={cn("w-full")}>
+					<Select
+						defaultValue={containerValue.versionComponent}
+						value={containerValue.versionComponent}
+						disabled={
+							versionComponents.saint_laurent?.length === 0 ||
+							!containerValue.componentType
+						}
+						onValueChange={(value) =>
+							onChangeHandle("versionComponent", value)
+						}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Выберите" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{versionComponents.saint_laurent?.map(
+									(version) => {
+										return (
+											<SelectItem
+												key={version.version}
+												value={version.version}
+											>
+												{version.version}
+											</SelectItem>
+										);
+									}
+								)}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
 			</div>
 
 			<div className={cn("mt-5 flex items-center justify-end gap-2")}>

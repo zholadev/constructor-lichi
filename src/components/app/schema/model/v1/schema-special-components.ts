@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from "uuid";
-import { versionComponentBase } from "@/components/app/versions/version-modules";
 import { defaultStyles } from "@/components/entities/defStyles/def_styles";
 import { getRandomImageSchema } from "@/components/app/schema/schema-image-data";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
@@ -8,12 +7,13 @@ import { ISchemaComponent } from "@/components/shared/types/interface-schema-com
  * @todo Removed // @ts-ignore
  */
 
-export const saint_laurent_component_schema = (): ISchemaComponent => {
+export const saint_laurent_component_schema = (
+	version?: string
+): ISchemaComponent => {
 	return {
-		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "saint_laurent",
-		version: versionComponentBase.card.version,
+		version: version ?? "0,1",
 		style: {
 			...defaultStyles.COMPONENTS.card,
 		},

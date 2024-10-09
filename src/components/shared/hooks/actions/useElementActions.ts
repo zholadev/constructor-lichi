@@ -35,7 +35,7 @@ export default function useElementActions(): IElementActions {
 		try {
 			if (!data) {
 				toastMessage(
-					"Произошла ошибка при добавлений - data не найдено в addElement",
+					"Произошла ошибка при добавлений - data не найдено в elementCreate - useElementActions",
 					"error"
 				);
 				return;
@@ -43,7 +43,7 @@ export default function useElementActions(): IElementActions {
 
 			if (!activeElementData?.activeId) {
 				toastMessage(
-					"Вы не выбрали активный элемент в addElement",
+					"Вы не выбрали активный элемент в elementCreate - useElementActions",
 					"error"
 				);
 				return;

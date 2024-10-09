@@ -21,7 +21,8 @@ interface IContainerActions {
 	createSaintLaurentContainerEvent: (
 		type: IContainerType,
 		componentType: ISaintLaurentComponentType,
-		version: string,
+		versionContainer: string,
+		versionComponent: string,
 		cb: () => void
 	) => void;
 	createCategoryListContainerEvent: (
@@ -143,15 +144,18 @@ export default function useContainerActions(): IContainerActions {
 	 * @description Метод для создания контейнера для saint laurent типа
 	 * @param type
 	 * @param componentType
+	 * @param versionContainer
+	 * @param versionComponent
 	 * @param cb
 	 */
 	const createSaintLaurentContainerEvent = (
 		type: IContainerType,
 		componentType: ISaintLaurentComponentType,
-		version: string,
+		versionContainer: string,
+		versionComponent: string,
 		cb: () => void
 	) => {
-		if (!version) {
+		if (!versionContainer) {
 			toastMessage("Вы не выбрали версию контейнера!", "error");
 			return;
 		}
@@ -216,7 +220,7 @@ export default function useContainerActions(): IContainerActions {
 		const createChildren = () => {
 			return Array.from({ length: componentCount }, () => ({
 				id: uuidv4(),
-				...saint_laurent_component_schema(),
+				...saint_laurent_component_schema(versionComponent),
 			}));
 		};
 
@@ -224,7 +228,7 @@ export default function useContainerActions(): IContainerActions {
 			id: uuidv4(),
 			guid: uuidv4(),
 			type: "saint_laurent_container",
-			version,
+			version: versionContainer,
 			style: generateStyles(),
 			// @ts-ignore
 			components: createChildren(),

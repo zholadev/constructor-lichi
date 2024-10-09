@@ -1,4 +1,4 @@
-import { IPermission } from "@/components/entities/permission/types/interface-permission";
+import {IPermission} from "@/components/app/permission/types/interface-permission";
 
 export const permissionBaseComponents: IPermission = {
 	panel: {

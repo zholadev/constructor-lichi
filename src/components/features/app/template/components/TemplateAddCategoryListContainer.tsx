@@ -21,6 +21,7 @@ import { ISchemaSettingCategoryListParams } from "@/components/shared/types/inte
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { ImageIcon } from "@radix-ui/react-icons";
 import useContainerActions from "@/components/shared/hooks/actions/useContainerActions";
+import { versionContainer } from "@/components/app/versions/types/interface-version-container";
 
 interface Country {
 	id: number;
@@ -43,17 +44,22 @@ interface Category {
 	type: string;
 }
 
-const categoryDefaultData: ISchemaSettingCategoryListParams = {
+interface ITemplateAddCategoryList extends ISchemaSettingCategoryListParams {
+	version: string;
+}
+
+const categoryDefaultData: ITemplateAddCategoryList = {
 	shop: 1,
 	category: "new",
 	limit: 11,
 	cardType: "card",
-}
+	version: versionContainer.category_list_container?.[0]?.version,
+};
 
 /**
  * @author Zholaman Zhumanov
  * @created 03.10.2024
- * @description
+ * @description Компонент для создания контейнера особого типа категории товаров
  * @last-updated
  * @update-description
  * @todo
@@ -74,7 +80,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 	const [categoryList, setCategoryList] = React.useState<Category[]>([]);
 
 	const [categoryParamsSetting, setCategoryParamsSetting] =
-		React.useState<ISchemaSettingCategoryListParams>(categoryDefaultData);
+		React.useState<ITemplateAddCategoryList>(categoryDefaultData);
 
 	const toggleDialogHandle = () => {
 		editorAddComponentTypeAction("initial");
@@ -82,8 +88,14 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 		setCategoryParamsSetting(categoryDefaultData);
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных категории
+	 * @param key
+	 * @param value
+	 */
 	const onChangeHandle = (
-		key: keyof ISchemaSettingCategoryListParams,
+		key: keyof ITemplateAddCategoryList,
 		value: string | number
 	) => {
 		setCategoryParamsSetting((prevState) => {
@@ -94,6 +106,10 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 		});
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для получения данных с сайта
+	 */
 	const fetchGetSiteInfo = async () => {
 		await apiFetchHandler(apiMethodSiteSiteInfo, false, {
 			onGetData: (params: IGetApiParams) => {
@@ -107,6 +123,10 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 		});
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для получения данных список категории
+	 */
 	const fetchGetCategoryList = async () => {
 		await apiFetchHandler(
 			apiMethodSiteCategoryList,
@@ -137,18 +157,61 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 	const onConfirmHandle = () =>
 		containerActions.createCategoryListContainerEvent(
 			"swiper",
-			categoryParamsSetting,
+			{
+				shop: categoryParamsSetting.shop,
+				category: categoryParamsSetting.category,
+				limit: categoryParamsSetting.limit,
+				cardType: categoryParamsSetting.cardType,
+			},
+			categoryParamsSetting.version,
 			toggleDialogHandle
 		);
 
 	return (
 		<div className="w-full">
 			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
+				<h3 className={cn("text-sm")}>Выберите версию контейнера</h3>
+				<div className={cn("w-full")}>
+					<Select
+						defaultValue={categoryParamsSetting.version}
+						value={categoryParamsSetting.version}
+						disabled={
+							versionContainer.category_list_container?.length ===
+							0
+						}
+						onValueChange={(value) =>
+							onChangeHandle("version", value)
+						}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Выберите" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{versionContainer.category_list_container?.map(
+									(version) => {
+										return (
+											<SelectItem
+												key={version.version}
+												value={version.version}
+											>
+												{version.version}
+											</SelectItem>
+										);
+									}
+								)}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+			</div>
+
+			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
 				<h3>Выберите страну</h3>
 				<div className={cn("w-full")}>
 					<Select
-						defaultValue={categoryParamsSetting.shop}
-						value={categoryParamsSetting.shop}
+						defaultValue={categoryParamsSetting.shop?.toString()}
+						value={categoryParamsSetting.shop?.toString()}
 						disabled={countryList?.length === 0 || loading}
 						onValueChange={(value) => onChangeHandle("shop", value)}
 					>
@@ -157,11 +220,11 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 						</SelectTrigger>
 						<SelectContent>
 							<SelectGroup>
-								{countryList.map((country, index) => {
+								{countryList.map((country) => {
 									return (
 										<SelectItem
 											key={country.id}
-											value={country.id}
+											value={country.id?.toString()}
 										>
 											{country.name?.ru}
 										</SelectItem>

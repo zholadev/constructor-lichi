@@ -10,9 +10,9 @@ import {
 	video_component_permission,
 	video_outside_component_permission,
 } from "@/components/features/app/modules/components/permission/v1/permission-component";
-import { IPermission } from "@/components/entities/permission/types/interface-permission";
 import { basePermission } from "@/components/shared/hooks/usePermission";
 import { saint_laurent_component_permission } from "@/components/features/app/modules/components/permission/v1/permission-special-components";
+import { IPermission } from "@/components/app/permission/types/interface-permission";
 
 export const permissionGetBaseComponents = (
 	type: ComponentBaseTypes | ComponentSpecialTypes

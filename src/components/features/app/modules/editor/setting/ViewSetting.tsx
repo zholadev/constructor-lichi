@@ -77,13 +77,8 @@ const ViewSetting: React.FC<Props> = (props) => {
 		value: boolean | ISchemaContentMediaType,
 		key: keyof ISchemaSettingsView
 	) => {
-		if (value === undefined || value === null) {
+		if (value === undefined || value === null || !key) {
 			toastMessage("ValueError: value is not defined", "error");
-			return;
-		}
-
-		if (!key) {
-			toastMessage("ValueError: key is not defined", "error");
 			return;
 		}
 
@@ -102,8 +97,8 @@ const ViewSetting: React.FC<Props> = (props) => {
 	const isContentType: boolean = useMemo(() => {
 		return (
 			!!(
-				activeElementData.data?.content?.photo &&
-				activeElementData.data?.content?.video
+				activeElementData?.activeData?.content?.photo &&
+				activeElementData?.activeData?.content?.video
 			) ?? false
 		);
 	}, [activeElementData]);

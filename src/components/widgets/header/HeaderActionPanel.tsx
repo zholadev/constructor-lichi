@@ -50,6 +50,7 @@ const HeaderActionPanel: React.FC = () => {
 			</div>
 
 			<Button
+				disabled={spaceTemplateData?.length === 0}
 				variant="outline"
 				className={cn("text-xs")}
 				onClick={dialog.dialogSchemaView.toggle}

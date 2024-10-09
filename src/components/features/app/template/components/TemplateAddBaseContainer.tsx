@@ -25,6 +25,12 @@ interface TemplateAddBaseContainer {
 	version: string;
 }
 
+const containerValueDefaultState: TemplateAddBaseContainer = {
+	blockType: "initial",
+	countComponent: 1,
+	version: versionContainer.container?.[0]?.version,
+};
+
 /**
  * @author Zholaman Zhumanov
  * @created 02.10.2024
@@ -46,11 +52,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);
 
 	const [containerValue, setContainerValue] =
-		React.useState<TemplateAddBaseContainer>({
-			blockType: "initial",
-			countComponent: 1,
-			version: versionContainer.container?.[0]?.version,
-		});
+		React.useState<TemplateAddBaseContainer>(containerValueDefaultState);
 
 	const versionTypeData = useMemo(() => {
 		return containerValue.blockType === "swiper"
@@ -87,12 +89,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 	const toggleDialogHandle = () => {
 		editorAddComponentTypeAction("initial");
 		dialogAddTemplateAction(!dialogAddTemplate);
-		onChangeContainerValue("blockType", "initial");
-		onChangeContainerValue("countComponent", 1);
-		onChangeContainerValue(
-			"version",
-			versionContainer.container?.[0]?.version
-		);
+		setContainerValue(containerValueDefaultState)
 	};
 
 	/**
@@ -151,7 +148,10 @@ const TemplateAddBaseContainer: React.FC = () => {
 					<Select
 						defaultValue={containerValue.version}
 						value={containerValue.version}
-						disabled={versionTypeData?.length === 0}
+						disabled={
+							versionTypeData?.length === 0 ||
+							containerValue.blockType === "initial"
+						}
 						onValueChange={(value) =>
 							onChangeContainerValue("version", value)
 						}

@@ -13,7 +13,7 @@ export const saint_laurent_component_schema = (
 	return {
 		guid: uuidv4(),
 		type: "saint_laurent",
-		version: version ?? "0,1",
+		version,
 		style: {
 			...defaultStyles.COMPONENTS.card,
 		},

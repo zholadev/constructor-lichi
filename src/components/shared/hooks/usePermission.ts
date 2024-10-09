@@ -11,9 +11,9 @@ import {
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
 import { IPermission } from "@/components/app/permission/types/interface-permission";
-import { permissionGetBaseComponents } from "@/components/app/permission/model/components/v1/permission-get-base-components";
+import { permissionGetComponents } from "@/components/app/permission/model/components/permission-get-components";
 import { permissionGetElementsData } from "@/components/app/permission/model/elements/v1/permission-get-elements-data";
-import { permissionGetContainersData } from "@/components/app/permission/model/containers/v1/permission-get-containers-data";
+import { permissionGetContainersData } from "@/components/app/permission/model/containers/permission-get-containers-data";
 
 export const basePermission: IPermission = {
 	panel: {
@@ -136,6 +136,10 @@ export default function usePermission(): IPermission {
 		return activeElementData?.activeData?.type ?? "none";
 	}, [activeElementData]);
 
+	const activeTypeVersion: string = useMemo(() => {
+		return activeElementData?.activeData?.version ?? "";
+	}, [activeElementData]);
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Получаем активный компонент с permission данными
@@ -143,13 +147,25 @@ export default function usePermission(): IPermission {
 	const currentPermission = useMemo(() => {
 		switch (typeActiveElement) {
 			case "component":
-				return permissionGetBaseComponents(typeDataActiveElement);
+				return permissionGetComponents(
+					typeDataActiveElement,
+					activeTypeVersion
+				);
 			case "element":
-				return permissionGetElementsData(typeDataActiveElement);
+				return permissionGetElementsData(
+					typeDataActiveElement,
+					activeTypeVersion
+				);
 			case "container":
-				return permissionGetContainersData(typeDataActiveElement);
+				return permissionGetContainersData(
+					typeDataActiveElement,
+					activeTypeVersion
+				);
 			case "swiper":
-				return permissionGetContainersData(typeDataActiveElement);
+				return permissionGetContainersData(
+					typeDataActiveElement,
+					activeTypeVersion
+				);
 			default:
 				return false;
 		}

@@ -7,7 +7,7 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 interface Props {
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
-	imgAutoHeight: boolean
+	imgAutoHeight: boolean;
 }
 
 /**
@@ -36,7 +36,9 @@ const MediaContainer: React.FC<Props> = (props) => {
 	) : (
 		<ImageRender
 			imageData={componentData.content}
-			fullHeight={containerData?.settings?.view?.heightFull && !imgAutoHeight}
+			fullHeight={
+				containerData?.settings?.view?.heightFull && !imgAutoHeight
+			}
 		/>
 	);
 };

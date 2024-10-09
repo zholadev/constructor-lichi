@@ -1,4 +1,4 @@
-import { IPermission } from "@/components/entities/permission/types/interface-permission";
+import { IPermission } from "@/components/app/permission/types/interface-permission";
 
 export const baseContainerPermission: IPermission = {
 	panel: {
@@ -85,7 +85,7 @@ export const baseContainerPermission: IPermission = {
 	},
 };
 
-export const container_permission: IPermission = {
+export const container_permission_v1: IPermission = {
 	...baseContainerPermission,
 	panel: {
 		...baseContainerPermission.panel,
@@ -109,7 +109,7 @@ export const container_permission: IPermission = {
 	},
 };
 
-export const swiper_container_permission: IPermission = {
+export const swiper_container_permission_v1: IPermission = {
 	...baseContainerPermission,
 	panel: {
 		...baseContainerPermission.panel,
@@ -131,7 +131,7 @@ export const swiper_container_permission: IPermission = {
 	},
 };
 
-export const saint_laurent_container_permission: IPermission = {
+export const saint_laurent_container_permission_v1: IPermission = {
 	...baseContainerPermission,
 	panel: {
 		...baseContainerPermission.panel,
@@ -154,7 +154,7 @@ export const saint_laurent_container_permission: IPermission = {
 	},
 };
 
-export const category_list_container_permission: IPermission = {
+export const category_list_container_permission_v1: IPermission = {
 	...baseContainerPermission,
 	panel: {
 		...baseContainerPermission.panel,

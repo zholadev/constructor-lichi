@@ -1,116 +1,116 @@
 import { IPermission } from "@/components/app/permission/types/interface-permission";
-import { permissionBaseComponents } from "@/components/app/permission/model/components/v1/permission-base-components";
+import { permissionBaseComponentsV1 } from "@/components/app/permission/model/components/v1/permission-base-components";
 
-export const card_component_permission: IPermission = {
-	...permissionBaseComponents,
+export const card_component_permission_v1: IPermission = {
+	...permissionBaseComponentsV1,
 	panel: {
-		...permissionBaseComponents.panel,
+		...permissionBaseComponentsV1.panel,
 	},
 	editor: {
-		...permissionBaseComponents.editor,
+		...permissionBaseComponentsV1.editor,
 	},
 	styles: {
-		...permissionBaseComponents.styles,
+		...permissionBaseComponentsV1.styles,
 	},
 	content: {
-		...permissionBaseComponents.content,
+		...permissionBaseComponentsV1.content,
 	},
 	setting: {
-		...permissionBaseComponents.setting,
+		...permissionBaseComponentsV1.setting,
 	},
 };
 
-export const card_outside_component_permission: IPermission = {
-	...permissionBaseComponents,
+export const card_outside_component_permission_v1: IPermission = {
+	...permissionBaseComponentsV1,
 	panel: {
-		...permissionBaseComponents.panel,
+		...permissionBaseComponentsV1.panel,
 	},
 	editor: {
-		...permissionBaseComponents.editor,
+		...permissionBaseComponentsV1.editor,
 	},
 	styles: {
-		...permissionBaseComponents.styles,
+		...permissionBaseComponentsV1.styles,
 	},
 	content: {
-		...permissionBaseComponents.content,
+		...permissionBaseComponentsV1.content,
 	},
 	setting: {
-		...permissionBaseComponents.setting,
+		...permissionBaseComponentsV1.setting,
 	},
 };
 
-export const album_component_permission: IPermission = {
-	...permissionBaseComponents,
+export const album_component_permission_v1: IPermission = {
+	...permissionBaseComponentsV1,
 	panel: {
-		...permissionBaseComponents.panel,
+		...permissionBaseComponentsV1.panel,
 	},
 	editor: {
-		...permissionBaseComponents.editor,
+		...permissionBaseComponentsV1.editor,
 	},
 	styles: {
-		...permissionBaseComponents.styles,
+		...permissionBaseComponentsV1.styles,
 	},
 	content: {
-		...permissionBaseComponents.content,
+		...permissionBaseComponentsV1.content,
 	},
 	setting: {
-		...permissionBaseComponents.setting,
+		...permissionBaseComponentsV1.setting,
 	},
 };
 
-export const album_outside_component_permission: IPermission = {
-	...permissionBaseComponents,
+export const album_outside_component_permission_v1: IPermission = {
+	...permissionBaseComponentsV1,
 	panel: {
-		...permissionBaseComponents.panel,
+		...permissionBaseComponentsV1.panel,
 	},
 	editor: {
-		...permissionBaseComponents.editor,
+		...permissionBaseComponentsV1.editor,
 	},
 	styles: {
-		...permissionBaseComponents.styles,
+		...permissionBaseComponentsV1.styles,
 	},
 	content: {
-		...permissionBaseComponents.content,
+		...permissionBaseComponentsV1.content,
 	},
 	setting: {
-		...permissionBaseComponents.setting,
+		...permissionBaseComponentsV1.setting,
 	},
 };
 
-export const video_component_permission: IPermission = {
-	...permissionBaseComponents,
+export const video_component_permission_v1: IPermission = {
+	...permissionBaseComponentsV1,
 	panel: {
-		...permissionBaseComponents.panel,
+		...permissionBaseComponentsV1.panel,
 	},
 	editor: {
-		...permissionBaseComponents.editor,
+		...permissionBaseComponentsV1.editor,
 	},
 	styles: {
-		...permissionBaseComponents.styles,
+		...permissionBaseComponentsV1.styles,
 	},
 	content: {
-		...permissionBaseComponents.content,
+		...permissionBaseComponentsV1.content,
 	},
 	setting: {
-		...permissionBaseComponents.setting,
+		...permissionBaseComponentsV1.setting,
 	},
 };
 
-export const video_outside_component_permission: IPermission = {
-	...permissionBaseComponents,
+export const video_outside_component_permission_v1: IPermission = {
+	...permissionBaseComponentsV1,
 	panel: {
-		...permissionBaseComponents.panel,
+		...permissionBaseComponentsV1.panel,
 	},
 	editor: {
-		...permissionBaseComponents.editor,
+		...permissionBaseComponentsV1.editor,
 	},
 	styles: {
-		...permissionBaseComponents.styles,
+		...permissionBaseComponentsV1.styles,
 	},
 	content: {
-		...permissionBaseComponents.content,
+		...permissionBaseComponentsV1.content,
 	},
 	setting: {
-		...permissionBaseComponents.setting,
+		...permissionBaseComponentsV1.setting,
 	},
 };

@@ -8,6 +8,7 @@ import { ISchemaSettings } from "@/components/shared/types/interface-schema-sett
 
 export interface ISchemaComponent {
 	id: string;
+	guid: string;
 	type: ComponentBaseTypes | ComponentSpecialTypes;
 	version: string;
 	style: Record<string, unknown>;

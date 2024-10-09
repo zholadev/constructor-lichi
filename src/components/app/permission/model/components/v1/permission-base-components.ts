@@ -1,6 +1,6 @@
-import {IPermission} from "@/components/app/permission/types/interface-permission";
+import { IPermission } from "@/components/app/permission/types/interface-permission";
 
-export const permissionBaseComponents: IPermission = {
+export const permissionBaseComponentsV1: IPermission = {
 	panel: {
 		styles: true,
 		content: true,

@@ -1,21 +1,21 @@
 import { IPermission } from "@/components/app/permission/types/interface-permission";
-import { permissionSpecialComponents } from "@/components/app/permission/model/components/v1/permission-special-components";
+import { permissionSpecialComponentsV1 } from "@/components/app/permission/model/components/v1/permission-special-components";
 
-export const saint_laurent_component_permission: IPermission = {
-	...permissionSpecialComponents,
+export const saint_laurent_component_permission_v1: IPermission = {
+	...permissionSpecialComponentsV1,
 	panel: {
-		...permissionSpecialComponents.panel,
+		...permissionSpecialComponentsV1.panel,
 	},
 	editor: {
-		...permissionSpecialComponents.editor,
+		...permissionSpecialComponentsV1.editor,
 	},
 	styles: {
-		...permissionSpecialComponents.styles,
+		...permissionSpecialComponentsV1.styles,
 	},
 	content: {
-		...permissionSpecialComponents.content,
+		...permissionSpecialComponentsV1.content,
 	},
 	setting: {
-		...permissionSpecialComponents.setting,
+		...permissionSpecialComponentsV1.setting,
 	},
 };

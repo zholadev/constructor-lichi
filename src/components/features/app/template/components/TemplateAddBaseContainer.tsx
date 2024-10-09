@@ -89,7 +89,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 	const toggleDialogHandle = () => {
 		editorAddComponentTypeAction("initial");
 		dialogAddTemplateAction(!dialogAddTemplate);
-		setContainerValue(containerValueDefaultState)
+		setContainerValue(containerValueDefaultState);
 	};
 
 	/**

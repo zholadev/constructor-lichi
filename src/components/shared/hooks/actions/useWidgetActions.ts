@@ -6,10 +6,11 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { v4 as uuidv4 } from "uuid";
 import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface IWidgetActions {
 	widgetAddElement: (data: IElementTotal) => void;
-	widgetCreateComponent: (data: unknown) => void;
+	widgetCreateComponent: (data: ISchemaComponent) => void;
 }
 
 /**
@@ -113,7 +114,7 @@ export default function useWidgetActions(): IWidgetActions {
 	 * @param data
 	 */
 	const widgetCreateComponent = (
-		data: unknown
+		data: ISchemaComponent
 	): ISchemaContainer[] | void => {
 		try {
 			if (!data) {
@@ -143,8 +144,8 @@ export default function useWidgetActions(): IWidgetActions {
 						const updatedStoriesComponents = [
 							...component.content.stories.components,
 							{
-								id: uuidv4(),
 								...data,
+								id: uuidv4(),
 							},
 						];
 

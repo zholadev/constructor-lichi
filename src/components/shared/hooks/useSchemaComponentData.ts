@@ -24,20 +24,21 @@ import { ISchemaComponent } from "@/components/shared/types/interface-schema-com
  * @constructor
  */
 export default function useSchemaComponentData(): (
-	type: ComponentBaseTypes | ComponentSpecialTypes
+	type: ComponentBaseTypes | ComponentSpecialTypes,
+	version: string
 ) => ISchemaComponent {
-	return (type: ComponentBaseTypes): ISchemaComponent => {
+	return (type: ComponentBaseTypes, version: string): ISchemaComponent => {
 		const schemaMap: Record<
 			ComponentBaseTypes | ComponentSpecialTypes,
 			ISchemaComponent
 		> = {
-			card: card_component_schema(),
-			card_outside: card_outside_component_schema(),
-			album: album_component_schema(),
-			album_outside: album_outside_component_schema(),
-			video: video_component_schema(),
-			video_outside: video_outside_component_schema(),
-			saint_laurent: saint_laurent_component_schema(),
+			card: card_component_schema(version),
+			card_outside: card_outside_component_schema(version),
+			album: album_component_schema(version),
+			album_outside: album_outside_component_schema(version),
+			video: video_component_schema(version),
+			video_outside: video_outside_component_schema(version),
+			saint_laurent: saint_laurent_component_schema(version),
 		};
 
 		return schemaMap[type];

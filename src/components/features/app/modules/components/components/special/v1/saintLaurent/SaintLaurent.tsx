@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
 import BaseElementWrapper from "@/components/features/app/modules/elements/container/v1/BaseElementWrapper";
 import ComponentAction from "@/components/features/app/activeElement/wrappers/v1/component/ComponentAction";
@@ -37,6 +37,19 @@ const SaintLaurent: React.FC<Props> = (props) => {
 
 	const styleFormatted = useStylesFormatted();
 
+	const currentStyleImage = useMemo(() => {
+		if (componentLen === 1) {
+			return styles.single;
+		}
+		if (componentIndex === 0) {
+			return styles.first;
+		}
+		if (componentIndex === 1) {
+			return styles.second;
+		}
+		return "";
+	}, [componentLen, componentIndex]);
+
 	return (
 		<ComponentAction
 			containerId={containerId}
@@ -51,20 +64,13 @@ const SaintLaurent: React.FC<Props> = (props) => {
 						!componentData.settings?.view?.darkTheme
 					),
 				}}
-				className={
-					componentLen === 1
-						? styles.single
-						: componentIndex === 0
-							? styles.first
-							: componentIndex === 1
-								? styles.second
-								: ""
-				}
+				className={currentStyleImage}
 			>
 				<figure>
 					<MediaContainer
 						componentData={componentData}
 						containerData={containerData}
+						imgAutoHeight
 					/>
 
 					<BaseElementWrapper

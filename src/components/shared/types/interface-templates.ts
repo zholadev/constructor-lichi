@@ -21,23 +21,8 @@ export interface ITemplateBaseSchema extends ITemplateBase {
 export interface IComponentBaseAddList {
 	id: number;
 	type: ComponentBaseTypes;
-	version: string;
 }
 export interface IComponentSpecialAddList {
 	id: number;
 	type: ComponentSpecialTypes;
-	version: string;
-}
-
-export interface IComponentBaseSchema {
-	id: string;
-	type: ComponentBaseTypes;
-	version: string;
-	style: Record<string, unknown>;
-	elements: [];
-	content: {
-		photo: {
-			thumbnail: unknown;
-		};
-	};
 }

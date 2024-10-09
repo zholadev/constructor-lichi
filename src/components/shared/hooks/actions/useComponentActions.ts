@@ -2,8 +2,6 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import { v4 as uuidv4 } from "uuid";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import useActiveElement from "@/components/shared/hooks/useActiveElement";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
@@ -12,7 +10,7 @@ import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpda
 import { errorMessage } from "@/components/shared/constants/text";
 
 interface IComponentActions {
-	componentAppend: (data: unknown) => void;
+	componentAppend: (data: ISchemaComponent) => void;
 	componentCreate: (data: ISchemaComponent) => void;
 }
 
@@ -28,14 +26,12 @@ interface IComponentActions {
  */
 export default function useComponentActions(): IComponentActions {
 	const toastMessage = useToastMessage();
-	const activeElementHandle = useActiveElement();
-	const dialog = useDialogAction();
 	const { spaceTemplateDataAction } = useDispatchAction();
 	const { containerUpdateWrapper } = useUpdateContainerWrapper();
 	const activeElementData = useActiveElementObserver();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorActiveElement, editorSelectAddComponent } = useAppSelector(
+	const { editorSelectAddComponent } = useAppSelector(
 		(state) => state.editor
 	);
 
@@ -77,7 +73,9 @@ export default function useComponentActions(): IComponentActions {
 	 * @description Метод для добавления компонента в существующий контейнер
 	 * @param data
 	 */
-	const componentAppend = (data: unknown): ISchemaContainer[] | void => {
+	const componentAppend = (
+		data: ISchemaComponent
+	): ISchemaContainer[] | void => {
 		try {
 			if (!data) {
 				toastMessage(
@@ -104,8 +102,8 @@ export default function useComponentActions(): IComponentActions {
 						const updatedComponents = [
 							...container.components,
 							{
-								id: uuidv4(),
 								...data,
+								id: uuidv4(),
 							},
 						];
 

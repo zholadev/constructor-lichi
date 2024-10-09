@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from "uuid";
-import { versionComponentBase } from "@/components/app/versions/version-modules";
 import { defaultStyles } from "@/components/entities/defStyles/def_styles";
 import { getRandomImageSchema } from "@/components/app/schema/schema-image-data";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
@@ -8,12 +7,11 @@ import { ISchemaComponent } from "@/components/shared/types/interface-schema-com
  * @todo Removed // @ts-ignore
  */
 
-export const card_component_schema = (): ISchemaComponent => {
+export const card_component_schema = (version: string): ISchemaComponent => {
 	return {
-		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "card",
-		version: versionComponentBase.card.version,
+		version,
 		style: {
 			...defaultStyles.COMPONENTS.card,
 		},
@@ -40,12 +38,13 @@ export const card_component_schema = (): ISchemaComponent => {
 	};
 };
 
-export const card_outside_component_schema = (): ISchemaComponent => {
+export const card_outside_component_schema = (
+	version: string
+): ISchemaComponent => {
 	return {
-		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "card_outside",
-		version: versionComponentBase.card.version,
+		version,
 		style: {
 			...defaultStyles.COMPONENTS.card_outside,
 		},
@@ -72,12 +71,11 @@ export const card_outside_component_schema = (): ISchemaComponent => {
 	};
 };
 
-export const album_component_schema = (): ISchemaComponent => {
+export const album_component_schema = (version: string): ISchemaComponent => {
 	return {
-		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "album",
-		version: versionComponentBase.card.version,
+		version,
 		style: {
 			...defaultStyles.COMPONENTS.album,
 		},
@@ -103,12 +101,13 @@ export const album_component_schema = (): ISchemaComponent => {
 	};
 };
 
-export const album_outside_component_schema = (): ISchemaComponent => {
+export const album_outside_component_schema = (
+	version: string
+): ISchemaComponent => {
 	return {
-		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "album_outside",
-		version: versionComponentBase.card.version,
+		version,
 		style: {
 			...defaultStyles.COMPONENTS.album_outside,
 		},
@@ -135,12 +134,11 @@ export const album_outside_component_schema = (): ISchemaComponent => {
 	};
 };
 
-export const video_component_schema = (): ISchemaComponent => {
+export const video_component_schema = (version: string): ISchemaComponent => {
 	return {
-		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "video",
-		version: versionComponentBase.card.version,
+		version,
 		style: {
 			...defaultStyles.COMPONENTS.video,
 		},
@@ -172,12 +170,13 @@ export const video_component_schema = (): ISchemaComponent => {
 	};
 };
 
-export const video_outside_component_schema = (): ISchemaComponent => {
+export const video_outside_component_schema = (
+	version: string
+): ISchemaComponent => {
 	return {
-		// id: uuidv4(),
 		guid: uuidv4(),
 		type: "video_outside",
-		version: versionComponentBase.card.version,
+		version,
 		style: {
 			...defaultStyles.COMPONENTS.video_outside,
 		},

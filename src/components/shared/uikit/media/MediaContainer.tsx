@@ -7,6 +7,7 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 interface Props {
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
+	imgAutoHeight: boolean
 }
 
 /**
@@ -21,7 +22,7 @@ interface Props {
  * @constructor
  */
 const MediaContainer: React.FC<Props> = (props) => {
-	const { componentData, containerData } = props;
+	const { componentData, containerData, imgAutoHeight = false } = props;
 
 	/**
 	 * @description Получаем тип контента для вывода
@@ -35,7 +36,7 @@ const MediaContainer: React.FC<Props> = (props) => {
 	) : (
 		<ImageRender
 			imageData={componentData.content}
-			fullHeight={containerData?.settings?.view?.heightFull ?? false}
+			fullHeight={containerData?.settings?.view?.heightFull && !imgAutoHeight}
 		/>
 	);
 };

@@ -59,6 +59,7 @@ export const baseContainerPermission: IPermission = {
 		link: false,
 		textFill: false,
 		stories: false,
+		animation: false,
 	},
 	setting: {
 		show: {

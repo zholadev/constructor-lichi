@@ -22,42 +22,51 @@ interface IStylesValues {
 }
 
 interface Props {
-	onStyleChange?: (values: { margin: string; padding: string }) => void;
-	styles?: Record<string, unknown>;
+	onStyleChange?: (values: { margin: number[]; padding: number[] }) => void;
+	styles?: { margin: number[]; padding: number[] };
 	hideTitle?: boolean;
 	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
 
-function convertToCssString(styles: IStylesValues): {
-	margin: string;
-	padding: string;
+function convertToCssArray(styles: {
+	margin: Record<Sides, number>;
+	padding: Record<Sides, number>;
+}): {
+	margin: number[];
+	padding: number[];
 } {
 	const { margin, padding } = styles;
 
-	const marginString = `${margin.top}px ${margin.right}px ${margin.bottom}px ${margin.left}px`;
-	const paddingString = `${padding.top}px ${padding.right}px ${padding.bottom}px ${padding.left}px`;
+	// Преобразуем объект margin в массив значений по порядку [top, right, bottom, left]
+	const marginArray = [
+		margin.top || 0,
+		margin.right || 0,
+		margin.bottom || 0,
+		margin.left || 0,
+	];
+
+	// Преобразуем объект padding в массив значений по порядку [top, right, bottom, left]
+	const paddingArray = [
+		padding.top || 0,
+		padding.right || 0,
+		padding.bottom || 0,
+		padding.left || 0,
+	];
 
 	return {
-		margin: marginString,
-		padding: paddingString,
+		margin: marginArray,
+		padding: paddingArray,
 	};
 }
 
-function convertToObject(styles: { margin: string; padding: string }) {
-	const marginValues = styles?.margin ? styles.margin.split(" ") : [];
-	const paddingValues = styles?.padding ? styles.padding.split(" ") : [];
-
+function convertToObject(styles: { margin: number[]; padding: number[] }) {
+	// Если передан массив длиной 4 для margin, берем значения из него, иначе используем [0, 0, 0, 0]
 	const [marginTop, marginRight, marginBottom, marginLeft] =
-		marginValues.length === 4
-			? marginValues.map((value) => parseInt(value.replace("px", ""), 10))
-			: [0, 0, 0, 0];
+		styles?.margin.length === 4 ? styles.margin : [0, 0, 0, 0];
 
+	// Если передан массив длиной 4 для padding, берем значения из него, иначе используем [0, 0, 0, 0]
 	const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
-		paddingValues.length === 4
-			? paddingValues.map((value) =>
-					parseInt(value.replace("px", ""), 10)
-				)
-			: [0, 0, 0, 0];
+		styles?.padding.length === 4 ? styles.padding : [0, 0, 0, 0];
 
 	return {
 		margin: {
@@ -103,7 +112,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 		left: PinLeftIcon,
 		right: PinRightIcon,
 	};
-	console.log("stylesValues", stylesValues);
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления значение стилей
@@ -139,8 +148,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 				};
 
 				if (onStyleChange) {
-					const covertSpacing = convertToCssString(updateValues);
-					console.log("covertSpacing", covertSpacing)
+					const covertSpacing = convertToCssArray(updateValues);
 					onStyleChange(covertSpacing);
 				}
 

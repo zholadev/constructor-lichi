@@ -10,6 +10,7 @@ import SavePage from "@/components/components/editor/SavePage";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import EditorSetting from "@/components/components/editor/EditorSetting";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import { CopyIcon } from "@radix-ui/react-icons";
 
 /**
  * @author Zholaman Zhumanov
@@ -48,6 +49,15 @@ const HeaderActionPanel: React.FC = () => {
 				<span>{spaceModeDeviceType}</span> |{" "}
 				<span>{spaceModeTheme}</span> | <span>{spaceModeLanguage}</span>
 			</div>
+
+			<Button
+				disabled={spaceTemplateData?.length === 0}
+				variant="outline"
+				className={cn("text-xs flex items-center gap-2")}
+				onClick={dialog.dialogCopyTemplate.toggle}
+			>
+				<CopyIcon /> Копировать шаблон
+			</Button>
 
 			<Button
 				disabled={spaceTemplateData?.length === 0}

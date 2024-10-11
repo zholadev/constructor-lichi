@@ -1,3 +1,5 @@
+import {DeviceType} from "@/components/shared/types/types";
+
 export interface IGetApiParams {
 	data: any;
 	errorFields: [];
@@ -79,4 +81,10 @@ export interface INextImageData {
 	blurDataURL: string;
 	blurWidth: number;
 	blurHeight: number;
+}
+
+export interface IDeviceType {
+	id: number;
+	name: string;
+	value: DeviceType;
 }

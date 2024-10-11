@@ -57,7 +57,11 @@ const BoardToolbar: React.FC = () => {
 			)}
 		>
 			<div className="flex items-center justify-center flex-row text-sm text-muted-foreground">
-				<h3 className={cn("cursor-pointer")}>
+				<h3
+					className={cn(
+						"cursor-pointer text-xs border border-dashed p-4 rounded-md"
+					)}
+				>
 					Нажмите сюда чтобы убрать выделение с активного элемента
 				</h3>
 			</div>

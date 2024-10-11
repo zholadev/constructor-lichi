@@ -2,7 +2,7 @@ import React from "react";
 import styles from "@/components/styles/card.module.sass";
 import { ISchemaContentPhoto } from "@/components/shared/types/interface-schema-content";
 import useGetImageContent from "@/components/shared/hooks/useGetImageContent";
-import { cn } from "@/components/lib/utils";
+import useDeviceHeightProperty from "@/components/shared/hooks/useDeviceHeightProperty";
 
 interface Props {
 	imageData: ISchemaContentPhoto;
@@ -25,14 +25,16 @@ const ImageRender: React.FC<Props> = (props) => {
 
 	const getImage = useGetImageContent(imageData);
 
+	const heightDeviceProperty = useDeviceHeightProperty();
+
 	return (
 		<img
 			src={getImage?.url}
 			alt=""
-			className={cn(
-				[],
-				fullHeight ? styles.image_render_cover : styles.image_render
-			)}
+			style={{
+				height: fullHeight ? heightDeviceProperty(fullHeight) : "auto",
+			}}
+			className={styles.image_render}
 		/>
 	);
 };

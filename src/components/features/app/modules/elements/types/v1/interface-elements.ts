@@ -40,3 +40,4 @@ export interface ITimerElement extends IElementSchema {
 }
 
 export type IElementTotal = IButtonElement | ITextElement | ITimerElement;
+export type ISchemaElements = IElementSchema;

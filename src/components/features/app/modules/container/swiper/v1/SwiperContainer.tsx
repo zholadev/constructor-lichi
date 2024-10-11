@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { SwiperSettings } from "@/components/shared/types/interface-schema-settings";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
@@ -13,6 +13,7 @@ import { Autoplay, Pagination, Controller } from "swiper/modules";
 import { cn } from "@/components/lib/utils";
 import "swiper/css/pagination";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import useDeviceHeightProperty from "@/components/shared/hooks/useDeviceHeightProperty";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
@@ -38,10 +39,11 @@ const SwiperContainer: React.FC<Props> = (props) => {
 	const { componentsData, swiperSettings, swiperStyles, containerData } =
 		props;
 
-	const swiperRef = useRef({});
+	const swiperRef = useRef<SwiperRef>();
 
-	const styleFormatted = useStylesFormatted();
 	const previewMode = usePreviewMode();
+	const styleFormatted = useStylesFormatted();
+	const heightDeviceProperty = useDeviceHeightProperty();
 
 	const swiperSettingsStyles = useMemo(() => {
 		return `swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`;
@@ -100,6 +102,9 @@ const SwiperContainer: React.FC<Props> = (props) => {
 				{...updatedSwiperSettings}
 				pagination={swiperSettings.pagination}
 				style={{
+					height: heightDeviceProperty(
+						containerData.settings?.view?.heightFull ?? false
+					),
 					...styleFormatted(
 						swiperStyles,
 						!containerData.settings?.view?.darkTheme

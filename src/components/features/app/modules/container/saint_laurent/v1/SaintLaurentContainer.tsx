@@ -6,9 +6,10 @@ import SpecialComponentRender from "@/components/features/app/modules/components
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { DeviceType } from "@/components/shared/types/types";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import useDeviceHeightProperty from "@/components/shared/hooks/useDeviceHeightProperty";
 
 interface Props {
-	componentsData: ISchemaComponent;
+	componentsData: ISchemaComponent[];
 	containerData: ISchemaContainer;
 }
 
@@ -27,6 +28,7 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 	const { componentsData, containerData } = props;
 
 	const styleFormatted = useStylesFormatted();
+	const heightDeviceProperty = useDeviceHeightProperty();
 
 	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
 
@@ -50,9 +52,9 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 					`saint-laurent-container-v1 ${deviceMode === "tablet" ? "saint_laurent_container_table" : deviceMode === "mobile" ? "saint_laurent_container_mobile" : ""}`
 				)}
 				style={{
-					height: containerData.settings?.view?.heightFull
-						? "100vh"
-						: "100%",
+					height: heightDeviceProperty(
+						containerData.settings?.view?.heightFull ?? false
+					),
 					...styleFormatted(
 						containerData.style,
 						!containerData?.settings?.view?.darkTheme

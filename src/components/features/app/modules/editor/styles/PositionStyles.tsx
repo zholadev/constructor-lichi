@@ -3,19 +3,23 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
-import {
-	AlignCenterVertical,
-	AlignEndVertical,
-	AlignStartVertical,
-	AlignVerticalDistributeCenter,
-	AlignVerticalJustifyCenter,
-	AlignVerticalJustifyEnd,
-	AlignVerticalJustifyStart,
-	AlignVerticalSpaceAround,
-	AlignVerticalSpaceBetween,
-} from "lucide-react";
 import usePermission from "@/components/shared/hooks/usePermission";
 import { Button } from "@/components/shared/shadcn/ui/button";
+import {
+	AlignBottomIcon,
+	AlignCenterVerticallyIcon,
+	AlignLeftIcon,
+	AlignTopIcon,
+	SpaceBetweenVerticallyIcon,
+	SpaceEvenlyVerticallyIcon,
+	AlignRightIcon,
+} from "@radix-ui/react-icons";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/shared/shadcn/ui/tooltip";
 
 type Display = "flex";
 
@@ -127,13 +131,37 @@ const PositionStyles: React.FC<Props> = (props) => {
 	const justifyContentOptions: Array<{
 		value: JustifyContent;
 		icon: React.ReactNode;
+		description?: string;
 	}> = [
-		{ value: "flex-start", icon: <AlignVerticalJustifyStart /> },
-		{ value: "center", icon: <AlignVerticalJustifyCenter /> },
-		{ value: "flex-end", icon: <AlignVerticalJustifyEnd /> },
-		{ value: "space-between", icon: <AlignVerticalSpaceBetween /> },
-		{ value: "space-around", icon: <AlignVerticalSpaceAround /> },
-		{ value: "space-evenly", icon: <AlignVerticalDistributeCenter /> },
+		{
+			value: "flex-start",
+			icon: <AlignTopIcon />,
+			description:
+				"Выравнивает элементы по началу основной оси (слева в случае горизонтального направления).",
+		},
+		{
+			value: "center",
+			icon: <AlignCenterVerticallyIcon />,
+			description: "Выравнивает элементы по центру основной оси.",
+		},
+		{
+			value: "flex-end",
+			icon: <AlignBottomIcon />,
+			description:
+				"Выравнивает элементы по концу основной оси (справа в случае горизонтального направления).",
+		},
+		{
+			value: "space-between",
+			icon: <SpaceBetweenVerticallyIcon />,
+			description:
+				"Элементы распределяются по всей длине контейнера, первый элемент прижат к началу, последний — к концу, а остальные — с равными промежутками.",
+		},
+		{
+			value: "space-evenly",
+			icon: <SpaceEvenlyVerticallyIcon />,
+			description:
+				"Элементы распределяются с равными промежутками как между элементами, так и перед первым и после последнего элемента.",
+		},
 	];
 
 	/**
@@ -143,10 +171,25 @@ const PositionStyles: React.FC<Props> = (props) => {
 	const alignItemsOptions: Array<{
 		value: AlignItems;
 		icon: React.ReactNode;
+		description?: string;
 	}> = [
-		{ value: "flex-start", icon: <AlignStartVertical /> },
-		{ value: "center", icon: <AlignCenterVertical /> },
-		{ value: "flex-end", icon: <AlignEndVertical /> },
+		{
+			value: "flex-start",
+			icon: <AlignLeftIcon />,
+			description:
+				"Элементы выравниваются по началу поперечной оси (верхняя часть в случае вертикального направления).",
+		},
+		{
+			value: "center",
+			icon: <AlignCenterVerticallyIcon />,
+			description: "Элементы выравниваются по центру поперечной оси.",
+		},
+		{
+			value: "flex-end",
+			icon: <AlignRightIcon />,
+			description:
+				"Элементы выравниваются по концу поперечной оси (нижняя часть в случае вертикального направления).",
+		},
 	];
 
 	useEffect(() => {
@@ -192,25 +235,33 @@ const PositionStyles: React.FC<Props> = (props) => {
 					>
 						{justifyContentOptions.map((content) => {
 							return (
-								<button
-									key={content.value}
-									type="button"
-									className={cn(
-										"w-[30px] h-[30px] border flex items-center justify-center",
-										stylesValues.justifyContent ===
-											content.value
-											? "text-blue-400"
-											: ""
-									)}
-									onClick={() => {
-										onChangeStylesHandle(
-											"justifyContent",
-											content.value
-										);
-									}}
-								>
-									{content.icon}
-								</button>
+								<TooltipProvider key={content.value}>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<button
+												type="button"
+												className={cn(
+													"w-[30px] h-[30px] border flex items-center justify-center",
+													stylesValues.justifyContent ===
+														content.value
+														? "text-blue-400"
+														: ""
+												)}
+												onClick={() => {
+													onChangeStylesHandle(
+														"justifyContent",
+														content.value
+													);
+												}}
+											>
+												{content.icon}
+											</button>
+										</TooltipTrigger>
+										<TooltipContent>
+											<p>{content.description}</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
 							);
 						})}
 					</div>
@@ -228,25 +279,34 @@ const PositionStyles: React.FC<Props> = (props) => {
 					<div className={cn("w-full grid grid-cols-6 mt-3 gap-2")}>
 						{alignItemsOptions.map((content) => {
 							return (
-								<button
-									key={content.value}
-									type="button"
-									className={cn(
-										"w-[30px] h-[30px] border flex items-center justify-center",
-										stylesValues.alignItems ===
-											content.value
-											? "text-blue-400"
-											: ""
-									)}
-									onClick={() => {
-										onChangeStylesHandle(
-											"alignItems",
-											content.value
-										);
-									}}
-								>
-									{content.icon}
-								</button>
+								<TooltipProvider key={content.value}>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<button
+												key={content.value}
+												type="button"
+												className={cn(
+													"w-[30px] h-[30px] border flex items-center justify-center",
+													stylesValues.alignItems ===
+														content.value
+														? "text-blue-400"
+														: ""
+												)}
+												onClick={() => {
+													onChangeStylesHandle(
+														"alignItems",
+														content.value
+													);
+												}}
+											>
+												{content.icon}
+											</button>
+										</TooltipTrigger>
+										<TooltipContent>
+											<p>{content.description}</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
 							);
 						})}
 					</div>

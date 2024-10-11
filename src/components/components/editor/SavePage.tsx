@@ -10,11 +10,14 @@ import {
 } from "@/components/shared/shadcn/ui/select";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { TemplateType } from "@/components/shared/types/types";
+import { BottomBarTypes, TemplateType } from "@/components/shared/types/types";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import Divider from "@/components/shared/uikit/divider/Divider";
-import { ISchemaPageType } from "@/components/shared/types/interface-schema";
+import {
+	IBottomBarType,
+	ISchemaPageType,
+} from "@/components/shared/types/interface-schema";
 
 const templatePageTypeData: ISchemaPageType[] = [
 	{
@@ -29,6 +32,19 @@ const templatePageTypeData: ISchemaPageType[] = [
 	},
 ];
 
+const bottomBarTypeData: IBottomBarType[] = [
+	{
+		id: 1,
+		name: "Обычный",
+		value: "default",
+	},
+	{
+		id: 2,
+		name: "Прозрачный",
+		value: "transparent",
+	},
+];
+
 /**
  * @author Zholaman Zhumanov
  * @created 28.08.2024
@@ -40,9 +56,11 @@ const templatePageTypeData: ISchemaPageType[] = [
  * @constructor
  */
 const SavePage: React.FC = () => {
-	const { spaceModeTemplateTypeAction } = useDispatchAction();
+	const { spaceModeTemplateTypeAction, spaceBottomBarTypeAction } =
+		useDispatchAction();
 
-	const { spaceModeTemplateType } = useAppSelector((state) => state.space);
+	const { spaceModeTemplateType, spaceBottomBarType, spaceModePlatformType } =
+		useAppSelector((state) => state.space);
 
 	const dialog = useDialogAction();
 
@@ -50,18 +68,60 @@ const SavePage: React.FC = () => {
 		spaceModeTemplateTypeAction(type);
 	};
 
+	const onSelectBottomBarTypes = (type: BottomBarTypes) => {
+		spaceBottomBarTypeAction(type);
+	};
+
 	return (
 		<div className={cn("w-full")}>
-			<div className={cn("w-full mb-6")}>
+			{spaceModePlatformType === "app" && (
+				<div className={cn("w-full mb-6")}>
+					<h3 className={cn("text-xs mb-3 uppercase text-gray-500")}>
+						Выберите тип страницы
+					</h3>
+					<div>
+						<Select
+							defaultValue={spaceModeTemplateType}
+							value={spaceModeTemplateType}
+							onValueChange={(value: TemplateType) =>
+								onSelectTemplateType(value)
+							}
+						>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Выберите тип страницы" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									{templatePageTypeData.map(
+										(template, index) => {
+											return (
+												<SelectItem
+													key={index}
+													value={template.value}
+												>
+													{template.name}
+												</SelectItem>
+											);
+										}
+									)}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</div>
+				</div>
+			)}
+
+			<Divider />
+			<div className={cn("w-full mb-6 mt-6")}>
 				<h3 className={cn("text-xs mb-3 uppercase text-gray-500")}>
-					Выберите тип страницы
+					Выберите тип нижнего меню для мобильного приложение
 				</h3>
 				<div>
 					<Select
-						defaultValue={spaceModeTemplateType}
-						value={spaceModeTemplateType}
-						onValueChange={(value: TemplateType) =>
-							onSelectTemplateType(value)
+						defaultValue={spaceBottomBarType}
+						value={spaceBottomBarType}
+						onValueChange={(value: BottomBarTypes) =>
+							onSelectBottomBarTypes(value)
 						}
 					>
 						<SelectTrigger className="w-full">
@@ -69,7 +129,7 @@ const SavePage: React.FC = () => {
 						</SelectTrigger>
 						<SelectContent>
 							<SelectGroup>
-								{templatePageTypeData.map((template, index) => {
+								{bottomBarTypeData.map((template, index) => {
 									return (
 										<SelectItem
 											key={index}

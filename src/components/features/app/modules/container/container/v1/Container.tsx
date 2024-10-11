@@ -1,14 +1,13 @@
 import React from "react";
-import {
-	ISchemaContainer,
-	ISchemaContainerComponentWrapper,
-} from "@/components/shared/types/interface-schema-container";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { cn } from "@/components/lib/utils";
 import BaseComponentRender from "@/components/features/app/modules/components/container/v1/BaseComponentRender";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
+import useDeviceHeightProperty from "@/components/shared/hooks/useDeviceHeightProperty";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface Props {
-	componentsData: ISchemaContainerComponentWrapper;
+	componentsData: ISchemaComponent[];
 	container: ISchemaContainer;
 }
 
@@ -26,15 +25,17 @@ interface Props {
 const Container: React.FC<Props> = (props) => {
 	const { componentsData, container } = props;
 
+	const heightDeviceProperty = useDeviceHeightProperty();
+
 	const styleFormatted = useStylesFormatted();
 
 	return (
 		<div
 			className={cn("size-full")}
 			style={{
-				height: container.settings?.view?.heightFull
-					? "calc(100vh - 110px)"
-					: "100%",
+				height: heightDeviceProperty(
+					container.settings?.view?.heightFull ?? false
+				),
 				...styleFormatted(
 					container.style,
 					!container?.settings?.view?.darkTheme

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import {
+	BottomBarTypes,
 	DeviceType,
 	PlatformType,
 	TemplateType,
@@ -25,6 +26,7 @@ interface stateSlice {
 	spaceModeTemplateType: TemplateType;
 	spaceModePlatformType: PlatformType | null;
 	spaceTemplatePageId: string | null;
+	spaceBottomBarType: BottomBarTypes;
 }
 
 const initialState: stateSlice = {
@@ -50,6 +52,7 @@ const initialState: stateSlice = {
 	spaceModePlatformType: null,
 	spaceTemplatePageId: null,
 	spaceTemplateApiLoading: false,
+	spaceBottomBarType: "default",
 };
 
 export const spaceSlice = createSlice({
@@ -123,6 +126,12 @@ export const spaceSlice = createSlice({
 			const { deviceType, data } = action.payload;
 			state.spaceTemplateSchemaDevicesData[deviceType] = data;
 		},
+		spaceBottomBarTypeReducer: (
+			state,
+			action: PayloadAction<BottomBarTypes>
+		) => {
+			state.spaceBottomBarType = action.payload;
+		},
 	},
 });
 
@@ -139,5 +148,6 @@ export const {
 	spaceTemplateApiLoadingReducer,
 	spaceTemplateActionDataReducer,
 	spaceTemplateSchemaDevicesDataReducer,
+	spaceBottomBarTypeReducer,
 } = spaceSlice.actions;
 export default spaceSlice.reducer;

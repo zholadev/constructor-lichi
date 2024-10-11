@@ -5,9 +5,8 @@ import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { DesktopIcon, LaptopIcon, MobileIcon } from "@radix-ui/react-icons";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { DeviceType } from "@/components/shared/types/types";
-import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { Tablet } from "lucide-react";
+import useChangeDeviceTemplateAction from "@/components/shared/hooks/useChangeDeviceTemplateAction";
 
 /**
  * @author Zholaman Zhumanov
@@ -20,39 +19,18 @@ import { Tablet } from "lucide-react";
  * @constructor
  */
 const HeaderDeviceType: React.FC = () => {
-	const {
-		spaceModeDeviceTypeAction,
-		spaceTemplateDataAction,
-		editorActiveElementAction,
-	} = useDispatchAction();
+	const { spaceModeDeviceType, spaceModePlatformType } = useAppSelector(
+		(state) => state.space
+	);
 
-	const {
-		spaceModeDeviceType,
-		spaceModePlatformType,
-		spaceTemplateSchemaDevicesData,
-	} = useAppSelector((state) => state.space);
-
-	const changeDeviceType = (value: DeviceType | null) => {
-		spaceModeDeviceTypeAction(value);
-
-		if (value === "desktop" || value === "laptop") {
-			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.desktop);
-			editorActiveElementAction({ type: "" });
-		} else if (value === "tablet") {
-			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.tablet);
-			editorActiveElementAction({ type: "" });
-		} else if (value === "mobile") {
-			spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.mobile);
-			editorActiveElementAction({ type: "" });
-		}
-	};
+	const changeDeviceType = useChangeDeviceTemplateAction();
 
 	return (
 		<div className={cn("flex items-center gap-2 p-2")}>
 			{spaceModePlatformType === "browser" && (
 				<Button
 					onClick={() => {
-						changeDeviceType("desktop");
+						changeDeviceType("desktop", false);
 					}}
 					variant={
 						spaceModeDeviceType === "desktop" ? "default" : "ghost"
@@ -64,7 +42,7 @@ const HeaderDeviceType: React.FC = () => {
 			{spaceModePlatformType === "browser" && (
 				<Button
 					onClick={() => {
-						changeDeviceType("laptop");
+						changeDeviceType("laptop", false);
 					}}
 					variant={
 						spaceModeDeviceType === "laptop" ? "default" : "ghost"
@@ -75,7 +53,7 @@ const HeaderDeviceType: React.FC = () => {
 			)}
 			<Button
 				onClick={() => {
-					changeDeviceType("tablet");
+					changeDeviceType("tablet", false);
 				}}
 				variant={spaceModeDeviceType === "tablet" ? "default" : "ghost"}
 			>
@@ -83,7 +61,7 @@ const HeaderDeviceType: React.FC = () => {
 			</Button>
 			<Button
 				onClick={() => {
-					changeDeviceType("mobile");
+					changeDeviceType("mobile", false);
 				}}
 				variant={spaceModeDeviceType === "mobile" ? "default" : "ghost"}
 			>

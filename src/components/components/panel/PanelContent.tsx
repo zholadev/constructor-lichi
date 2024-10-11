@@ -39,7 +39,9 @@ const PanelContent: React.FC<Props> = (props) => {
 
 	return (
 		<div
-			className={cn(`w-[340px] border ${isStatic ? "bg-white" : ""}`)}
+			className={cn(
+				`w-full max-w-[345px] border ${isStatic ? "bg-white" : ""}`
+			)}
 			style={{ height: isStatic ? "100%" : "calc(100vh - 60px)" }}
 		>
 			<Tabs defaultValue="styles" className="w-full">

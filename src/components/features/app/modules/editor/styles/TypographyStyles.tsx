@@ -56,9 +56,8 @@ type FontWeights =
 
 interface IStylesValues {
 	fontFamily: FontFamilyTypes;
-	fontSize: string;
+	fontSize: number;
 	textAlign: TextAlign;
-	unit: FontUnits;
 	fontWeight: FontWeights;
 	color: string;
 	fontStyle: FontStylesType;
@@ -188,14 +187,11 @@ const textAlignOptions: Array<{ value: TextAlign; icon: React.ReactNode }> = [
 	},
 ];
 
-const unitOptions: FontUnits[] = ["px", "em", "rem", "%"];
-
 const extractStyles = (styles: IStylesValues): IStylesValues => {
 	let defaultStyles: IStylesValues = {
 		fontFamily: "Futura PT",
-		fontSize: "14",
+		fontSize: 16,
 		textAlign: "left",
-		unit: "px",
 		fontWeight: "400",
 		color: "#000000",
 		fontStyle: "normal",
@@ -203,22 +199,11 @@ const extractStyles = (styles: IStylesValues): IStylesValues => {
 		colorDark: "#ffffff",
 	};
 
-	let { fontSize } = defaultStyles;
-
-	// Проверяем, является ли fontSize строкой, и извлекаем значение и единицу измерения
-	if (styles.fontSize && typeof styles.fontSize === "string") {
-		const fontSizeMatch = styles.fontSize.match(/^(\d+)(px|em|rem|%)$/);
-		if (fontSizeMatch) {
-			fontSize = fontSizeMatch[1]?.toString();
-		}
-	}
-
 	return {
 		fontFamily:
 			(styles.fontFamily as FontFamilyTypes) || defaultStyles.fontFamily,
-		fontSize,
+		fontSize: (styles.fontSize as number) || defaultStyles.fontSize,
 		textAlign: (styles.textAlign as TextAlign) || defaultStyles.textAlign,
-		unit: styles.unit || defaultStyles.unit,
 		fontWeight:
 			(styles.fontWeight as FontWeights) || defaultStyles.fontWeight,
 		color: styles.color || defaultStyles.color,
@@ -251,9 +236,8 @@ const TypographyStyles: React.FC<Props> = (props) => {
 
 	const [stylesValues, setStylesValues] = useState<IStylesValues>({
 		fontFamily: "Futura PT",
-		fontSize: "14",
+		fontSize: 16,
 		textAlign: "left",
-		unit: "px",
 		fontWeight: "400",
 		color: "#000000",
 		fontStyle: "normal",
@@ -342,13 +326,10 @@ const TypographyStyles: React.FC<Props> = (props) => {
 				return;
 			}
 
-			setStylesValues((size) => {
+			setStylesValues((prevState) => {
 				const updateValues = {
-					...size,
-					...(key !== "fontSize" && {
-						fontSize: `${size.fontSize}${key === "unit" ? value : size.unit}`,
-					}),
-					[key]: key === "fontSize" ? `${value}${size.unit}` : value,
+					...prevState,
+					[key]: value,
 				};
 
 				if (onStyleChange) {
@@ -362,6 +343,19 @@ const TypographyStyles: React.FC<Props> = (props) => {
 				errorHandler("TypographyStyles", "onChangeSizeHandle", error);
 			}
 		}
+	};
+
+	const onChangeColorInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setStylesValues((prevState) => {
+			return {
+				...prevState,
+				color: e.target.value,
+			};
+		});
+	};
+
+	const onMouseUpHandle = () => {
+		onChangeStyleHandle("color", stylesValues.color);
 	};
 
 	useEffect(() => {
@@ -446,41 +440,46 @@ const TypographyStyles: React.FC<Props> = (props) => {
 								<Input
 									type="number"
 									className={cn("w-full")}
-									value={parseFloat(stylesValues.fontSize)}
+									value={stylesValues.fontSize}
 									onChange={(e) => {
 										onChangeStyleHandle(
 											"fontSize",
-											e.target.value
+											parseFloat(e.target.value)
 										);
 									}}
 								/>
 							</div>
 
-							<Select
-								defaultValue={stylesValues.unit}
-								value={stylesValues.unit}
-								onValueChange={(value) =>
-									onChangeStyleHandle("unit", value)
-								}
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="px" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectGroup>
-										{unitOptions.map((unit) => {
-											return (
-												<SelectItem
-													value={unit}
-													key={unit}
-												>
-													{unit}
-												</SelectItem>
-											);
-										})}
-									</SelectGroup>
-								</SelectContent>
-							</Select>
+							{permission.styles.typography.fontWeight && (
+								<Select
+									disabled={currentFontWeight.length === 0}
+									defaultValue={stylesValues.fontWeight}
+									value={stylesValues.fontWeight}
+									onValueChange={(value) =>
+										onChangeStyleHandle("fontWeight", value)
+									}
+								>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="font weight" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectGroup>
+											{currentFontWeight.map(
+												(fontWeight) => {
+													return (
+														<SelectItem
+															key={fontWeight}
+															value={fontWeight}
+														>
+															{fontWeight}
+														</SelectItem>
+													);
+												}
+											)}
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							)}
 						</div>
 					</div>
 				)}
@@ -493,36 +492,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 						Font Style
 					</Label>
 
-					<div className={cn("grid grid-cols-3 gap-2 mt-2")}>
-						{permission.styles.typography.fontWeight && (
-							<Select
-								disabled={currentFontWeight.length === 0}
-								defaultValue={stylesValues.fontWeight}
-								value={stylesValues.fontWeight}
-								onValueChange={(value) =>
-									onChangeStyleHandle("fontWeight", value)
-								}
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="font weight" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectGroup>
-										{currentFontWeight.map((fontWeight) => {
-											return (
-												<SelectItem
-													key={fontWeight}
-													value={fontWeight}
-												>
-													{fontWeight}
-												</SelectItem>
-											);
-										})}
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-						)}
-
+					<div className={cn("grid grid-cols-2 gap-2 mt-2")}>
 						{permission.styles.typography.fontStyle && (
 							<div className={cn("col-span-2")}>
 								<div className={cn("grid grid-cols-4 gap-1")}>
@@ -645,12 +615,8 @@ const TypographyStyles: React.FC<Props> = (props) => {
 										? stylesValues.colorDark
 										: stylesValues.color
 								}
-								onInput={(e) => {
-									onChangeStyleHandle(
-										activeDarkTheme ? "colorDark" : "color",
-										e.target.value
-									);
-								}}
+								onChange={onChangeColorInput}
+								onBlur={onMouseUpHandle}
 							/>
 
 							<Input

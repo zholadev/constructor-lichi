@@ -2,9 +2,9 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import {
 	ActiveElementType,
-	TotalComponentTypes,
 	WidgetTypes,
 } from "@/components/shared/types/types";
+import { ISchemaActiveData } from "@/components/shared/types/interface-schema";
 
 interface IElementActiveParams {
 	type: ActiveElementType;
@@ -12,13 +12,13 @@ interface IElementActiveParams {
 	componentId?: string;
 	elementId?: string;
 	activeId: string;
-	activeData: TotalComponentTypes;
-	widgetData?: TotalComponentTypes;
+	activeData: ISchemaActiveData;
+	widgetData?: ISchemaActiveData;
 	widgetType?: WidgetTypes;
 	widgetActiveComponentId?: string;
 	widgetActiveElementId?: string;
 	widgetActiveType?: ActiveElementType;
-	widgetActiveData?: TotalComponentTypes;
+	widgetActiveData?: ISchemaActiveData;
 }
 
 /**

@@ -12,6 +12,7 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { IElementSchema } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import { ISchemaActiveData } from "@/components/shared/types/interface-schema";
 
 export interface IActiveElementObserver {
 	type: ActiveElementType;
@@ -19,7 +20,7 @@ export interface IActiveElementObserver {
 	componentId: string;
 	elementId: string;
 	activeId: string;
-	activeData: ISchemaComponent | ISchemaContainer | IElementSchema | unknown;
+	activeData: ISchemaActiveData;
 	activeStyle: Record<string, unknown>;
 	componentData: ISchemaComponent;
 	containerData: ISchemaContainer;
@@ -29,11 +30,7 @@ export interface IActiveElementObserver {
 	widgetActiveComponentId?: string;
 	widgetActiveElementId?: string;
 	widgetActiveType?: ActiveElementType;
-	widgetActiveData?:
-		| ISchemaComponent
-		| ISchemaContainer
-		| IElementSchema
-		| unknown;
+	widgetActiveData?: ISchemaActiveData;
 }
 
 /**

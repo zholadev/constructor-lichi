@@ -93,17 +93,6 @@ const SpaceProvider: React.FC<Props> = (props) => {
 		} else if (spaceModeDeviceType === "mobile") {
 			spaceTemplateSchemaDevicesDataAction("mobile", spaceTemplateData);
 		}
-
-		// if (
-		// 	spaceModeDeviceType === "desktop" ||
-		// 	spaceModeDeviceType === "laptop"
-		// ) {
-		// 	spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.desktop);
-		// } else if (spaceModeDeviceType === "tablet") {
-		// 	spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.tablet);
-		// } else if (spaceModeDeviceType === "mobile") {
-		// 	spaceTemplateDataAction(spaceTemplateSchemaDevicesData?.mobile);
-		// }
 	}, [
 		spaceTemplateData,
 		spaceModeDeviceType,

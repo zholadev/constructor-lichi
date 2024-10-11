@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
-import { ComponentBaseTypes } from "@/components/shared/types/types-components";
+import {
+	ComponentBaseTypes,
+	ComponentSpecialTypes,
+} from "@/components/shared/types/types-components";
 import BoardEmptyCard from "@/components/components/board/BoardEmptyCard";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import Card from "@/components/features/app/modules/components/components/base/v1/Card";
@@ -12,7 +15,7 @@ import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface Props {
-	type: ComponentBaseTypes;
+	type: ComponentBaseTypes | ComponentSpecialTypes;
 	componentData: ISchemaComponent;
 	containerData: ISchemaContainer;
 	componentId: string;

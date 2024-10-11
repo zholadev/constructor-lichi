@@ -15,6 +15,7 @@ import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import ComponentLibrary from "@/components/features/app/modules/components/library/v1/ComponentLibrary";
 import StoriesContainer from "@/components/features/app/modules/editor/content/stories/StoriesContainer";
 import SchemaView from "@/components/components/editor/SchemaView";
+import CopyTemplate from "@/components/components/template/CopyTemplate";
 
 /**
  * @author Zholaman Zhumanov
@@ -33,26 +34,29 @@ const SpacePageContainer: React.FC = () => {
 
 	return (
 		<>
-			<HeaderToolbar title={spaceTemplateActionData?.name} />
+			<div className={cn("w-full")}>
+				<HeaderToolbar title={spaceTemplateActionData?.name} />
 
-			<div className={cn("flex flex-row relative")}>
-				<PanelComponent />
-				<WhiteBoard />
-				<PanelContent />
+				<div className={cn("flex flex-row relative")}>
+					<PanelComponent />
+					<WhiteBoard />
+					<PanelContent />
+				</div>
+
+				<DialogContainer
+					open={dialog.dialogAddComponent.open}
+					toggle={dialog.dialogAddComponent.toggle}
+				>
+					<ComponentLibrary eventType="new" />
+				</DialogContainer>
 			</div>
-
-			<DialogContainer
-				open={dialog.dialogAddComponent.open}
-				toggle={dialog.dialogAddComponent.toggle}
-			>
-				<ComponentLibrary eventType="new" />
-			</DialogContainer>
 
 			<SchemaView />
 			<StoriesContainer />
 			<DialogCreateDirectory />
 			<DialogUploadFile />
 			<TemplateAddDialog />
+			<CopyTemplate />
 		</>
 	);
 };

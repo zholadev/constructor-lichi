@@ -48,7 +48,7 @@ const WhiteBoard: React.FC = () => {
 			style={{
 				width: previewMode.previewModeEditor
 					? "100%"
-					: "calc(100% - 700px)",
+					: "calc(100% - 690px)",
 			}}
 		>
 			<BoardToolbar />

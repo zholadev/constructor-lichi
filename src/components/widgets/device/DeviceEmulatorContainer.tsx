@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import {
 	DeviceEmulator,
 	DeviceFrameset,
@@ -8,6 +8,7 @@ import {
 } from "react-device-frameset";
 import "react-device-frameset/styles/marvel-devices.min.css";
 import "react-device-frameset/styles/device-emulator.min.css";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
 interface Props {
 	children: React.ReactNode;
@@ -28,11 +29,28 @@ interface Props {
 const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 	const { children, devices } = props;
 
+	const { editorHeightPropertyAction } = useDispatchAction();
+
 	const [size, setSize] = React.useState(null);
-	console.log("size", size);
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Получаем размер эмулятора
+	 */
+	useEffect(() => {
+		if (size?.height) {
+			editorHeightPropertyAction(`${size?.height}px`);
+		}
+	}, [size]);
+
 	return (
 		<Suspense fallback={<div>Идет загрузка доски!</div>}>
-			<DeviceEmulator banDevices={devices} defaultValue={devices[0]} onChange={event => setSize(event)}>
+			<DeviceEmulator
+				banDevices={devices}
+				defaultValue={devices[0]}
+				langscape={false}
+				onChange={(event) => setSize(event)}
+			>
 				{(props: DeviceFramesetProps) => (
 					<DeviceFrameset {...props}>{children}</DeviceFrameset>
 				)}

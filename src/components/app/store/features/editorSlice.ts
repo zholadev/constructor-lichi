@@ -17,6 +17,7 @@ interface stateSlice {
 	editorAddComponentType: IContainerType;
 	editorSwiperIndexShow: boolean;
 	editorAdditionalActiveElement: WidgetTypes;
+	editorHeightProperty: string;
 }
 
 const initialState: stateSlice = {
@@ -33,6 +34,7 @@ const initialState: stateSlice = {
 	editorAddComponentType: "initial",
 	editorSwiperIndexShow: true,
 	editorAdditionalActiveElement: "none",
+	editorHeightProperty: "100%",
 };
 
 export const editorSlice = createSlice({
@@ -105,6 +107,9 @@ export const editorSlice = createSlice({
 		) => {
 			state.editorAdditionalActiveElement = action.payload;
 		},
+		editorHeightPropertyReducer: (state, action: PayloadAction<string>) => {
+			state.editorHeightProperty = action.payload;
+		},
 	},
 });
 
@@ -122,5 +127,6 @@ export const {
 	editorAddComponentTypeReducer,
 	editorSwiperIndexShowReducer,
 	editorAdditionalActiveElementReducer,
+	editorHeightPropertyReducer,
 } = editorSlice.actions;
 export default editorSlice.reducer;

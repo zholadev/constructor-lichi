@@ -3,6 +3,7 @@ import {
 	dialogActivatePageReducer,
 	dialogAddComponentReducer,
 	dialogAddTemplateReducer,
+	dialogCopyTemplateReducer,
 	dialogCreateDirectoryReducer,
 	dialogCreatePageReducer,
 	dialogEditorSettingReducer,
@@ -29,6 +30,7 @@ import {
 	schemaListDataReducer,
 } from "@/components/app/store/features/schemaListSlice";
 import {
+	BottomBarTypes,
 	DeviceType,
 	IContainerType,
 	PlatformType,
@@ -42,6 +44,7 @@ import {
 	shopsDataReducer,
 } from "@/components/app/store/features/appSlice";
 import {
+	spaceBottomBarTypeReducer,
 	spaceModeDeviceFrameReducer,
 	spaceModeDeviceTypeReducer,
 	spaceModeLanguageReducer,
@@ -71,6 +74,7 @@ import {
 	editorAdditionalActiveElementReducer,
 	editorDisabledEditReducer,
 	editorDraggingTemplateReducer,
+	editorHeightPropertyReducer,
 	editorNavigatorHoverIdReducer,
 	editorPreviewModeReducer,
 	editorRemoveTemplateReducer,
@@ -122,6 +126,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogStoriesContainerReducer(value)),
 		dialogSchemaViewAction: (value: boolean) =>
 			dispatch(dialogSchemaViewReducer(value)),
+		dialogCopyTemplateAction: (value: boolean) =>
+			dispatch(dialogCopyTemplateReducer(value)),
 
 		// Schema List
 		schemaListDataAction: (data: ISchemaListData) =>
@@ -168,6 +174,8 @@ export default function useDispatchAction(): any {
 			dispatch(editorSwiperIndexShowReducer(value)),
 		editorAdditionalActiveElementAction: (value: WidgetTypes) =>
 			dispatch(editorAdditionalActiveElementReducer(value)),
+		editorHeightPropertyAction: (value: WidgetTypes) =>
+			dispatch(editorHeightPropertyReducer(value)),
 
 		// Space actions
 		spaceModePlatformTypeAction: (value: PlatformType | null) =>
@@ -202,6 +210,8 @@ export default function useDispatchAction(): any {
 					data,
 				})
 			),
+		spaceBottomBarTypeAction: (value: BottomBarTypes) =>
+			dispatch(spaceBottomBarTypeReducer(value)),
 
 		// FM actions
 		getFolderDataAction: (data: []) => dispatch(getFolderDataReducer(data)),

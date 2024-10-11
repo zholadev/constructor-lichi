@@ -10,6 +10,7 @@ interface IDefaultSettings {
 	CONTAINERS: {
 		container: Record<string, unknown>;
 		swiper: SwiperSettings;
+		saint_laurent_swiper: SwiperSettings;
 	};
 }
 
@@ -35,6 +36,25 @@ export const defaultSettings: IDefaultSettings = {
 			paginationTheme: "light",
 			mousewheel: false,
 		},
+		saint_laurent_swiper: {
+			pagination: false,
+			autoplay: false,
+			loop: false,
+			slidePerView: 1,
+			slidePerGroup: 1,
+			spaceBetween: 10,
+			speed_advanced: {
+				delay: 1000,
+				speed: 700,
+			},
+			centeredSlides: false,
+			direction: "horizontal",
+			pagination_type: "bullet",
+			autoHeight: false,
+			paginationPosition: "bottom",
+			paginationTheme: "light",
+			mousewheel: false,
+		}
 	},
 	COMPONENTS: {},
 	ELEMENT: {},

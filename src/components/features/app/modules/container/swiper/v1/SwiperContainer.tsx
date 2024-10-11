@@ -4,21 +4,19 @@ import SwiperCore from "swiper";
 import { SwiperSettings } from "@/components/shared/types/interface-schema-settings";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import BaseComponentRender from "@/components/features/app/modules/components/container/v1/BaseComponentRender";
-import {
-	ISchemaContainer,
-	ISchemaContainerComponentWrapper,
-} from "@/components/shared/types/interface-schema-container";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { Autoplay, Pagination, Controller } from "swiper/modules";
 import { cn } from "@/components/lib/utils";
 import "swiper/css/pagination";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import useDeviceHeightProperty from "@/components/shared/hooks/useDeviceHeightProperty";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
 interface Props {
-	componentsData: ISchemaContainerComponentWrapper;
+	componentsData: ISchemaComponent[];
 	swiperSettings: SwiperSettings;
 	swiperStyles: Record<string, unknown>;
 	containerData: ISchemaContainer;

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
@@ -10,10 +9,7 @@ import {
 	ISchemaSettingCategoryListParams,
 	SwiperSettings,
 } from "@/components/shared/types/interface-schema-settings";
-import {
-	ISchemaContainer,
-	ISchemaContainerComponentWrapper,
-} from "@/components/shared/types/interface-schema-container";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { apiMethodSiteCategoryProductList } from "@/components/shared/backend/requests/site/requests";
 import { IGetApiParams } from "@/components/shared/types/interface";
@@ -22,11 +18,12 @@ import CategoryCardOutside from "@/components/features/app/modules/components/co
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import { ProductV1 } from "@/components/features/app/modules/components/types/v1/interface-category-list";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
 interface Props {
-	componentsData: ISchemaContainerComponentWrapper;
+	componentsData: ISchemaComponent[];
 	swiperSettings: SwiperSettings;
 	swiperStyles: Record<string, unknown>;
 	containerData: ISchemaContainer;
@@ -59,8 +56,6 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 
 	const styleFormatted = useStylesFormatted();
 	const previewMode = usePreviewMode();
-
-	const { editorSwiperIndexShow } = useAppSelector((state) => state.editor);
 
 	const [productListData, setProductDataList] = useState<ProductV1[]>([]);
 

@@ -24,6 +24,7 @@ interface IContainerActions {
 		componentType: ISaintLaurentComponentType,
 		versionContainer: string,
 		versionComponent: string,
+		countComponent: number,
 		cb: () => void
 	) => void;
 	createCategoryListContainerEvent: (
@@ -154,6 +155,7 @@ export default function useContainerActions(): IContainerActions {
 		componentType: ISaintLaurentComponentType,
 		versionContainer: string,
 		versionComponent: string,
+		countComponent: number,
 		cb: () => void
 	) => {
 		if (!versionContainer) {
@@ -209,7 +211,7 @@ export default function useContainerActions(): IContainerActions {
 			}
 			if (type === "swiper") {
 				return {
-					swiper: defaultSettings.CONTAINERS.swiper,
+					swiper: defaultSettings.CONTAINERS.saint_laurent_swiper,
 					view: {
 						darkTheme: true,
 						heightFull: true,
@@ -219,6 +221,13 @@ export default function useContainerActions(): IContainerActions {
 		};
 
 		const createChildren = () => {
+			if (type === "swiper") {
+				return Array.from({ length: countComponent }, () => ({
+					...saint_laurent_component_schema(versionComponent),
+					id: uuidv4(),
+				}));
+			}
+
 			return Array.from({ length: componentCount }, () => ({
 				...saint_laurent_component_schema(versionComponent),
 				id: uuidv4(),
@@ -248,6 +257,7 @@ export default function useContainerActions(): IContainerActions {
 	 * @description Метод для создания контейнера для saint laurent типа
 	 * @param type
 	 * @param params
+	 * @param version
 	 * @param cb
 	 */
 	const createCategoryListContainerEvent = (

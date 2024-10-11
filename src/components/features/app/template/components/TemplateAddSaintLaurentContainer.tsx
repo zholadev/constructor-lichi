@@ -22,12 +22,14 @@ import {
 import { versionContainer } from "@/components/app/versions/types/interface-version-container";
 import { versionComponents } from "@/components/app/versions/types/interface-version-components";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { Input } from "@/components/shared/shadcn/ui/input";
 
 interface ITemplateAddSaintLaurent {
 	blockType: DisplayContainerType;
 	componentType: ISaintLaurentComponentType;
 	versionContainer: string;
 	versionComponent: string;
+	countComponent: number;
 }
 
 const containerValueDefaultState: ITemplateAddSaintLaurent = {
@@ -36,6 +38,7 @@ const containerValueDefaultState: ITemplateAddSaintLaurent = {
 	versionContainer:
 		versionContainer.saint_laurent_container?.[0]?.version ?? "0.1",
 	versionComponent: versionComponents.saint_laurent?.[0]?.version,
+	countComponent: 1,
 };
 
 /**
@@ -68,7 +71,7 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 	 */
 	const onChangeHandle = (
 		key: keyof ITemplateAddSaintLaurent,
-		value: IContainerType | ISaintLaurentComponentType | string
+		value: IContainerType | ISaintLaurentComponentType | string | number
 	) => {
 		if (!key || !value) {
 			toastMessage("ValueError: value or key is not defined", "error");
@@ -102,6 +105,7 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 			containerValue.componentType,
 			containerValue.versionContainer,
 			containerValue.versionComponent,
+			containerValue.countComponent,
 			toggleDialogHandle
 		);
 
@@ -216,6 +220,7 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 						className={cn(
 							"p-3 border w-full h-[120px] flex flex-col"
 						)}
+						disabled={containerValue.blockType === "swiper"}
 						onClick={() => {
 							onChangeHandle("componentType", "duo");
 						}}
@@ -231,6 +236,26 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 						Два
 					</Button>
 				</div>
+			</div>
+
+			<div className={cn("w-full flex flex-row gap-2 items-center")}>
+				<h3 className={cn("text-xs uppercase text-gray-600 mb-3")}>
+					количество компонентов
+				</h3>
+
+				<Input
+					type="number"
+					maxLength={12}
+					minLength={1}
+					value={containerValue.countComponent}
+					className={cn("mb-4 max-w-[300px]")}
+					onChange={(e) => {
+						onChangeHandle(
+							"countComponent",
+							parseFloat(e.target.value)
+						);
+					}}
+				/>
 			</div>
 
 			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">

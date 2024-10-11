@@ -57,6 +57,7 @@ export interface IPermission {
 		link: boolean;
 		textFill: boolean;
 		stories: boolean;
+		animation: boolean;
 	};
 	setting: {
 		show: {

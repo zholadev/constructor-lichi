@@ -18,6 +18,7 @@ export type LinkRelType =
 	| "tag";
 
 export type LinkTargetType = "_blank" | "_parent" | "_self" | "_top";
+export type MotionTypes = "zoom_out" | "zoom_in" | "none";
 
 export interface ISchemaContentPhoto {
 	photo?: {
@@ -47,6 +48,15 @@ export interface ISchemaContentLink {
 	};
 }
 
+export interface ISchemaAnimateParams {
+	type: MotionTypes;
+	observer: boolean;
+}
+
+export interface ISchemaMotionContent {
+	animation?: ISchemaAnimateParams;
+}
+
 export interface ISchemaContentText {
 	title: Record<string, Record<"value", string>>;
 }
@@ -55,4 +65,5 @@ export interface ISchemaContent
 	extends ISchemaContentPhoto,
 		ISchemaContentVideo,
 		ISchemaContentText,
-		ISchemaContentLink {}
+		ISchemaContentLink,
+		ISchemaMotionContent {}

@@ -80,3 +80,33 @@
 
   &.saint_laurent_container_mobile
     width: calc(100% - (2 * 20px)) !important
+
+.animation__zoom_in
+  animation: zoom-out-in 2s cubic-bezier(0.5, 0, 0, 1)
+
+.animation__zoom_out
+  animation: zoom-out 2s cubic-bezier(0.5, 0, 0, 1)
+
+@keyframes zoom-out-in
+  from
+    transform: scale(1.1)
+  to
+    transform: scale(1)
+
+@keyframes zoom-out-in-sc
+  from
+    transform: scale(1.3)
+  to
+    transform: scale(1)
+
+@keyframes zoom-out
+  from
+    transform: scale(.9)
+  to
+    transform: scale(1)
+
+@keyframes zoom-out-sc
+  from
+    transform: scale(.9)
+  to
+    transform: scale(1)

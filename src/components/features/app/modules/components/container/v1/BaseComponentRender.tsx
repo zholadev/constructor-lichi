@@ -58,6 +58,7 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 						componentData={componentData}
 						containerId={containerData.id}
 						containerData={containerData}
+						widgetComponent={widgetComponent}
 					/>
 				);
 			case "album":
@@ -66,6 +67,7 @@ const BaseComponentRender: React.FC<Props> = (props) => {
 						componentData={componentData}
 						containerId={containerData.id}
 						containerData={containerData}
+						widgetComponent={widgetComponent}
 					/>
 				);
 			default:

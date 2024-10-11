@@ -6,11 +6,13 @@ import {
 } from "@/components/shared/types/interface-schema-settings";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { cn } from "@/components/lib/utils";
+import { Input } from "@/components/shared/shadcn/ui/input";
 import {
 	AlignItems,
 	JustifyContent,
-} from "@/components/features/app/panel/styles/PositionStyles";
-import {Input} from "@/components/shared/shadcn/ui/input";
+} from "@/components/features/app/modules/editor/styles/PositionStyles";
+import { ArrowRightIcon, ArrowDownIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/shared/shadcn/ui/button";
 
 interface Props {
 	settingValue?: ISchemaSettingsElement;
@@ -18,10 +20,10 @@ interface Props {
 }
 
 interface ElementSettings {
-	positionX: SchemaSettingElementPositionX;
-	positionY: SchemaSettingElementPositionY;
 	justifyContent: JustifyContent;
 	alignItems: AlignItems;
+	gap: number;
+	flexDirection: "column" | "row";
 }
 
 /**
@@ -42,11 +44,11 @@ const ElementSetting: React.FC<Props> = (props) => {
 
 	const [elementSettingValue, setElementSettingValue] =
 		React.useState<ISchemaSettingsElement>({
-			positionX: "center",
-			positionY: "bottom",
 			style: {
 				justifyContent: "center",
 				alignItems: "flex-end",
+				gap: 0,
+				flexDirection: "column",
 			},
 		});
 
@@ -57,6 +59,8 @@ const ElementSetting: React.FC<Props> = (props) => {
 			| AlignItems
 			| SchemaSettingElementPositionX
 			| SchemaSettingElementPositionY
+			| number
+			| string
 	) => {
 		if (!key || !value) {
 			toastMessage(
@@ -69,14 +73,11 @@ const ElementSetting: React.FC<Props> = (props) => {
 		setElementSettingValue((prevState) => {
 			let updatedValues = { ...prevState };
 
-			if (key === "justifyContent" || key === "alignItems") {
-				updatedValues.style = {
-					...updatedValues.style,
-					[key]: value as JustifyContent | AlignItems,
-				};
-			} else {
-				updatedValues[key] = value;
-			}
+			updatedValues.style = {
+				...updatedValues.style,
+				[key]: value,
+			};
+
 			if (onSettingChange) onSettingChange(updatedValues);
 
 			return updatedValues;
@@ -92,92 +93,85 @@ const ElementSetting: React.FC<Props> = (props) => {
 			>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "flex-start");
 						onSettingUpdateHandle("alignItems", "flex-start");
-						onSettingUpdateHandle("positionX", "left");
-						onSettingUpdateHandle("positionY", "top");
 					}}
 				/>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "flex-start");
 						onSettingUpdateHandle("alignItems", "center");
-						onSettingUpdateHandle("positionX", "center");
-						onSettingUpdateHandle("positionY", "top");
 					}}
 				/>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "flex-start");
-						onSettingUpdateHandle("alignItems", "flex-end");
-						onSettingUpdateHandle("positionX", "right");
-						onSettingUpdateHandle("positionY", "top");
 					}}
 				/>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "center");
-						onSettingUpdateHandle("alignItems", "flex-start");
-						onSettingUpdateHandle("positionX", "left");
-						onSettingUpdateHandle("positionY", "center");
 					}}
 				/>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75",
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "center");
-						onSettingUpdateHandle("alignItems", "center");
-						onSettingUpdateHandle("positionX", "center");
-						onSettingUpdateHandle("positionY", "center");
 					}}
 				/>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "center");
-						onSettingUpdateHandle("alignItems", "flex-end");
-						onSettingUpdateHandle("positionX", "right");
-						onSettingUpdateHandle("positionY", "center");
 					}}
 				/>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "flex-end");
-						onSettingUpdateHandle("alignItems", "flex-start");
-						onSettingUpdateHandle("positionX", "center");
-						onSettingUpdateHandle("positionY", "bottom");
 					}}
 				/>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "flex-end");
-						onSettingUpdateHandle("alignItems", "center");
-						onSettingUpdateHandle("positionX", "center");
-						onSettingUpdateHandle("positionY", "bottom");
 					}}
 				/>
 				<button
 					type="button"
-					className={cn("w-full h-[7px] bg-gray-500 cursor-pointer")}
+					className={cn(
+						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
+					)}
 					onClick={() => {
 						onSettingUpdateHandle("justifyContent", "flex-end");
-						onSettingUpdateHandle("alignItems", "flex-end");
-						onSettingUpdateHandle("positionX", "right");
-						onSettingUpdateHandle("positionY", "bottom");
 					}}
 				/>
 			</div>
@@ -193,8 +187,8 @@ const ElementSetting: React.FC<Props> = (props) => {
 	}, [settingValue]);
 
 	return (
-		<div className={cn("w-full")}>
-			<div>
+		<div className={cn("w-full px-1")}>
+			<div className={cn("w-full mb-5")}>
 				<h3 className={cn("uppercase text-xs mb-8 text-gray-500")}>
 					Позиционирование
 				</h3>
@@ -213,12 +207,60 @@ const ElementSetting: React.FC<Props> = (props) => {
 				</div>
 			</div>
 
-			<div>
+			<div className={cn("w-full mb-5")}>
 				<h3 className={cn("uppercase text-xs mb-3 text-gray-500")}>
-					Расстояние
+					Направление элементов
 				</h3>
 
-				<Input />
+				<div className={cn("w-full flex flex-row gap-3")}>
+					<Button
+						type="button"
+						variant={
+							elementSettingValue.style.flexDirection === "column"
+								? "default"
+								: "outline"
+						}
+						className={cn(
+							"flex items-center flex-row gap-1 text-xs rounded-md"
+						)}
+						onClick={() => {
+							onSettingUpdateHandle("flexDirection", "column");
+						}}
+					>
+						<ArrowDownIcon /> <span>column</span>
+					</Button>
+					<Button
+						type="button"
+						variant={
+							elementSettingValue.style.flexDirection === "row"
+								? "default"
+								: "outline"
+						}
+						className={cn(
+							"flex items-center flex-row gap-1 text-xs rounded-md"
+						)}
+						onClick={() => {
+							onSettingUpdateHandle("flexDirection", "row");
+						}}
+					>
+						<ArrowRightIcon /> <span>row</span>
+					</Button>
+				</div>
+			</div>
+
+			<div className={cn("w-full")}>
+				<h3 className={cn("uppercase text-xs mb-3 text-gray-500")}>
+					Расстояние между элементами
+				</h3>
+
+				<Input
+					type="number"
+					value={elementSettingValue.style.gap}
+					defaultValue={elementSettingValue.style.gap}
+					onChange={(e) =>
+						onSettingUpdateHandle("gap", parseFloat(e.target.value))
+					}
+				/>
 			</div>
 		</div>
 	);

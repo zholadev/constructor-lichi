@@ -23,6 +23,9 @@ import StoriesContent from "@/components/features/app/modules/editor/content/Sto
 import TextFillContent from "@/components/features/app/modules/editor/content/TextFillContent";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
 import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
+import MotionContent from "@/components/features/app/modules/editor/content/MotionContent";
+import { Framer } from "lucide-react";
+import { ISchemaMotionContent } from "@/components/shared/types/interface-schema-content";
 
 type AccessTypes = "video" | "photo" | "link" | "stories";
 type ContentKeys = "photo" | "link" | "video" | "stories";
@@ -34,6 +37,7 @@ interface IContentActiveData {
 		video: Record<string, unknown>;
 		title?: Record<string, unknown>;
 		stories?: Record<string, unknown>;
+		animation?: ISchemaMotionContent;
 	};
 }
 
@@ -76,7 +80,8 @@ const ContentContainer: React.FC = () => {
 					photo: content?.photo,
 					video: content?.video ?? { videoSrc: "", poster: null },
 					title: content?.title ?? {},
-					stories: content?.stories ?? {},
+					stories: content?.stories ?? false,
+					animation: content?.animation ?? {},
 				},
 			};
 		} catch (error) {
@@ -308,6 +313,47 @@ const ContentContainer: React.FC = () => {
 										"content.title"
 									);
 								}}
+							/>
+						</AccordionContent>
+					</AccordionItem>
+				)}
+
+				{permission.content.animation && (
+					<AccordionItem value="animation">
+						<AccordionTrigger>
+							<div
+								className={cn(
+									"w-full flex flex-row items-center gap-2"
+								)}
+							>
+								<Framer width={20} height={20} />
+								Анимация
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							<MotionContent
+								defaultParams={
+									contentActiveData.content?.animation
+								}
+								onSendParams={(params) => {
+									if (
+										activeElementData?.widgetType ===
+										"stories"
+									) {
+										updateWidgetActions.update(
+											params,
+											"content.animation"
+										);
+										return;
+									}
+									updateActions.update(
+										params,
+										"content.animation"
+									);
+								}}
+								onRemoveParams={() =>
+									removeSchemaDataHandle("content.animation")
+								}
 							/>
 						</AccordionContent>
 					</AccordionItem>

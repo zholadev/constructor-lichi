@@ -27,11 +27,11 @@ export const card_component_schema = (version: string): ISchemaComponent => {
 				darkTheme: true,
 			},
 			element: {
-				positionX: "center",
-				positionY: "bottom",
 				style: {
 					justifyContent: "flex-end",
 					alignItems: "center",
+					gap: 0,
+					flexDirection: "column",
 				},
 			},
 		},
@@ -60,11 +60,11 @@ export const card_outside_component_schema = (
 				darkTheme: true,
 			},
 			element: {
-				positionX: "center",
-				positionY: "bottom",
 				style: {
 					justifyContent: "flex-end",
 					alignItems: "center",
+					gap: 0,
+					flexDirection: "column",
 				},
 			},
 		},
@@ -90,11 +90,11 @@ export const album_component_schema = (version: string): ISchemaComponent => {
 				darkTheme: true,
 			},
 			element: {
-				positionX: "center",
-				positionY: "bottom",
 				style: {
 					justifyContent: "flex-end",
 					alignItems: "center",
+					gap: 0,
+					flexDirection: "column",
 				},
 			},
 		},
@@ -123,11 +123,11 @@ export const album_outside_component_schema = (
 				darkTheme: true,
 			},
 			element: {
-				positionX: "center",
-				positionY: "bottom",
 				style: {
 					justifyContent: "flex-end",
 					alignItems: "center",
+					gap: 0,
+					flexDirection: "column",
 				},
 			},
 		},
@@ -159,11 +159,11 @@ export const video_component_schema = (version: string): ISchemaComponent => {
 				darkTheme: true,
 			},
 			element: {
-				positionX: "center",
-				positionY: "bottom",
 				style: {
 					justifyContent: "flex-end",
 					alignItems: "center",
+					gap: 0,
+					flexDirection: "column",
 				},
 			},
 		},
@@ -197,11 +197,11 @@ export const video_outside_component_schema = (
 				darkTheme: true,
 			},
 			element: {
-				positionX: "center",
-				positionY: "bottom",
 				style: {
 					justifyContent: "flex-end",
 					alignItems: "center",
+					gap: 0,
+					flexDirection: "column",
 				},
 			},
 		},

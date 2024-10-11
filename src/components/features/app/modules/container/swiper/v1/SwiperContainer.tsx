@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { SwiperSettings } from "@/components/shared/types/interface-schema-settings";
@@ -12,7 +12,6 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { Autoplay, Pagination, Controller } from "swiper/modules";
 import { cn } from "@/components/lib/utils";
 import "swiper/css/pagination";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
@@ -44,6 +43,14 @@ const SwiperContainer: React.FC<Props> = (props) => {
 	const styleFormatted = useStylesFormatted();
 	const previewMode = usePreviewMode();
 
+	const swiperSettingsStyles = useMemo(() => {
+		return `swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`;
+	}, [
+		swiperSettings.paginationPosition,
+		swiperSettings.paginationTheme,
+		swiperRef.current,
+	]);
+
 	useEffect(() => {
 		try {
 			if (swiperSettings) {
@@ -70,6 +77,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 				// Перезапуск swiper для применения новых настроек
 				swiper.update();
 				swiper.updateSize();
+				swiper.init();
 			}
 		} catch (error) {
 			errorHandler("swiperContainer", "effect", error);
@@ -97,7 +105,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 						!containerData.settings?.view?.darkTheme
 					),
 				}}
-				className={`swiper-container-v1 swiper-container-v1-paginate-${swiperSettings.paginationPosition} swiper-container-v1-paginate-${swiperSettings.paginationTheme}`}
+				className={`swiper-container-v1 ${swiperSettingsStyles}`}
 			>
 				{componentsData.map((component, index) => {
 					return (

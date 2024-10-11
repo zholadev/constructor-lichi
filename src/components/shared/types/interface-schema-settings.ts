@@ -52,11 +52,11 @@ export interface ISchemaSettingsTimer {
 }
 
 export interface ISchemaSettingsElement {
-	positionX: SchemaSettingElementPositionX;
-	positionY: SchemaSettingElementPositionY;
 	style: {
 		justifyContent: string;
 		alignItems: string;
+		gap: number;
+		flexDirection: string;
 	};
 }
 

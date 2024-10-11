@@ -94,9 +94,15 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 		version: "",
 	});
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных
+	 * @param key
+	 * @param value
+	 */
 	const onChangeValue = (
 		key: keyof IComponentValue,
-		value: ComponentSpecialTypes | ComponentBaseTypes
+		value: ComponentSpecialTypes | ComponentBaseTypes | string
 	) => {
 		if (!key || !value) {
 			toastMessage(
@@ -237,7 +243,7 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 			)}
 
 			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
-				<h3 className={cn("text-sm")}>Выберите версию контейнера</h3>
+				<h3 className={cn("text-sm")}>Выберите версию компонента</h3>
 				<div className={cn("w-full")}>
 					<Select
 						defaultValue={componentValue.version}

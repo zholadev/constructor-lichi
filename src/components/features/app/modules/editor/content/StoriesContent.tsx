@@ -3,7 +3,6 @@ import { cn } from "@/components/lib/utils";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import StoriesContainer from "@/components/features/app/panel/content/stories/StoriesContainer";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
 interface IStoriesContent {
@@ -55,7 +54,7 @@ const StoriesContent: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (defaultParams?.length > 0) {
+		if (defaultParams) {
 			setContentValues({ add: true });
 		}
 	}, [defaultParams]);

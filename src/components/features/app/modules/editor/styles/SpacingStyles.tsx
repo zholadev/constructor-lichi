@@ -103,7 +103,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 		left: PinLeftIcon,
 		right: PinRightIcon,
 	};
-
+	console.log("stylesValues", stylesValues);
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления значение стилей
@@ -140,6 +140,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 
 				if (onStyleChange) {
 					const covertSpacing = convertToCssString(updateValues);
+					console.log("covertSpacing", covertSpacing)
 					onStyleChange(covertSpacing);
 				}
 
@@ -193,7 +194,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if ((styles && styles.margin) || styles?.padding) {
+		if (styles?.margin || styles?.padding) {
 			const reverseConvertObj = convertToObject(styles);
 			setStylesValues(reverseConvertObj);
 		}

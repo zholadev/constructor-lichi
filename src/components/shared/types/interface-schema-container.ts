@@ -1,6 +1,6 @@
 import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 import {
-	ContainerBlockType,
+	DisplayContainerType,
 	IContainerType,
 } from "@/components/shared/types/types";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
@@ -10,7 +10,7 @@ export interface ISchemaContainer {
 	guid: string;
 	type: IContainerType;
 	version: string;
-	block: ContainerBlockType;
+	display: DisplayContainerType;
 	style: Record<string, unknown>;
 	settings: ISchemaSettings;
 	components: Array<

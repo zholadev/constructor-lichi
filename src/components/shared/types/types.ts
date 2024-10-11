@@ -18,7 +18,7 @@ export type ActiveElementType =
 
 export type ImageType = "card" | "album";
 
-export type ContainerBlockType = "block" | "swiper";
+export type DisplayContainerType = "block" | "swiper";
 export type IContainerType =
 	| "container"
 	| "swiper"

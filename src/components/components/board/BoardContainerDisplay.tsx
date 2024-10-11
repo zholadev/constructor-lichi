@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
-import { IContainerType } from "@/components/shared/types/types";
+import {
+	DisplayContainerType,
+	IContainerType,
+} from "@/components/shared/types/types";
 import Container from "@/components/features/app/modules/container/container/v1/Container";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import ContainerAction from "@/components/features/app/activeElement/wrappers/v1/container/ContainerAction";
@@ -13,6 +16,7 @@ import { cn } from "@/components/lib/utils";
 interface Props {
 	containerType: IContainerType;
 	containerData: ISchemaContainer;
+	displayType: DisplayContainerType;
 }
 
 /**
@@ -27,7 +31,7 @@ interface Props {
  * @constructor
  */
 const BoardContainerDisplay: React.FC<Props> = (props) => {
-	const { containerType, containerData } = props;
+	const { containerType, containerData, displayType } = props;
 
 	const renderContainers = () => {
 		switch (containerType) {
@@ -54,11 +58,18 @@ const BoardContainerDisplay: React.FC<Props> = (props) => {
 						swiperSettings={containerData.settings.swiper}
 						swiperStyles={containerData.style}
 						containerData={containerData}
-						categoryListParams={containerData.settings?.categoryList}
+						categoryListParams={
+							containerData.settings?.categoryList
+						}
 					/>
 				);
 			case "saint_laurent_container":
-				return (
+				return displayType === "block" ? (
+					<SaintLaurentContainer
+						componentsData={containerData.components}
+						containerData={containerData}
+					/>
+				) : (
 					<SaintLaurentContainer
 						componentsData={containerData.components}
 						containerData={containerData}

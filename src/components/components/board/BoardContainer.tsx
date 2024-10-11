@@ -55,6 +55,7 @@ const BoardContainer: React.FC = () => {
 						<BoardContainerDisplay
 							containerData={container}
 							containerType={container.type}
+							displayType={container.display}
 						/>
 					</div>
 				);

@@ -6,6 +6,7 @@ import { GalleryHorizontal } from "lucide-react";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import {
+	DisplayContainerType,
 	IContainerType,
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
@@ -23,14 +24,14 @@ import { versionComponents } from "@/components/app/versions/types/interface-ver
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 interface ITemplateAddSaintLaurent {
-	blockType: IContainerType;
+	blockType: DisplayContainerType;
 	componentType: ISaintLaurentComponentType;
 	versionContainer: string;
 	versionComponent: string;
 }
 
 const containerValueDefaultState: ITemplateAddSaintLaurent = {
-	blockType: "container",
+	blockType: "block",
 	componentType: "single",
 	versionContainer:
 		versionContainer.saint_laurent_container?.[0]?.version ?? "0.1",
@@ -112,13 +113,13 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 			<div className="grid grid-cols-2 gap-3 mb-7 mt-4">
 				<Button
 					variant={
-						containerValue.blockType === "container"
+						containerValue.blockType === "block"
 							? "default"
 							: "outline"
 					}
 					className={cn("p-3 border w-full h-[120px] flex flex-col")}
 					onClick={() => {
-						onChangeHandle("blockType", "container");
+						onChangeHandle("blockType", "block");
 					}}
 				>
 					<ImageIcon width={60} height={60} className={cn("mb-3")} />{" "}
@@ -152,7 +153,7 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 						value={containerValue.versionContainer}
 						disabled={
 							versionContainer.saint_laurent_container?.length ===
-								0 || containerValue.blockType === "initial"
+							0
 						}
 						onValueChange={(value) =>
 							onChangeHandle("versionContainer", value)

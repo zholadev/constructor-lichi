@@ -1,4 +1,5 @@
 import {
+	DisplayContainerType,
 	IContainerType,
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
@@ -19,7 +20,7 @@ interface IContainerActions {
 		cb: () => void
 	) => void;
 	createSaintLaurentContainerEvent: (
-		type: IContainerType,
+		type: DisplayContainerType,
 		componentType: ISaintLaurentComponentType,
 		versionContainer: string,
 		versionComponent: string,
@@ -149,7 +150,7 @@ export default function useContainerActions(): IContainerActions {
 	 * @param cb
 	 */
 	const createSaintLaurentContainerEvent = (
-		type: IContainerType,
+		type: DisplayContainerType,
 		componentType: ISaintLaurentComponentType,
 		versionContainer: string,
 		versionComponent: string,
@@ -160,7 +161,7 @@ export default function useContainerActions(): IContainerActions {
 			return;
 		}
 
-		if (type === "initial") {
+		if (!type) {
 			toastMessage("Вы не выбрали тип контейнера!", "error");
 			return;
 		}
@@ -177,7 +178,7 @@ export default function useContainerActions(): IContainerActions {
 				backgroundColorDark: "#181a1b",
 			};
 
-			if (type === "container") {
+			if (type === "block") {
 				return {
 					...commonStyles,
 					display: "grid",
@@ -198,7 +199,7 @@ export default function useContainerActions(): IContainerActions {
 		};
 
 		const generateSettings = () => {
-			if (type === "container") {
+			if (type === "block") {
 				return {
 					view: {
 						darkTheme: true,
@@ -219,8 +220,8 @@ export default function useContainerActions(): IContainerActions {
 
 		const createChildren = () => {
 			return Array.from({ length: componentCount }, () => ({
-				id: uuidv4(),
 				...saint_laurent_component_schema(versionComponent),
+				id: uuidv4(),
 			}));
 		};
 
@@ -229,6 +230,7 @@ export default function useContainerActions(): IContainerActions {
 			guid: uuidv4(),
 			type: "saint_laurent_container",
 			version: versionContainer,
+			display: type,
 			style: generateStyles(),
 			// @ts-ignore
 			components: createChildren(),

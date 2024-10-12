@@ -62,11 +62,11 @@ function convertToCssArray(styles: {
 function convertToObject(styles: { margin: number[]; padding: number[] }) {
 	// Если передан массив длиной 4 для margin, берем значения из него, иначе используем [0, 0, 0, 0]
 	const [marginTop, marginRight, marginBottom, marginLeft] =
-		styles?.margin.length === 4 ? styles.margin : [0, 0, 0, 0];
+		styles?.margin?.length === 4 ? styles.margin : [0, 0, 0, 0];
 
 	// Если передан массив длиной 4 для padding, берем значения из него, иначе используем [0, 0, 0, 0]
 	const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
-		styles?.padding.length === 4 ? styles.padding : [0, 0, 0, 0];
+		styles?.padding?.length === 4 ? styles.padding : [0, 0, 0, 0];
 
 	return {
 		margin: {

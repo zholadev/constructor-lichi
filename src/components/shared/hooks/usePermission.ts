@@ -2,6 +2,7 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
 import {
 	ActiveElementType,
+	DisplayContainerType,
 	IContainerType,
 } from "@/components/shared/types/types";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
@@ -140,6 +141,10 @@ export default function usePermission(): IPermission {
 		return activeElementData?.activeData?.version ?? "";
 	}, [activeElementData]);
 
+	const activeDisplayBlockType: DisplayContainerType = useMemo(() => {
+		return activeElementData?.activeData?.display ?? "block";
+	}, [activeElementData]);
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Получаем активный компонент с permission данными
@@ -159,6 +164,7 @@ export default function usePermission(): IPermission {
 			case "container":
 				return permissionGetContainersData(
 					typeDataActiveElement,
+					activeDisplayBlockType,
 					activeTypeVersion
 				);
 			case "swiper":

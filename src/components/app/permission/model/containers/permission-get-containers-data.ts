@@ -1,10 +1,14 @@
 import { basePermission } from "@/components/shared/hooks/usePermission";
-import { IContainerType } from "@/components/shared/types/types";
+import {
+	DisplayContainerType,
+	IContainerType,
+} from "@/components/shared/types/types";
 import { IPermission } from "@/components/app/permission/types/interface-permission";
 import { versionContainer } from "@/components/app/versions/types/interface-version-container";
 
 export const permissionGetContainersData = (
 	type: IContainerType,
+	displayBlock: DisplayContainerType,
 	versionComponent: string
 ): IPermission => {
 	switch (type) {

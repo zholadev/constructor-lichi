@@ -69,7 +69,7 @@ export interface ISchemaSettingCategoryListParams {
 
 export interface ISchemaSettings {
 	view?: ISchemaSettingsView;
-	show?: SchemaShowSiteType;
+	show?: ISchemaSettingsShow;
 	element?: ISchemaSettingsElement;
 	swiper?: SwiperSettings;
 	categoryList?: ISchemaSettingCategoryListParams;

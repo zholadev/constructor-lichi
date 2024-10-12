@@ -12,8 +12,7 @@ import SwiperContainer from "@/components/features/app/modules/container/swiper/
 import CategoryListContainer from "@/components/features/app/modules/container/categoryList/v1/CategoryListContainer";
 import SaintLaurentContainer from "@/components/features/app/modules/container/saint_laurent/v1/SaintLaurentContainer";
 import { cn } from "@/components/lib/utils";
-import SaintLaurentSwiperContainer
-	from "@/components/features/app/modules/container/saint_laurent/v1/SaintLaurentSwiperContainer";
+import SaintLaurentSwiperContainer from "@/components/features/app/modules/container/saint_laurent/v1/SaintLaurentSwiperContainer";
 
 interface Props {
 	containerType: IContainerType;
@@ -38,19 +37,17 @@ const BoardContainerDisplay: React.FC<Props> = (props) => {
 	const renderContainers = () => {
 		switch (containerType) {
 			case "container":
-				return (
-					<Container
-						componentsData={containerData.components}
-						container={containerData}
-					/>
-				);
-			case "swiper":
-				return (
+				return displayType === "swiper" ? (
 					<SwiperContainer
 						componentsData={containerData?.components}
 						swiperSettings={containerData.settings.swiper}
 						swiperStyles={containerData.style}
 						containerData={containerData}
+					/>
+				) : (
+					<Container
+						componentsData={containerData.components}
+						container={containerData}
 					/>
 				);
 			case "category_list_container":

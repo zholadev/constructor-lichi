@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { cn } from "@/components/lib/utils";
 import { ImageIcon } from "@radix-ui/react-icons";
@@ -138,6 +138,7 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 					className={cn("p-3 border w-full h-[120px] flex flex-col")}
 					onClick={() => {
 						onChangeHandle("blockType", "swiper");
+						onChangeHandle("componentType", "single");
 					}}
 				>
 					<GalleryHorizontal

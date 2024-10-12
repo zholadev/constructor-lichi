@@ -1,6 +1,5 @@
 import {
 	DisplayContainerType,
-	IContainerType,
 	ISaintLaurentComponentType,
 } from "@/components/shared/types/types";
 import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
@@ -14,7 +13,7 @@ import { saint_laurent_component_schema } from "@/components/app/schema/model/v1
 
 interface IContainerActions {
 	createBaseContainer: (
-		blockType: IContainerType,
+		blockType: DisplayContainerType,
 		countColumn: number,
 		version: string,
 		cb: () => void
@@ -28,7 +27,7 @@ interface IContainerActions {
 		cb: () => void
 	) => void;
 	createCategoryListContainerEvent: (
-		type: IContainerType,
+		type: DisplayContainerType,
 		params: ISchemaSettingCategoryListParams,
 		version: string,
 		cb: () => void
@@ -38,7 +37,7 @@ interface IContainerActions {
 /**
  * @author Zholaman Zhumanov
  * @created 06.10.2024
- * @description
+ * @description Хук для создания контейнеров
  * @last-updated
  * @update-description
  * @todo
@@ -54,10 +53,10 @@ export default function useContainerActions(): IContainerActions {
 
 	/**
 	 * @author Zholaman Zhumanov
-	 * @description Функция который подтверждает добавление шаблона в доску
+	 * @description Функция для добавления обычных контейнеров в доску
 	 */
 	const createBaseContainer = (
-		blockType: IContainerType,
+		blockType: DisplayContainerType,
 		countColumn: number,
 		version: string,
 		cb: () => void
@@ -67,7 +66,7 @@ export default function useContainerActions(): IContainerActions {
 			return;
 		}
 
-		if (blockType === "initial") {
+		if (!blockType) {
 			toastMessage("Вы не выбрали тип блока!", "error");
 			return;
 		}
@@ -82,7 +81,7 @@ export default function useContainerActions(): IContainerActions {
 				backgroundColorDark: "rgb(24, 26, 27)",
 			};
 
-			if (blockType === "container") {
+			if (blockType === "block") {
 				return {
 					...commonStyles,
 					display: "grid",
@@ -101,19 +100,14 @@ export default function useContainerActions(): IContainerActions {
 		};
 
 		const generateSettings = () => {
-			if (blockType === "container") {
+			if (blockType === "block") {
 				return {
-					view: {
-						darkTheme: true,
-					},
+					...defaultSettings.CONTAINERS.container.block,
 				};
 			}
 			if (blockType === "swiper") {
 				return {
-					swiper: defaultSettings.CONTAINERS.swiper,
-					view: {
-						darkTheme: true,
-					},
+					...defaultSettings.CONTAINERS.container.swiper,
 				};
 			}
 		};
@@ -127,9 +121,10 @@ export default function useContainerActions(): IContainerActions {
 		const newTemplate: ISchemaContainer = {
 			id: uuidv4(),
 			guid: uuidv4(),
-			type: blockType,
+			type: "container",
 			version,
 			style: generateStyles(),
+			display: blockType,
 			// @ts-ignore
 			components: createChildren(),
 			// @ts-ignore
@@ -148,6 +143,7 @@ export default function useContainerActions(): IContainerActions {
 	 * @param componentType
 	 * @param versionContainer
 	 * @param versionComponent
+	 * @param countComponent
 	 * @param cb
 	 */
 	const createSaintLaurentContainerEvent = (
@@ -193,7 +189,6 @@ export default function useContainerActions(): IContainerActions {
 			if (type === "swiper") {
 				return {
 					...commonStyles,
-					display: "block",
 				};
 			}
 
@@ -203,19 +198,13 @@ export default function useContainerActions(): IContainerActions {
 		const generateSettings = () => {
 			if (type === "block") {
 				return {
-					view: {
-						darkTheme: true,
-						heightFull: true,
-					},
+					...defaultSettings.CONTAINERS.saint_laurent_container.block,
 				};
 			}
 			if (type === "swiper") {
 				return {
-					swiper: defaultSettings.CONTAINERS.saint_laurent_swiper,
-					view: {
-						darkTheme: true,
-						heightFull: true,
-					},
+					...defaultSettings.CONTAINERS.saint_laurent_container
+						.swiper,
 				};
 			}
 		};
@@ -241,7 +230,6 @@ export default function useContainerActions(): IContainerActions {
 			version: versionContainer,
 			display: type,
 			style: generateStyles(),
-			// @ts-ignore
 			components: createChildren(),
 			// @ts-ignore
 			settings: generateSettings(),
@@ -255,13 +243,13 @@ export default function useContainerActions(): IContainerActions {
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для создания контейнера для saint laurent типа
-	 * @param type
+	 * @param blockType
 	 * @param params
 	 * @param version
 	 * @param cb
 	 */
 	const createCategoryListContainerEvent = (
-		type: IContainerType,
+		blockType: DisplayContainerType,
 		params: ISchemaSettingCategoryListParams,
 		version: string,
 		cb: () => void
@@ -271,7 +259,7 @@ export default function useContainerActions(): IContainerActions {
 			return;
 		}
 
-		if (type === "initial") {
+		if (!blockType) {
 			toastMessage("Вы не выбрали тип контейнера!", "error");
 			return;
 		}
@@ -295,12 +283,10 @@ export default function useContainerActions(): IContainerActions {
 			type: "category_list_container",
 			version,
 			style: generateStyles(),
+			display: "swiper",
 			// @ts-ignore
 			settings: {
-				swiper: defaultSettings.CONTAINERS.swiper,
-				view: {
-					darkTheme: true,
-				},
+				...defaultSettings.CONTAINERS.category_list_container,
 				categoryList: params || {},
 			},
 		};

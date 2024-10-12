@@ -4,7 +4,7 @@ import { cn } from "@/components/lib/utils";
 import { ImageIcon } from "@radix-ui/react-icons";
 import { GalleryHorizontal } from "lucide-react";
 import { Input } from "@/components/shared/shadcn/ui/input";
-import { IContainerType } from "@/components/shared/types/types";
+import { DisplayContainerType } from "@/components/shared/types/types";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useContainerActions from "@/components/shared/hooks/actions/useContainerActions";
@@ -20,13 +20,13 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { versionContainer } from "@/components/app/versions/types/interface-version-container";
 
 interface TemplateAddBaseContainer {
-	blockType: IContainerType;
+	blockType: DisplayContainerType;
 	countComponent: number;
 	version: string;
 }
 
 const containerValueDefaultState: TemplateAddBaseContainer = {
-	blockType: "initial",
+	blockType: "block",
 	countComponent: 1,
 	version: versionContainer.container?.[0]?.version,
 };
@@ -68,7 +68,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 	 */
 	const onChangeContainerValue = (
 		key: keyof TemplateAddBaseContainer,
-		value: IContainerType | number | string
+		value: DisplayContainerType | number | string
 	) => {
 		if (!key || !value) {
 			toastMessage("ValueError: value or key is not defined", "error");
@@ -110,7 +110,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 			<div className="grid grid-cols-2 gap-3 mb-7 mt-4">
 				<Button
 					variant={
-						containerValue.blockType === "container"
+						containerValue.blockType === "block"
 							? "default"
 							: "outline"
 					}
@@ -148,10 +148,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 					<Select
 						defaultValue={containerValue.version}
 						value={containerValue.version}
-						disabled={
-							versionTypeData?.length === 0 ||
-							containerValue.blockType === "initial"
-						}
+						disabled={versionTypeData?.length === 0}
 						onValueChange={(value) =>
 							onChangeContainerValue("version", value)
 						}

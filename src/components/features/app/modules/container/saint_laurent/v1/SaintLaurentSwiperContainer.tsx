@@ -127,46 +127,50 @@ const SaintLaurentSwiperContainer: React.FC<Props> = (props) => {
 						!containerData.settings?.view?.darkTheme
 					),
 				}}
-				className={`swiper-container-v1 ${swiperSettingsStyles}`}
+				className={`swiper-container-v1 flex justify-center items-center ${swiperSettingsStyles}`}
 			>
-				<div
-					className={cn(
-						`saint-laurent-container-v1 ${saintLaurentDeviceStyle}`
-					)}
-					style={{
-						height: heightDeviceProperty(
-							containerData.settings?.view?.heightFull ?? false
-						),
-						...styleFormatted(
-							containerData.style,
-							!containerData?.settings?.view?.darkTheme
-						),
-					}}
-				>
-					{componentsData.map((component, index: number) => {
-						return (
-							<SwiperSlide key={component.id}>
-								{previewMode.showIndexSwiper && (
-									<span
-										className={cn(
-											"absolute top-1 w-[20px] h-[20px] text-xs left-1 z-10 rounded-full bg-white flex justify-center items-center"
-										)}
-									>
-										{index}
-									</span>
+				{componentsData.map((component, index: number) => {
+					return (
+						<SwiperSlide key={component.id}>
+							{previewMode.showIndexSwiper && (
+								<span
+									className={cn(
+										"absolute top-1 w-[20px] h-[20px] text-xs left-1 z-10 rounded-full bg-white flex justify-center items-center"
+									)}
+								>
+									{index}
+								</span>
+							)}
+							<div
+								className={cn(
+									"flex justify-center items-center h-full"
 								)}
-								<SpecialComponentRender
-									type="saint_laurent"
-									componentIndex={index}
-									containerData={containerData}
-									componentId={component.id}
-									componentData={component}
-									componentLen={1}
-								/>
-							</SwiperSlide>
-						);
-					})}
-				</div>
+							>
+								<div
+									className={cn(
+										`saint-laurent-container-v1 ${saintLaurentDeviceStyle}`
+									)}
+									style={{
+										...styleFormatted(
+											containerData.style,
+											!containerData?.settings?.view
+												?.darkTheme
+										),
+									}}
+								>
+									<SpecialComponentRender
+										type="saint_laurent"
+										componentIndex={index}
+										containerData={containerData}
+										componentId={component.id}
+										componentData={component}
+										componentLen={1}
+									/>
+								</div>
+							</div>
+						</SwiperSlide>
+					);
+				})}
 			</Swiper>
 		</div>
 	);

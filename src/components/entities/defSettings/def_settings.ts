@@ -2,59 +2,139 @@ import {
 	ComponentBaseTypes,
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
-import { SwiperSettings } from "@/components/shared/types/interface-schema-settings";
+import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
+
 // @todo переделать
+
 interface IDefaultSettings {
 	ELEMENT: Record<ElementBaseTypes, Record<string, unknown>>;
 	COMPONENTS: Record<ComponentBaseTypes, Record<string, unknown>>;
 	CONTAINERS: {
-		container: Record<string, unknown>;
-		swiper: SwiperSettings;
-		saint_laurent_swiper: SwiperSettings;
+		container: {
+			block: ISchemaSettings;
+			swiper: ISchemaSettings;
+		};
+		category_list_container: ISchemaSettings;
+		saint_laurent_container: {
+			block: ISchemaSettings;
+			swiper: ISchemaSettings;
+		};
 	};
 }
 
 export const defaultSettings: IDefaultSettings = {
 	CONTAINERS: {
-		container: {},
-		swiper: {
-			pagination: false,
-			autoplay: false,
-			loop: false,
-			slidePerView: 3.2,
-			slidePerGroup: 1,
-			spaceBetween: 10,
-			speed_advanced: {
-				delay: 1000,
-				speed: 700,
+		container: {
+			block: {
+				view: {
+					darkTheme: true,
+					heightFull: false,
+					navbarMode: false,
+				},
+				show: {
+					siteType: "all",
+				},
 			},
-			centeredSlides: false,
-			direction: "horizontal",
-			pagination_type: "bullet",
-			autoHeight: false,
-			paginationPosition: "bottom",
-			paginationTheme: "light",
-			mousewheel: false,
+			swiper: {
+				view: {
+					darkTheme: true,
+					heightFull: false,
+					navbarMode: false,
+				},
+				show: {
+					siteType: "all",
+				},
+				swiper: {
+					pagination: false,
+					autoplay: false,
+					loop: false,
+					slidePerView: 3.2,
+					slidePerGroup: 1,
+					spaceBetween: 10,
+					speed_advanced: {
+						delay: 1000,
+						speed: 700,
+					},
+					centeredSlides: false,
+					direction: "horizontal",
+					pagination_type: "bullet",
+					autoHeight: false,
+					paginationPosition: "bottom",
+					paginationTheme: "light",
+					mousewheel: false,
+				},
+			},
 		},
-		saint_laurent_swiper: {
-			pagination: false,
-			autoplay: false,
-			loop: false,
-			slidePerView: 1,
-			slidePerGroup: 1,
-			spaceBetween: 10,
-			speed_advanced: {
-				delay: 1000,
-				speed: 700,
+		saint_laurent_container: {
+			block: {
+				view: {
+					darkTheme: true,
+					heightFull: true,
+					navbarMode: false,
+				},
+				show: {
+					siteType: "all",
+				},
 			},
-			centeredSlides: false,
-			direction: "horizontal",
-			pagination_type: "bullet",
-			autoHeight: false,
-			paginationPosition: "bottom",
-			paginationTheme: "light",
-			mousewheel: false,
-		}
+			swiper: {
+				view: {
+					darkTheme: true,
+					heightFull: true,
+					navbarMode: false,
+				},
+				show: {
+					siteType: "all",
+				},
+				swiper: {
+					pagination: false,
+					autoplay: false,
+					loop: false,
+					slidePerView: 1,
+					slidePerGroup: 1,
+					spaceBetween: 0,
+					speed_advanced: {
+						delay: 1000,
+						speed: 700,
+					},
+					centeredSlides: false,
+					direction: "horizontal",
+					pagination_type: "bullet",
+					autoHeight: false,
+					paginationPosition: "bottom",
+					paginationTheme: "light",
+					mousewheel: false,
+				},
+			},
+		},
+		category_list_container: {
+			view: {
+				darkTheme: true,
+				heightFull: true,
+				navbarMode: false,
+			},
+			show: {
+				siteType: "all",
+			},
+			swiper: {
+				pagination: false,
+				autoplay: false,
+				loop: false,
+				slidePerView: 3.2,
+				slidePerGroup: 1,
+				spaceBetween: 10,
+				speed_advanced: {
+					delay: 1000,
+					speed: 700,
+				},
+				centeredSlides: false,
+				direction: "horizontal",
+				pagination_type: "bullet",
+				autoHeight: false,
+				paginationPosition: "bottom",
+				paginationTheme: "light",
+				mousewheel: false,
+			},
+		},
 	},
 	COMPONENTS: {},
 	ELEMENT: {},

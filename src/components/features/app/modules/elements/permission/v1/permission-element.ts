@@ -50,6 +50,10 @@ export const timer_component_permission: IPermission = {
 	},
 	styles: {
 		...permissionBaseElements.styles,
+		typography: {
+			...permissionBaseElements.styles.typography,
+			root: false,
+		},
 	},
 	content: {
 		...permissionBaseElements.content,

@@ -49,6 +49,12 @@ export interface ISchemaSettingsShow {
 export interface ISchemaSettingsTimer {
 	targetDate: string | Date;
 	targetTime: string | Date;
+	counter: {
+		style: Record<string, unknown>;
+	};
+	unit: {
+		style: Record<string, unknown>;
+	};
 }
 
 export interface ISchemaSettingsElement {
@@ -73,4 +79,5 @@ export interface ISchemaSettings {
 	element?: ISchemaSettingsElement;
 	swiper?: SwiperSettings;
 	categoryList?: ISchemaSettingCategoryListParams;
+	timer?: ISchemaSettingsTimer;
 }

@@ -84,6 +84,7 @@ interface Props {
 	styles?: IStylesValues;
 	hideTitle?: boolean;
 	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
+	hideRemove?: boolean;
 }
 
 const fontStyleData: IFontStyleData[] = [
@@ -228,7 +229,13 @@ const extractStyles = (styles: IStylesValues): IStylesValues => {
  * @constructor
  */
 const TypographyStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
+	const {
+		onStyleChange,
+		styles,
+		hideTitle,
+		onRemoveStylesChange,
+		hideRemove,
+	} = props;
 
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
@@ -369,24 +376,26 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Typography</h3>}
 			<div className={cn("w-full p-1")}>
-				<div
-					className={cn(
-						"flex flex-row gap-2 items-center justify-end"
-					)}
-				>
-					<div className={cn("flex flex-row items-center gap-2")}>
-						<Button
-							type="button"
-							variant="ghost"
-							className={cn("text-xs")}
-							onClick={() => {
-								removeStylesHandle();
-							}}
-						>
-							Очистить
-						</Button>
+				{!hideRemove && (
+					<div
+						className={cn(
+							"flex flex-row gap-2 items-center justify-end"
+						)}
+					>
+						<div className={cn("flex flex-row items-center gap-2")}>
+							<Button
+								type="button"
+								variant="ghost"
+								className={cn("text-xs")}
+								onClick={() => {
+									removeStylesHandle();
+								}}
+							>
+								Очистить
+							</Button>
+						</div>
 					</div>
-				</div>
+				)}
 
 				{permission.styles.typography.fontFamily && (
 					<div>

@@ -155,7 +155,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 	const onChangeSettings = (
 		value: boolean | number | string,
 		key: keyof SwiperSettings,
-		insideKey?: string | number
+		insideKey?: any
 	) => {
 		if (key === "speed_advanced") {
 			setSwiperSettings((prev) => {
@@ -163,7 +163,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 					...prev,
 					speed_advanced: {
 						...prev.speed_advanced,
-						[insideKey]: parseFloat(value),
+						[insideKey]: value,
 					},
 				};
 
@@ -574,7 +574,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 							value={swiperSettings.speed_advanced.speed}
 							onChange={(e) =>
 								onChangeSettings(
-									e.target.value,
+									parseFloat(e.target.value),
 									"speed_advanced",
 									"speed"
 								)
@@ -599,7 +599,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 							value={swiperSettings.speed_advanced.delay}
 							onChange={(e) =>
 								onChangeSettings(
-									e.target.value,
+									parseFloat(e.target.value),
 									"speed_advanced",
 									"delay"
 								)

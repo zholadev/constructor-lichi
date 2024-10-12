@@ -9,7 +9,7 @@ interface Props {
 }
 
 const spacingStyles: Record<DivideSpacing, string> = {
-	smail: "my-2",
+	smail: "my-3",
 	medium: "my-5",
 	large: "my-8",
 };

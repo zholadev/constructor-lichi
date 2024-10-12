@@ -9,9 +9,9 @@ interface Props {
 	minutes: string;
 	seconds: string;
 	style?: React.CSSProperties;
-	fontSTime?: string;
-	fontSType?: string;
 	darkThemeSetting: boolean;
+	counterStyle: Record<string, unknown>;
+	unitStyle: Record<string, unknown>;
 }
 
 /**
@@ -32,9 +32,9 @@ const TimerDisplay: React.FC<Props> = (props) => {
 		minutes,
 		seconds,
 		style,
-		fontSTime,
-		fontSType,
 		darkThemeSetting,
+		counterStyle,
+		unitStyle,
 	} = props;
 
 	const styleFormatted = useStylesFormatted();
@@ -45,31 +45,31 @@ const TimerDisplay: React.FC<Props> = (props) => {
 			style={{ ...styleFormatted(style, darkThemeSetting) }}
 		>
 			<TimerItem
-				fontSTime={fontSTime}
-				fontSType={fontSType}
 				value={days}
 				type="Дней"
 				dot
+				counterStyle={counterStyle}
+				unitStyle={unitStyle}
 			/>
 			<TimerItem
-				fontSTime={fontSTime}
-				fontSType={fontSType}
 				value={hours}
 				type="Часов"
 				dot
+				counterStyle={counterStyle}
+				unitStyle={unitStyle}
 			/>
 			<TimerItem
-				fontSTime={fontSTime}
-				fontSType={fontSType}
 				value={minutes}
 				type="минут"
 				dot
+				counterStyle={counterStyle}
+				unitStyle={unitStyle}
 			/>
 			<TimerItem
-				fontSTime={fontSTime}
-				fontSType={fontSType}
 				value={seconds}
 				type="секунд"
+				counterStyle={counterStyle}
+				unitStyle={unitStyle}
 			/>
 		</ul>
 	);

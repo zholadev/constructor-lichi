@@ -49,7 +49,17 @@ export const timer_schema_element = (version: string): IElementTotal => {
 		settings: {
 			timer: {
 				targetDate: getFormattedDateSixDaysAhead(),
-				targetTime: "00:00:00",
+				targetTime: new Date(),
+				counter: {
+					style: {
+						textTransform: "uppercase",
+					},
+				},
+				unit: {
+					style: {
+						textTransform: "uppercase",
+					},
+				},
 			},
 			view: {
 				darkTheme: true,

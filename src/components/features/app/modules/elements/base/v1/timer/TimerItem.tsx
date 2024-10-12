@@ -5,8 +5,8 @@ interface Props {
 	value: string;
 	type?: string;
 	dot?: boolean;
-	fontSType?: string;
-	fontSTime?: string;
+	counterStyle: Record<string, unknown>;
+	unitStyle: Record<string, unknown>;
 }
 
 /**
@@ -21,13 +21,12 @@ interface Props {
  * @constructor
  */
 const TimerItem: React.FC<Props> = (props) => {
-	const { value, type, dot, fontSType, fontSTime } = props;
-
+	const { value, type, dot, counterStyle, unitStyle } = props;
 	return (
 		<li className={styles.timer_display}>
 			<div
 				className={styles.timer_display_value}
-				style={{ fontSize: fontSTime }}
+				style={{ ...counterStyle }}
 			>
 				{value}{" "}
 				{dot && <span className={styles.timer_display_dot}>.</span>}
@@ -35,7 +34,7 @@ const TimerItem: React.FC<Props> = (props) => {
 			{type && (
 				<span
 					className={styles.timer_display_type}
-					style={{ fontSize: fontSType }}
+					style={{ ...unitStyle }}
 				>
 					{type}
 				</span>

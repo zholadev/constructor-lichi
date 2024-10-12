@@ -72,7 +72,10 @@ const ContentContainer: React.FC = () => {
 
 	const contentActiveData: IContentActiveData = useMemo(() => {
 		try {
-			const content = activeElementData?.activeData?.content;
+			const content =
+				activeElementData?.widgetType === "stories"
+					? activeElementData?.widgetActiveData?.content
+					: activeElementData?.activeData?.content;
 
 			return {
 				content: {

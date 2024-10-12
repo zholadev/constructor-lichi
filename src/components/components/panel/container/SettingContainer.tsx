@@ -8,7 +8,7 @@ import {
 	AccordionTrigger,
 } from "@/components/shared/shadcn/ui/accordion";
 import { cn } from "@/components/lib/utils";
-import {LayoutIcon, TimerIcon} from "@radix-ui/react-icons";
+import { LayoutIcon, TimerIcon } from "@radix-ui/react-icons";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import ElementSetting from "@/components/features/app/modules/editor/setting/ElementSetting";
@@ -188,6 +188,9 @@ const SettingContainer: React.FC = () => {
 							onSettingChange={(data) =>
 								updateContentHandle(data, "settings.timer")
 							}
+							onSettingChangeStyle={(data, path) => {
+								updateContentHandle(data, path);
+							}}
 						/>
 					</AccordionContent>
 				</AccordionItem>

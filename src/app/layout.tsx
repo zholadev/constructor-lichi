@@ -7,7 +7,6 @@ import "./globals.css";
 import "swiper/css";
 import React from "react";
 import { Toaster } from "sonner";
-import NextTopLoader from "@kfarwell/nextjs-toploader";
 import ThemeProvider from "@/components/app/providers/ThemeProvider";
 import StoreProvider from "@/components/app/providers/StoreProvider";
 import ApiDataProvider from "@/components/app/providers/ApiDataProvider";
@@ -25,25 +24,22 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>): React.JSX.Element {
 	return (
-		<>
-			{/*<NextTopLoader color="#000" showSpinner={false} zIndex={10000} />*/}
-			<StoreProvider>
-				<ApiDataProvider>
-					<html lang="en" className="overflow-hidden">
-						<Toaster position="bottom-left" />
-						<body className={inter.className}>
-							<ThemeProvider
-								enableSystem
-								disableTransitionOnChange
-								attribute="class"
-								defaultTheme="light"
-							>
-								<main className="min-h-screen">{children}</main>
-							</ThemeProvider>
-						</body>
-					</html>
-				</ApiDataProvider>
-			</StoreProvider>
-		</>
+		<StoreProvider>
+			<ApiDataProvider>
+				<html lang="en" className="overflow-auto">
+					<Toaster position="bottom-left" />
+					<body className={inter.className}>
+						<ThemeProvider
+							enableSystem
+							disableTransitionOnChange
+							attribute="class"
+							defaultTheme="light"
+						>
+							<main className="min-h-screen">{children}</main>
+						</ThemeProvider>
+					</body>
+				</html>
+			</ApiDataProvider>
+		</StoreProvider>
 	);
 }

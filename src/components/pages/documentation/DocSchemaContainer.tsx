@@ -129,6 +129,22 @@ const saintLaurentSchema: ISchemaContainer = {
 	},
 };
 
+const doc_id_params = { id: "a404d0df-8b86-4544-ae74-4fd8260758e7" };
+const doc_guid_params = { guid: "a404d0df-8b86-4544-ae74-4fd8260758e7" };
+const doc_type_params = { type: "container" };
+const doc_style_params = {
+	style: {
+		margin: [3, 7, 4, 1],
+		padding: [3, 5, 0, 0],
+		fontSize: 12,
+		backgroundColor: "#ffffff",
+		backgroundColorDark: "rgb(24, 26, 27)",
+		display: "grid",
+		gap: "2px",
+		gridTemplateColumns: "1fr",
+	},
+};
+
 /**
  * @author Zholaman Zhumanov
  * @created 07.10.2024
@@ -141,64 +157,126 @@ const saintLaurentSchema: ISchemaContainer = {
  */
 const DocSchemaContainer: React.FC = () => {
 	return (
-		<div className={cn("w-full grid grid-cols-2 gap-40 mb-4")}>
-			<article>
-				<h3 className={cn("mb-2 block")}>Контейнер</h3>
+		<>
+			<div className={cn("w-full grid grid-cols-2 gap-40 mb-4")}>
+				<article>
+					<h3 className={cn("mb-2 block")}>Контейнер</h3>
 
-				<p className={cn("border p-3 mb-6 bg-secondary rounded-md")}>
-					Контейнер — это основной элемент, который содержит различные
-					UI-компоненты и определяет их общую структуру.
-				</p>
+					<p
+						className={cn(
+							"border p-3 mb-6 bg-secondary rounded-md"
+						)}
+					>
+						Контейнер — это основной элемент, который содержит
+						различные UI-компоненты и определяет их общую структуру.
+					</p>
 
-				<div className={cn("mt-3")}>
-					<h3 className={cn("mb-2 block")}>Типы контейнеров</h3>
+					<div className={cn("mt-3")}>
+						<h3 className={cn("mb-2 block")}>Типы контейнеров</h3>
 
-					<ul className={cn("mt-3 block")}>
-						<li className={cn("mb-4")}>
-							<span
-								className={cn("bg-secondary p-1 font-medium")}
-							>
-								container
-							</span>{" "}
-							— базовый контейнер, который используется для
-							размещения различных компонентов и настройки их
-							стилей. Может включать сетки, фоновые цвета, отступы
-							и другие стили.
-						</li>
-						<li className={cn("mb-4")}>
-							<span
-								className={cn("bg-secondary p-1 font-medium")}
-							>
-								swiper
-							</span>{" "}
-							— контейнер для реализации слайдеров. Используется
-							для создания горизонтальных или вертикальных
-							каруселей (слайдеров), где компоненты могут
-							перелистываться пользователем.
-						</li>
-						<li className={cn("mb-4")}>
-							<span
-								className={cn("bg-secondary p-1 font-medium")}
-							>
-								saint_laurent_container
-							</span>{" "}
-							— уникальный контейнер, который, вероятно,
-							предназначен для кастомных решений под бренд или
-							коллекцию "Saint Laurent". Может иметь уникальные
-							стили и компоненты, характерные для данного
-							использования.
-						</li>
-					</ul>
-				</div>
-			</article>
-			<div className={cn("")}>
-				<JsonViewContent jsonData={containerSchema} />
+						<ul className={cn("mt-3 block")}>
+							<li className={cn("mb-4")}>
+								<span
+									className={cn(
+										"bg-secondary p-1 font-medium"
+									)}
+								>
+									container
+								</span>{" "}
+								— базовый контейнер, который используется для
+								размещения различных компонентов и настройки их
+								стилей. Может включать сетки, фоновые цвета,
+								отступы и другие стили.
+							</li>
+							<li className={cn("mb-4")}>
+								<span
+									className={cn(
+										"bg-secondary p-1 font-medium"
+									)}
+								>
+									swiper
+								</span>{" "}
+								— контейнер для реализации слайдеров.
+								Используется для создания горизонтальных или
+								вертикальных каруселей (слайдеров), где
+								компоненты могут перелистываться пользователем.
+							</li>
+							<li className={cn("mb-4")}>
+								<span
+									className={cn(
+										"bg-secondary p-1 font-medium"
+									)}
+								>
+									saint_laurent_container
+								</span>{" "}
+								— уникальный контейнер, который, вероятно,
+								предназначен для кастомных решений под бренд или
+								коллекцию "Saint Laurent". Может иметь
+								уникальные стили и компоненты, характерные для
+								данного использования.
+							</li>
+						</ul>
+					</div>
+				</article>
+				<div className={cn("")}>
+					<JsonViewContent jsonData={containerSchema} />
 
-				<div className={cn("mt-3")}>
-					<JsonViewContent jsonData={saintLaurentSchema} />
+					<div className={cn("mt-3")}>
+						<JsonViewContent jsonData={saintLaurentSchema} />
+					</div>
 				</div>
 			</div>
-		</div>
+			<div className={cn("w-full grid grid-cols-2 gap-40 mb-4")}>
+				<div className={cn("")}>
+					<JsonViewContent jsonData={doc_id_params} />
+				</div>
+				<article className={cn("bg-secondary p-3 rounded-md")}>
+					<p className={cn("border mb-6")}>
+						id — Это уникальный идентификатор для конкретного
+						элемента или объекта. Обычно используется для
+						однозначной идентификации элемента в базе данных или
+						структуре.
+					</p>
+				</article>
+			</div>
+			<div className={cn("w-full grid grid-cols-2 gap-40 mb-4")}>
+				<div className={cn("")}>
+					<JsonViewContent jsonData={doc_guid_params} />
+				</div>
+				<article className={cn("bg-secondary p-3 rounded-md")}>
+					<p className={cn("border mb-6")}>
+						guid - Это глобальный уникальный идентификатор (GUID), который
+						часто используется для идентификации объектов в
+						системах, где требуется глобальная уникальность. В
+						отличие от id, GUID может быть уникальным на всех
+						уровнях системы, даже в разных базах данных.
+					</p>
+				</article>
+			</div>
+			<div className={cn("w-full grid grid-cols-2 gap-40 mb-4")}>
+				<div className={cn("")}>
+					<JsonViewContent jsonData={doc_type_params} />
+				</div>
+				<article className={cn("bg-secondary p-3 rounded-md")}>
+					<p className={cn("border mb-6")}>
+						type - Тип объекта, описывающий, к какому классу или категории
+						принадлежит данный элемент. В данном случае это
+						контейнер с типом "container". Также входят компоненты и
+						элементы
+					</p>
+				</article>
+			</div>
+			<div className={cn("w-full grid grid-cols-2 gap-40 mb-4")}>
+				<div className={cn("")}>
+					<JsonViewContent jsonData={doc_style_params} />
+				</div>
+				<article className={cn("bg-secondary p-3 rounded-md")}>
+					<p className={cn("border mb-6")}>
+						style - объект, который содержит свойства стилей для элемента.
+					</p>
+				</article>
+			</div>
+		</>
 	);
 };
 

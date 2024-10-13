@@ -10,7 +10,8 @@ import SavePage from "@/components/components/editor/SavePage";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import EditorSetting from "@/components/components/editor/EditorSetting";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { CopyIcon } from "@radix-ui/react-icons";
+import {CopyIcon, FileIcon} from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
 
 /**
  * @author Zholaman Zhumanov
@@ -26,6 +27,8 @@ const HeaderActionPanel: React.FC = () => {
 	const dialog = useDialogAction();
 
 	const { editorPreviewModeAction } = useDispatchAction();
+
+	const router = useRouter();
 
 	const {
 		spaceModeTheme,
@@ -49,6 +52,14 @@ const HeaderActionPanel: React.FC = () => {
 				<span>{spaceModeDeviceType}</span> |{" "}
 				<span>{spaceModeTheme}</span> | <span>{spaceModeLanguage}</span>
 			</div>
+
+			<Button
+				variant="outline"
+				onClick={() => router.push("documentation")}
+				className={cn("text-xs flex items-center gap-2")}
+			>
+				<FileIcon /> Документация шаблона
+			</Button>
 
 			<Button
 				disabled={spaceTemplateData?.length === 0}

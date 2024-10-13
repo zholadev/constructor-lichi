@@ -16,7 +16,7 @@ const DocSchemaPage: React.FC = () => {
 	return (
 		<div
 			className={cn(
-				"size-full p-5 flex flex-col justify-center items-center"
+				"size-full p-5 flex flex-col justify-center overflow-auto items-center"
 			)}
 		>
 			<h1
@@ -27,7 +27,7 @@ const DocSchemaPage: React.FC = () => {
 				Документация по схеме
 			</h1>
 
-			<div className={cn("w-full max-w-[1440px]")}>
+			<div className={cn("w-full max-w-[1440px] h-full overflow-auto")}>
 				<DocSchemaContainer />
 			</div>
 		</div>

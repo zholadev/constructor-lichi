@@ -5,6 +5,7 @@ import { cn } from "@/components/lib/utils";
 
 interface Props {
 	jsonData: JSON;
+	fullHeight?: boolean;
 }
 
 /**
@@ -19,7 +20,7 @@ interface Props {
  * @constructor
  */
 const JsonViewContent: React.FC<Props> = (props) => {
-	const { jsonData } = props;
+	const { jsonData, fullHeight } = props;
 
 	return (
 		<div className={cn("overflow-auto")}>
@@ -28,7 +29,9 @@ const JsonViewContent: React.FC<Props> = (props) => {
 				shouldExpandNode={allExpanded}
 				style={{
 					...darkStyles,
-					container: "schema-json-view-container",
+					container: fullHeight
+						? "schema-json-view-container-full"
+						: "schema-json-view-container",
 				}}
 			/>
 		</div>

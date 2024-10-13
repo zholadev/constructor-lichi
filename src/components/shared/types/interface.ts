@@ -1,4 +1,4 @@
-import {DeviceType} from "@/components/shared/types/types";
+import { DeviceType } from "@/components/shared/types/types";
 
 export interface IGetApiParams {
 	data: any;

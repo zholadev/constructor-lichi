@@ -14,7 +14,7 @@ import {
 	dialogSaveSchemaReducer,
 	dialogSchemaViewReducer,
 	dialogSettingActionAddComponentReducer,
-	dialogStoriesContainerReducer,
+	dialogWidgetReducer,
 	dialogUploadFileReducer,
 } from "@/components/app/store/features/dialogSlice";
 import {
@@ -37,7 +37,6 @@ import {
 	TemplateType,
 	ThemeSpaceMode,
 	TypeMethodSchema,
-	WidgetTypes,
 } from "@/components/shared/types/types";
 import {
 	languageDataReducer,
@@ -71,7 +70,7 @@ import {
 import {
 	editorActiveElementReducer,
 	editorAddComponentTypeReducer,
-	editorAdditionalActiveElementReducer,
+	editorWidgetActiveElementReducer,
 	editorDisabledEditReducer,
 	editorDraggingTemplateReducer,
 	editorHeightPropertyReducer,
@@ -90,6 +89,7 @@ import {
 	ISchemaPageData,
 	ISchemaTotalData,
 } from "@/components/shared/types/interface-schema";
+import {WidgetTypes} from "@/components/features/app/modules/widgets/types/interface-widget";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();
@@ -122,8 +122,8 @@ export default function useDispatchAction(): any {
 			dispatch(dialogAddComponentReducer(value)),
 		dialogSettingActionAddComponentAction: (value: boolean) =>
 			dispatch(dialogSettingActionAddComponentReducer(value)),
-		dialogStoriesContainerAction: (value: boolean) =>
-			dispatch(dialogStoriesContainerReducer(value)),
+		dialogWidgetAction: (value: boolean) =>
+			dispatch(dialogWidgetReducer(value)),
 		dialogSchemaViewAction: (value: boolean) =>
 			dispatch(dialogSchemaViewReducer(value)),
 		dialogCopyTemplateAction: (value: boolean) =>
@@ -172,9 +172,9 @@ export default function useDispatchAction(): any {
 			dispatch(editorAddComponentTypeReducer(value)),
 		editorSwiperIndexShowReducerAction: (value: boolean) =>
 			dispatch(editorSwiperIndexShowReducer(value)),
-		editorAdditionalActiveElementAction: (value: WidgetTypes) =>
-			dispatch(editorAdditionalActiveElementReducer(value)),
-		editorHeightPropertyAction: (value: WidgetTypes) =>
+		editorWidgetActiveElementAction: (value: WidgetTypes) =>
+			dispatch(editorWidgetActiveElementReducer(value)),
+		editorHeightPropertyAction: (value: string) =>
 			dispatch(editorHeightPropertyReducer(value)),
 
 		// Space actions

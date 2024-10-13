@@ -3,11 +3,17 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
-import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
+import {
+	DragHandleDots2Icon,
+	TokensIcon,
+	TrashIcon,
+} from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import usePermission from "@/components/shared/hooks/usePermission";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import useActiveElement from "@/components/shared/hooks/useActiveElement";
 
 /**
  * @author Zholaman Zhumanov
@@ -27,8 +33,11 @@ const BoardToolbar: React.FC = () => {
 		editorActiveElementAction,
 	} = useDispatchAction();
 
+	const dialog = useDialogAction();
+
 	const permission = usePermission();
 	const previewMode = usePreviewMode();
+	const activeElementHandle = useActiveElement();
 
 	const { editorDisabledEdit, editorDraggingTemplate, editorRemoveTemplate } =
 		useAppSelector((state) => state.editor);
@@ -66,6 +75,38 @@ const BoardToolbar: React.FC = () => {
 				</h3>
 			</div>
 			<div className={cn("flex items-center gap-2")}>
+				{permission.widget.root && (
+					<Button
+						className={cn("text-xs")}
+						variant="outline"
+						disabled={
+							spaceTemplateData.length === 0 ||
+							editorDraggingTemplate
+						}
+						onClick={(e) => {
+							e.stopPropagation();
+
+							if (dialog.dialogWidget.open) {
+								//@ts-ignore
+								activeElementHandle({
+									widgetType: "none",
+								});
+							}
+
+							dialog.dialogWidget.toggle();
+						}}
+					>
+						{dialog.dialogWidget.open ? (
+							<div className={cn("flex items-center gap-1")}>
+								<TokensIcon /> Закрыть виджеты
+							</div>
+						) : (
+							<div className={cn("flex items-center gap-1")}>
+								<TokensIcon /> Добавить виджеты
+							</div>
+						)}
+					</Button>
+				)}
 				{permission.editor.dnd && (
 					<Button
 						className={cn("text-xs")}

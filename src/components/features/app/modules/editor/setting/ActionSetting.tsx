@@ -27,7 +27,7 @@ const ActionSetting: React.FC = () => {
 	const activeElementData = useActiveElementObserver();
 
 	const removeClickHandle = () => {
-		if (activeElementData?.widgetType === "stories") {
+		if (activeElementData?.widgetType !== "none") {
 			removeWidgetActions.removeWidget();
 			return;
 		}

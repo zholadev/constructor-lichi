@@ -7,6 +7,8 @@ import useActiveElementObserver from "@/components/shared/hooks/useActiveElement
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import SelectionElementOverlay from "../selection/SelectionElementOverlay";
 
 interface Props {
@@ -33,12 +35,14 @@ const ComponentAction: React.FC<Props> = (props) => {
 	const { children, data, containerId, cls, widgetComponent, containerData } =
 		props;
 
-	const activeElementHandle = useActiveElement();
+	const { editorWidgetActiveElementAction } = useDispatchAction();
+
+	const dialog = useDialogAction();
 	const previewMode = usePreviewMode();
+	const activeElementHandle = useActiveElement();
 	const activeElementData = useActiveElementObserver();
 
-	const { editorActiveElement, editorAdditionalActiveElement } =
-		useAppSelector((state) => state.editor);
+	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -48,7 +52,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 		// if (!data?.type) return;
 		if (previewMode.previewModeEditor) return;
 		if (widgetComponent) {
-			if (editorAdditionalActiveElement === "stories") {
+			if (dialog.dialogWidget.open) {
 				activeElementHandle({
 					activeData: activeElementData?.activeData,
 					containerData: activeElementData?.containerData,
@@ -71,7 +75,15 @@ const ComponentAction: React.FC<Props> = (props) => {
 				type: "component",
 				componentId: data?.id,
 				activeId: data?.id,
+				widgetType: "none",
+				widgetData: {},
+				widgetActiveComponentId: "",
+				widgetActiveData: {},
+				activeStyle: {},
+				widgetActiveType: "none",
 			});
+			editorWidgetActiveElementAction("none");
+			if (dialog.dialogWidget.open) dialog.dialogWidget.toggle();
 		}
 	};
 

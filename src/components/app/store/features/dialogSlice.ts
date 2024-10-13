@@ -15,7 +15,7 @@ interface stateSlice {
 	dialogEditorSetting: boolean;
 	dialogAddComponent: boolean;
 	dialogSettingActionAddComponent: boolean;
-	dialogStoriesContainer: boolean;
+	dialogWidget: boolean;
 	dialogSchemaView: boolean;
 	dialogCopyTemplate: boolean;
 }
@@ -34,7 +34,7 @@ const initialState: stateSlice = {
 	dialogEditorSetting: false,
 	dialogAddComponent: false,
 	dialogSettingActionAddComponent: false,
-	dialogStoriesContainer: false,
+	dialogWidget: false,
 	dialogSchemaView: false,
 	dialogCopyTemplate: false,
 };
@@ -88,11 +88,8 @@ export const dialogSlice = createSlice({
 		) => {
 			state.dialogSettingActionAddComponent = action.payload;
 		},
-		dialogStoriesContainerReducer: (
-			state,
-			action: PayloadAction<boolean>
-		) => {
-			state.dialogStoriesContainer = action.payload;
+		dialogWidgetReducer: (state, action: PayloadAction<boolean>) => {
+			state.dialogWidget = action.payload;
 		},
 		dialogSchemaViewReducer: (state, action: PayloadAction<boolean>) => {
 			state.dialogSchemaView = action.payload;
@@ -117,7 +114,7 @@ export const {
 	dialogEditorSettingReducer,
 	dialogAddComponentReducer,
 	dialogSettingActionAddComponentReducer,
-	dialogStoriesContainerReducer,
+	dialogWidgetReducer,
 	dialogSchemaViewReducer,
 	dialogCopyTemplateReducer,
 } = dialogSlice.actions;

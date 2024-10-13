@@ -59,6 +59,7 @@ export const permissionSpecialComponentsV1: IPermission = {
 		link: true,
 		textFill: false,
 		stories: true,
+		animation: true,
 	},
 	setting: {
 		show: {
@@ -82,5 +83,11 @@ export const permissionSpecialComponentsV1: IPermission = {
 		},
 		element: true,
 		timer: false,
+	},
+	widget: {
+		root: true,
+		stories: {
+			root: true,
+		},
 	},
 };

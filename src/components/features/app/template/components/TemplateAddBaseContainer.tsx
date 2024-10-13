@@ -55,9 +55,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 		React.useState<TemplateAddBaseContainer>(containerValueDefaultState);
 
 	const versionTypeData = useMemo(() => {
-		return containerValue.blockType === "swiper"
-			? (versionContainer.swiper ?? [])
-			: (versionContainer.container ?? []);
+		return versionContainer.container ?? [];
 	}, [containerValue.blockType, versionContainer]);
 
 	/**
@@ -116,7 +114,7 @@ const TemplateAddBaseContainer: React.FC = () => {
 					}
 					className={cn("p-3 border w-full h-[120px] flex flex-col")}
 					onClick={() => {
-						onChangeContainerValue("blockType", "container");
+						onChangeContainerValue("blockType", "block");
 					}}
 				>
 					<ImageIcon width={60} height={60} className={cn("mb-3")} />{" "}

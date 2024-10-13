@@ -20,6 +20,7 @@ import TimerSetting from "@/components/features/app/modules/editor/setting/Timer
 import ActionSetting from "@/components/features/app/modules/editor/setting/ActionSetting";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
 import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 export type SettingTypes = "view" | "show" | "action" | "swiper";
 
@@ -34,6 +35,7 @@ export type SettingTypes = "view" | "show" | "action" | "swiper";
  * @constructor
  */
 const SettingContainer: React.FC = () => {
+	const dialog = useDialogAction();
 	const permission = usePermission();
 	const updateActions = useUpdateActions();
 	const updateWidgetActions = useUpdateWidgetActions();
@@ -44,19 +46,36 @@ const SettingContainer: React.FC = () => {
 	]);
 
 	const settingDefaultData = useMemo(() => {
+		const widgetActive =
+			activeElementData?.widgetType !== "none" &&
+			dialog.dialogWidget.open;
 		return {
-			view: activeElementData?.activeData?.settings?.view || {},
-			show: activeElementData?.activeData?.settings?.show || {},
-			swiper: activeElementData?.activeData?.settings?.swiper || {},
-			timer: activeElementData?.activeData?.settings?.timer || {},
-			element: activeElementData?.activeData?.settings?.element || {},
-			categoryList:
-				activeElementData?.activeData?.settings?.categoryList || {},
+			view: widgetActive
+				? activeElementData?.widgetActiveData?.settings?.view
+				: activeElementData?.activeData?.settings?.view || {},
+			show: widgetActive
+				? activeElementData?.widgetActiveData?.settings?.show
+				: activeElementData?.activeData?.settings?.show || {},
+			swiper: widgetActive
+				? activeElementData?.widgetActiveData?.settings?.swiper
+				: activeElementData?.activeData?.settings?.swiper || {},
+			timer: widgetActive
+				? activeElementData?.widgetActiveData?.settings?.timer
+				: activeElementData?.activeData?.settings?.timer || {},
+			element: widgetActive
+				? activeElementData?.widgetActiveData?.settings?.element
+				: activeElementData?.activeData?.settings?.element || {},
+			categoryList: widgetActive
+				? activeElementData?.widgetActiveData?.settings?.categoryList
+				: activeElementData?.activeData?.settings?.categoryList || {},
 		};
 	}, [activeElementData, permission]);
 
 	const updateContentHandle = (data, path) => {
-		if (activeElementData?.widgetType === "stories") {
+		if (
+			activeElementData?.widgetType !== "none" &&
+			dialog.dialogWidget.open
+		) {
 			updateWidgetActions.update(data, path);
 			return;
 		}

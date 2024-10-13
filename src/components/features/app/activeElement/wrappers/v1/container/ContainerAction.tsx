@@ -5,6 +5,8 @@ import { cn } from "@/components/lib/utils";
 import SelectionElementOverlay from "@/components/features/app/activeElement/wrappers/v1/selection/SelectionElementOverlay";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 interface Props {
 	children: React.ReactNode;
@@ -26,8 +28,11 @@ interface Props {
 const ContainerAction: React.FC<Props> = (props) => {
 	const { children, containerData, containerId } = props;
 
-	const activeElementHandle = useActiveElement();
+	const { editorWidgetActiveElementAction } = useDispatchAction();
+
+	const dialog = useDialogAction();
 	const previewMode = usePreviewMode();
+	const activeElementHandle = useActiveElement();
 
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
@@ -40,6 +45,8 @@ const ContainerAction: React.FC<Props> = (props) => {
 			componentId: containerData?.id,
 			activeId: containerId,
 		});
+		editorWidgetActiveElementAction("none");
+		if (dialog.dialogWidget.open) dialog.dialogWidget.toggle();
 	};
 
 	return (

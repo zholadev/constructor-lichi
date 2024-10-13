@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IActiveElement } from "@/components/shared/types/interface-editor";
-import { WidgetTypes, IContainerType } from "@/components/shared/types/types";
+import { IContainerType } from "@/components/shared/types/types";
+import { WidgetTypes } from "@/components/features/app/modules/widgets/types/interface-widget";
 
 interface stateSlice {
 	editorSelectElement: unknown;
@@ -16,7 +17,7 @@ interface stateSlice {
 	editorNavigatorHoverId: string | null;
 	editorAddComponentType: IContainerType;
 	editorSwiperIndexShow: boolean;
-	editorAdditionalActiveElement: WidgetTypes;
+	editorWidgetActiveElement: WidgetTypes;
 	editorHeightProperty: string;
 }
 
@@ -33,7 +34,7 @@ const initialState: stateSlice = {
 	editorNavigatorHoverId: null,
 	editorAddComponentType: "initial",
 	editorSwiperIndexShow: true,
-	editorAdditionalActiveElement: "none",
+	editorWidgetActiveElement: "none",
 	editorHeightProperty: "100%",
 };
 
@@ -101,11 +102,11 @@ export const editorSlice = createSlice({
 		) => {
 			state.editorSwiperIndexShow = action.payload;
 		},
-		editorAdditionalActiveElementReducer: (
+		editorWidgetActiveElementReducer: (
 			state,
 			action: PayloadAction<WidgetTypes>
 		) => {
-			state.editorAdditionalActiveElement = action.payload;
+			state.editorWidgetActiveElement = action.payload;
 		},
 		editorHeightPropertyReducer: (state, action: PayloadAction<string>) => {
 			state.editorHeightProperty = action.payload;
@@ -126,7 +127,7 @@ export const {
 	editorNavigatorHoverIdReducer,
 	editorAddComponentTypeReducer,
 	editorSwiperIndexShowReducer,
-	editorAdditionalActiveElementReducer,
+	editorWidgetActiveElementReducer,
 	editorHeightPropertyReducer,
 } = editorSlice.actions;
 export default editorSlice.reducer;

@@ -7,7 +7,6 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import useDebounce from "@/components/shared/hooks/useDebounce";
 import usePermission from "@/components/shared/hooks/usePermission";
 import { Button } from "@/components/shared/shadcn/ui/button";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
 
 interface IStylesValues {

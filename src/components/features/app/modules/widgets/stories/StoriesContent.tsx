@@ -7,8 +7,8 @@ import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import BaseComponentRender from "../../../components/container/v1/BaseComponentRender";
-import useActiveElementObserver from "../../../../../../shared/hooks/useActiveElementObserver";
+import BaseComponentRender from "../../components/container/v1/BaseComponentRender";
+import useActiveElementObserver from "../../../../../shared/hooks/useActiveElementObserver";
 import StoriesAddButton from "./StoriesAddButton";
 
 /**
@@ -31,7 +31,7 @@ const StoriesContent: React.FC = () => {
 
 	const closeStoriesHandle = () => {
 		editorAdditionalActiveElementAction("none");
-		dialog.dialogStoriesContainer.toggle();
+		dialog.dialogWidget.toggle();
 	};
 
 	if (!activeElementData?.componentId) {
@@ -39,29 +39,21 @@ const StoriesContent: React.FC = () => {
 	}
 
 	return (
-		<div
-			className={cn(
-				"size-full flex justify-center items-center absolute top-0 left-0"
-			)}
-		>
+		<div className={cn("size-full flex justify-center items-center")}>
 			<div
 				className={cn(
-					"min-w-[300px] max-h-[40vw] p-3 max-w-[900px] relative min-h-[300px] bg-white rounded-md overflow-hidden"
+					"w-full p-3 relative bg-white rounded-md overflow-hidden"
 				)}
 			>
-				<div
-					className={cn(
-						"w-full absolute right-4 top-4 flex justify-end"
-					)}
-				>
-					<Button variant="ghost" onClick={closeStoriesHandle}>
-						<Cross1Icon width={20} height={20} />
-					</Button>
-				</div>
-				<h3 className={cn("w-full text-sm mb-6 text-center uppercase")}>
-					Добавить stories для компонента
-				</h3>
-
+				{/*<div*/}
+				{/*	className={cn(*/}
+				{/*		"w-full absolute right-4 top-4 flex justify-end"*/}
+				{/*	)}*/}
+				{/*>*/}
+				{/*	<Button variant="ghost" onClick={closeStoriesHandle}>*/}
+				{/*		<Cross1Icon width={20} height={20} />*/}
+				{/*	</Button>*/}
+				{/*</div>*/}
 				<div className={cn("grid grid-cols-3")}>
 					<div
 						className={cn(
@@ -74,7 +66,7 @@ const StoriesContent: React.FC = () => {
 							speed={400}
 							controller={{ control: null }}
 						>
-							{activeElementData.widgetData?.components?.map(
+							{activeElementData.activeData.widgets?.data?.map(
 								(
 									component: ISchemaComponent,
 									index: number

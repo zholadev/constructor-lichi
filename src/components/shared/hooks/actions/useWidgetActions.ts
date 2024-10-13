@@ -60,35 +60,31 @@ export default function useWidgetActions(): IWidgetActions {
 				// Находим нужный компонент по id
 				if (component.id === activeElementData.componentId) {
 					// Проверяем, есть ли stories и components внутри stories
-					if (component.content?.stories?.components) {
-						const updatedComponents =
-							component.content.stories.components.map(
-								(storyComponent) => {
-									if (
-										storyComponent?.id ===
-										activeElementData.widgetActiveComponentId
-									) {
-										return {
-											...storyComponent,
-											elements: [
-												...storyComponent?.elements,
-												data,
-											],
-										};
-									}
-									return storyComponent;
+					if (component.widgets?.data) {
+						const updatedComponents = component.widgets.data.map(
+							(widgetItem) => {
+								if (
+									widgetItem?.id ===
+									activeElementData.widgetActiveComponentId
+								) {
+									return {
+										...widgetItem,
+										elements: [
+											...widgetItem?.elements,
+											data,
+										],
+									};
 								}
-							);
+								return widgetItem;
+							}
+						);
 
 						// Обновляем компонент с новым массивом components в stories
 						return {
 							...component,
-							content: {
-								...component.content,
-								stories: {
-									...component.content?.stories,
-									components: updatedComponents, // Обновляем components в stories
-								},
+							widgets: {
+								...component.widgets,
+								data: updatedComponents, // Обновляем components в stories
 							},
 						};
 					}
@@ -139,10 +135,10 @@ export default function useWidgetActions(): IWidgetActions {
 				// Проверяем, является ли этот компонент тем, который нужно обновить
 				if (component?.id === activeElementData.componentId) {
 					// Проверяем, есть ли поле content и stories
-					if (component?.content?.stories) {
+					if (component?.widgets?.type) {
 						// Обновляем stories.components
 						const updatedStoriesComponents = [
-							...component.content.stories.components,
+							...component.widgets.data,
 							{
 								...data,
 								id: uuidv4(),
@@ -151,12 +147,9 @@ export default function useWidgetActions(): IWidgetActions {
 
 						return {
 							...component,
-							content: {
-								...component.content,
-								stories: {
-									...component.content.stories,
-									components: updatedStoriesComponents, // Обновляем массив components в stories
-								},
+							widgets: {
+								...component.widgets,
+								data: updatedStoriesComponents, // Обновляем массив components в stories
 							},
 						};
 					}

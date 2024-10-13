@@ -13,6 +13,8 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import { IElementSchema } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import { ISchemaActiveData } from "@/components/shared/types/interface-schema";
+import { ISchemaWidgetData } from "@/components/features/app/modules/widgets/types/interface-widget";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 export interface IActiveElementObserver {
 	type: ActiveElementType;
@@ -30,7 +32,7 @@ export interface IActiveElementObserver {
 	widgetActiveComponentId?: string;
 	widgetActiveElementId?: string;
 	widgetActiveType?: ActiveElementType;
-	widgetActiveData?: ISchemaActiveData;
+	widgetActiveData?: ISchemaWidgetData;
 }
 
 /**
@@ -45,6 +47,8 @@ export interface IActiveElementObserver {
  */
 export default function useActiveElementObserver(): IActiveElementObserver | null {
 	const toastMessage = useToastMessage();
+
+	const dialog = useDialogAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement, editorAdditionalActiveElement } =
@@ -200,11 +204,13 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 				componentId: foundComponentData?.id ?? "",
 				componentData: foundComponentData ?? {},
 				containerId: editorActiveElement?.containerId ?? "",
-				widgetData: foundComponentData?.content?.stories || {},
-				widgetType: editorAdditionalActiveElement ?? "none",
+				widgetData: foundComponentData?.widgets?.data || {},
+				widgetType: !dialog.dialogWidget.open
+					? "none"
+					: (foundComponentData?.widgets?.type ?? "none"),
 				widgetActiveData: editorActiveElement?.widgetActiveData ?? {},
 				widgetActiveType:
-					editorActiveElement?.widgetActiveType ?? "none",
+					editorActiveElement.widgetActiveType ?? "none",
 				widgetActiveComponentId:
 					editorActiveElement.widgetActiveComponentId ?? "",
 				widgetActiveElementId:

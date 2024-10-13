@@ -5,6 +5,7 @@ import {
 	WidgetTypes,
 } from "@/components/shared/types/types";
 import { ISchemaActiveData } from "@/components/shared/types/interface-schema";
+import { ISchemaWidgetData } from "@/components/features/app/modules/widgets/types/interface-widget";
 
 interface IElementActiveParams {
 	type: ActiveElementType;
@@ -18,7 +19,7 @@ interface IElementActiveParams {
 	widgetActiveComponentId?: string;
 	widgetActiveElementId?: string;
 	widgetActiveType?: ActiveElementType;
-	widgetActiveData?: ISchemaActiveData;
+	widgetActiveData?: ISchemaWidgetData;
 }
 
 /**

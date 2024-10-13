@@ -3,9 +3,10 @@ import { cn } from "@/components/lib/utils";
 import useSchemaElementData from "@/components/shared/hooks/useSchemaElementData";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useWidgetActions from "@/components/shared/hooks/actions/useWidgetActions";
 import useElementActions from "@/components/shared/hooks/actions/useElementActions";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 interface Props {
 	children: ReactNode;
@@ -31,32 +32,39 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 	const getElementSchema = useSchemaElementData();
 	const elementActions = useElementActions();
 	const widgetActions = useWidgetActions();
+	const dialog = useDialogAction();
+	const activeElementData = useActiveElementObserver();
 
-	const { editorAdditionalActiveElement } = useAppSelector(
-		(state) => state.editor
-	);
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для добавления элемента к компоненту
+	 */
+	const onClickHandle = () => {
+		if (!type) return;
+		const element = getElementSchema(type);
+
+		if (!element) {
+			toastMessage("Не удалось найти схему!", "error");
+			return;
+		}
+
+		if (
+			activeElementData?.widgetType !== "none" &&
+			dialog.dialogWidget.open
+		) {
+			widgetActions.widgetAddElement(element);
+			return;
+		}
+
+		elementActions.elementCreate(element);
+	};
 
 	return (
 		<div
 			className={cn(
 				"w-full h-[100px] rounded-md relative hover:bg-secondary transition-all duration-75 text-sm cursor-pointer border flex items-center justify-center flex-col"
 			)}
-			onClick={() => {
-				if (!type) return;
-				const element = getElementSchema(type);
-
-				if (!element) {
-					toastMessage("Не удалось найти схему!", "error");
-					return;
-				}
-
-				if (editorAdditionalActiveElement === "stories") {
-					widgetActions.widgetAddElement(element);
-					return;
-				}
-
-				elementActions.elementCreate(element);
-			}}
+			onClick={onClickHandle}
 		>
 			{children}
 		</div>

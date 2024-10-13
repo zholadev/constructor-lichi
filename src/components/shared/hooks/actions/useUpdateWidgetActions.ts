@@ -109,55 +109,50 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 						const updatedComponent = deepCopy(component);
 
 						// Проверяем, есть ли stories и components внутри stories
-						if (updatedComponent?.content?.stories?.components) {
+						if (updatedComponent?.widgets?.data) {
 							const updatedStoriesComponents =
-								updatedComponent.content.stories.components.map(
-									(storyComponent) => {
-										// Проверяем widgetActiveIdComponent внутри storyComponent
-										if (
-											storyComponent.id ===
-											activeElementData?.widgetActiveComponentId
-										) {
-											const updatedStoryComponent =
-												deepCopy(storyComponent);
+								updatedComponent.widgets.data.map((widget) => {
+									// Проверяем widgetActiveIdComponent внутри storyComponent
+									if (
+										widget.id ===
+										activeElementData?.widgetActiveComponentId
+									) {
+										const updatedStoryComponent =
+											deepCopy(widget);
 
-											// Выполняем нужное действие с storyComponent
-											if (removeObj) {
-												updateDataHandle(
-													updatedStoryComponent,
-													true,
-													true
-												);
-											} else if (removeKey) {
-												removeKeyDataHandle(
-													updatedStoryComponent
-												);
-											} else {
-												updateDataHandle(
-													updatedStoryComponent,
-													save
-												);
-											}
-
-											return {
-												...storyComponent,
-												...updatedStoryComponent,
-											};
+										// Выполняем нужное действие с storyComponent
+										if (removeObj) {
+											updateDataHandle(
+												updatedStoryComponent,
+												true,
+												true
+											);
+										} else if (removeKey) {
+											removeKeyDataHandle(
+												updatedStoryComponent
+											);
+										} else {
+											updateDataHandle(
+												updatedStoryComponent,
+												save
+											);
 										}
 
-										return storyComponent;
+										return {
+											...widget,
+											...updatedStoryComponent,
+										};
 									}
-								);
+
+									return widget;
+								});
 
 							// Обновляем компонент с обновлёнными stories
 							return {
 								...component,
-								content: {
-									...component.content,
-									stories: {
-										...component.content.stories,
-										components: updatedStoriesComponents,
-									},
+								widgets: {
+									...component.widgets,
+									data: updatedStoriesComponents,
 								},
 							};
 						}
@@ -175,78 +170,73 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 						const updatedComponent = deepCopy(component);
 
 						// Проверяем, есть ли stories и components внутри stories
-						if (updatedComponent?.content?.stories?.components) {
+						if (updatedComponent?.widgets?.data) {
 							const updatedStoriesComponents =
-								updatedComponent.content.stories.components.map(
-									(storyComponent) => {
-										if (
-											storyComponent.id ===
-											activeElementData.widgetActiveComponentId
-										) {
-											// Находим элемент в storyComponent.data.elements
-											const elementIndex =
-												storyComponent.elements.findIndex(
-													(el: IElementTotal) =>
-														el.id ===
-														activeElementData.widgetActiveElementId
-												);
+								updatedComponent.widgets.data.map((widget) => {
+									if (
+										widget.id ===
+										activeElementData.widgetActiveComponentId
+									) {
+										// Находим элемент в storyComponent.data.elements
+										const elementIndex =
+											widget.elements.findIndex(
+												(el: IElementTotal) =>
+													el.id ===
+													activeElementData.widgetActiveElementId
+											);
 
-											if (elementIndex !== -1) {
-												// Если элемент найден, обновляем его
-												if (removeObj) {
-													updateDataHandle(
-														storyComponent.elements[
-															elementIndex
-														],
-														true,
-														true
-													);
-												} else if (removeKey) {
-													removeKeyDataHandle(
-														storyComponent.elements[
-															elementIndex
-														]
-													);
-												} else {
-													updateDataHandle(
-														storyComponent.elements[
-															elementIndex
-														],
-														true
-													);
-												}
-
-												// Обновляем storyComponent с изменённым элементом
-												return {
-													...storyComponent,
-													elements: [
-														...storyComponent.elements.slice(
-															0,
-															elementIndex
-														),
-														storyComponent.elements[
-															elementIndex
-														],
-														...storyComponent.elements.slice(
-															elementIndex + 1
-														),
+										if (elementIndex !== -1) {
+											// Если элемент найден, обновляем его
+											if (removeObj) {
+												updateDataHandle(
+													widget.elements[
+														elementIndex
 													],
-												};
+													true,
+													true
+												);
+											} else if (removeKey) {
+												removeKeyDataHandle(
+													widget.elements[
+														elementIndex
+													]
+												);
+											} else {
+												updateDataHandle(
+													widget.elements[
+														elementIndex
+													],
+													true
+												);
 											}
+
+											// Обновляем storyComponent с изменённым элементом
+											return {
+												...widget,
+												elements: [
+													...widget.elements.slice(
+														0,
+														elementIndex
+													),
+													widget.elements[
+														elementIndex
+													],
+													...widget.elements.slice(
+														elementIndex + 1
+													),
+												],
+											};
 										}
-										return storyComponent;
 									}
-								);
+									return widget;
+								});
 
 							// Обновляем компонент с новыми stories
 							return {
 								...component,
-								content: {
-									...component.content,
-									stories: {
-										...component.content.stories,
-										components: updatedStoriesComponents,
-									},
+								widgets: {
+									...component.widgets,
+									data: updatedStoriesComponents,
 								},
 							};
 						}

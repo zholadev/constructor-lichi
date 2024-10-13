@@ -84,4 +84,10 @@ export const permissionBaseComponentsV1: IPermission = {
 		element: true,
 		timer: false,
 	},
+	widget: {
+		root: true,
+		stories: {
+			root: true,
+		},
+	},
 };

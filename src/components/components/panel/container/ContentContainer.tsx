@@ -19,13 +19,13 @@ import useActiveElementObserver from "@/components/shared/hooks/useActiveElement
 import ImageContent from "@/components/features/app/modules/editor/content/ImageContent";
 import VideoContent from "@/components/features/app/modules/editor/content/VideoContent";
 import LinkContent from "@/components/features/app/modules/editor/content/LinkContent";
-import StoriesContent from "@/components/features/app/modules/editor/content/StoriesContent";
 import TextFillContent from "@/components/features/app/modules/editor/content/TextFillContent";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
 import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
 import MotionContent from "@/components/features/app/modules/editor/content/MotionContent";
 import { Framer } from "lucide-react";
 import { ISchemaMotionContent } from "@/components/shared/types/interface-schema-content";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 type AccessTypes = "video" | "photo" | "link" | "stories";
 type ContentKeys = "photo" | "link" | "video" | "stories";
@@ -61,6 +61,7 @@ const accessTypes: AccessTypes[] = ["video", "photo", "link", "stories"];
  * @constructor
  */
 const ContentContainer: React.FC = () => {
+	const dialog = useDialogAction();
 	const permission = usePermission();
 	const updateActions = useUpdateActions();
 	const updateWidgetActions = useUpdateWidgetActions();
@@ -106,7 +107,10 @@ const ContentContainer: React.FC = () => {
 	};
 
 	const removeSchemaDataHandle = (pathString: string) => {
-		if (activeElementData?.widgetType === "stories") {
+		if (
+			activeElementData?.widgetType !== "none" &&
+			dialog.dialogWidget.open
+		) {
 			updateWidgetActions.update({}, pathString, true);
 			return;
 		}
@@ -178,8 +182,11 @@ const ContentContainer: React.FC = () => {
 														imageSrc={value}
 														onChange={(data) => {
 															if (
-																activeElementData?.widgetType ===
-																"stories"
+																activeElementData?.widgetType !==
+																	"none" &&
+																dialog
+																	.dialogWidget
+																	.open
 															) {
 																updateWidgetActions.update(
 																	data,
@@ -226,8 +233,9 @@ const ContentContainer: React.FC = () => {
 								}}
 								onSendParams={(params) => {
 									if (
-										activeElementData?.widgetType ===
-										"stories"
+										activeElementData?.widgetType !==
+											"none" &&
+										dialog.dialogWidget.open
 									) {
 										updateWidgetActions.update(
 											params,
@@ -263,8 +271,9 @@ const ContentContainer: React.FC = () => {
 								defaultParams={contentActiveData.content.link}
 								onSendParams={(params) => {
 									if (
-										activeElementData?.widgetType ===
-										"stories"
+										activeElementData?.widgetType !==
+											"none" &&
+										dialog.dialogWidget.open
 									) {
 										updateWidgetActions.update(
 											params,
@@ -302,8 +311,9 @@ const ContentContainer: React.FC = () => {
 								defaultParams={contentActiveData.content?.title}
 								onSendParams={(params) => {
 									if (
-										activeElementData?.widgetType ===
-										"stories"
+										activeElementData?.widgetType !==
+											"none" &&
+										dialog.dialogWidget.open
 									) {
 										updateWidgetActions.update(
 											params,
@@ -340,8 +350,9 @@ const ContentContainer: React.FC = () => {
 								}
 								onSendParams={(params) => {
 									if (
-										activeElementData?.widgetType ===
-										"stories"
+										activeElementData?.widgetType !==
+											"none" &&
+										dialog.dialogWidget.open
 									) {
 										updateWidgetActions.update(
 											params,
@@ -356,47 +367,6 @@ const ContentContainer: React.FC = () => {
 								}}
 								onRemoveParams={() =>
 									removeSchemaDataHandle("content.animation")
-								}
-							/>
-						</AccordionContent>
-					</AccordionItem>
-				)}
-
-				{permission.content.stories && (
-					<AccordionItem value="stories">
-						<AccordionTrigger>
-							<div
-								className={cn(
-									"w-full flex flex-row items-center gap-2"
-								)}
-							>
-								<TextIcon width={20} height={20} />
-								Stories
-							</div>
-						</AccordionTrigger>
-						<AccordionContent>
-							<StoriesContent
-								defaultParams={
-									contentActiveData.content?.stories
-								}
-								onSendParams={(params) => {
-									if (
-										activeElementData?.widgetType ===
-										"stories"
-									) {
-										updateWidgetActions.update(
-											params,
-											"content.stories"
-										);
-										return;
-									}
-									updateActions.update(
-										params,
-										"content.stories"
-									);
-								}}
-								onRemoveParams={() =>
-									removeSchemaDataHandle("content.stories")
 								}
 							/>
 						</AccordionContent>

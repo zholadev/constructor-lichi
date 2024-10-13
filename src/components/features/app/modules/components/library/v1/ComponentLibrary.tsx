@@ -27,6 +27,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
+import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 const baseData: IComponentBaseAddList[] = [
 	{
@@ -80,14 +82,15 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 	const { dialogAddComponentAction, dialogSettingActionAddComponentAction } =
 		useDispatchAction();
 
+	const dialog = useDialogAction();
 	const toastMessage = useToastMessage();
 	const widgetActions = useWidgetActions();
 	const componentActions = useComponentActions();
+	const activeElementData = useActiveElementObserver();
 
 	const getSchemaComponent = useSchemaComponentData();
 
-	const { editorAddComponentType, editorAdditionalActiveElement } =
-		useAppSelector((state) => state.editor);
+	const { editorAddComponentType } = useAppSelector((state) => state.editor);
 
 	const [componentValue, setComponentValue] = useState<IComponentValue>({
 		componentType: "none",
@@ -150,7 +153,10 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 		if (dialogSettingActionAddComponentAction)
 			dialogSettingActionAddComponentAction(false);
 
-		if (editorAdditionalActiveElement === "stories") {
+		if (
+			activeElementData?.widgetType !== "none" &&
+			dialog.dialogWidget.open
+		) {
 			widgetActions.widgetCreateComponent(
 				getSchemaComponent(
 					componentValue.componentType,

@@ -38,6 +38,7 @@ export function updateObjectByPath(
 			typeof current[lastKey] === "object" &&
 			current[lastKey] !== null
 		) {
+			console.log("save")
 			// Если save: true, объединяем старые значения с новыми, если старое значение — объект
 			current[lastKey] = { ...current[lastKey], ...value };
 		} else {
@@ -47,7 +48,9 @@ export function updateObjectByPath(
 
 		if (remove) {
 			// Если флаг удаления, удаляем последний ключ
+			console.log("current[lastKey]", current[lastKey], current, obj)
 			delete current[lastKey];
+			console.log("remove")
 		} else if (
 			save &&
 			typeof current[lastKey] === "object" &&

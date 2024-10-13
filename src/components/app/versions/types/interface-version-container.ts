@@ -2,46 +2,63 @@ import { IContainerType } from "@/components/shared/types/types";
 import { IPermission } from "@/components/app/permission/types/interface-permission";
 import {
 	category_list_container_permission_v1,
-	container_permission_v1,
-	saint_laurent_container_permission_v1,
-	swiper_container_permission_v1,
+	container_block_permission_v1,
+	container_swiper_permission_v1,
+	saint_laurent_container_block_permission_v1,
+	saint_laurent_container_swiper_permission_v1,
 } from "@/components/app/permission/model/containers/v1/permission-container";
 
-type IVersionComponentsPermission = Record<"permission", IPermission | false>;
-type IVersionContainer = Record<
-	IContainerType,
-	Array<Record<"version", string> & IVersionComponentsPermission>
->;
+interface IComponentsPermission {
+	block?: IPermission | false;
+	swiper?: IPermission | false;
+}
 
+interface IVersionComponentsPermission {
+	version: string;
+	permission: IComponentsPermission;
+}
+
+type IVersionContainer = Record<IContainerType, IVersionComponentsPermission[]>;
+
+/**
+ * @author Zholaman Zhumanov
+ * @description Данные для получения по версионности с доступностью
+ */
 export const versionContainer: IVersionContainer = {
 	container: [
 		{
 			version: "1.0",
-			permission: container_permission_v1,
+			permission: {
+				block: container_block_permission_v1,
+				swiper: container_swiper_permission_v1,
+			},
 		},
 	],
 	saint_laurent_container: [
 		{
 			version: "1.0",
-			permission: saint_laurent_container_permission_v1,
+			permission: {
+				block: saint_laurent_container_block_permission_v1,
+				swiper: saint_laurent_container_swiper_permission_v1,
+			},
 		},
 	],
 	category_list_container: [
 		{
 			version: "1.0",
-			permission: category_list_container_permission_v1,
-		},
-	],
-	swiper: [
-		{
-			version: "1.0",
-			permission: swiper_container_permission_v1,
+			permission: {
+				swiper: category_list_container_permission_v1,
+				block: false,
+			},
 		},
 	],
 	initial: [
 		{
 			version: "1.0",
-			permission: false,
+			permission: {
+				block: false,
+				swiper: false,
+			},
 		},
 	],
 };

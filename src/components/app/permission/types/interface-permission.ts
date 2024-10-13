@@ -83,4 +83,10 @@ export interface IPermission {
 		categoryList?: boolean;
 		element: boolean;
 	};
+	widget: {
+		root: boolean;
+		stories: {
+			root: boolean;
+		};
+	};
 }

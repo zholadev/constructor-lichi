@@ -1,4 +1,4 @@
-import {IPermission} from "@/components/app/permission/types/interface-permission";
+import { IPermission } from "@/components/app/permission/types/interface-permission";
 
 export const permissionBaseElements: IPermission = {
 	panel: {
@@ -83,5 +83,11 @@ export const permissionBaseElements: IPermission = {
 		},
 		element: false,
 		timer: false,
+	},
+	widget: {
+		root: false,
+		stories: {
+			root: false,
+		},
 	},
 };

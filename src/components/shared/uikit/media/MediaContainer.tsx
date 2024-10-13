@@ -9,7 +9,7 @@ import useAnimateClass from "@/components/shared/hooks/useAnimateClass";
 interface Props {
 	componentData: IComponentTotalDataSchema;
 	containerData: ISchemaContainer;
-	imgAutoHeight: boolean;
+	imgAutoHeight?: boolean;
 }
 
 /**

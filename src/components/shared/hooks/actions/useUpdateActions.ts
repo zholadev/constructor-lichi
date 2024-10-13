@@ -68,6 +68,7 @@ export default function useUpdateActions(): IUpdateActions {
 				save: boolean,
 				remove?: boolean
 			) => {
+				console.log(save, remove, pathString);
 				return updateObjectByPath(
 					data,
 					pathString,
@@ -152,10 +153,11 @@ export default function useUpdateActions(): IUpdateActions {
 			const componentUpdateHandle = () => {
 				try {
 					return containerUpdateWrapper((component) => {
-						if (component?.id === activeElementData?.activeId) {
+						if (component?.id === activeElementData?.componentId) {
 							const updatedComponent = deepCopy(component);
-
+							console.log("updatedComponent", updatedComponent);
 							if (removeObj) {
+								console.log("removeObj");
 								updateDataHandle(updatedComponent, true, true);
 							} else if (removeKey) {
 								removeKeyDataHandle(updatedComponent);

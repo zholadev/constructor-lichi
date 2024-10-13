@@ -14,7 +14,7 @@ import {
 import { IPermission } from "@/components/app/permission/types/interface-permission";
 import { permissionGetComponents } from "@/components/app/permission/model/components/permission-get-components";
 import { permissionGetElementsData } from "@/components/app/permission/model/elements/v1/permission-get-elements-data";
-import { permissionGetContainersData } from "@/components/app/permission/model/containers/permission-get-containers-data";
+import { permissionGetContainers } from "@/components/app/permission/model/containers/permission-get-containers";
 
 export const basePermission: IPermission = {
 	panel: {
@@ -75,6 +75,7 @@ export const basePermission: IPermission = {
 		link: false,
 		textFill: false,
 		stories: false,
+		animation: false,
 	},
 	setting: {
 		show: {
@@ -99,6 +100,12 @@ export const basePermission: IPermission = {
 		},
 		element: false,
 	},
+	widget: {
+		root: false,
+		stories: {
+			root: false,
+		},
+	},
 };
 
 /**
@@ -121,7 +128,9 @@ export default function usePermission(): IPermission {
 	 * @description Получаем тип глобального элемента
 	 */
 	const typeActiveElement: ActiveElementType = useMemo(() => {
-		return activeElementData?.type ?? "none";
+		return activeElementData?.widgetType !== "none"
+			? activeElementData.widgetActiveType
+			: (activeElementData?.type ?? "none");
 	}, [activeElementData]);
 
 	/**
@@ -134,11 +143,15 @@ export default function usePermission(): IPermission {
 		| IContainerType
 		| ComponentSpecialTypes
 		| "none" = useMemo(() => {
-		return activeElementData?.activeData?.type ?? "none";
+		return activeElementData?.widgetType !== "none"
+			? activeElementData.widgetActiveData?.type
+			: (activeElementData?.activeData?.type ?? "none");
 	}, [activeElementData]);
 
 	const activeTypeVersion: string = useMemo(() => {
-		return activeElementData?.activeData?.version ?? "";
+		return activeElementData?.widgetType !== "none"
+			? activeElementData.widgetActiveData?.version
+			: (activeElementData?.activeData?.version ?? "");
 	}, [activeElementData]);
 
 	const activeDisplayBlockType: DisplayContainerType = useMemo(() => {
@@ -162,14 +175,9 @@ export default function usePermission(): IPermission {
 					activeTypeVersion
 				);
 			case "container":
-				return permissionGetContainersData(
+				return permissionGetContainers(
 					typeDataActiveElement,
 					activeDisplayBlockType,
-					activeTypeVersion
-				);
-			case "swiper":
-				return permissionGetContainersData(
-					typeDataActiveElement,
 					activeTypeVersion
 				);
 			default:

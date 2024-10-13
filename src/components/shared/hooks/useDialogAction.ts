@@ -55,7 +55,7 @@ interface DialogsState {
 		open: boolean;
 		toggle: () => void;
 	};
-	dialogStoriesContainer: {
+	dialogWidget: {
 		open: boolean;
 		toggle: () => void;
 	};
@@ -94,7 +94,7 @@ export default function useDialogAction(): DialogsState {
 		dialogEditorSettingAction,
 		dialogAddComponentAction,
 		dialogSettingActionAddComponentAction,
-		dialogStoriesContainerAction,
+		dialogWidgetAction,
 		dialogSchemaViewAction,
 		dialogCopyTemplateAction,
 	} = useDispatchAction();
@@ -113,7 +113,7 @@ export default function useDialogAction(): DialogsState {
 		dialogEditorSetting,
 		dialogAddComponent,
 		dialogSettingActionAddComponent,
-		dialogStoriesContainer,
+		dialogWidget,
 		dialogSchemaView,
 		dialogCopyTemplate,
 	} = useAppSelector((state: RootState) => state.dialog);
@@ -144,8 +144,7 @@ export default function useDialogAction(): DialogsState {
 		dialogAddComponentAction(!dialogAddComponent);
 	const dialogSettingActionAddComponentActionHandle = () =>
 		dialogSettingActionAddComponentAction(!dialogSettingActionAddComponent);
-	const dialogStoriesContainerHandle = () =>
-		dialogStoriesContainerAction(!dialogStoriesContainer);
+	const dialogWidgetActionHandle = () => dialogWidgetAction(!dialogWidget);
 	const dialogSchemaViewActionHandle = () =>
 		dialogSchemaViewAction(!dialogSchemaView);
 	const dialogCopyTemplateActionHandle = () =>
@@ -204,9 +203,9 @@ export default function useDialogAction(): DialogsState {
 			open: dialogSettingActionAddComponent,
 			toggle: dialogSettingActionAddComponentActionHandle,
 		},
-		dialogStoriesContainer: {
-			open: dialogStoriesContainer,
-			toggle: dialogStoriesContainerHandle,
+		dialogWidget: {
+			open: dialogWidget,
+			toggle: dialogWidgetActionHandle,
 		},
 		dialogSchemaView: {
 			open: dialogSchemaView,

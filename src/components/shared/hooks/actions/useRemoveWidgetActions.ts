@@ -45,23 +45,20 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 				const updatedComponent = deepCopy(component);
 
 				// Check and update stories if they exist
-				if (updatedComponent?.content?.stories?.components) {
+				if (updatedComponent?.widgets?.data) {
 					const updatedStoriesComponents =
-						updatedComponent.content.stories.components.filter(
-							(storyComponent) =>
-								storyComponent.id !==
+						updatedComponent.widgets.data.filter(
+							(widget) =>
+								widget.id !==
 								activeElementData?.widgetActiveComponentId
 						);
 
 					// Return updated component with updated stories
 					return {
 						...component,
-						content: {
-							...component.content,
-							stories: {
-								...component.content.stories,
-								components: updatedStoriesComponents,
-							},
+						widgets: {
+							...component.widgets,
+							data: updatedStoriesComponents,
 						},
 					};
 				}
@@ -83,39 +80,33 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 				const updatedComponent = deepCopy(component);
 
 				// Check and update elements if they exist in stories
-				if (updatedComponent.content?.stories?.components) {
+				if (updatedComponent.widgets?.data) {
 					const updatedStoriesComponents =
-						updatedComponent.content.stories.components.map(
-							(storyComponent) => {
-								if (
-									storyComponent.id ===
-									activeElementData.widgetActiveComponentId
-								) {
-									const updatedElements =
-										storyComponent.elements.filter(
-											(el: IElementTotal) =>
-												el.id !==
-												activeElementData.widgetActiveElementId
-										);
+						updatedComponent.widgets.data.map((widget) => {
+							if (
+								widget.id ===
+								activeElementData.widgetActiveComponentId
+							) {
+								const updatedElements = widget.elements.filter(
+									(el: IElementTotal) =>
+										el.id !==
+										activeElementData.widgetActiveElementId
+								);
 
-									// Return storyComponent with updated elements
-									return {
-										...storyComponent,
-										elements: updatedElements,
-									};
-								}
-								return storyComponent;
+								// Return storyComponent with updated elements
+								return {
+									...widget,
+									elements: updatedElements,
+								};
 							}
-						);
+							return widget;
+						});
 
 					return {
 						...component,
-						content: {
-							...component.content,
-							stories: {
-								...component.content.stories,
-								components: updatedStoriesComponents,
-							},
+						widgets: {
+							...component.widgets,
+							data: updatedStoriesComponents,
 						},
 					};
 				}

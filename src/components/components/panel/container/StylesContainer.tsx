@@ -27,6 +27,7 @@ import BackgroundStyles from "@/components/features/app/modules/editor/styles/Ba
 import SizeStyles from "@/components/features/app/modules/editor/styles/SizeStyles";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
 import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 type AccessTypes =
 	| "position"
@@ -66,12 +67,12 @@ const StylesContainer: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	// console.log("editorActiveElement", editorActiveElement);
+	const dialog = useDialogAction();
+	const permission = usePermission();
 	const toastMessage = useToastMessage();
 	const updateActions = useUpdateActions();
-	const updateWidgetActions = useUpdateWidgetActions();
-	const permission = usePermission();
 	const activeElementData = useActiveElementObserver();
+	const updateWidgetActions = useUpdateWidgetActions();
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
@@ -98,10 +99,17 @@ const StylesContainer: React.FC = () => {
 		setExpanded(filteredKeys);
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для добавления стили
+	 * @param value
+	 * @param path
+	 * @param save
+	 */
 	const onUpdateHandle = (
 		value: unknown,
 		path: string = "style",
-		save?: boolean = true
+		save: boolean = true
 	) => {
 		if (!activeUpdateTypeData) {
 			toastMessage(
@@ -111,7 +119,10 @@ const StylesContainer: React.FC = () => {
 			return;
 		}
 
-		if (activeElementData?.widgetType === "stories") {
+		if (
+			activeElementData?.widgetType !== "none" &&
+			dialog.dialogWidget.open
+		) {
 			updateWidgetActions.update(value, path, false, false, save);
 			return;
 		}
@@ -119,18 +130,30 @@ const StylesContainer: React.FC = () => {
 		updateActions.update(value, path, false, false, save);
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления стили
+	 * @param type
+	 * @param valueKeys
+	 */
 	const removeStylesHandle = (
 		type?: string,
 		valueKeys: string | string[]
 	) => {
 		if (type === "removeKey") {
-			if (activeElementData?.widgetType === "stories") {
+			if (
+				activeElementData?.widgetType !== "none" &&
+				dialog.dialogWidget.open
+			) {
 				updateWidgetActions.update({}, valueKeys, false, true);
 				return;
 			}
 			updateActions.update({}, valueKeys, false, true);
 		} else if (type === "removeObj") {
-			if (activeElementData?.widgetType === "stories") {
+			if (
+				activeElementData?.widgetType !== "none" &&
+				dialog.dialogWidget.open
+			) {
 				updateWidgetActions.update({}, valueKeys, true, false);
 				return;
 			}

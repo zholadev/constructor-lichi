@@ -84,9 +84,15 @@ export const baseContainerPermission: IPermission = {
 		timer: false,
 		element: false,
 	},
+	widget: {
+		root: false,
+		stories: {
+			root: false,
+		},
+	},
 };
 
-export const container_permission_v1: IPermission = {
+export const container_block_permission_v1: IPermission = {
 	...baseContainerPermission,
 	panel: {
 		...baseContainerPermission.panel,
@@ -110,7 +116,7 @@ export const container_permission_v1: IPermission = {
 	},
 };
 
-export const swiper_container_permission_v1: IPermission = {
+export const container_swiper_permission_v1: IPermission = {
 	...baseContainerPermission,
 	panel: {
 		...baseContainerPermission.panel,
@@ -132,7 +138,7 @@ export const swiper_container_permission_v1: IPermission = {
 	},
 };
 
-export const saint_laurent_container_permission_v1: IPermission = {
+export const saint_laurent_container_block_permission_v1: IPermission = {
 	...baseContainerPermission,
 	panel: {
 		...baseContainerPermission.panel,
@@ -151,6 +157,32 @@ export const saint_laurent_container_permission_v1: IPermission = {
 		action: {
 			...baseContainerPermission.setting.action,
 			add: false,
+		},
+	},
+};
+
+export const saint_laurent_container_swiper_permission_v1: IPermission = {
+	...baseContainerPermission,
+	panel: {
+		...baseContainerPermission.panel,
+	},
+	editor: {
+		...baseContainerPermission.editor,
+	},
+	styles: {
+		...baseContainerPermission.styles,
+	},
+	content: {
+		...baseContainerPermission.content,
+	},
+	setting: {
+		...baseContainerPermission.setting,
+		action: {
+			...baseContainerPermission.setting.action,
+			add: false,
+		},
+		swiper: {
+			root: true,
 		},
 	},
 };

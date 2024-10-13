@@ -5,6 +5,8 @@ import { IElementTotal } from "@/components/features/app/modules/elements/types/
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import SelectionElementOverlay from "../selection/SelectionElementOverlay";
 
 interface Props {
@@ -29,12 +31,14 @@ interface Props {
 const ElementAction: React.FC<Props> = (props) => {
 	const { children, data, containerId, componentId, widgetComponent } = props;
 
-	const activeElementHandle = useActiveElement();
+	const { editorWidgetActiveElementAction } = useDispatchAction();
+
+	const dialog = useDialogAction();
 	const previewMode = usePreviewMode();
+	const activeElementHandle = useActiveElement();
 	const activeElementData = useActiveElementObserver();
 
-	const { editorActiveElement, editorAdditionalActiveElement } =
-		useAppSelector((state) => state.editor);
+	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -43,7 +47,7 @@ const ElementAction: React.FC<Props> = (props) => {
 	const onClickHandle = () => {
 		if (previewMode.previewModeEditor) return;
 		if (widgetComponent) {
-			if (editorAdditionalActiveElement === "stories") {
+			if (dialog.dialogWidget.open) {
 				activeElementHandle({
 					activeData: activeElementData?.activeData,
 					containerData: activeElementData?.containerData,
@@ -56,7 +60,7 @@ const ElementAction: React.FC<Props> = (props) => {
 					widgetActiveComponentId:
 						activeElementData?.widgetActiveComponentId,
 					widgetActiveElementId: data.id,
-					widgetActiveData: activeElementData?.widgetActiveData ?? {},
+					widgetActiveData: data ?? {},
 					activeStyle: data.style,
 					widgetActiveType: "element",
 				});
@@ -69,7 +73,15 @@ const ElementAction: React.FC<Props> = (props) => {
 				componentId,
 				activeId: data?.id,
 				elementId: data?.id,
+				widgetType: "none",
+				widgetData: {},
+				widgetActiveComponentId: "",
+				widgetActiveData: {},
+				activeStyle: {},
+				widgetActiveType: "none",
 			});
+			editorWidgetActiveElementAction("none");
+			if (dialog.dialogWidget.open) dialog.dialogWidget.toggle();
 		}
 	};
 

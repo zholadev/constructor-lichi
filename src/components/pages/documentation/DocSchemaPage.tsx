@@ -1,11 +1,11 @@
 import React from "react";
 import { cn } from "@/components/lib/utils";
-import DocSchemaContainer from "@/components/pages/documentation/DocSchemaContainer";
+import DocSchemaDisplay from "./DocSchemaDisplay";
 
 /**
  * @author Zholaman Zhumanov
  * @created 07.10.2024
- * @description
+ * @description Компонент для вывода документации
  * @last-updated
  * @update-description
  * @todo
@@ -28,7 +28,7 @@ const DocSchemaPage: React.FC = () => {
 			</h1>
 
 			<div className={cn("w-full max-w-[1440px] h-full overflow-auto")}>
-				<DocSchemaContainer />
+				<DocSchemaDisplay />
 			</div>
 		</div>
 	);

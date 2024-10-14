@@ -1,8 +1,14 @@
-const doc_id_params = { id: "a404d0df-8b86-4544-ae74-4fd8260758e7" };
-const doc_guid_params = { guid: "a404d0df-8b86-4544-ae74-4fd8260758e7" };
-const doc_type_params = { type: "container" };
-const doc_version_params = { version: "1.0" };
-const doc_style_params = {
+import {ISchemaContainer} from "@/components/shared/types/interface-schema-container";
+
+type IObject = Record<string, unknown>;
+
+const doc_id_params: IObject = { id: "a404d0df-8b86-4544-ae74-4fd8260758e7" };
+const doc_guid_params: IObject = {
+	guid: "a404d0df-8b86-4544-ae74-4fd8260758e7",
+};
+const doc_type_params: IObject = { type: "container" };
+const doc_version_params: IObject = { version: "1.0" };
+const doc_style_params: IObject = {
 	style: {
 		margin: [3, 7, 4, 1],
 		padding: [3, 5, 0, 0],
@@ -14,19 +20,19 @@ const doc_style_params = {
 		gridTemplateColumns: "1fr",
 	},
 };
-const doc_style_bg_params = {
+const doc_style_bg_params: IObject = {
 	backgroundColor: "#ffffff",
 	backgroundColorDark: "rgb(24, 26, 27)",
 };
 const doc_page_type = {
 	template_type: "page",
-	types: ["page", "saint_laurent"], // Виды,
+	types: ["page", "creative"],
 };
-const doc_display_params = {
+const doc_display_params: IObject = {
 	display: "block",
-	types: ["block", "swiper"], // Виды,
+	types: ["block", "swiper"],
 };
-const doc_style_border_params = {
+const doc_style_border_params: IObject = {
 	border: "1px solid #000000",
 	borderDark: "1px solid #ffffff",
 	borderBottomDark: "1px solid #ffffff",
@@ -38,34 +44,34 @@ const doc_style_border_params = {
 	borderRight: "1px solid #ffffff",
 	borderRightDark: "1px solid #ffffff",
 };
-const doc_style_border_radius_params = {
+const doc_style_border_radius_params: IObject = {
 	borderRadius: 0,
 	borderBottomLeftRadius: 0,
 	borderBottomRightRadius: 0,
 	borderTopLeftRadius: 0,
 	borderTopRightRadius: 0,
 };
-const doc_style_grid_params = {
+const doc_style_grid_params: IObject = {
 	display: "grid",
 	gridTemplateColumns: "1fr",
 	gap: "2px",
 };
-const doc_style_flex_params = {
+const doc_style_flex_params: IObject = {
 	display: "flex",
 	flexDirection: "row",
 	gap: "2px",
 	justifyContent: "space-between",
 	alignItems: "center",
 };
-const doc_style_spacing_params = {
+const doc_style_spacing_params: IObject = {
 	padding: [0, 4, 0, 0],
 	margin: [0, 4, 0, 0],
 };
-const doc_style_size_params = {
+const doc_style_size_params: IObject = {
 	width: [100, "100%"],
 	height: [100, "100%"],
 };
-const doc_style_ff_params = {
+const doc_style_ff_params: IObject = {
 	fontFamily: "Bodoni Cyrillic",
 	textAlign: "right",
 	color: "#ce4646",
@@ -76,7 +82,7 @@ const doc_style_ff_params = {
 	textDecoration: "underline",
 };
 
-const doc_settings_params = {
+const doc_settings_params: IObject = {
 	settings: {
 		view: {
 			darkTheme: true,
@@ -137,7 +143,7 @@ const doc_settings_params = {
 	},
 };
 
-const doc_setting_element_params = {
+const doc_setting_element_params: IObject = {
 	element: {
 		style: {
 			justifyContent: "space-between",
@@ -148,7 +154,7 @@ const doc_setting_element_params = {
 	},
 };
 
-const doc_setting_swiper_params = {
+const doc_setting_swiper_params: IObject = {
 	swiper: {
 		pagination: false,
 		autoplay: false,
@@ -170,7 +176,7 @@ const doc_setting_swiper_params = {
 	},
 };
 
-const doc_setting_timer_params = {
+const doc_setting_timer_params: IObject = {
 	timer: {
 		targetDate: "Dec 19 2024",
 		targetTime: "00:00:00",
@@ -186,7 +192,7 @@ const doc_setting_timer_params = {
 		},
 	},
 };
-const doc_setting_view_params = {
+const doc_setting_view_params: IObject = {
 	view: {
 		darkTheme: true,
 		contentType: "image",
@@ -194,7 +200,7 @@ const doc_setting_view_params = {
 		navbarThemeMode: false,
 	},
 };
-const doc_setting_category_list_params = {
+const doc_setting_category_list_params: IObject = {
 	categoryList: {
 		shop: 1,
 		category: "new",
@@ -202,12 +208,12 @@ const doc_setting_category_list_params = {
 		cardType: "card",
 	},
 };
-const doc_setting_show_params = {
+const doc_setting_show_params: IObject = {
 	show: {
 		siteType: "all",
 	},
 };
-const doc_content_params = {
+const doc_content_params: IObject = {
 	photo: {
 		desktop: {
 			url: "https://cdn3.lichi.com/constructor/static/september/IMG_3843.jpg",
@@ -288,7 +294,7 @@ const doc_content_params = {
 		},
 	},
 };
-const doc_content_photo_params = {
+const doc_content_photo_params: IObject = {
 	photo: {
 		desktop: {
 			url: "https://cdn3.lichi.com/constructor/static/september/IMG_3843.jpg",
@@ -325,7 +331,7 @@ const doc_content_photo_params = {
 		},
 	},
 };
-const doc_content_video_params = {
+const doc_content_video_params: IObject = {
 	video: {
 		poster: {
 			url: "https://cdn3.lichi.com/constructor/static/september/IMG_3843.jpg",
@@ -342,7 +348,7 @@ const doc_content_video_params = {
 	},
 };
 
-const doc_content_text_params = {
+const doc_content_text_params: IObject = {
 	title: {
 		en: {
 			value: "Английский",
@@ -365,7 +371,7 @@ const doc_content_text_params = {
 	},
 };
 
-const doc_content_link_params = {
+const doc_content_link_params: IObject = {
 	link: {
 		href: {
 			src: "https://lichi.com/ru/ru/new",
@@ -374,13 +380,13 @@ const doc_content_link_params = {
 	},
 };
 
-const doc_content_animation_params = {
+const doc_content_animation_params: IObject = {
 	animation: {
 		type: "zoom_out",
 		observer: true,
 	},
 };
-const doc_elements_params = {
+const doc_elements_params: IObject = {
 	elements: [
 		{
 			id: "43978522-bfd6-4e70-aaa2-e3ade733f05f",
@@ -515,7 +521,7 @@ const doc_elements_params = {
 		},
 	],
 };
-const doc_components_params = {
+const doc_components_params: IObject = {
 	components: [
 		{
 			id: "b465c2d1-7802-4252-a7ae-36b5730d2613",
@@ -593,7 +599,7 @@ const doc_components_params = {
 		},
 	],
 };
-const doc_category_list_params = {
+const doc_category_list_params: IObject = {
 	id: "bebb58a6-b3d0-4a08-baec-6bb0ec92f7cd",
 	guid: "d6a95e81-d0fe-427b-a2c9-922a7707f18d",
 	type: "category_list_container",
@@ -642,7 +648,7 @@ const doc_category_list_params = {
 	},
 };
 
-const doc_saint_laurent_container_params = {
+const doc_saint_laurent_container_params: IObject = {
 	id: "b66b1be3-ec94-475c-afca-63e701c5c8e1",
 	guid: "f88b31d8-812d-42fe-94b5-72250f055dc8",
 	type: "saint_laurent_container",
@@ -750,7 +756,7 @@ const doc_saint_laurent_container_params = {
 	},
 };
 
-const doc_widget_params = {
+const doc_widget_params: IObject = {
 	widgets: {
 		type: "stories",
 		data: [
@@ -1018,6 +1024,26 @@ const doc_widget_params = {
 	},
 };
 
+const doc_container_params: IObject = {
+	id: "a404d0df-8b86-4544-ae74-4fd8260758e7",
+	guid: "a404d0df-8b86-4544-ae74-4fd82607582e3",
+	type: "container",
+	version: "1.0",
+	display: "block",
+	style: {
+		display: "grid",
+		gridTemplateColumns: "1fr 1fr",
+		gap: "54px",
+	},
+	settings: {
+		view: {
+			heightFull: true,
+			darkTheme: true,
+		},
+	},
+	components: [],
+};
+
 export const schemaDocParams = {
 	doc_id_params,
 	doc_guid_params,
@@ -1051,5 +1077,6 @@ export const schemaDocParams = {
 	doc_components_params,
 	doc_category_list_params,
 	doc_saint_laurent_container_params,
-	doc_widget_params
+	doc_widget_params,
+	doc_container_params,
 };

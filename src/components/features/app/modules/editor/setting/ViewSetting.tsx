@@ -62,7 +62,7 @@ const ViewSetting: React.FC<Props> = (props) => {
 	const [viewSettingValue, setViewSettingValue] =
 		React.useState<ISchemaSettingsView>({
 			heightFull: false,
-			navbarMode: false,
+			navbarThemeMode: false,
 			contentType: "image",
 			darkTheme: false,
 		});
@@ -171,7 +171,7 @@ const ViewSetting: React.FC<Props> = (props) => {
 				</div>
 			)}
 
-			{permission.setting.view.navbarMode && (
+			{permission.setting.view.navbarThemeMode && (
 				<div
 					className={cn(
 						"flex justify-between cursor-pointer items-center flex-row gap-2 mb-3"
@@ -186,9 +186,12 @@ const ViewSetting: React.FC<Props> = (props) => {
 					<div className={cn("flex items-center gap-2")}>
 						<Switch
 							id="view-header-mode-setting"
-							checked={viewSettingValue.navbarMode}
+							checked={viewSettingValue.navbarThemeMode}
 							onCheckedChange={(value) => {
-								viewSettingUpdateHandle(value, "navbarMode");
+								viewSettingUpdateHandle(
+									value,
+									"navbarThemeMode"
+								);
 							}}
 						/>
 					</div>

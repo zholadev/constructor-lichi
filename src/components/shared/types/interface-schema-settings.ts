@@ -2,7 +2,7 @@ import { ISchemaContentMediaType } from "@/components/shared/types/interface-sch
 
 export interface ISchemaSettingsView {
 	heightFull?: boolean;
-	navbarMode?: boolean;
+	navbarThemeMode?: boolean;
 	contentType?: ISchemaContentMediaType;
 	darkTheme: boolean;
 }

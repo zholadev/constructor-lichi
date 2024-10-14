@@ -74,17 +74,52 @@ const SavePage: React.FC = () => {
 
 	return (
 		<div className={cn("w-full")}>
+			<div className={cn("w-full mb-6")}>
+				<h3 className={cn("text-xs mb-3 uppercase text-gray-500")}>
+					Выберите тип страницы
+				</h3>
+				<div>
+					<Select
+						defaultValue={spaceModeTemplateType}
+						value={spaceModeTemplateType}
+						onValueChange={(value: TemplateType) =>
+							onSelectTemplateType(value)
+						}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Выберите тип страницы" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{templatePageTypeData.map((template, index) => {
+									return (
+										<SelectItem
+											key={index}
+											value={template.value}
+										>
+											{template.name}
+										</SelectItem>
+									);
+								})}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+			</div>
+
+			<Divider />
+
 			{spaceModePlatformType === "app" && (
-				<div className={cn("w-full mb-6")}>
+				<div className={cn("w-full mb-6 mt-6")}>
 					<h3 className={cn("text-xs mb-3 uppercase text-gray-500")}>
-						Выберите тип страницы
+						Выберите тип нижнего меню для мобильного приложение
 					</h3>
 					<div>
 						<Select
-							defaultValue={spaceModeTemplateType}
-							value={spaceModeTemplateType}
-							onValueChange={(value: TemplateType) =>
-								onSelectTemplateType(value)
+							defaultValue={spaceBottomBarType}
+							value={spaceBottomBarType}
+							onValueChange={(value: BottomBarTypes) =>
+								onSelectBottomBarTypes(value)
 							}
 						>
 							<SelectTrigger className="w-full">
@@ -92,7 +127,7 @@ const SavePage: React.FC = () => {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									{templatePageTypeData.map(
+									{bottomBarTypeData.map(
 										(template, index) => {
 											return (
 												<SelectItem
@@ -110,40 +145,6 @@ const SavePage: React.FC = () => {
 					</div>
 				</div>
 			)}
-
-			<Divider />
-			<div className={cn("w-full mb-6 mt-6")}>
-				<h3 className={cn("text-xs mb-3 uppercase text-gray-500")}>
-					Выберите тип нижнего меню для мобильного приложение
-				</h3>
-				<div>
-					<Select
-						defaultValue={spaceBottomBarType}
-						value={spaceBottomBarType}
-						onValueChange={(value: BottomBarTypes) =>
-							onSelectBottomBarTypes(value)
-						}
-					>
-						<SelectTrigger className="w-full">
-							<SelectValue placeholder="Выберите тип страницы" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								{bottomBarTypeData.map((template, index) => {
-									return (
-										<SelectItem
-											key={index}
-											value={template.value}
-										>
-											{template.name}
-										</SelectItem>
-									);
-								})}
-							</SelectGroup>
-						</SelectContent>
-					</Select>
-				</div>
-			</div>
 
 			<Divider />
 

@@ -69,7 +69,7 @@ export const permissionSpecialComponentsV1: IPermission = {
 		view: {
 			root: true,
 			contentType: true,
-			navbarMode: false,
+			navbarThemeMode: false,
 			heightFull: false,
 			darkTheme: true,
 		},

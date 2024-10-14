@@ -69,7 +69,7 @@ export const permissionBaseElements: IPermission = {
 		view: {
 			root: true,
 			contentType: false,
-			navbarMode: false,
+			navbarThemeMode: false,
 			heightFull: false,
 			darkTheme: true,
 		},

@@ -67,7 +67,7 @@ export interface IPermission {
 		view: {
 			root: boolean;
 			contentType: boolean;
-			navbarMode: boolean;
+			navbarThemeMode: boolean;
 			heightFull: boolean;
 			darkTheme: boolean;
 		};

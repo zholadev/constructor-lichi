@@ -1,5 +1,3 @@
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-
 const doc_id_params = { id: "a404d0df-8b86-4544-ae74-4fd8260758e7" };
 const doc_guid_params = { guid: "a404d0df-8b86-4544-ae74-4fd8260758e7" };
 const doc_type_params = { type: "container" };
@@ -84,7 +82,7 @@ const doc_settings_params = {
 			darkTheme: true,
 			contentType: "image",
 			heightFull: false,
-			navbarMode: false,
+			navbarThemeMode: false,
 		},
 		show: {
 			siteType: "all",
@@ -193,7 +191,7 @@ const doc_setting_view_params = {
 		darkTheme: true,
 		contentType: "image",
 		heightFull: false,
-		navbarMode: false,
+		navbarThemeMode: false,
 	},
 };
 const doc_setting_category_list_params = {
@@ -611,7 +609,7 @@ const doc_category_list_params = {
 		view: {
 			darkTheme: true,
 			heightFull: true,
-			navbarMode: false,
+			navbarThemeMode: false,
 		},
 		show: {
 			siteType: "all",

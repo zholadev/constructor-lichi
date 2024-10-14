@@ -29,7 +29,7 @@ export const defaultSettings: IDefaultSettings = {
 				view: {
 					darkTheme: true,
 					heightFull: false,
-					navbarMode: false,
+					navbarThemeMode: false,
 				},
 				show: {
 					siteType: "all",
@@ -39,7 +39,7 @@ export const defaultSettings: IDefaultSettings = {
 				view: {
 					darkTheme: true,
 					heightFull: false,
-					navbarMode: false,
+					navbarThemeMode: false,
 				},
 				show: {
 					siteType: "all",
@@ -70,7 +70,7 @@ export const defaultSettings: IDefaultSettings = {
 				view: {
 					darkTheme: true,
 					heightFull: true,
-					navbarMode: false,
+					navbarThemeMode: false,
 				},
 				show: {
 					siteType: "all",
@@ -80,7 +80,7 @@ export const defaultSettings: IDefaultSettings = {
 				view: {
 					darkTheme: true,
 					heightFull: true,
-					navbarMode: false,
+					navbarThemeMode: false,
 				},
 				show: {
 					siteType: "all",
@@ -110,7 +110,7 @@ export const defaultSettings: IDefaultSettings = {
 			view: {
 				darkTheme: true,
 				heightFull: true,
-				navbarMode: false,
+				navbarThemeMode: false,
 			},
 			show: {
 				siteType: "all",

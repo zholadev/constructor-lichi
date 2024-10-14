@@ -85,7 +85,7 @@ export const basePermission: IPermission = {
 		view: {
 			root: false,
 			contentType: false,
-			navbarMode: false,
+			navbarThemeMode: false,
 			heightFull: false,
 			darkTheme: true,
 		},

@@ -10,7 +10,7 @@ import SavePage from "@/components/components/editor/SavePage";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import EditorSetting from "@/components/components/editor/EditorSetting";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import {CopyIcon, FileIcon} from "@radix-ui/react-icons";
+import { CopyIcon, FileIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 
 /**

@@ -14,11 +14,9 @@ interface IStylesValues {
 	backgroundColorDark?: string;
 }
 
-type StylesKeys = "backgroundColor";
-
 interface Props {
 	onStyleChange?: (values: IStylesValues) => void;
-	styles?: Record<string, unknown>;
+	styles?: IStylesValues;
 	hideTitle?: boolean;
 	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
@@ -50,9 +48,9 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления значение для стилей
 	 * @param value
-	 * @param type
+	 * @param key
 	 */
-	const onChangeStyleHandle = (value: string, type: StylesKeys) => {
+	const onChangeStyleHandle = (value: string, key: keyof IStylesValues) => {
 		try {
 			if (!value) {
 				toastMessage("ValueError: value is not defined", "error");
@@ -62,7 +60,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 			setStylesValues((size) => {
 				const updateValues = {
 					...size,
-					[type]: value,
+					[key]: value,
 				};
 
 				if (onStyleChange) {
@@ -146,7 +144,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 										: stylesValues.backgroundColor
 								}
 								type="color"
-								onInput={(e) => {
+								onChange={(e) => {
 									onChangeStyleHandle(
 										e.target.value,
 										activeDarkTheme

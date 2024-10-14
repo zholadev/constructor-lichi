@@ -16,6 +16,11 @@ export interface IElementSchema {
 	version: string;
 	settings?: {
 		view: ISchemaSettingsView;
+		timer?: ISchemaSettingsTimer;
+	};
+	content?: {
+		title?: ISchemaContentText;
+		link?: ISchemaContentLink;
 	};
 }
 

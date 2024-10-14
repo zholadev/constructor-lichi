@@ -1,7 +1,4 @@
-import {
-	ComponentBaseTypes,
-	ComponentSpecialTypes,
-} from "@/components/shared/types/types-components";
+import { SchemaComponentTypes } from "@/components/shared/types/types-components";
 import { basePermission } from "@/components/shared/hooks/usePermission";
 import { IPermission } from "@/components/app/permission/types/interface-permission";
 import { versionComponents } from "@/components/app/versions/types/interface-version-components";
@@ -26,7 +23,7 @@ const findComponentPermission = (
  * @param versionComponent
  */
 export const permissionGetComponents = (
-	type: ComponentBaseTypes | ComponentSpecialTypes,
+	type: SchemaComponentTypes,
 	versionComponent: string
 ): IPermission => {
 	switch (type) {

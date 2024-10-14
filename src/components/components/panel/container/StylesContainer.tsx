@@ -138,6 +138,7 @@ const StylesContainer: React.FC = () => {
 	 */
 	const removeStylesHandle = (
 		type?: string,
+		// @ts-ignore
 		valueKeys: string | string[]
 	) => {
 		if (type === "removeKey") {

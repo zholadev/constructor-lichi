@@ -12,8 +12,8 @@ import { IGalleryImageItem } from "@/components/shared/types/interface";
 interface Props {
 	toggleExpanded: boolean;
 	toggleExpandedHandle: () => void;
-	getImage: (data: IGalleryImageItem | null) => void;
-	activeImage: IGalleryImageItem | null;
+	getImage: (data: IGalleryImageItem) => void;
+	activeImage?: IGalleryImageItem;
 }
 
 /**

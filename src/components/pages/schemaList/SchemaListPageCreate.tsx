@@ -23,12 +23,12 @@ import {
 } from "@/components/shared/shadcn/ui/form";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { apiMethodSchemaCreate } from "@/components/shared/backend/requests/schema/requests";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { cn } from "@/components/lib/utils";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useFetchSchemaListData from "@/components/shared/hooks/useFetchSchemaListData";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 const FormSchema = z.object({
 	name: z.string().min(2, {
@@ -72,7 +72,7 @@ const SchemaListPageCreate: React.FC = (): React.JSX.Element => {
 			apiMethodSchemaCreate,
 			false,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						toggleDialogHandle();
 						fetchSchemaListData();

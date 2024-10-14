@@ -6,8 +6,8 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { apiMethodSchemaGetById } from "@/components/shared/backend/requests/schema/requests";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 interface Props {
 	children: React.ReactNode;
@@ -58,9 +58,8 @@ const SpaceProvider: React.FC<Props> = (props) => {
 			apiMethodSchemaGetById,
 			spaceTemplateApiLoadingAction,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
-						// spaceTemplateDataAction(params.data?.page);
 						spaceTemplateActionDataAction(params.data?.page);
 					}
 				},

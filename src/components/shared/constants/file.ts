@@ -9,7 +9,7 @@ const LottleIcon = {
 	LottleErrorPageIcon,
 	LottleDocIcon,
 	LottlePageNotFoundIcon,
-	LottleTypeErrorIcon
+	LottleTypeErrorIcon,
 };
 
 export default LottleIcon;

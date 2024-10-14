@@ -7,8 +7,8 @@ import { IGalleryImageItem } from "@/components/shared/types/interface";
 import GalleryDialogContainer from "@/components/widgets/gallery/GalleryDialogContainer";
 
 interface Props {
-	imageSrc?: IGalleryImageItem;
-	onChange?: (imageSrc?: IGalleryImageItem) => void;
+	imageSrc: IGalleryImageItem;
+	onChange: (imageSrc?: IGalleryImageItem) => void;
 }
 
 /**
@@ -25,13 +25,12 @@ interface Props {
 const ImageContent: React.FC<Props> = (props) => {
 	const { imageSrc, onChange } = props;
 
-	const [currentImage, setCurrentImage] =
-		React.useState<IGalleryImageItem | null>(null);
+	const [currentImage, setCurrentImage] = React.useState<IGalleryImageItem>();
 	const [toggleExpanded, setToggleExpanded] = React.useState(false);
 
 	const toggleExpandedHandle = () => setToggleExpanded(!toggleExpanded);
 
-	const updateDataHandle = (data: IGalleryImageItem | null) => {
+	const updateDataHandle = (data: IGalleryImageItem) => {
 		setCurrentImage(data);
 		toggleExpandedHandle();
 		if (onChange) onChange(data);

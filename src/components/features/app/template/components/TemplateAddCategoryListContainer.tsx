@@ -16,12 +16,12 @@ import {
 	apiMethodSiteCategoryList,
 	apiMethodSiteSiteInfo,
 } from "@/components/shared/backend/requests/site/requests";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { ImageIcon } from "@radix-ui/react-icons";
 import useContainerActions from "@/components/shared/hooks/actions/useContainerActions";
 import { versionContainer } from "@/components/app/versions/types/interface-version-container";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 interface Country {
 	id: number;
@@ -112,7 +112,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 	 */
 	const fetchGetSiteInfo = async () => {
 		await apiFetchHandler(apiMethodSiteSiteInfo, false, {
-			onGetData: (params: IGetApiParams) => {
+			onGetData: (params: IRequestApiParams) => {
 				if (params.success) {
 					const convertToArray: Country[] = Object.values(
 						params.data?.api_data?.data?.info?.shop || {}
@@ -132,7 +132,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 			apiMethodSiteCategoryList,
 			false,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						setCategoryList(params.data?.api_data?.aData);
 					}

@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Paperclip } from "lucide-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
@@ -19,6 +18,7 @@ import {
 } from "@/components/shared/shadcn/ui/file-uploader";
 import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 import FileSvgDraw from "./FileSvgDraw";
 
 interface Props {
@@ -67,7 +67,7 @@ const FileUploaderDrop: React.FC<Props> = (props) => {
 			apiMethodTree,
 			updateFolderLoaderAction,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					getFolderDataAction(params?.data?.tree);
 				},
 			},
@@ -80,7 +80,7 @@ const FileUploaderDrop: React.FC<Props> = (props) => {
 			apiMethodUploadFile,
 			false,
 			{
-				onGetData: async (params: IGetApiParams) => {
+				onGetData: async (params: IRequestApiParams) => {
 					if (params.success) {
 						onAfterSend();
 						await getTreeData();

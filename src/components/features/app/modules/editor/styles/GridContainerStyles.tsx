@@ -12,16 +12,19 @@ interface IStyles {
 
 interface Props {
 	onStyleChange?: (values: CSSProperties) => void;
-	styles?: React.CSSProperties;
+	styles?: Record<string, string>;
 	hideTitle?: boolean;
 }
 
-const extractNumberGap = (value: string): CSSProperties => {
+const extractNumberGap = (value: string): Record<string, number> => {
 	const numberValue = parseFloat(value);
 	return { gap: numberValue };
 };
 
-const addUnit = (value: number, unit: string = "px"): CSSProperties => {
+const addUnit = (
+	value: number,
+	unit: string = "px"
+): Record<string, unknown> => {
 	return { gap: `${value}${unit}` };
 };
 
@@ -31,7 +34,7 @@ const addUnit = (value: number, unit: string = "px"): CSSProperties => {
  * @description
  * @last-updated
  * @update-description
- * @todo Refactoring
+ * @todo Refactoring, remove ts-ignore
  * @fixme
  * @param props
  * @constructor
@@ -53,43 +56,35 @@ const GridContainerStyles: React.FC<Props> = (props) => {
 	 * @param value
 	 * @param key
 	 */
-	const onChangeStylesHandle = (value: string, key: keyof IStyles) => {
+	const onChangeStylesHandle = (value: number, key: keyof IStyles) => {
 		try {
-			if (!value) {
+			if (!value || !key) {
 				toastMessage("ValueError: value is not defined", "error");
 				return;
 			}
 
-			if (!key) {
-				toastMessage("ValueError: key is not defined", "error");
-				return;
-			}
-
-			const newValue = parseFloat(value);
-
 			setStylesValues((prev) => {
 				const updateValues = {
 					...prev,
-					[key]: newValue,
+					[key]: value,
 				};
 
 				if (onStyleChange) {
-					const convertStyle = addUnit(newValue);
+					const convertStyle = addUnit(value);
 					onStyleChange(convertStyle);
 				}
 
 				return updateValues;
 			});
 		} catch (error) {
-			if (error instanceof Error) {
-				errorHandler("layoutStyles", "onChangeJustifyHandle", error);
-			}
+			errorHandler("layoutStyles", "onChangeJustifyHandle", error);
 		}
 	};
 
 	useEffect(() => {
 		if (styles) {
 			const reverseConvertObj = extractNumberGap(styles.gap);
+			// @ts-ignore
 			setStylesValues(reverseConvertObj);
 		}
 	}, [styles]);
@@ -116,7 +111,10 @@ const GridContainerStyles: React.FC<Props> = (props) => {
 							value={stylesValue.gap}
 							type="number"
 							onChange={(e) =>
-								onChangeStylesHandle(e.target.value, "gap")
+								onChangeStylesHandle(
+									parseFloat(e.target.value),
+									"gap"
+								)
 							}
 						/>
 					</div>

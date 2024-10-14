@@ -6,7 +6,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import {
@@ -31,7 +30,8 @@ import {
 } from "@/components/shared/shadcn/ui/form";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { Button } from "@/components/shared/shadcn/ui/button";
-import {cn} from "@/components/lib/utils";
+import { cn } from "@/components/lib/utils";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 /**
  * @created 12.06.2024
@@ -80,7 +80,7 @@ const DialogCreateDirectory: React.FC = (): React.JSX.Element => {
 			apiMethodTree,
 			updateFolderLoaderAction,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					getFolderDataAction(params?.data?.tree);
 				},
 			},
@@ -97,7 +97,7 @@ const DialogCreateDirectory: React.FC = (): React.JSX.Element => {
 			apiMethodCreateDir,
 			false,
 			{
-				onGetData: async (params: IGetApiParams) => {
+				onGetData: async (params: IRequestApiParams) => {
 					if (params.success) {
 						toggleDialogCreateDirectory();
 						await getTreeData();

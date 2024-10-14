@@ -1,9 +1,5 @@
 import { AxiosError } from "axios";
 
-export interface Params {
-	[key: string]: unknown;
-}
-
 export interface ResponseObject {
 	success: boolean;
 	error?: string;
@@ -12,5 +8,3 @@ export interface ResponseObject {
 	message_fail: string;
 	code: AxiosError;
 }
-
-export type ThemeType = "light" | "dark" | "system";

@@ -1,89 +1,89 @@
 import {
-	ComponentBaseTypes,
-	ComponentSpecialTypes,
+	SchemaComponentTypes,
 	ElementBaseTypes,
 } from "@/components/shared/types/types-components";
 import { IContainerType } from "@/components/shared/types/types";
 
+const commonStyles = {
+	fontFamily: "Futura PT",
+	defaultColor: "#000000",
+	darkColor: "#ffffff",
+	defaultBackgroundColor: "#ffffff",
+	darkBackgroundColor: "#181a1b",
+};
+
 interface IDefaultStyles {
 	ELEMENT: Record<ElementBaseTypes, Record<string, unknown>>;
-	COMPONENTS: Record<
-		ComponentBaseTypes | ComponentSpecialTypes,
-		Record<string, unknown>
-	>;
+	COMPONENTS: Record<SchemaComponentTypes, Record<string, unknown>>;
 	CONTAINERS: Record<IContainerType, Record<string, unknown>>;
 }
 
+// @ts-ignore
 export const defaultStyles: IDefaultStyles = {
-	ELEMENT: {
-		button: {
-			border: "1px solid #000000",
-			padding: "10px 15px 10px 15px",
-			textAlign: "center",
-			fontFamily: "Futura PT",
-			color: "#000000",
-			colorDark: "#ffffff",
-			borderDark: "1px solid #ffffff",
-		},
-		text: {
-			fontFamily: "Futura PT",
-			textAlign: "center",
-			color: "#000000",
-			colorDark: "#ffffff",
-		},
-		timer: {
-			color: "#000000",
-			colorDark: "#ffffff",
-			fontSize: "20px",
-			fontFamily: "Futura PT",
-		},
-	},
 	COMPONENTS: {
 		card: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
 		},
 		card_outside: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
 		},
 		album: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
 		},
 		album_outside: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
-		},
-		video: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
-		},
-		video_outside: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
 		},
 		saint_laurent: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
-		}
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
+		},
+		none: {
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
+		},
 	},
 	CONTAINERS: {
 		saint_laurent_container: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
 		},
 		container: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
-		},
-		swiper: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
 		},
 		category_list_container: {
-			backgroundColor: "#ffffff",
-			backgroundColorDark: "#181a1b",
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
+		},
+		initial: {
+			backgroundColor: commonStyles.defaultBackgroundColor,
+			backgroundColorDark: commonStyles.darkBackgroundColor,
+		},
+	},
+	ELEMENT: {
+		button: {
+			border: `1px solid ${commonStyles.defaultColor}`,
+			padding: [10, 15, 10, 15],
+			textAlign: "center",
+			fontFamily: commonStyles.fontFamily,
+			color: commonStyles.defaultColor,
+			colorDark: commonStyles.darkColor,
+			borderDark: `1px solid ${commonStyles.darkColor}`,
+		},
+		text: {
+			fontFamily: commonStyles.fontFamily,
+			textAlign: "center",
+			color: commonStyles.defaultColor,
+			colorDark: commonStyles.darkColor,
+		},
+		timer: {
+			color: commonStyles.defaultColor,
+			colorDark: commonStyles.darkColor,
+			fontFamily: commonStyles.fontFamily,
 		},
 	},
 };

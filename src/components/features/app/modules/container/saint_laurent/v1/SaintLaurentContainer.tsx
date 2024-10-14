@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import { cn } from "@/components/lib/utils";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
@@ -32,7 +32,23 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 
 	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
 
-	const deviceMode: DeviceType = spaceModeDeviceType;
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Возвращаем классы для разных устройств
+	 */
+	const styleWidthTypes: string = useMemo(() => {
+		const device = spaceModeDeviceType as DeviceType;
+
+		if (device === "tablet") {
+			return "saint_laurent_container_table";
+		}
+
+		if (device === "mobile") {
+			return "saint_laurent_container_mobile";
+		}
+
+		return "";
+	}, [spaceModeDeviceType]);
 
 	return (
 		<div
@@ -48,9 +64,7 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 			}}
 		>
 			<div
-				className={cn(
-					`saint-laurent-container-v1 ${deviceMode === "tablet" ? "saint_laurent_container_table" : deviceMode === "mobile" ? "saint_laurent_container_mobile" : ""}`
-				)}
+				className={cn("saint-laurent-container-v1", styleWidthTypes)}
 				style={{
 					height: heightDeviceProperty(
 						containerData.settings?.view?.heightFull ?? false

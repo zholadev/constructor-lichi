@@ -22,7 +22,7 @@ import LinkContent from "@/components/features/app/modules/editor/content/LinkCo
 import TextFillContent from "@/components/features/app/modules/editor/content/TextFillContent";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
 import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
-import MotionContent from "@/components/features/app/modules/editor/content/MotionContent";
+import AnimationContent from "@/components/features/app/modules/editor/content/AnimationContent";
 import { Framer } from "lucide-react";
 import { ISchemaMotionContent } from "@/components/shared/types/interface-schema-content";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
@@ -71,12 +71,15 @@ const ContentContainer: React.FC = () => {
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
+	// @ts-ignore
 	const contentActiveData: IContentActiveData = useMemo(() => {
 		try {
 			const content =
 				activeElementData?.widgetType === "stories"
-					? activeElementData?.widgetActiveData?.content
-					: activeElementData?.activeData?.content;
+					? // @ts-ignore
+						activeElementData?.widgetActiveData?.content
+					: // @ts-ignore
+						activeElementData?.activeData?.content;
 
 			return {
 				content: {
@@ -97,6 +100,7 @@ const ContentContainer: React.FC = () => {
 
 	const filterContentKeys = (
 		content: Content,
+		// eslint-disable-next-line no-shadow
 		accessTypes: AccessTypes[]
 	) => {
 		const filteredKeys: ContentKeys[] = Object.keys(content)
@@ -224,13 +228,7 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<VideoContent
-								defaultParams={{
-									videoSrc:
-										contentActiveData.content.video
-											?.videoSrc,
-									poster: contentActiveData.content.video
-										?.poster,
-								}}
+								defaultParams={contentActiveData.content.video}
 								onSendParams={(params) => {
 									if (
 										activeElementData?.widgetType !==
@@ -268,6 +266,7 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<LinkContent
+								// @ts-ignore
 								defaultParams={contentActiveData.content.link}
 								onSendParams={(params) => {
 									if (
@@ -308,6 +307,7 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<TextFillContent
+								// @ts-ignore
 								defaultParams={contentActiveData.content?.title}
 								onSendParams={(params) => {
 									if (
@@ -344,7 +344,8 @@ const ContentContainer: React.FC = () => {
 							</div>
 						</AccordionTrigger>
 						<AccordionContent>
-							<MotionContent
+							<AnimationContent
+
 								defaultParams={
 									contentActiveData.content?.animation
 								}

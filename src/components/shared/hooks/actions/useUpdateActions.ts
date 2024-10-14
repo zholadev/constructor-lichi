@@ -68,7 +68,6 @@ export default function useUpdateActions(): IUpdateActions {
 				save: boolean,
 				remove?: boolean
 			) => {
-				console.log(save, remove, pathString);
 				return updateObjectByPath(
 					data,
 					pathString,

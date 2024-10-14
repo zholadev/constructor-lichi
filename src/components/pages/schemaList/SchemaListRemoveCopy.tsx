@@ -11,7 +11,6 @@ import {
 	DialogTitle,
 } from "@/components/shared/shadcn/ui/dialog";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useFetchSchemaListData from "@/components/shared/hooks/useFetchSchemaListData";
@@ -22,6 +21,7 @@ import {
 import PaperRemoveIcon from "@/components/shared/uikit/lottleIcons/PaperRemoveIcon";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import DocLottle from "@/components/shared/uikit/lottleIcons/DocLottle";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 /**
  * @author Zholaman Zhumanov
@@ -68,7 +68,7 @@ const SchemaListRemoveCopy: React.FC = () => {
 				: apiMethodSchemaDelete,
 			false,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						toggleDialogHandle();
 						fetchSchemaListData();

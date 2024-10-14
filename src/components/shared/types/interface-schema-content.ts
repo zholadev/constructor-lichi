@@ -28,6 +28,11 @@ export interface ISchemaContentPhoto {
 	};
 }
 
+export interface ISchemaContentVideoParams {
+	videoSrc: string;
+	poster: IGalleryImageItem;
+}
+
 export interface ISchemaContentVideo {
 	video?: {
 		videoSrc: string;

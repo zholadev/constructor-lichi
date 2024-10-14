@@ -7,10 +7,7 @@ import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { apiMethodSchemaSetActive } from "@/components/shared/backend/requests/schema/requests";
-import {
-	IGetApiParams,
-	IShopsListDataItem,
-} from "@/components/shared/types/interface";
+import { IShopsListDataItem } from "@/components/shared/types/interface";
 import {
 	Dialog,
 	DialogClose,
@@ -30,6 +27,7 @@ import {
 } from "@/components/shared/shadcn/ui/form";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/shared/shadcn/ui/checkbox";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 const FormSchema = z.object({
 	countries: z
@@ -44,7 +42,7 @@ const FormSchema = z.object({
  * @description
  * @last-updated
  * @update-description
- * @todo Типизация
+ * @todo Убрать ts-ignore
  * @fixme
  * @constructor
  */
@@ -86,9 +84,11 @@ const SchemaListPageActivate: React.FC = () => {
 		shop: IShopsListDataItem
 	) => {
 		if (checked) {
-			field.onChange([...field.value, shop.id]);
+			field.onChange([...(field.value as string[]), shop.id]);
 		} else {
-			field.onChange(field.value.filter((name) => name !== shop.id));
+			field.onChange(
+				(field.value as string[]).filter((id) => id !== shop.id)
+			);
 		}
 	};
 
@@ -102,7 +102,7 @@ const SchemaListPageActivate: React.FC = () => {
 			apiMethodSchemaSetActive,
 			false,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						toggleDialogHandle();
 						fetchSchemaListData();
@@ -156,6 +156,7 @@ const SchemaListPageActivate: React.FC = () => {
 																) => {
 																	onCheckedChangeAction(
 																		checked,
+																		// @ts-ignore
 																		field,
 																		shop
 																	);

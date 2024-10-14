@@ -10,15 +10,11 @@ import { Label } from "@/components/shared/shadcn/ui/label";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-
-interface IVideoSettings {
-	poster: IGalleryImageItem | null;
-	videoSrc: string;
-}
+import { ISchemaContentVideoParams } from "@/components/shared/types/interface-schema-content";
 
 interface Props {
-	onSendParams?: (data: IVideoSettings | null) => void;
-	defaultParams?: IVideoSettings;
+	onSendParams?: (data: ISchemaContentVideoParams) => void;
+	defaultParams?: ISchemaContentVideoParams;
 }
 
 /**
@@ -38,10 +34,24 @@ const VideoContent: React.FC<Props> = (props) => {
 	const { editorVideoPlayAction } = useDispatchAction();
 	const { editorVideoPlay } = useAppSelector((state) => state.editor);
 
-	const [videoSetting, setVideoSetting] = React.useState<IVideoSettings>({
-		poster: null,
-		videoSrc: "",
-	});
+	const [videoSetting, setVideoSetting] =
+		React.useState<ISchemaContentVideoParams>({
+			poster: {
+				url: "",
+				size: 0,
+				created: 0,
+				extension: "",
+				info: {
+					width: 0,
+					height: 0,
+					luminance: 0,
+				},
+				name: "",
+				path: "",
+				public_url: "",
+			},
+			videoSrc: "",
+		});
 
 	const [toggleExpanded, setToggleExpanded] = React.useState(false);
 
@@ -49,7 +59,7 @@ const VideoContent: React.FC<Props> = (props) => {
 
 	const onChangeSettings = (
 		value: string | IGalleryImageItem,
-		key: keyof IVideoSettings
+		key: keyof ISchemaContentVideoParams
 	) => {
 		if (!value || !key) {
 			return;
@@ -69,10 +79,9 @@ const VideoContent: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		setVideoSetting({
-			poster: defaultParams?.poster,
-			videoSrc: defaultParams?.videoSrc,
-		});
+		if (defaultParams) {
+			setVideoSetting(defaultParams);
+		}
 	}, [defaultParams]);
 
 	return (
@@ -120,10 +129,7 @@ const VideoContent: React.FC<Props> = (props) => {
 							)}
 						>
 							<Image
-								src={
-									videoSetting.poster.url ||
-									videoSetting.poster.src
-								}
+								src={videoSetting.poster?.url}
 								alt=""
 								width={240}
 								height={240}
@@ -141,7 +147,7 @@ const VideoContent: React.FC<Props> = (props) => {
 								<h3 className={cn("text-gray-500")}>
 									Название:{" "}
 								</h3>
-								<h3>{videoSetting?.poster.name}</h3>
+								<h3>{videoSetting?.poster?.name}</h3>
 							</div>
 						)}
 
@@ -151,8 +157,8 @@ const VideoContent: React.FC<Props> = (props) => {
 									Размеры:{" "}
 								</h3>
 								<h3>
-									{videoSetting?.poster.info.width} x{" "}
-									{videoSetting?.poster.info.height}
+									{videoSetting?.poster?.info?.width} x{" "}
+									{videoSetting?.poster?.info?.height}
 								</h3>
 							</div>
 						)}

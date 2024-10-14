@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import {
 	DotsHorizontalIcon,
 	DotsVerticalIcon,
@@ -19,6 +18,7 @@ import {
 } from "@/components/shared/shadcn/ui/popover";
 import { cn } from "@/components/lib/utils";
 import { Button } from "@/components/shared/shadcn/ui/button";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 type IconType = "horizontal" | "vertical";
 
@@ -57,7 +57,7 @@ const RemoveObject: React.FC<Props> = (props) => {
 			apiMethodTree,
 			updateFolderLoaderAction,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					getFolderDataAction(params?.data?.tree);
 				},
 			},
@@ -70,7 +70,7 @@ const RemoveObject: React.FC<Props> = (props) => {
 			apiMethodRemove,
 			false,
 			{
-				onGetData: async (params: IGetApiParams) => {
+				onGetData: async (params: IRequestApiParams) => {
 					if (params.success) {
 						await getTreeData();
 						togglePopover();

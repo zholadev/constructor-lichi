@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import { cn } from "@/components/lib/utils";
-import { Swiper, SwiperSlide } from "swiper/react";
+import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import SwiperCore from "swiper";
 import { Autoplay, Controller, Pagination } from "swiper/modules";
@@ -12,13 +12,13 @@ import {
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { apiMethodSiteCategoryProductList } from "@/components/shared/backend/requests/site/requests";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import CategoryCard from "@/components/features/app/modules/components/components/special/v1/categoryList/CategoryCard";
 import CategoryCardOutside from "@/components/features/app/modules/components/components/special/v1/categoryList/CategoryCardOutside";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import { ProductV1 } from "@/components/features/app/modules/components/types/v1/interface-category-list";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
@@ -50,7 +50,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 		categoryListParams,
 	} = props;
 
-	const swiperRef = useRef({});
+	const swiperRef = useRef<SwiperRef | undefined>(null);
 
 	const { apiFetchHandler, loading } = useApiRequest();
 
@@ -68,7 +68,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 			apiMethodSiteCategoryProductList,
 			false,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						setProductDataList(params.data?.api_data?.aProduct);
 					}
@@ -94,29 +94,35 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 	useEffect(() => {
 		try {
 			if (swiperSettings) {
-				const { swiper } = swiperRef.current;
+				if (swiperRef.current) {
+					const swiperInstance = swiperRef.current?.swiper;
 
-				swiper.params.loop = swiperSettings.loop;
-				swiper.params.slidesPerView = swiperSettings.slidePerView;
-				swiper.params.slidesPerGroup = swiperSettings.slidePerGroup;
-				swiper.params.centeredSlides = swiperSettings.centeredSlides;
-				swiper.params.direction = swiperSettings.direction;
-				swiper.params.mousewheel = swiperSettings.mousewheel;
+					swiperInstance.params.loop = swiperSettings.loop;
+					swiperInstance.params.slidesPerView =
+						swiperSettings.slidePerView;
+					swiperInstance.params.slidesPerGroup =
+						swiperSettings.slidePerGroup;
+					swiperInstance.params.centeredSlides =
+						swiperSettings.centeredSlides;
+					swiperInstance.params.direction = swiperSettings.direction;
+					swiperInstance.params.mousewheel =
+						swiperSettings.mousewheel;
 
-				if (swiperSettings.autoplay) {
-					swiper.params.autoplay = {
-						delay: swiperSettings.speed_advanced?.delay || 1000,
-						disableOnInteraction: false,
-					};
-					swiper.autoplay.start();
-				} else {
-					swiper.autoplay.stop();
-					swiper.params.autoplay = false;
+					if (swiperSettings.autoplay) {
+						swiperInstance.params.autoplay = {
+							delay: swiperSettings.speed_advanced?.delay || 1000,
+							disableOnInteraction: false,
+						};
+						swiperInstance.autoplay.start();
+					} else {
+						swiperInstance.autoplay.stop();
+						swiperInstance.params.autoplay = false;
+					}
+
+					// Перезапуск swiper для применения новых настроек
+					swiperInstance.update();
+					swiperInstance.updateSize();
 				}
-
-				// Перезапуск swiper для применения новых настроек
-				swiper.update();
-				swiper.updateSize();
 			}
 		} catch (error) {
 			errorHandler("swiperContainer", "effect", error);
@@ -134,6 +140,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("overflow-hidden block")}>
 			<Swiper
+				// @ts-ignore
 				ref={swiperRef}
 				controller={{ control: null }}
 				{...updatedSwiperSettings}

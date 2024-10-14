@@ -13,8 +13,6 @@ import CategoryListContainer from "@/components/features/app/modules/container/c
 import SaintLaurentContainer from "@/components/features/app/modules/container/saint_laurent/v1/SaintLaurentContainer";
 import { cn } from "@/components/lib/utils";
 import SaintLaurentSwiperContainer from "@/components/features/app/modules/container/saint_laurent/v1/SaintLaurentSwiperContainer";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import BottomBarDefault from "@/components/components/bottomBar/BottomBarDefault";
 
 interface Props {
 	containerType: IContainerType;
@@ -28,7 +26,7 @@ interface Props {
  * @description Компонент для вывода контейнера в доску
  * @last-updated
  * @update-description
- * @todo Types
+ * @todo Types, remove @ts-ignore
  * @fixme
  * @param props
  * @constructor
@@ -42,6 +40,7 @@ const BoardContainerDisplay: React.FC<Props> = (props) => {
 				return displayType === "swiper" ? (
 					<SwiperContainer
 						componentsData={containerData?.components}
+						// @ts-ignore
 						swiperSettings={containerData.settings.swiper}
 						swiperStyles={containerData.style}
 						containerData={containerData}
@@ -56,9 +55,11 @@ const BoardContainerDisplay: React.FC<Props> = (props) => {
 				return (
 					<CategoryListContainer
 						componentsData={containerData.components}
+						// @ts-ignore
 						swiperSettings={containerData.settings.swiper}
 						swiperStyles={containerData.style}
 						containerData={containerData}
+						// @ts-ignore
 						categoryListParams={
 							containerData.settings?.categoryList
 						}
@@ -73,6 +74,7 @@ const BoardContainerDisplay: React.FC<Props> = (props) => {
 				) : (
 					<SaintLaurentSwiperContainer
 						componentsData={containerData.components}
+						// @ts-ignore
 						swiperSettings={containerData.settings.swiper}
 						swiperStyles={containerData.style}
 						containerData={containerData}

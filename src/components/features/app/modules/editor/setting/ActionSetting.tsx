@@ -26,6 +26,10 @@ const ActionSetting: React.FC = () => {
 
 	const activeElementData = useActiveElementObserver();
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления компонентов, элементов и контейнеров
+	 */
 	const removeClickHandle = () => {
 		if (activeElementData?.widgetType !== "none") {
 			removeWidgetActions.removeWidget();

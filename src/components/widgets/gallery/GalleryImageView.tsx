@@ -3,10 +3,7 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { apiMethodGet } from "@/components/shared/backend/requests/file/requests";
-import {
-	IGalleryImageItem,
-	IGetApiParams,
-} from "@/components/shared/types/interface";
+import { IGalleryImageItem } from "@/components/shared/types/interface";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import { cn } from "@/components/lib/utils";
 import { IMAGES } from "@/components/shared/constants/images";
@@ -15,11 +12,12 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { HomeIcon, UploadIcon } from "@radix-ui/react-icons";
 import { FolderPlus } from "lucide-react";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 import GalleryCard from "./GalleryCard";
 
 interface Props {
 	getImage: (data: IGalleryImageItem) => void;
-	activeImage: IGalleryImageItem | null;
+	activeImage?: IGalleryImageItem;
 }
 
 /**
@@ -66,7 +64,7 @@ const GalleryImageView: React.FC<Props> = (props) => {
 			apiMethodGet,
 			updateBorderLoaderAction,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						getBorderDataAction(params.data.files);
 					}
@@ -164,7 +162,7 @@ const GalleryImageView: React.FC<Props> = (props) => {
 								<GalleryCard
 									src={data?.url}
 									alt={data?.name}
-									path={data.path}
+									path={data?.path}
 									getImage={() => {
 										getImage(data);
 									}}

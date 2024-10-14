@@ -203,10 +203,7 @@ const TimerSetting: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		if (settingValue) {
-			console.log("settingValue", settingValue)
-			setSettingValue({
-				...settingValue,
-			});
+			setSettingValue(settingValue);
 		}
 	}, [settingValue]);
 

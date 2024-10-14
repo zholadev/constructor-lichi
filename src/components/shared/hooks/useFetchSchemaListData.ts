@@ -1,12 +1,13 @@
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { apiMethodSchemaListData } from "@/components/shared/backend/requests/schema/requests";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 /**
  * @author Zholaman Zhumanov
  * @created 15.08.2024
+ * @description Получаем список страниц
  */
 export default function useFetchSchemaListData(): any {
 	const { schemaListDataAction, schemaListApiLoadingAction } =
@@ -26,7 +27,7 @@ export default function useFetchSchemaListData(): any {
 			apiMethodSchemaListData,
 			false,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						schemaListDataAction({
 							data: params.data?.data,

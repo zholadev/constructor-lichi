@@ -44,7 +44,7 @@ interface IActionData {
 }
 
 interface IImagesData {
-	ICON: Record<string, unknown>;
+	ICON: Record<string, string>;
 	ACTION: IActionData;
 	THUMBNAIL: Record<string, ImageImport[]>;
 	LOGO: Record<string, unknown>;
@@ -68,7 +68,7 @@ export const IMAGES: IImagesData = {
 		bottomBarFavDark,
 		bottomBarHomeDark,
 		bottomBarMenuDark,
-		bottomBarProfileDark
+		bottomBarProfileDark,
 	},
 	THUMBNAIL: {
 		card: [card1, card2, card3, card4, card5, card6],

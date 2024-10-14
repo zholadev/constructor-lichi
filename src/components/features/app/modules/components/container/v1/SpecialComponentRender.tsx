@@ -1,12 +1,12 @@
 import React from "react";
-import { ComponentSpecialTypes } from "@/components/shared/types/types-components";
+import { SchemaComponentSpecialTypes } from "@/components/shared/types/types-components";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import BoardEmptyCard from "@/components/components/board/BoardEmptyCard";
 import SaintLaurent from "@/components/features/app/modules/components/components/special/v1/saintLaurent/SaintLaurent";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface Props {
-	type: ComponentSpecialTypes;
+	type: SchemaComponentSpecialTypes;
 	componentData: ISchemaComponent;
 	containerData: ISchemaContainer;
 	componentId: string;

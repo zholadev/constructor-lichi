@@ -1,5 +1,3 @@
-import {ISchemaContainer} from "@/components/shared/types/interface-schema-container";
-
 type IObject = Record<string, unknown>;
 
 const doc_id_params: IObject = { id: "a404d0df-8b86-4544-ae74-4fd8260758e7" };

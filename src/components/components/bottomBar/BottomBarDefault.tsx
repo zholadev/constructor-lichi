@@ -29,6 +29,11 @@ const BottomBarDefault: React.FC = () => {
 	 * @todo refactoring
 	 */
 	const stylesSetting = useMemo(() => {
+		const getIconSrc = (iconDark: string, iconLight: string) => {
+			if (theme === "dark") return iconDark;
+			return bottomType === "transparent" ? iconLight : iconDark;
+		};
+
 		const device = spaceModeDeviceType as DeviceType;
 		const theme = spaceModeTheme as ThemeSpaceMode;
 		const bottomType = spaceBottomBarType as BottomBarTypes;
@@ -37,107 +42,71 @@ const BottomBarDefault: React.FC = () => {
 			home: {
 				width: 14,
 				height: 14,
-				src:
-					theme === "dark"
-						? IMAGES.ICON.bottomBarHome
-						: bottomType === "transparent"
-							? IMAGES.ICON.bottomBarHome
-							: IMAGES.ICON.bottomBarHomeDark,
+				src: getIconSrc(
+					IMAGES.ICON.bottomBarHomeDark,
+					IMAGES.ICON.bottomBarHome
+				),
 			},
 			fav: {
 				width: 20,
 				height: 20,
-				src:
-					theme === "dark"
-						? IMAGES.ICON.bottomBarFav
-						: bottomType === "transparent"
-							? IMAGES.ICON.bottomBarFav
-							: IMAGES.ICON.bottomBarFavDark,
+				src: getIconSrc(
+					IMAGES.ICON.bottomBarFavDark,
+					IMAGES.ICON.bottomBarFav
+				),
 			},
 			menu: {
 				width: 20,
 				height: 20,
-				src:
-					theme === "dark"
-						? IMAGES.ICON.bottomBarMenu
-						: bottomType === "transparent"
-							? IMAGES.ICON.bottomBarMenu
-							: IMAGES.ICON.bottomBarMenuDark,
+				src: getIconSrc(
+					IMAGES.ICON.bottomBarMenuDark,
+					IMAGES.ICON.bottomBarMenu
+				),
 			},
 			profile: {
 				width: 14,
 				height: 14,
-				src:
-					theme === "dark"
-						? IMAGES.ICON.bottomBarProfile
-						: bottomType === "transparent"
-							? IMAGES.ICON.bottomBarProfile
-							: IMAGES.ICON.bottomBarProfileDark,
+				src: getIconSrc(
+					IMAGES.ICON.bottomBarProfileDark,
+					IMAGES.ICON.bottomBarProfile
+				),
 			},
 			cart: {
 				width: 14,
 				height: 14,
-				src:
-					theme === "dark"
-						? IMAGES.ICON.bottomBarCart
-						: bottomType === "transparent"
-							? IMAGES.ICON.bottomBarCart
-							: IMAGES.ICON.bottomBarCartDark,
+				src: getIconSrc(
+					IMAGES.ICON.bottomBarCartDark,
+					IMAGES.ICON.bottomBarCart
+				),
 			},
+		};
+
+		const titleStyle = {
+			fontSize: 14,
+			color:
+				theme === "dark"
+					? "white"
+					: bottomType === "transparent"
+						? "white"
+						: "#181a1b",
 		};
 
 		if (device === "tablet") {
 			return {
 				container: "gap-10 px-10",
 				...defaultOptions,
-				title: {
-					fontSize: 14,
-					color:
-						theme === "dark"
-							? "white"
-							: bottomType === "transparent"
-								? "white"
-								: "#181a1b",
-				},
+				title: titleStyle,
 			};
 		}
 
 		return {
 			container: "gap-4 px-4",
-			home: {
-				width: 10,
-				height: 10,
-				src: defaultOptions.home.src,
-			},
-			fav: {
-				width: 12,
-				height: 12,
-				src: defaultOptions.fav.src,
-			},
-			menu: {
-				width: 12,
-				height: 12,
-				src: defaultOptions.menu.src,
-			},
-			profile: {
-				width: 9,
-				height: 9,
-				src: defaultOptions.profile.src,
-			},
-			cart: {
-				width: 9,
-				height: 9,
-				src: defaultOptions.cart.src,
-			},
-			title: {
-				fontSize: 14,
-				color:
-					theme === "dark"
-						? "white"
-						: bottomType === "transparent"
-							? "white"
-							: "#181a1b",
-			},
+			home: { width: 10, height: 10, src: defaultOptions.home.src },
+			fav: { width: 12, height: 12, src: defaultOptions.fav.src },
+			menu: { width: 12, height: 12, src: defaultOptions.menu.src },
+			profile: { width: 9, height: 9, src: defaultOptions.profile.src },
+			cart: { width: 9, height: 9, src: defaultOptions.cart.src },
+			title: titleStyle,
 		};
 	}, [spaceModeDeviceType, spaceModeTheme, spaceBottomBarType]);
 

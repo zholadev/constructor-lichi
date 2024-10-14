@@ -8,7 +8,7 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface IUpdateContainerWrapper {
-	containerUpdateWrapper: (component: ISchemaComponent) => unknown;
+	containerUpdateWrapper: (component: ISchemaComponent) => any;
 }
 
 /**
@@ -36,7 +36,7 @@ export default function useUpdateContainerWrapper(): IUpdateContainerWrapper {
 	 * @description Метод
 	 */
 	const containerUpdateWrapper = (
-		updateFn: (component: ISchemaComponent) => void
+		updateFn: (component: ISchemaComponent) => any
 	) => {
 		return spaceTemplateData.map((container: ISchemaContainer) => {
 			if (container.id === activeElementData?.containerId) {

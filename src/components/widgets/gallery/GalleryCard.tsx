@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { DotsHorizontalIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Trash2Icon } from "lucide-react";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import {
@@ -19,12 +18,13 @@ import {
 } from "@/components/shared/shadcn/ui/popover";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { AspectRatio } from "@/components/shared/shadcn/ui/aspect-ratio";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 interface Props {
 	src: string;
-	alt: string;
-	path: string;
-	title: string;
+	alt?: string;
+	path?: string;
+	title?: string;
 	activeImage: boolean;
 	getImage: () => void;
 }
@@ -35,7 +35,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo remove ts-ignore
  * @fixme
  * @param props
  * @constructor
@@ -60,7 +60,7 @@ const GalleryCard: React.FC<Props> = (props) => {
 			apiMethodTree,
 			updateFolderLoaderAction,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					getFolderDataAction(params?.data?.tree);
 				},
 			},
@@ -73,7 +73,7 @@ const GalleryCard: React.FC<Props> = (props) => {
 			apiMethodRemove,
 			false,
 			{
-				onGetData: async (params: IGetApiParams) => {
+				onGetData: async (params: IRequestApiParams) => {
 					if (params.success) {
 						await getTreeData();
 						togglePopover();
@@ -143,7 +143,7 @@ const GalleryCard: React.FC<Props> = (props) => {
 					<AspectRatio ratio={9 / 16} className="bg-muted">
 						<Image
 							src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
-							alt={alt}
+							alt="sd"
 							width={350}
 							height={450}
 							className="rounded-md h"
@@ -151,6 +151,7 @@ const GalleryCard: React.FC<Props> = (props) => {
 					</AspectRatio>
 				) : (
 					<AspectRatio ratio={5 / 4}>
+						{/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
 						<img
 							src={src}
 							ref={imgRef}

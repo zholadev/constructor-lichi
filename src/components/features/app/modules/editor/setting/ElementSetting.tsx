@@ -49,7 +49,7 @@ interface ElementSettings {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo Рефакторинг
  * @fixme
  * @param props
  * @constructor
@@ -69,6 +69,12 @@ const ElementSetting: React.FC<Props> = (props) => {
 			},
 		});
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных
+	 * @param key
+	 * @param value
+	 */
 	const onSettingUpdateHandle = (
 		key: keyof ElementSettings,
 		value:
@@ -140,100 +146,6 @@ const ElementSetting: React.FC<Props> = (props) => {
 				"Элементы распределяются с равными промежутками как между элементами, так и перед первым и после последнего элемента.",
 		},
 	];
-
-	const AutoLayout: React.FC = () => {
-		return (
-			<div
-				className={cn(
-					"grid grid-cols-3 w-full h-full justify-center items-center gap-5"
-				)}
-			>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "flex-start");
-						onSettingUpdateHandle("alignItems", "flex-start");
-					}}
-				/>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "flex-start");
-						onSettingUpdateHandle("alignItems", "center");
-					}}
-				/>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "flex-start");
-					}}
-				/>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "center");
-					}}
-				/>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "center");
-					}}
-				/>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "center");
-					}}
-				/>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "flex-end");
-					}}
-				/>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "flex-end");
-					}}
-				/>
-				<button
-					type="button"
-					className={cn(
-						"w-full h-[7px] bg-gray-500 cursor-pointer transition-all duration-75"
-					)}
-					onClick={() => {
-						onSettingUpdateHandle("justifyContent", "flex-end");
-					}}
-				/>
-			</div>
-		);
-	};
 
 	/**
 	 * @author Zholaman Zhumanov

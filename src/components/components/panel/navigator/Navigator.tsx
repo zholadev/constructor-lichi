@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
@@ -30,6 +32,7 @@ const Navigator: React.FC = () => {
 						key={container.id}
 						data={container}
 						containerId={container.id}
+						activeId={container.id}
 					/>
 				);
 			})}

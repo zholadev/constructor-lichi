@@ -6,8 +6,8 @@ import {
 	apiMethodSchemaLangList,
 	apiMethodSchemaListShops,
 } from "@/components/shared/backend/requests/schema/requests";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 interface Props {
 	children: React.ReactNode;
@@ -19,7 +19,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo refactoring
+ * @todo removed ts-ignore
  * @fixme
  * @param props
  * @constructor
@@ -36,8 +36,9 @@ const ApiDataProvider: React.FC<Props> = (props) => {
 	 */
 	const fetchLangList = async () => {
 		await apiFetchHandler(apiMethodSchemaLangList, false, {
-			onGetData: (params: IGetApiParams) => {
+			onGetData: (params: IRequestApiParams) => {
 				if (params.success) {
+					// @ts-ignore
 					languageDataAction(params.data?.list);
 				}
 			},
@@ -50,8 +51,9 @@ const ApiDataProvider: React.FC<Props> = (props) => {
 	 */
 	const fetchListShops = async () => {
 		await apiFetchHandler(apiMethodSchemaListShops, false, {
-			onGetData: (params: IGetApiParams) => {
+			onGetData: (params: IRequestApiParams) => {
 				if (params.success) {
+					// @ts-ignore
 					shopsDataAction(params.data?.list);
 				}
 			},

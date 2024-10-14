@@ -73,9 +73,7 @@ export default function useComponentActions(): IComponentActions {
 	 * @description Метод для добавления компонента в существующий контейнер
 	 * @param data
 	 */
-	const componentAppend = (
-		data: ISchemaComponent
-	): ISchemaContainer[] | void => {
+	const componentAppend = (data: ISchemaComponent): void => {
 		try {
 			if (!data) {
 				toastMessage(
@@ -145,11 +143,7 @@ export default function useComponentActions(): IComponentActions {
 				`${errorMessage}! componentAppend - useComponentActions`,
 				"error"
 			);
-			return errorHandler(
-				"useComponentActions",
-				"componentAppend",
-				error
-			);
+			errorHandler("useComponentActions", "componentAppend", error);
 		}
 	};
 

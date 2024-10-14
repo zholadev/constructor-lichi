@@ -71,7 +71,7 @@ const SettingContainer: React.FC = () => {
 		};
 	}, [activeElementData, permission]);
 
-	const updateContentHandle = (data, path) => {
+	const updateContentHandle = (data: any, path: string) => {
 		if (
 			activeElementData?.widgetType !== "none" &&
 			dialog.dialogWidget.open

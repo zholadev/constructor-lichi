@@ -19,10 +19,10 @@ import { ArrowRightIcon, CopyIcon, TrashIcon } from "@radix-ui/react-icons";
 import { cn } from "@/components/lib/utils";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import SchemaListRemoveCopy from "@/components/pages/schemaList/ui/SchemaListRemoveCopy";
 import { TypeMethodSchema } from "@/components/shared/types/types";
-import SchemaListPageActivate from "@/components/pages/schemaList/ui/SchemaListPageActivate";
-import SchemaListSelectPlatform from "@/components/pages/schemaList/ui/SchemaListSelectPlatform";
+import SchemaListRemoveCopy from "./SchemaListRemoveCopy";
+import SchemaListPageActivate from "./SchemaListPageActivate";
+import SchemaListSelectPlatform from "./SchemaListSelectPlatform";
 import SchemaListTablePagination from "./SchemaListTablePagination";
 
 interface Props {

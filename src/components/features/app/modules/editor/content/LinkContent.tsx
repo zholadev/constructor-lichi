@@ -23,7 +23,7 @@ interface ILinkSetting {
 interface Props {
 	onSendParams?: (params: ISchemaContentLink) => void;
 	onRemoveParams?: () => void;
-	defaultParams: ILinkSetting | unknown;
+	defaultParams: ILinkSetting;
 }
 
 const getInternalSrcFromURL = (url: string): string | null => {
@@ -91,16 +91,12 @@ const LinkContent: React.FC<Props> = (props) => {
 		if (onSendParams) {
 			const getInternalSrc = getInternalSrcFromURL(linkSetting.src);
 
-			let updateValues: ISchemaContentLink = {
+			const updateValues: ISchemaContentLink = {
 				href: {
 					src: linkSetting.src,
 					internal_src: getInternalSrc ?? "",
 				},
 			};
-
-			// if (linkSetting.settings) {
-			// 	updateValues.settings = linkSetting.settings;
-			// }
 
 			onSendParams(updateValues);
 		}
@@ -129,14 +125,10 @@ const LinkContent: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		setLinkSetting(() => {
-			let initValue: ILinkSetting = {
-				src: defaultParams?.href?.src,
-				active: !!defaultParams?.href?.src,
+			const initValue: ILinkSetting = {
+				src: defaultParams?.src,
+				active: !!defaultParams?.src,
 			};
-
-			// if (defaultParams?.settings) {
-			// 	initValue.settings = defaultParams?.settings;
-			// }
 
 			return initValue;
 		});

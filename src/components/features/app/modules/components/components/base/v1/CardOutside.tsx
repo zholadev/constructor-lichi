@@ -4,10 +4,10 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
 import BaseElementWrapper from "@/components/features/app/modules/elements/container/v1/BaseElementWrapper";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
-import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface Props {
-	componentData: IComponentTotalDataSchema;
+	componentData: ISchemaComponent;
 	containerData: ISchemaContainer;
 	containerId: string;
 	widgetComponent?: boolean;

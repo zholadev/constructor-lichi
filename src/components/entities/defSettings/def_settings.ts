@@ -1,14 +1,8 @@
-import {
-	ComponentBaseTypes,
-	ElementBaseTypes,
-} from "@/components/shared/types/types-components";
 import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 
 // @todo переделать
 
 interface IDefaultSettings {
-	ELEMENT: Record<ElementBaseTypes, Record<string, unknown>>;
-	COMPONENTS: Record<ComponentBaseTypes, Record<string, unknown>>;
 	CONTAINERS: {
 		container: {
 			block: ISchemaSettings;
@@ -135,7 +129,5 @@ export const defaultSettings: IDefaultSettings = {
 				mousewheel: false,
 			},
 		},
-	},
-	COMPONENTS: {},
-	ELEMENT: {},
+	}
 };

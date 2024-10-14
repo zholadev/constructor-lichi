@@ -10,8 +10,7 @@ import {
 	IComponentSpecialAddList,
 } from "@/components/shared/types/interface-templates";
 import {
-	ComponentBaseTypes,
-	ComponentSpecialTypes,
+	SchemaComponentTypes,
 } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
@@ -63,7 +62,7 @@ interface IAddBaseComponent {
 }
 
 interface IComponentValue {
-	componentType: ComponentBaseTypes | ComponentSpecialTypes;
+	componentType: SchemaComponentTypes;
 	version: string;
 }
 
@@ -105,7 +104,7 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 	 */
 	const onChangeValue = (
 		key: keyof IComponentValue,
-		value: ComponentSpecialTypes | ComponentBaseTypes | string
+		value: SchemaComponentTypes | string
 	) => {
 		if (!key || !value) {
 			toastMessage(

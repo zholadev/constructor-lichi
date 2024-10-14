@@ -58,7 +58,7 @@ const animateData: IMotionData[] = [
  * @param props
  * @constructor
  */
-const MotionContent: React.FC<Props> = (props) => {
+const AnimationContent: React.FC<Props> = (props) => {
 	const { defaultParams, onSendParams, onRemoveParams } = props;
 
 	const toastMessage = useToastMessage();
@@ -162,4 +162,4 @@ const MotionContent: React.FC<Props> = (props) => {
 	);
 };
 
-export default MotionContent;
+export default AnimationContent;

@@ -5,10 +5,10 @@ import { z } from "zod";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { apiMethodSchemaUpdateMeta } from "@/components/shared/backend/requests/schema/requests";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 const nameSchema = z.string().url({ message: "Введите текст" }).min(3);
 
@@ -71,7 +71,7 @@ const RenamePage: React.FC<Props> = (props) => {
 			apiMethodSchemaUpdateMeta,
 			false,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						if (confirmAction) confirmAction();
 					}

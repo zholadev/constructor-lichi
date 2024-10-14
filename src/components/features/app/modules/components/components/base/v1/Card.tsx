@@ -3,11 +3,11 @@ import BaseElementWrapper from "@/components/features/app/modules/elements/conta
 import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
-import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import styles from "../../../../../../../styles/card.module.sass";
 
 interface Props {
-	componentData: IComponentTotalDataSchema;
+	componentData: ISchemaComponent;
 	containerData: ISchemaContainer;
 	containerId: string;
 	widgetComponent?: boolean;

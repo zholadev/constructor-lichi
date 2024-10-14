@@ -1,13 +1,5 @@
 import { DeviceType } from "@/components/shared/types/types";
 
-export interface IGetApiParams {
-	data: any;
-	errorFields: [];
-	success: boolean;
-	messages: string;
-	totalData: any;
-}
-
 interface IHpMeta {
 	page_type: string;
 }

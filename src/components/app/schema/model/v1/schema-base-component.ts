@@ -4,7 +4,7 @@ import { getRandomImageSchema } from "@/components/app/schema/schema-image-data"
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 /**
- * @todo Removed // @ts-ignore
+ * @todo Removed ts-ignore
  */
 
 export const card_component_schema = (version: string): ISchemaComponent => {
@@ -120,80 +120,6 @@ export const album_outside_component_schema = (
 			// @ts-ignore
 			view: {
 				contentType: "image",
-				darkTheme: true,
-			},
-			element: {
-				style: {
-					justifyContent: "flex-end",
-					alignItems: "center",
-					gap: 0,
-					flexDirection: "column",
-				},
-			},
-		},
-	};
-};
-
-export const video_component_schema = (version: string): ISchemaComponent => {
-	return {
-		guid: uuidv4(),
-		type: "video",
-		version,
-		style: {
-			...defaultStyles.COMPONENTS.video,
-		},
-		elements: [],
-		content: {
-			// @ts-ignore
-			photo: getRandomImageSchema(),
-			video: {
-				videoSrc: "",
-				// @ts-ignore
-				poster: getRandomImageSchema("card", true),
-			},
-		},
-		settings: {
-			// @ts-ignore
-			view: {
-				contentType: "video",
-				darkTheme: true,
-			},
-			element: {
-				style: {
-					justifyContent: "flex-end",
-					alignItems: "center",
-					gap: 0,
-					flexDirection: "column",
-				},
-			},
-		},
-	};
-};
-
-export const video_outside_component_schema = (
-	version: string
-): ISchemaComponent => {
-	return {
-		guid: uuidv4(),
-		type: "video_outside",
-		version,
-		style: {
-			...defaultStyles.COMPONENTS.video_outside,
-		},
-		elements: [],
-		content: {
-			// @ts-ignore
-			photo: getRandomImageSchema(),
-			video: {
-				videoSrc: "",
-				// @ts-ignore
-				poster: getRandomImageSchema("card", true),
-			},
-		},
-		settings: {
-			// @ts-ignore
-			view: {
-				contentType: "video",
 				darkTheme: true,
 			},
 			element: {

@@ -94,6 +94,7 @@ const BoardDraggingDisplay: React.FC = () => {
 						<BoardContainerDisplay
 							containerType={container.type}
 							containerData={container}
+							displayType={container.display}
 						/>
 					</BoardSortableItem>
 				))}

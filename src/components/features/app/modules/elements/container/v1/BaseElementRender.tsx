@@ -1,5 +1,5 @@
 import React from "react";
-import { ElementBaseTypes } from "@/components/shared/types/types-components";
+import { ISchemaElementTypes } from "@/components/shared/types/types-components";
 import ButtonElement from "@/components/features/app/modules/elements/base/v1/ButtonElement";
 import TextElement from "@/components/features/app/modules/elements/base/v1/TextElement";
 import ElementAction from "@/components/features/app/activeElement/wrappers/v1/element/ElementAction";
@@ -7,7 +7,7 @@ import TimerContainer from "@/components/features/app/modules/elements/base/v1/t
 import { IElementTotal } from "../../types/v1/interface-elements";
 
 interface Props {
-	type: ElementBaseTypes;
+	type: ISchemaElementTypes;
 	data: IElementTotal;
 	containerId: string;
 	componentId: string;
@@ -27,7 +27,8 @@ interface Props {
  * @constructor
  */
 const BaseElementRender: React.FC<Props> = (props) => {
-	const { type, data, containerId, componentId, timerData, widgetComponent } = props;
+	const { type, data, containerId, componentId, timerData, widgetComponent } =
+		props;
 
 	const renderComponents = () => {
 		switch (type) {

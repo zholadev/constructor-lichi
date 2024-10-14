@@ -446,11 +446,10 @@ const DocSchemaStyle: React.FC = () => {
 						Свойство <code>fontFamily</code> задает семейство
 						шрифтов для текста.
 						<code>
-							,"Futura PT" ,"Bodoni Cyrillic" ,"Helvetica Bold"
-							,"AnastasiaScript" ,"No Name" ,"Dubai Light"
-							,"Venski Sad One" ,"AndatinoScript"
-							,"Cormorant-Light" ,"Cinzel" ,"CormorantGaramond"
-							,"Lace";
+							,Futura PT ,Bodoni Cyrillic ,Helvetica Bold
+							,AnastasiaScript ,No Name ,Dubai Light ,Venski Sad
+							One ,AndatinoScript ,Cormorant-Light ,Cinzel
+							,CormorantGaramond ,Lace;
 						</code>
 						.
 					</li>

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { cn } from "@/components/lib/utils";
 import { ButtonIcon, Component1Icon, LayersIcon } from "@radix-ui/react-icons";

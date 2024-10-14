@@ -6,8 +6,8 @@ import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useFetchSchemaListData from "@/components/shared/hooks/useFetchSchemaListData";
-import SchemaListPageCreate from "@/components/pages/schemaList/ui/SchemaListPageCreate";
 import ThemeModeToggle from "@/components/entities/packages/theme/switch/ThemeModeToggle";
+import SchemaListPageCreate from "./SchemaListPageCreate";
 import SchemaListTableData from "./SchemaListTableData";
 
 /**

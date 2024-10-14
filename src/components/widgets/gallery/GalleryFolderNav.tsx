@@ -2,12 +2,10 @@ import React, { useEffect } from "react";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import { apiMethodTree } from "@/components/shared/backend/requests/file/requests";
 import { Skeleton } from "@/components/shared/shadcn/ui/skeleton";
 import Tree from "@/components/shared/uikit/tree/Tree";
-
-interface Props {}
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 /**
  * @author Zholaman Zhumanov
@@ -17,23 +15,24 @@ interface Props {}
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const GalleryFolderNav: React.FC<Props> = (props) => {
-	const {} = props;
-
+const GalleryFolderNav: React.FC = () => {
 	const { getFolderDataAction, updateFolderLoaderAction } =
 		useDispatchAction();
 	const { apiFetchHandler, loading } = useApiRequest();
 	const { folderData } = useAppSelector((state) => state.folder);
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Получаем данные с галереи
+	 */
 	const getTreeDataInit = async () => {
 		await apiFetchHandler(
 			apiMethodTree,
 			updateFolderLoaderAction,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					getFolderDataAction(params?.data?.tree);
 				},
 			},

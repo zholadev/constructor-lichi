@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import VideoRender from "@/components/shared/uikit/media/VideoRender";
 import ImageRender from "@/components/shared/uikit/media/ImageRender";
-import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { useInView } from "react-intersection-observer";
 import useAnimateClass from "@/components/shared/hooks/useAnimateClass";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface Props {
-	componentData: IComponentTotalDataSchema;
+	componentData: ISchemaComponent;
 	containerData: ISchemaContainer;
 	imgAutoHeight?: boolean;
 }

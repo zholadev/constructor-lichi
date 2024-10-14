@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import SchemaListPage from "@/components/pages/schemaList/ui/SchemaListPage";
+import SchemaListPage from "@/components/pages/schemaList/SchemaListPage";
 
 export default function Home(): React.JSX.Element {
 	return (

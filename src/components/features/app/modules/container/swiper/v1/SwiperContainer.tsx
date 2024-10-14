@@ -37,7 +37,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 	const { componentsData, swiperSettings, swiperStyles, containerData } =
 		props;
 
-	const swiperRef = useRef<SwiperRef>();
+	const swiperRef = useRef<SwiperRef | null>(null);
 
 	const previewMode = usePreviewMode();
 	const styleFormatted = useStylesFormatted();
@@ -54,30 +54,36 @@ const SwiperContainer: React.FC<Props> = (props) => {
 	useEffect(() => {
 		try {
 			if (swiperSettings) {
-				const { swiper } = swiperRef.current;
+				if (swiperRef.current) {
+					const swiperInstance = swiperRef.current?.swiper;
 
-				swiper.params.loop = swiperSettings.loop;
-				swiper.params.slidesPerView = swiperSettings.slidePerView;
-				swiper.params.slidesPerGroup = swiperSettings.slidePerGroup;
-				swiper.params.centeredSlides = swiperSettings.centeredSlides;
-				swiper.params.direction = swiperSettings.direction;
-				swiper.params.mousewheel = swiperSettings.mousewheel;
+					swiperInstance.params.loop = swiperSettings.loop;
+					swiperInstance.params.slidesPerView =
+						swiperSettings.slidePerView;
+					swiperInstance.params.slidesPerGroup =
+						swiperSettings.slidePerGroup;
+					swiperInstance.params.centeredSlides =
+						swiperSettings.centeredSlides;
+					swiperInstance.params.direction = swiperSettings.direction;
+					swiperInstance.params.mousewheel =
+						swiperSettings.mousewheel;
 
-				if (swiperSettings.autoplay) {
-					swiper.params.autoplay = {
-						delay: swiperSettings.speed_advanced?.delay || 1000,
-						disableOnInteraction: false,
-					};
-					swiper.autoplay.start();
-				} else {
-					swiper.autoplay.stop();
-					swiper.params.autoplay = false;
+					if (swiperSettings.autoplay) {
+						swiperInstance.params.autoplay = {
+							delay: swiperSettings.speed_advanced?.delay || 1000,
+							disableOnInteraction: false,
+						};
+						swiperInstance.autoplay.start();
+					} else {
+						swiperInstance.autoplay.stop();
+						swiperInstance.params.autoplay = false;
+					}
+
+					// Перезапуск swiper для применения новых настроек
+					swiperInstance.update();
+					swiperInstance.updateSize();
+					swiperInstance.init();
 				}
-
-				// Перезапуск swiper для применения новых настроек
-				swiper.update();
-				swiper.updateSize();
-				swiper.init();
 			}
 		} catch (error) {
 			errorHandler("swiperContainer", "effect", error);
@@ -95,6 +101,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("overflow-hidden block")}>
 			<Swiper
+				// @ts-ignore
 				ref={swiperRef}
 				controller={{ control: null }}
 				{...updatedSwiperSettings}

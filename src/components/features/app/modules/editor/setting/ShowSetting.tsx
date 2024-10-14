@@ -35,8 +35,8 @@ const showSiteTypeData: IShowSiteType[] = [
 ];
 
 interface Props {
-	settingValue?: IShowSiteType;
-	onSettingChange?: (value: IShowSiteType) => void;
+	settingValue?: ISchemaSettingsShow;
+	onSettingChange?: (value: ISchemaSettingsShow) => void;
 }
 
 /**
@@ -69,16 +69,11 @@ const ShowSetting: React.FC<Props> = (props) => {
 	 * @param key
 	 */
 	const onShowSettingUpdateHandle = (
-		value: IShowSiteType,
-		key: keyof ISchemaSettingsShow
+		key: keyof ISchemaSettingsShow,
+		value: SchemaShowSiteType
 	) => {
-		if (!value) {
-			toastMessage("ValueError: value is not defined", "error");
-			return;
-		}
-
-		if (!key) {
-			toastMessage("ValueError: key is not defined", "error");
+		if (!value || !key) {
+			toastMessage("ValueError: value or key is not defined", "error");
 			return;
 		}
 
@@ -96,9 +91,7 @@ const ShowSetting: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		if (settingValue) {
-			setShowSettingValue({
-				...settingValue,
-			});
+			setShowSettingValue(settingValue);
 		}
 	}, [settingValue]);
 
@@ -112,7 +105,7 @@ const ShowSetting: React.FC<Props> = (props) => {
 						defaultValue={showSettingValue.siteType}
 						value={showSettingValue.siteType}
 						onValueChange={(value: SchemaShowSiteType) =>
-							onShowSettingUpdateHandle(value, "siteType")
+							onShowSettingUpdateHandle("siteType", value)
 						}
 					>
 						<SelectTrigger className="w-full min-w-[120px]">

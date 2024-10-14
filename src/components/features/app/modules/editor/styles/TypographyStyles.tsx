@@ -62,7 +62,7 @@ interface IStylesValues {
 	color: string;
 	fontStyle: FontStylesType;
 	textDecoration: TextDecoration;
-	colorDark?: string;
+	colorDark: string;
 }
 
 type StylesValues = keyof IStylesValues;
@@ -363,6 +363,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 
 	const onMouseUpHandle = () => {
 		onChangeStyleHandle("color", stylesValues.color);
+		onChangeStyleHandle("colorDark", stylesValues.colorDark);
 	};
 
 	useEffect(() => {

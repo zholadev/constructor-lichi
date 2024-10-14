@@ -2,6 +2,7 @@ import { IComponentCardSchema } from "@/components/features/app/modules/componen
 import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
 
+export type ThemeType = "light" | "dark" | "system";
 export type ToastType = "success" | "info" | "warning" | "error";
 export type TypeMethodSchema = "remove" | "copy" | "initial";
 export type ThemeSpaceMode = "light" | "dark";
@@ -21,7 +22,6 @@ export type ImageType = "card" | "album";
 export type DisplayContainerType = "block" | "swiper";
 export type IContainerType =
 	| "container"
-	| "swiper"
 	| "saint_laurent_container"
 	| "category_list_container"
 	| "initial";

@@ -19,7 +19,6 @@ import {
 } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
-import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
 
 type BorderStyleType = "solid" | "dashed" | "dotted";
 
@@ -63,7 +62,7 @@ type StyleKeys =
 
 interface Props {
 	onStyleChange?: (value: unknown, path?: string, type?: string) => void;
-	styles?: React.CSSProperties;
+	styles?: Record<string, unknown>;
 	hideTitle?: boolean;
 	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
 }
@@ -200,7 +199,7 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
  * @description
  * @last-updated
  * @update-description
- * @todo Tooltip, refactoring, toggle logic border for component
+ * @todo Tooltip, refactoring, removed @ts-ignore
  * @fixme
  * @param props
  * @constructor
@@ -210,7 +209,6 @@ const BorderStyles: React.FC<Props> = (props) => {
 
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
-	const activeDarkTheme = useActiveDarkThemeSetting();
 
 	const [styleValues, setStyleValues] = useState<IStyleValues>({
 		borderWidth: [1],
@@ -244,7 +242,10 @@ const BorderStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	function updateStyleWithBorder(style, borderStyle) {
+	function updateStyleWithBorder(
+		style: Record<string, unknown>,
+		borderStyle: Record<string, unknown>
+	) {
 		const borderKeys = [
 			"border",
 			"borderLeft",
@@ -253,15 +254,14 @@ const BorderStyles: React.FC<Props> = (props) => {
 			"borderBottom",
 		];
 
-		// Создаем новый объект, удаляя старые ключи границы
 		const updatedStyle = Object.keys(style).reduce((acc, key) => {
 			if (!borderKeys.includes(key)) {
+				// @ts-ignore
 				acc[key] = style[key];
 			}
 			return acc;
 		}, {});
 
-		// Возвращаем объединенный объект с новым стилем границы
 		return { ...updatedStyle, ...borderStyle };
 	}
 
@@ -362,7 +362,11 @@ const BorderStyles: React.FC<Props> = (props) => {
 					...borderRadiusCorner,
 				};
 
-				const buildNewStyle = updateStyleWithBorder(styles, buildBorderStyles);
+				const buildNewStyle = updateStyleWithBorder(
+					// @ts-ignore
+					styles,
+					buildBorderStyles
+				);
 
 				onStyleChange(buildNewStyle);
 			}

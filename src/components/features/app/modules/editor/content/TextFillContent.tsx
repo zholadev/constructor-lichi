@@ -6,7 +6,7 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 interface Props {
 	onSendParams: (value: Record<string, Record<"value", string>>) => void;
-	defaultParams: Record<string, unknown>;
+	defaultParams: Record<string, Record<"value", string>>;
 }
 
 /**

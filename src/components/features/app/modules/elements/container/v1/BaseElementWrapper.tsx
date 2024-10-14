@@ -1,14 +1,14 @@
 import React from "react";
 import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import BaseElementRender from "@/components/features/app/modules/elements/container/v1/BaseElementRender";
-import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
 import styles from "@/components/styles/card.module.sass";
 import { cn } from "@/components/lib/utils";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface Props {
 	containerId: string;
 	elementData: IElementTotal[];
-	componentData: IComponentTotalDataSchema;
+	componentData: ISchemaComponent;
 	staticElement?: boolean;
 	widgetComponent?: boolean;
 }
@@ -45,7 +45,7 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 					? styles.element_wrapper_static
 					: styles.element_wrapper
 			)}
-			style={{ ...componentData.settings.element.style }}
+			style={{ ...componentData?.settings?.element?.style }}
 		>
 			{elementData.map((element) => {
 				return (

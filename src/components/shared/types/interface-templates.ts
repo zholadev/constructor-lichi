@@ -1,5 +1,8 @@
 import { IComponentTotalDataSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
-import { ComponentBaseTypes, ComponentSpecialTypes } from "./types-components";
+import {
+	SchemaComponentBaseTypes,
+	SchemaComponentSpecialTypes,
+} from "./types-components";
 
 export type TemplateBaseType = "container" | "swiper";
 
@@ -20,9 +23,9 @@ export interface ITemplateBaseSchema extends ITemplateBase {
 
 export interface IComponentBaseAddList {
 	id: number;
-	type: ComponentBaseTypes;
+	type: SchemaComponentBaseTypes;
 }
 export interface IComponentSpecialAddList {
 	id: number;
-	type: ComponentSpecialTypes;
+	type: SchemaComponentSpecialTypes;
 }

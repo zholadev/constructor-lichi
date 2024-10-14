@@ -15,9 +15,9 @@ import {
 	apiMethodSiteCategoryList,
 	apiMethodSiteSiteInfo,
 } from "@/components/shared/backend/requests/site/requests";
-import { IGetApiParams } from "@/components/shared/types/interface";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 interface Props {
 	settingValue?: ISchemaSettingCategoryListParams;
@@ -103,9 +103,13 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 		onSettingChange(categoryParamsSetting);
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для получения данных с сайта про магазины
+	 */
 	const fetchGetSiteInfo = async () => {
 		await apiFetchHandler(apiMethodSiteSiteInfo, false, {
-			onGetData: (params: IGetApiParams) => {
+			onGetData: (params: IRequestApiParams) => {
 				if (params.success) {
 					const convertToArray: Country[] = Object.values(
 						params.data?.api_data?.data?.info?.shop || {}
@@ -116,12 +120,16 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 		});
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для получения данных категории
+	 */
 	const fetchGetCategoryList = async () => {
 		await apiFetchHandler(
 			apiMethodSiteCategoryList,
 			false,
 			{
-				onGetData: (params: IGetApiParams) => {
+				onGetData: (params: IRequestApiParams) => {
 					if (params.success) {
 						setCategoryList(params.data?.api_data?.aData);
 					}
@@ -151,8 +159,8 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 				<h3>Выберите страну</h3>
 				<div className={cn("w-full")}>
 					<Select
-						defaultValue={categoryParamsSetting.shop}
-						value={categoryParamsSetting.shop}
+						defaultValue={categoryParamsSetting.shop.toString()}
+						value={categoryParamsSetting.shop.toString()}
 						disabled={countryList?.length === 0 || loading}
 						onValueChange={(value) => onChangeHandle("shop", value)}
 					>
@@ -161,11 +169,11 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 						</SelectTrigger>
 						<SelectContent>
 							<SelectGroup>
-								{countryList.map((country, index) => {
+								{countryList.map((country) => {
 									return (
 										<SelectItem
 											key={country.id}
-											value={country.id}
+											value={country.id.toString()}
 										>
 											{country.name?.ru}
 										</SelectItem>

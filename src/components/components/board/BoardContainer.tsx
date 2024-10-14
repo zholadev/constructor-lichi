@@ -10,6 +10,11 @@ import usePermission from "@/components/shared/hooks/usePermission";
 import useRemoveActions from "@/components/shared/hooks/actions/useRemoveActions";
 import BoardContainerDisplay from "@/components/components/board/BoardContainerDisplay";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import {
+	BottomBarTypes,
+	DeviceType,
+	PlatformType,
+} from "@/components/shared/types/types";
 
 /**
  * @author Zholaman Zhumanov
@@ -22,13 +27,43 @@ import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
  * @constructor
  */
 const BoardContainer: React.FC = () => {
-	const { spaceTemplateData } = useAppSelector((state) => state.space);
+	const {
+		spaceTemplateData,
+		spaceModePlatformType,
+		spaceBottomBarType,
+		spaceModeDeviceType,
+	} = useAppSelector((state) => state.space);
 	const { editorRemoveTemplate } = useAppSelector((state) => state.editor);
 
 	const permission = usePermission();
 	const previewMode = usePreviewMode();
 	const removeActions = useRemoveActions();
 	const activeElementData = useActiveElementObserver();
+
+	const heightSizeMode = useMemo(() => {
+		const platform = spaceModePlatformType as PlatformType;
+		const bottomType = spaceBottomBarType as BottomBarTypes;
+
+		if (platform === "app" && bottomType === "default") {
+			return {
+				height: "calc(100% - 63px)",
+			};
+		}
+
+		return {
+			height: "100%",
+		};
+	}, [spaceModePlatformType, spaceBottomBarType]);
+
+	const customScroll = useMemo(() => {
+		const device = spaceModeDeviceType as DeviceType;
+
+		if (device === "desktop" || device === "laptop") {
+			return "";
+		}
+
+		return "custom-scrollbar";
+	}, [spaceModeDeviceType]);
 
 	useMemo(() => {
 		console.log("spaceTemplateData", spaceTemplateData);
@@ -37,7 +72,10 @@ const BoardContainer: React.FC = () => {
 	}, [spaceTemplateData, activeElementData]);
 
 	return (
-		<div className={cn("h-full overflow-y-auto")}>
+		<div
+			className={cn("overflow-y-auto", customScroll)}
+			style={heightSizeMode}
+		>
 			{spaceTemplateData.map((container: ISchemaContainer) => {
 				return (
 					<div key={container.id} className={cn("w-full relative")}>

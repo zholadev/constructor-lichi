@@ -51,9 +51,12 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 				langscape={false}
 				onChange={(event) => setSize(event)}
 			>
-				{(props: DeviceFramesetProps) => (
-					<DeviceFrameset {...props}>{children}</DeviceFrameset>
-				)}
+				{(props: DeviceFramesetProps) => {
+					console.log("props", props)
+					return (
+						<DeviceFrameset landscape={"false"} {...props}>{children}</DeviceFrameset>
+					)
+				}}
 			</DeviceEmulator>
 		</Suspense>
 	);

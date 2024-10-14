@@ -21,10 +21,10 @@ const DocSchemaPage: React.FC = () => {
 		>
 			<h1
 				className={cn(
-					"text-lg uppercase text-center border-b border-b-black mb-10"
+					"text-lg uppercase mt-10 text-center border-b border-b-black mb-10"
 				)}
 			>
-				Документация по схеме
+				Документация
 			</h1>
 
 			<div className={cn("w-full max-w-[1440px] h-full overflow-auto")}>

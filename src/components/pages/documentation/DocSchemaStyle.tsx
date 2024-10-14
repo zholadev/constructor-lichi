@@ -92,45 +92,6 @@ const DocSchemaStyle: React.FC = () => {
 					</li>
 				</ul>
 			</DocWrapperContent>
-
-			<DocWrapperContent
-				schema_json={schemaDocParams.doc_style_border_params}
-			>
-				<h2>
-					Документация по свойствам <code>border</code>,{" "}
-					<code>borderDark</code>, <code>borderBottom</code> и{" "}
-					<code>borderBottomDark</code>
-				</h2>
-
-				<h3>Описание полей:</h3>
-				<ul>
-					<li>
-						<strong>
-							<code>border</code>
-						</strong>
-						:<br />
-						<strong>Тип:</strong> <code>string</code>
-						<br />
-						Это свойство устанавливает общую границу элемента. Цвет,
-						толщина и стиль могут быть указаны в формате CSS,
-						например: <code>1px solid black</code> или{" "}
-						<code>2px dashed #333</code>.
-					</li>
-
-					<li>
-						<strong>
-							<code>borderDark</code>
-						</strong>{" "}
-						(необязательное):
-						<br />
-						<strong>Тип:</strong> <code>string</code>
-						<br />
-						Опциональное свойство, которое задает границу для
-						темного режима. Если это свойство не задано, будет
-						использоваться значение из <code>border</code>.
-					</li>
-				</ul>
-			</DocWrapperContent>
 			<DocWrapperContent
 				schema_json={schemaDocParams.doc_style_border_radius_params}
 			>

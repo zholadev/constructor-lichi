@@ -6,8 +6,6 @@ import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { IContainerType } from "@/components/shared/types/types";
 
-interface Props {}
-
 interface IBlockData {
 	id: number;
 	name: string;
@@ -31,16 +29,13 @@ const blocks: IBlockData[] = [
  * @author Zholaman Zhumanov
  * @created 20.08.2024
  * @description
- * @last-updated
+ * @last-updated refactoring
  * @update-description
  * @todo
  * @fixme
- * @param props
  * @constructor
  */
-const ComponentContent: React.FC<Props> = (props) => {
-	const {} = props;
-
+const ComponentContent: React.FC = () => {
 	const { dialogAddTemplateAction, editorAddComponentTypeAction } =
 		useDispatchAction();
 	const { dialogAddTemplate } = useAppSelector((state) => state.dialog);

@@ -22,6 +22,17 @@ import headerSmLogoLight from "../../../../public/static/images/header/lichi-sm-
 import headerLogo from "../../../../public/static/images/header/logo-navbar.png";
 import headerLogoLight from "../../../../public/static/images/header/white-logo.png";
 
+import bottomBarHome from "../../../../public/static/images/bottomBar/home.svg";
+import bottomBarHomeDark from "../../../../public/static/images/bottomBar/home-dark.svg";
+import bottomBarFav from "../../../../public/static/images/bottomBar/fav.svg";
+import bottomBarFavDark from "../../../../public/static/images/bottomBar/fav-dark.svg";
+import bottomBarCart from "../../../../public/static/images/bottomBar/cart.svg";
+import bottomBarCartDark from "../../../../public/static/images/bottomBar/cart-dark.svg";
+import bottomBarMenu from "../../../../public/static/images/bottomBar/menu.svg";
+import bottomBarMenuDark from "../../../../public/static/images/bottomBar/menu-dark.svg";
+import bottomBarProfile from "../../../../public/static/images/bottomBar/profile.svg";
+import bottomBarProfileDark from "../../../../public/static/images/bottomBar/profile-dark.svg";
+
 interface ImageImport {
 	height: number;
 	src: string;
@@ -48,6 +59,16 @@ export const IMAGES: IImagesData = {
 		folderIconsStaticIcon: folderIconsStatic,
 		folderIconsOpenStaticIcon: folderIconsOpenStatic,
 		folderIconsFillStaticIcon: folderIconsFillStatic,
+		bottomBarHome,
+		bottomBarFav,
+		bottomBarCart,
+		bottomBarProfile,
+		bottomBarMenu,
+		bottomBarCartDark,
+		bottomBarFavDark,
+		bottomBarHomeDark,
+		bottomBarMenuDark,
+		bottomBarProfileDark
 	},
 	THUMBNAIL: {
 		card: [card1, card2, card3, card4, card5, card6],

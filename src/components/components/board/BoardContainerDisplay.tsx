@@ -13,6 +13,8 @@ import CategoryListContainer from "@/components/features/app/modules/container/c
 import SaintLaurentContainer from "@/components/features/app/modules/container/saint_laurent/v1/SaintLaurentContainer";
 import { cn } from "@/components/lib/utils";
 import SaintLaurentSwiperContainer from "@/components/features/app/modules/container/saint_laurent/v1/SaintLaurentSwiperContainer";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import BottomBarDefault from "@/components/components/bottomBar/BottomBarDefault";
 
 interface Props {
 	containerType: IContainerType;

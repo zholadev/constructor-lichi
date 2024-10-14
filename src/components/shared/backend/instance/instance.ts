@@ -24,6 +24,28 @@ const axiosInstanceSite: AxiosInstance = axios.create({
 	withCredentials: false,
 	timeout: 5000,
 });
+const axiosInstanceBitrix: AxiosInstance = axios.create({
+	baseURL: process.env.NEXT_PUBLIC_BACKEND_BITRIX_API_URL,
+	withCredentials: false,
+	timeout: 5000,
+	headers: {
+		"Content-Type": "application/json",
+	},
+});
+
+// const bitrixResponse = await fetch(
+// 	"https://bitrix.micro.spb.lichishop.com/auth",
+// 	{
+// 		method: "POST",
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 		},
+// 		body: JSON.stringify({
+// 			login,
+// 			password,
+// 		}),
+// 	}
+// );
 
 export async function sendApiPostRequest(
 	url: string,
@@ -69,6 +91,33 @@ export async function sendApiSitePostRequest(
 		};
 
 		let response = await axiosInstanceSite.post(url, apiDataConfig, {
+			params: {
+				...params,
+			},
+		});
+
+		if (response) {
+			api_data = response;
+		}
+
+		return api_data;
+	} catch (error) {
+		return errorInstance(error, url);
+	}
+}
+
+export async function sendApiBitrixPostRequest(
+	url: string,
+	params = {}
+): Promise<AxiosResponse | ResponseObject> {
+	try {
+		let api_data: AxiosResponse | boolean = false;
+
+		let apiDataConfig = {
+			...params,
+		};
+
+		let response = await axiosInstanceBitrix.post(url, apiDataConfig, {
 			params: {
 				...params,
 			},

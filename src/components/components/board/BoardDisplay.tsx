@@ -9,6 +9,7 @@ import {
 	deviceTabletBanList,
 } from "@/components/shared/constants/data";
 import DeviceEmulatorContainer from "@/components/widgets/device/DeviceEmulatorContainer";
+import BottomBarDefault from "@/components/components/bottomBar/BottomBarDefault";
 
 /**
  * @author Zholaman Zhumanov
@@ -21,7 +22,9 @@ import DeviceEmulatorContainer from "@/components/widgets/device/DeviceEmulatorC
  * @constructor
  */
 const BoardDisplay: React.FC = () => {
-	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
+	const { spaceModeDeviceType, spaceModePlatformType } = useAppSelector(
+		(state) => state.space
+	);
 
 	const renderBoardType = (): React.JSX.Element => {
 		switch (spaceModeDeviceType as DeviceType) {
@@ -43,6 +46,9 @@ const BoardDisplay: React.FC = () => {
 						devices={deviceTabletBanList}
 					>
 						<BoardContainer />
+						{spaceModePlatformType === "app" && (
+							<BottomBarDefault />
+						)}
 					</DeviceEmulatorContainer>
 				);
 			case "mobile":
@@ -52,6 +58,9 @@ const BoardDisplay: React.FC = () => {
 						devices={deviceMobileBanList}
 					>
 						<BoardContainer />
+						{spaceModePlatformType === "app" && (
+							<BottomBarDefault />
+						)}
 					</DeviceEmulatorContainer>
 				);
 			default:

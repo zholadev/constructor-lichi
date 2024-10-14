@@ -11,7 +11,7 @@ import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import EditorSetting from "@/components/components/editor/EditorSetting";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { CopyIcon, FileIcon } from "@radix-ui/react-icons";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 /**
  * @author Zholaman Zhumanov
@@ -27,8 +27,6 @@ const HeaderActionPanel: React.FC = () => {
 	const dialog = useDialogAction();
 
 	const { editorPreviewModeAction } = useDispatchAction();
-
-	const router = useRouter();
 
 	const {
 		spaceModeTheme,
@@ -53,13 +51,14 @@ const HeaderActionPanel: React.FC = () => {
 				<span>{spaceModeTheme}</span> | <span>{spaceModeLanguage}</span>
 			</div>
 
-			<Button
-				variant="outline"
-				onClick={() => router.push("documentation")}
-				className={cn("text-xs flex items-center gap-2")}
-			>
-				<FileIcon /> Документация шаблона
-			</Button>
+			<Link href="/documentation" target="_blank">
+				<Button
+					variant="outline"
+					className={cn("text-xs flex items-center gap-2")}
+				>
+					<FileIcon /> Документация шаблона
+				</Button>
+			</Link>
 
 			<Button
 				disabled={spaceTemplateData?.length === 0}

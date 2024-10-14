@@ -139,7 +139,7 @@ const BottomBarDefault: React.FC = () => {
 							: "#181a1b",
 			},
 		};
-	}, [spaceModeDeviceType, spaceModeTheme]);
+	}, [spaceModeDeviceType, spaceModeTheme, spaceBottomBarType]);
 
 	/**
 	 * @author Zholaman Zhumanov

@@ -9,6 +9,8 @@ import {
 import "react-device-frameset/styles/marvel-devices.min.css";
 import "react-device-frameset/styles/device-emulator.min.css";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { BottomBarTypes, PlatformType } from "@/components/shared/types/types";
 
 interface Props {
 	children: React.ReactNode;
@@ -31,6 +33,9 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 
 	const { editorHeightPropertyAction } = useDispatchAction();
 
+	const { spaceModePlatformType, spaceBottomBarType } =
+		useAppSelector((state) => state.space);
+
 	const [size, setSize] = React.useState(null);
 
 	/**
@@ -39,9 +44,17 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 	 */
 	useEffect(() => {
 		if (size?.height) {
-			editorHeightPropertyAction(`${size?.height}px`);
+			const platform = spaceModePlatformType as PlatformType;
+			const bottomBarType = spaceBottomBarType as BottomBarTypes;
+
+			const height =
+				platform === "app" && bottomBarType === "default"
+					? size.height - 63
+					: size.height;
+
+			editorHeightPropertyAction(`${height}px`);
 		}
-	}, [size]);
+	}, [size, spaceModePlatformType, spaceBottomBarType]);
 
 	return (
 		<Suspense fallback={<div>Идет загрузка доски!</div>}>
@@ -52,10 +65,12 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 				onChange={(event) => setSize(event)}
 			>
 				{(props: DeviceFramesetProps) => {
-					console.log("props", props)
+					console.log("props", props);
 					return (
-						<DeviceFrameset landscape={"false"} {...props}>{children}</DeviceFrameset>
-					)
+						<DeviceFrameset landscape="false" {...props}>
+							{children}
+						</DeviceFrameset>
+					);
 				}}
 			</DeviceEmulator>
 		</Suspense>

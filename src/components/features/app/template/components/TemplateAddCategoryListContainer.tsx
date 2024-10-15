@@ -19,7 +19,7 @@ import {
 import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { ImageIcon } from "@radix-ui/react-icons";
-import useContainerActions from "@/components/shared/hooks/actions/useContainerActions";
+import useContainerActions from "@/components/features/app/modules/container/hooks/useContainerActions";
 import { versionContainer } from "@/components/app/versions/types/interface-version-container";
 import { IRequestApiParams } from "@/components/shared/types/interface-app";
 

@@ -75,6 +75,12 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 	const [categoryParamsSetting, setCategoryParamsSetting] =
 		React.useState<ISchemaSettingCategoryListParams>(categoryDefaultData);
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных
+	 * @param key
+	 * @param value
+	 */
 	const onChangeHandle = (
 		key: keyof ISchemaSettingCategoryListParams,
 		value: string | number

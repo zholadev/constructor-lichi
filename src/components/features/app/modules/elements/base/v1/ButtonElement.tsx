@@ -1,10 +1,11 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
-import { IElementTotal } from "../../types/v1/interface-elements";
+import { isCheckSchemaButtonElement } from "@/components/features/app/modules/typeCheck/typeCheckElement";
+import { ISchemaElementInterfaces } from "../../types/v1/interface-elements";
 
 interface Props {
-	data: IElementTotal;
+	data: ISchemaElementInterfaces;
 }
 
 /**
@@ -25,6 +26,10 @@ const ButtonElement: React.FC<Props> = (props) => {
 
 	const styleFormatted = useStylesFormatted();
 
+	if (!isCheckSchemaButtonElement(data)) {
+		return <div>Invalid element type</div>;
+	}
+
 	if (!data) {
 		return null;
 	}
@@ -33,10 +38,10 @@ const ButtonElement: React.FC<Props> = (props) => {
 		<button
 			type="button"
 			style={{
-				...styleFormatted(data.style, !data.settings?.view?.darkTheme),
+				...styleFormatted(data.style, !data.settings?.view.darkTheme),
 			}}
 		>
-			{data?.content?.title?.[spaceModeLanguage]?.value}
+			{data?.content?.title?.[spaceModeLanguage]?.value ?? "Default Title"}
 		</button>
 	);
 };

@@ -3,8 +3,8 @@ import { cn } from "@/components/lib/utils";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import {
-	ISchemaAnimateParams,
-	MotionTypes,
+	AnimationTypes,
+	ISchemaAnimationParams,
 } from "@/components/shared/types/interface-schema-content";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import {
@@ -18,18 +18,18 @@ import {
 import { Button } from "@/components/shared/shadcn/ui/button";
 
 interface Props {
-	defaultParams: ISchemaAnimateParams;
-	onSendParams: (value: ISchemaAnimateParams) => void;
-	onRemoveParams: () => void;
+	defaultData: ISchemaAnimationParams;
+	onUpdateSchemaHandle: (value: ISchemaAnimationParams) => void;
+	onRemoveSchemaHandle: () => void;
 }
 
-interface IMotionData {
+interface IAnimationData {
 	id: number;
 	name: string;
-	value: MotionTypes;
+	value: AnimationTypes;
 }
 
-const animateData: IMotionData[] = [
+const animateData: IAnimationData[] = [
 	{
 		id: 1,
 		name: "Нет",
@@ -59,46 +59,67 @@ const animateData: IMotionData[] = [
  * @constructor
  */
 const AnimationContent: React.FC<Props> = (props) => {
-	const { defaultParams, onSendParams, onRemoveParams } = props;
+	const { defaultData, onUpdateSchemaHandle, onRemoveSchemaHandle } = props;
 
 	const toastMessage = useToastMessage();
 
-	const [contentParams, setContentParams] = useState<ISchemaAnimateParams>({
+	const [schemaValue, setSchemaValue] = useState<ISchemaAnimationParams>({
 		observer: true,
 		type: "none",
 	});
 
-	const onChangeContentParams = (
-		key: keyof ISchemaAnimateParams,
-		value: MotionTypes | boolean
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных
+	 * @param key
+	 * @param value
+	 */
+	const onChangeHandle = (
+		key: keyof ISchemaAnimationParams,
+		value: AnimationTypes | boolean
 	) => {
 		if (!key || value == null) {
 			toastMessage("ValueError: value or key is not defined", "error");
 			return;
 		}
-		setContentParams((prevState) => {
+		setSchemaValue((prevState) => {
 			const updateValues = {
 				...prevState,
 				[key]: value,
 			};
 
-			if (onSendParams) onSendParams(updateValues);
+			if (onUpdateSchemaHandle) onUpdateSchemaHandle(updateValues);
 
 			return updateValues;
 		});
 	};
 
-	useEffect(() => {
-		if (defaultParams) {
-			setContentParams(defaultParams);
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления контента с данных
+	 */
+	const removeSchemaHandle = () => {
+		if (!onRemoveSchemaHandle) {
+			toastMessage(
+				"Нет функции для удаления контента! Передайте функцию для удаления!",
+				"error"
+			);
+			return;
 		}
-	}, [defaultParams]);
+
+		onRemoveSchemaHandle();
+	};
+
+	useEffect(() => {
+		if (!defaultData) return;
+		setSchemaValue(defaultData);
+	}, [defaultData]);
 
 	return (
 		<div className={cn("w-full p-1")}>
 			<div className={cn("flex justify-end")}>
 				<Button
-					onClick={onRemoveParams}
+					onClick={removeSchemaHandle}
 					className={cn("text-xs mb-4")}
 					variant="outline"
 				>
@@ -110,10 +131,10 @@ const AnimationContent: React.FC<Props> = (props) => {
 					Выберите анимацию
 				</h3>
 				<Select
-					defaultValue={contentParams.type}
-					value={contentParams.type}
-					onValueChange={(value: MotionTypes) =>
-						onChangeContentParams("type", value)
+					defaultValue={schemaValue.type}
+					value={schemaValue.type}
+					onValueChange={(value: AnimationTypes) =>
+						onChangeHandle("type", value)
 					}
 				>
 					<SelectTrigger className="w-full">
@@ -151,9 +172,9 @@ const AnimationContent: React.FC<Props> = (props) => {
 				>
 					<Switch
 						id="animation-observer-switch"
-						checked={contentParams?.observer}
+						checked={schemaValue.observer}
 						onCheckedChange={(value) => {
-							onChangeContentParams("observer", value);
+							onChangeHandle("observer", value);
 						}}
 					/>
 				</div>

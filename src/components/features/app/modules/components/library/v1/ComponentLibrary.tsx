@@ -14,8 +14,8 @@ import {
 } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import useWidgetActions from "@/components/shared/hooks/actions/useWidgetActions";
-import useComponentActions from "@/components/shared/hooks/actions/useComponentActions";
+import useWidgetActions from "@/components/features/app/modules/widgets/hooks/useWidgetActions";
+import useComponentActions from "@/components/features/app/modules/components/hooks/useComponentActions";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { versionComponents } from "@/components/app/versions/types/interface-version-components";
 import {

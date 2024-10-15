@@ -12,7 +12,11 @@ import {
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
 import usePermission from "@/components/shared/hooks/usePermission";
-import { ISchemaContentMediaType } from "@/components/shared/types/interface-schema-content";
+import {
+	ISchemaContentMediaType,
+	ISchemaContentPhotoTriple,
+	ISchemaContentVideoParams,
+} from "@/components/shared/types/interface-schema-content";
 import { ISchemaSettingsView } from "@/components/shared/types/interface-schema-settings";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 
@@ -46,7 +50,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo Рефакторинг и Типизация
  * @fixme
  * @param props
  * @constructor
@@ -94,21 +98,21 @@ const ViewSetting: React.FC<Props> = (props) => {
 		});
 	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Получаем есть ли оба контента в схеме данных
+	 */
 	const isContentType: boolean = useMemo(() => {
-		return (
-			!!(
-				activeElementData?.activeData?.content?.photo &&
-				activeElementData?.activeData?.content?.video
-			) ?? false
-		);
+		const videoContent = activeElementData?.contentData
+			?.video as ISchemaContentVideoParams;
+		const imageContent = activeElementData?.contentData
+			?.photo as ISchemaContentPhotoTriple;
+		return !!(videoContent && imageContent) ?? false;
 	}, [activeElementData]);
 
 	useEffect(() => {
-		if (settingValue) {
-			setViewSettingValue({
-				...settingValue,
-			});
-		}
+		if (!settingValue) return;
+		setViewSettingValue(settingValue);
 	}, [settingValue]);
 
 	return (

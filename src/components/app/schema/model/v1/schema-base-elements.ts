@@ -1,9 +1,15 @@
 import { v4 as uuidv4 } from "uuid";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import {
+	ISchemaButtonElement,
+	ISchemaTextElement,
+	ISchemaTimerElement,
+} from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import { getFormattedDateSixDaysAhead } from "@/components/shared/utils/utils";
 import { defaultStyles } from "@/components/entities/defStyles/def_styles";
 
-export const button_schema_element = (version: string): IElementTotal => {
+export const button_schema_element = (
+	version: string
+): ISchemaButtonElement => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -12,6 +18,9 @@ export const button_schema_element = (version: string): IElementTotal => {
 		style: {
 			...defaultStyles.ELEMENT.button,
 		},
+		content: {
+			title: {},
+		},
 		settings: {
 			view: {
 				darkTheme: true,
@@ -20,7 +29,7 @@ export const button_schema_element = (version: string): IElementTotal => {
 	};
 };
 
-export const text_schema_element = (version: string): IElementTotal => {
+export const text_schema_element = (version: string): ISchemaTextElement => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -29,6 +38,9 @@ export const text_schema_element = (version: string): IElementTotal => {
 		style: {
 			...defaultStyles.ELEMENT.text,
 		},
+		content: {
+			title: {},
+		},
 		settings: {
 			view: {
 				darkTheme: true,
@@ -37,7 +49,7 @@ export const text_schema_element = (version: string): IElementTotal => {
 	};
 };
 
-export const timer_schema_element = (version: string): IElementTotal => {
+export const timer_schema_element = (version: string): ISchemaTimerElement => {
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),

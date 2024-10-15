@@ -32,8 +32,8 @@ import {
 } from "@/components/shared/shadcn/ui/tooltip";
 
 interface Props {
-	settingValue?: ISchemaSettingsElement;
-	onSettingChange?: (value: ISchemaSettingsElement) => void;
+	defaultData?: ISchemaSettingsElement;
+	onUpdateSchemaHandle?: (value: ISchemaSettingsElement) => void;
 }
 
 interface ElementSettings {
@@ -55,11 +55,11 @@ interface ElementSettings {
  * @constructor
  */
 const ElementSetting: React.FC<Props> = (props) => {
-	const { onSettingChange, settingValue } = props;
+	const { onUpdateSchemaHandle, defaultData } = props;
 
 	const toastMessage = useToastMessage();
 
-	const [elementSettingValue, setElementSettingValue] =
+	const [schemaValue, setSchemaValue] =
 		React.useState<ISchemaSettingsElement>({
 			style: {
 				justifyContent: "center",
@@ -93,7 +93,7 @@ const ElementSetting: React.FC<Props> = (props) => {
 			return;
 		}
 
-		setElementSettingValue((prevState) => {
+		setSchemaValue((prevState) => {
 			let updatedValues = { ...prevState };
 
 			updatedValues.style = {
@@ -101,7 +101,7 @@ const ElementSetting: React.FC<Props> = (props) => {
 				[key]: value,
 			};
 
-			if (onSettingChange) onSettingChange(updatedValues);
+			if (onUpdateSchemaHandle) onUpdateSchemaHandle(updatedValues);
 
 			return updatedValues;
 		});
@@ -176,12 +176,12 @@ const ElementSetting: React.FC<Props> = (props) => {
 	];
 
 	useEffect(() => {
-		if (settingValue) {
-			setElementSettingValue({
-				...settingValue,
+		if (defaultData) {
+			setSchemaValue({
+				...defaultData,
 			});
 		}
-	}, [settingValue]);
+	}, [defaultData]);
 
 	return (
 		<div className={cn("w-full px-1")}>
@@ -204,8 +204,7 @@ const ElementSetting: React.FC<Props> = (props) => {
 										type="button"
 										className={cn(
 											"w-[30px] h-[30px] border flex items-center justify-center",
-											elementSettingValue.style
-												.justifyContent ===
+											schemaValue.style.justifyContent ===
 												content.value
 												? "text-blue-400"
 												: ""
@@ -243,8 +242,8 @@ const ElementSetting: React.FC<Props> = (props) => {
 										type="button"
 										className={cn(
 											"w-[30px] h-[30px] border flex items-center justify-center",
-											elementSettingValue.style
-												.alignItems === content.value
+											schemaValue.style.alignItems ===
+												content.value
 												? "text-blue-400"
 												: ""
 										)}
@@ -276,7 +275,7 @@ const ElementSetting: React.FC<Props> = (props) => {
 					<Button
 						type="button"
 						variant={
-							elementSettingValue.style.flexDirection === "column"
+							schemaValue.style.flexDirection === "column"
 								? "default"
 								: "outline"
 						}
@@ -292,7 +291,7 @@ const ElementSetting: React.FC<Props> = (props) => {
 					<Button
 						type="button"
 						variant={
-							elementSettingValue.style.flexDirection === "row"
+							schemaValue.style.flexDirection === "row"
 								? "default"
 								: "outline"
 						}
@@ -315,8 +314,8 @@ const ElementSetting: React.FC<Props> = (props) => {
 
 				<Input
 					type="number"
-					value={elementSettingValue.style.gap}
-					defaultValue={elementSettingValue.style.gap}
+					value={schemaValue.style.gap}
+					defaultValue={schemaValue.style.gap}
 					onChange={(e) =>
 						onSettingUpdateHandle("gap", parseFloat(e.target.value))
 					}

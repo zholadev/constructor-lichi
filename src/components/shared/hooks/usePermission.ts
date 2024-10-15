@@ -7,9 +7,8 @@ import {
 } from "@/components/shared/types/types";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import {
-	ComponentBaseTypes,
-	ComponentSpecialTypes,
-	ElementBaseTypes,
+	SchemaComponentTypes,
+	SchemaElementTypes,
 } from "@/components/shared/types/types-components";
 import { IPermission } from "@/components/app/permission/types/interface-permission";
 import { permissionGetComponents } from "@/components/app/permission/model/components/permission-get-components";
@@ -129,7 +128,7 @@ export default function usePermission(): IPermission {
 	 */
 	const typeActiveElement: ActiveElementType = useMemo(() => {
 		return activeElementData?.widgetType !== "none"
-			? activeElementData.widgetActiveType
+			? activeElementData?.widgetActiveType
 			: (activeElementData?.type ?? "none");
 	}, [activeElementData]);
 
@@ -137,20 +136,27 @@ export default function usePermission(): IPermission {
 	 * @author Zholaman Zhumanov
 	 * @description Получаем тип элемента
 	 */
-	const typeDataActiveElement:
-		| ComponentBaseTypes
-		| ElementBaseTypes
-		| IContainerType
-		| ComponentSpecialTypes
-		| "none" = useMemo(() => {
+	const typeElementActive: SchemaElementTypes = useMemo(() => {
 		return activeElementData?.widgetType !== "none"
-			? activeElementData.widgetActiveData?.type
+			? activeElementData?.widgetActiveData?.type
+			: (activeElementData?.activeData?.type ?? "none");
+	}, [activeElementData]);
+
+	const typeComponentActive: SchemaComponentTypes = useMemo(() => {
+		return activeElementData?.widgetType !== "none"
+			? activeElementData?.widgetActiveData?.type
+			: (activeElementData?.activeData?.type ?? "none");
+	}, [activeElementData]);
+
+	const typeContainerActive: IContainerType = useMemo(() => {
+		return activeElementData?.widgetType !== "none"
+			? activeElementData?.widgetActiveData?.type
 			: (activeElementData?.activeData?.type ?? "none");
 	}, [activeElementData]);
 
 	const activeTypeVersion: string = useMemo(() => {
 		return activeElementData?.widgetType !== "none"
-			? activeElementData.widgetActiveData?.version
+			? activeElementData?.widgetActiveData?.version
 			: (activeElementData?.activeData?.version ?? "");
 	}, [activeElementData]);
 
@@ -166,17 +172,14 @@ export default function usePermission(): IPermission {
 		switch (typeActiveElement) {
 			case "component":
 				return permissionGetComponents(
-					typeDataActiveElement,
+					typeComponentActive,
 					activeTypeVersion
 				);
 			case "element":
-				return permissionGetElementsData(
-					typeDataActiveElement,
-					activeTypeVersion
-				);
+				return permissionGetElementsData(typeElementActive);
 			case "container":
 				return permissionGetContainers(
-					typeDataActiveElement,
+					typeContainerActive,
 					activeDisplayBlockType,
 					activeTypeVersion
 				);
@@ -187,7 +190,9 @@ export default function usePermission(): IPermission {
 		typeActiveElement,
 		basePermission,
 		editorActiveElement,
-		typeDataActiveElement,
+		typeContainerActive,
+		typeComponentActive,
+		typeElementActive,
 	]);
 
 	return currentPermission || basePermission;

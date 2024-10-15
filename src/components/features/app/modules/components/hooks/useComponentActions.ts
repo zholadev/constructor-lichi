@@ -108,10 +108,7 @@ export default function useComponentActions(): IComponentActions {
 						// Обновляем gridTemplateColumns на основе количества компонентов
 						const gridTemplateColumns = `repeat(${updatedComponents.length}, 1fr)`;
 
-						if (
-							container.type === "swiper" ||
-							container.type === "category_list_container"
-						) {
+						if (container.type === "category_list_container") {
 							return {
 								...container,
 								components: updatedComponents,

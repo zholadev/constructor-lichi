@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { cn } from "@/components/lib/utils";
 import {
 	Accordion,
@@ -12,7 +12,6 @@ import {
 	TextIcon,
 	VideoIcon,
 } from "@radix-ui/react-icons";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
@@ -21,34 +20,12 @@ import VideoContent from "@/components/features/app/modules/editor/content/Video
 import LinkContent from "@/components/features/app/modules/editor/content/LinkContent";
 import TextFillContent from "@/components/features/app/modules/editor/content/TextFillContent";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
-import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
+import useUpdateWidgetActions from "@/components/features/app/modules/widgets/hooks/useUpdateWidgetActions";
 import AnimationContent from "@/components/features/app/modules/editor/content/AnimationContent";
 import { Framer } from "lucide-react";
-import { ISchemaMotionContent } from "@/components/shared/types/interface-schema-content";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
-
-type AccessTypes = "video" | "photo" | "link" | "stories";
-type ContentKeys = "photo" | "link" | "video" | "stories";
-
-interface IContentActiveData {
-	content: {
-		link: Record<string, unknown>;
-		photo: Record<string, unknown>;
-		video: Record<string, unknown>;
-		title?: Record<string, unknown>;
-		stories?: Record<string, unknown>;
-		animation?: ISchemaMotionContent;
-	};
-}
-
-interface Content {
-	photo?: Record<string, unknown>;
-	link?: Record<string, unknown>;
-	video?: Record<string, unknown>;
-	title?: Record<string, unknown>;
-}
-
-const accessTypes: AccessTypes[] = ["video", "photo", "link", "stories"];
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { ISchemaContent } from "@/components/shared/types/interface-schema-content";
 
 /**
  * @author Zholaman Zhumanov
@@ -56,23 +33,22 @@ const accessTypes: AccessTypes[] = ["video", "photo", "link", "stories"];
  * @description
  * @last-updated
  * @update-description
- * @todo refactoring
+ * @todo типизация
  * @fixme
  * @constructor
  */
 const ContentContainer: React.FC = () => {
 	const dialog = useDialogAction();
 	const permission = usePermission();
+	const toastMessage = useToastMessage();
 	const updateActions = useUpdateActions();
 	const updateWidgetActions = useUpdateWidgetActions();
 	const activeElementData = useActiveElementObserver();
 
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
-
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
 	// @ts-ignore
-	const contentActiveData: IContentActiveData = useMemo(() => {
+	const contentActiveData: ISchemaContent = useMemo(() => {
 		try {
 			const content =
 				activeElementData?.widgetType === "stories"
@@ -82,14 +58,12 @@ const ContentContainer: React.FC = () => {
 						activeElementData?.activeData?.content;
 
 			return {
-				content: {
-					link: content?.link ?? { url: null, active: false },
-					photo: content?.photo,
-					video: content?.video ?? { videoSrc: "", poster: null },
-					title: content?.title ?? {},
-					stories: content?.stories ?? false,
-					animation: content?.animation ?? {},
-				},
+				link: content?.link ?? { url: null, active: false },
+				photo: content?.photo,
+				video: content?.video ?? { videoSrc: "", poster: null },
+				title: content?.title ?? {},
+				stories: content?.stories ?? false,
+				animation: content.animation ?? {},
 			};
 		} catch (error) {
 			if (error instanceof Error) {
@@ -98,18 +72,11 @@ const ContentContainer: React.FC = () => {
 		}
 	}, [activeElementData]);
 
-	const filterContentKeys = (
-		content: Content,
-		// eslint-disable-next-line no-shadow
-		accessTypes: AccessTypes[]
-	) => {
-		const filteredKeys: ContentKeys[] = Object.keys(content)
-			.filter((key) => accessTypes.includes(key as AccessTypes))
-			.map((key) => key as ContentKeys);
-
-		setExpanded(filteredKeys);
-	};
-
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления контента
+	 * @param pathString
+	 */
 	const removeSchemaDataHandle = (pathString: string) => {
 		if (
 			activeElementData?.widgetType !== "none" &&
@@ -121,17 +88,31 @@ const ContentContainer: React.FC = () => {
 		updateActions.update({}, pathString, true);
 	};
 
-	useEffect(() => {
-		if (editorActiveElement.componentData) {
-			if (editorActiveElement.componentData.content) {
-				filterContentKeys(
-					editorActiveElement.componentData.content,
-					accessTypes
-				);
-			}
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных контента
+	 * @param data
+	 * @param path
+	 */
+	const updateSchemaHandle = (data: any, path: string) => {
+		if (!data || !path) {
+			toastMessage("ValueError: data or path is not defined!", "error");
+			return;
 		}
-	}, [editorActiveElement]);
+		if (
+			activeElementData?.widgetType !== "none" &&
+			dialog.dialogWidget.open
+		) {
+			updateWidgetActions.update(data, path);
+			return;
+		}
+		updateActions.update(data, path);
+	};
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Если прилетает false то не выводим контент
+	 */
 	if (!permission.panel.content) {
 		return (
 			<h2 className={cn("w-full text-center text-xs")}>Нет доступа!</h2>
@@ -161,7 +142,7 @@ const ContentContainer: React.FC = () => {
 						<AccordionContent>
 							<Accordion type="multiple" className="w-full">
 								{Object.entries(
-									contentActiveData?.content?.photo || {}
+									contentActiveData.photo || {}
 								).map(([key, value], index: number) => {
 									return (
 										<AccordionItem value={key} key={index}>
@@ -183,22 +164,11 @@ const ContentContainer: React.FC = () => {
 											<AccordionContent>
 												<div className={cn("w-full")}>
 													<ImageContent
-														imageSrc={value}
-														onChange={(data) => {
-															if (
-																activeElementData?.widgetType !==
-																	"none" &&
-																dialog
-																	.dialogWidget
-																	.open
-															) {
-																updateWidgetActions.update(
-																	data,
-																	`content.photo.${key}`
-																);
-																return;
-															}
-															updateActions.update(
+														defaultData={value}
+														onUpdateSchemaHandle={(
+															data
+														) => {
+															updateSchemaHandle(
 																data,
 																`content.photo.${key}`
 															);
@@ -214,7 +184,7 @@ const ContentContainer: React.FC = () => {
 					</AccordionItem>
 				)}
 
-				{permission.content.video && (
+				{permission?.content?.video && (
 					<AccordionItem value="video">
 						<AccordionTrigger>
 							<div
@@ -228,24 +198,9 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<VideoContent
-								defaultParams={contentActiveData.content.video}
-								onSendParams={(params) => {
-									if (
-										activeElementData?.widgetType !==
-											"none" &&
-										dialog.dialogWidget.open
-									) {
-										updateWidgetActions.update(
-											params,
-											"content.video"
-										);
-										return;
-									}
-
-									updateActions.update(
-										params,
-										"content.video"
-									);
+								defaultData={contentActiveData.video}
+								onUpdateSchemaHandle={(data) => {
+									updateSchemaHandle(data, "content.video");
 								}}
 							/>
 						</AccordionContent>
@@ -266,26 +221,11 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<LinkContent
-								// @ts-ignore
-								defaultParams={contentActiveData.content.link}
-								onSendParams={(params) => {
-									if (
-										activeElementData?.widgetType !==
-											"none" &&
-										dialog.dialogWidget.open
-									) {
-										updateWidgetActions.update(
-											params,
-											"content.link"
-										);
-										return;
-									}
-									updateActions.update(
-										params,
-										"content.link"
-									);
+								defaultData={contentActiveData.link}
+								onUpdateSchemaHandle={(data) => {
+									updateSchemaHandle(data, "content.link");
 								}}
-								onRemoveParams={() =>
+								onRemoveSchemaHandle={() =>
 									removeSchemaDataHandle("content.link")
 								}
 							/>
@@ -307,24 +247,9 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<TextFillContent
-								// @ts-ignore
-								defaultParams={contentActiveData.content?.title}
-								onSendParams={(params) => {
-									if (
-										activeElementData?.widgetType !==
-											"none" &&
-										dialog.dialogWidget.open
-									) {
-										updateWidgetActions.update(
-											params,
-											"content.title"
-										);
-										return;
-									}
-									updateActions.update(
-										params,
-										"content.title"
-									);
+								defaultData={contentActiveData?.title}
+								onUpdateSchemaHandle={(data) => {
+									updateSchemaHandle(data, "content.title");
 								}}
 							/>
 						</AccordionContent>
@@ -345,28 +270,14 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<AnimationContent
-
-								defaultParams={
-									contentActiveData.content?.animation
-								}
-								onSendParams={(params) => {
-									if (
-										activeElementData?.widgetType !==
-											"none" &&
-										dialog.dialogWidget.open
-									) {
-										updateWidgetActions.update(
-											params,
-											"content.animation"
-										);
-										return;
-									}
-									updateActions.update(
-										params,
+								defaultData={contentActiveData.animation}
+								onUpdateSchemaHandle={(data) => {
+									updateSchemaHandle(
+										data,
 										"content.animation"
 									);
 								}}
-								onRemoveParams={() =>
+								onRemoveSchemaHandle={() =>
 									removeSchemaDataHandle("content.animation")
 								}
 							/>

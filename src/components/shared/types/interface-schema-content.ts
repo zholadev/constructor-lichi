@@ -1,5 +1,3 @@
-import { IGalleryImageItem } from "@/components/shared/types/interface";
-
 export type ISchemaContentMediaType = "video" | "image";
 
 export type LinkRelType =
@@ -15,60 +13,91 @@ export type LinkRelType =
 	| "noopener"
 	| "prev"
 	| "search"
-	| "tag";
+	| "tag"
+	| "none";
 
-export type LinkTargetType = "_blank" | "_parent" | "_self" | "_top";
-export type MotionTypes = "zoom_out" | "zoom_in" | "none";
+export interface ISchemaContentPhotoData {
+	url: string;
+	size?: number;
+	created?: number;
+	extension?: string;
+	info?: {
+		width: number;
+		height: number;
+		luminance: number;
+	};
+	name?: string;
+	path?: string;
+	public_url?: string;
+}
+
+export type LinkTargetType = "_blank" | "_parent" | "_self" | "_top" | "none";
+export type AnimationTypes = "zoom_out" | "zoom_in" | "none";
+
+export interface ISchemaContentPhotoDesktopParams {
+	desktop: ISchemaContentPhotoData;
+}
+
+export interface ISchemaContentPhotoTabletParams {
+	tablet: ISchemaContentPhotoData;
+}
+
+export interface ISchemaContentPhotoMobileParams {
+	mobile: ISchemaContentPhotoData;
+}
+
+export type ISchemaContentPhotoTripleTypes =
+	| ISchemaContentPhotoDesktopParams
+	| ISchemaContentPhotoTabletParams
+	| ISchemaContentPhotoMobileParams;
+
+export interface ISchemaContentPhotoTriple
+	extends ISchemaContentPhotoDesktopParams,
+		ISchemaContentPhotoTabletParams,
+		ISchemaContentPhotoMobileParams {}
 
 export interface ISchemaContentPhoto {
-	photo?: {
-		desktop: IGalleryImageItem;
-		tablet: IGalleryImageItem;
-		mobile: IGalleryImageItem;
-	};
+	photo: ISchemaContentPhotoTriple;
 }
 
 export interface ISchemaContentVideoParams {
 	videoSrc: string;
-	poster: IGalleryImageItem;
+	poster: ISchemaContentPhotoData;
 }
 
 export interface ISchemaContentVideo {
-	video?: {
+	video: {
 		videoSrc: string;
-		poster: IGalleryImageItem;
+		poster: ISchemaContentPhotoData;
 	};
 }
 
-export interface ISchemaContentLink {
-	link: {
-		href: {
-			src: string;
-			internal_src: string;
-		};
-		settings?: {
-			rel: LinkRelType;
-			target: LinkTargetType;
-		};
-	};
-}
-
-export interface ISchemaAnimateParams {
-	type: MotionTypes;
-	observer: boolean;
-}
-
-export interface ISchemaMotionContent {
-	animation?: ISchemaAnimateParams;
-}
+export type ISchemaContentTextParams = Record<string, Record<"value", string>>;
 
 export interface ISchemaContentText {
 	title: Record<string, Record<"value", string>>;
 }
 
-export interface ISchemaContent
-	extends ISchemaContentPhoto,
-		ISchemaContentVideo,
-		ISchemaContentText,
-		ISchemaContentLink,
-		ISchemaMotionContent {}
+export interface ISchemaContentLinkHrefParams {
+	href: {
+		src: string;
+		internal_src: string;
+	};
+}
+
+export interface ISchemaAnimationParams {
+	type: AnimationTypes;
+	observer: boolean;
+}
+
+export interface ISchemaAnimationContent {
+	animation: ISchemaAnimationParams;
+}
+
+export interface ISchemaContent {
+	photo: ISchemaContentPhotoTriple;
+	video: ISchemaContentVideoParams;
+	title: ISchemaContentTextParams;
+	link: ISchemaContentLinkHrefParams;
+	animation: ISchemaAnimationParams;
+}

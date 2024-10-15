@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { IGalleryImageItem } from "@/components/shared/types/interface";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import { cn } from "@/components/lib/utils";
 import { ImageIcon } from "@radix-ui/react-icons";
@@ -10,11 +9,15 @@ import { Label } from "@/components/shared/shadcn/ui/label";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { ISchemaContentVideoParams } from "@/components/shared/types/interface-schema-content";
+import {
+	ISchemaContentPhotoData,
+	ISchemaContentVideoParams,
+} from "@/components/shared/types/interface-schema-content";
+import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 interface Props {
-	onSendParams?: (data: ISchemaContentVideoParams) => void;
-	defaultParams?: ISchemaContentVideoParams;
+	onUpdateSchemaHandle: (data: ISchemaContentVideoParams) => void;
+	defaultData: ISchemaContentVideoParams;
 }
 
 /**
@@ -29,12 +32,14 @@ interface Props {
  * @constructor
  */
 const VideoContent: React.FC<Props> = (props) => {
-	const { onSendParams, defaultParams } = props;
+	const { onUpdateSchemaHandle, defaultData } = props;
+
+	const toastMessage = useToastMessage();
 
 	const { editorVideoPlayAction } = useDispatchAction();
 	const { editorVideoPlay } = useAppSelector((state) => state.editor);
 
-	const [videoSetting, setVideoSetting] =
+	const [schemaValue, setSchemaValue] =
 		React.useState<ISchemaContentVideoParams>({
 			poster: {
 				url: "",
@@ -57,32 +62,39 @@ const VideoContent: React.FC<Props> = (props) => {
 
 	const toggleExpandedHandle = () => setToggleExpanded(!toggleExpanded);
 
-	const onChangeSettings = (
-		value: string | IGalleryImageItem,
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных
+	 * @param value
+	 * @param key
+	 */
+	const onChangeHandle = (
+		value: string | ISchemaContentPhotoData,
 		key: keyof ISchemaContentVideoParams
 	) => {
 		if (!value || !key) {
+			toastMessage("ValueError: key or value is not defined!", "error");
 			return;
 		}
 
 		toggleExpandedHandle();
-		setVideoSetting((prev) => {
+		setSchemaValue((prev) => {
 			const updateValues = {
 				...prev,
 				[key]: value,
 			};
 
-			if (onSendParams) onSendParams(updateValues);
+			if (onUpdateSchemaHandle) onUpdateSchemaHandle(updateValues);
 
 			return updateValues;
 		});
 	};
 
 	useEffect(() => {
-		if (defaultParams) {
-			setVideoSetting(defaultParams);
+		if (defaultData) {
+			setSchemaValue(defaultData);
 		}
-	}, [defaultParams]);
+	}, [defaultData]);
 
 	return (
 		<div>
@@ -113,7 +125,7 @@ const VideoContent: React.FC<Props> = (props) => {
 					Постер
 				</h3>
 				<div className="w-full h-auto mb-9">
-					{!videoSetting.poster ? (
+					{!schemaValue.poster?.url ? (
 						<Button
 							type="button"
 							variant="outline"
@@ -129,7 +141,7 @@ const VideoContent: React.FC<Props> = (props) => {
 							)}
 						>
 							<Image
-								src={videoSetting.poster?.url}
+								src={schemaValue.poster?.url}
 								alt=""
 								width={240}
 								height={240}
@@ -141,36 +153,13 @@ const VideoContent: React.FC<Props> = (props) => {
 						</div>
 					)}
 
-					<div className={cn("w-full mt-3")}>
-						{videoSetting?.poster?.name && (
-							<div className={cn("flex items-center gap-3 mb-2")}>
-								<h3 className={cn("text-gray-500")}>
-									Название:{" "}
-								</h3>
-								<h3>{videoSetting?.poster?.name}</h3>
-							</div>
-						)}
-
-						{videoSetting?.poster?.info && (
-							<div className={cn("flex items-center gap-3")}>
-								<h3 className={cn("text-gray-500")}>
-									Размеры:{" "}
-								</h3>
-								<h3>
-									{videoSetting?.poster?.info?.width} x{" "}
-									{videoSetting?.poster?.info?.height}
-								</h3>
-							</div>
-						)}
-					</div>
-
 					<GalleryDialogContainer
 						toggleExpanded={toggleExpanded}
 						getImage={(value) => {
-							onChangeSettings(value, "poster");
+							onChangeHandle(value, "poster");
 						}}
 						toggleExpandedHandle={toggleExpandedHandle}
-						activeImage={videoSetting.poster}
+						activeImage={schemaValue.poster}
 					/>
 				</div>
 			</div>
@@ -180,10 +169,10 @@ const VideoContent: React.FC<Props> = (props) => {
 					Ссылка на видео{" "}
 				</h3>
 				<Input
-					value={videoSetting.videoSrc}
+					value={schemaValue.videoSrc}
 					placeholder="Введите ссылку видео"
 					onChange={(e) => {
-						onChangeSettings(e.target.value, "videoSrc");
+						onChangeHandle(e.target.value, "videoSrc");
 					}}
 				/>
 			</div>

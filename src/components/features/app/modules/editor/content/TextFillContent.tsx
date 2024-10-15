@@ -3,10 +3,11 @@ import usePermission from "@/components/shared/hooks/usePermission";
 import { cn } from "@/components/lib/utils";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
+import { ISchemaContentTextParams } from "@/components/shared/types/interface-schema-content";
 
 interface Props {
-	onSendParams: (value: Record<string, Record<"value", string>>) => void;
-	defaultParams: Record<string, Record<"value", string>>;
+	onUpdateSchemaHandle: (data: ISchemaContentTextParams) => void;
+	defaultData: ISchemaContentTextParams;
 }
 
 /**
@@ -21,21 +22,23 @@ interface Props {
  * @constructor
  */
 const TextFillContent: React.FC<Props> = (props) => {
-	const { onSendParams, defaultParams } = props;
+	const { onUpdateSchemaHandle, defaultData } = props;
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
 
-	const [contentValues, setContentValues] = useState<
-		Record<string, Record<"value", string>>
-	>({});
+	const [schemaValue, setSchemaValue] = useState<ISchemaContentTextParams>({
+		ru: {
+			value: "Default Title",
+		},
+	});
 
 	/**
 	 * @author Zholaman Zhumanov
-	 * @description Метод для обновления данных и отправка
+	 * @description Метод для обновления данных
 	 * @param key
 	 * @param value
 	 */
-	const onChangeContentHandle = (key: string, value: string) => {
+	const onChangeHandle = (key: string, value: string) => {
 		if (!value) {
 			toastMessage(
 				`ValueError: ${!key ? "key" : "value"} is not defined`,
@@ -43,7 +46,7 @@ const TextFillContent: React.FC<Props> = (props) => {
 			);
 		}
 
-		setContentValues((prevState) => {
+		setSchemaValue((prevState) => {
 			const updateValues = {
 				...prevState,
 				[key]: {
@@ -51,24 +54,28 @@ const TextFillContent: React.FC<Props> = (props) => {
 				},
 			};
 
-			if (onSendParams) onSendParams(updateValues);
+			if (onUpdateSchemaHandle) onUpdateSchemaHandle(updateValues);
 
 			return updateValues;
 		});
 	};
 
 	useEffect(() => {
-		if (!defaultParams) return;
-		setContentValues(defaultParams);
-	}, [defaultParams]);
+		if (!defaultData) return;
+		setSchemaValue(defaultData);
+	}, [defaultData]);
 
 	if (!permission.content.textFill) {
 		return null;
 	}
 
+	if (!schemaValue) {
+		return null;
+	}
+
 	return (
 		<div className={cn("w-full px-1")}>
-			{Object.entries(contentValues || {}).map(([key, text]) => {
+			{Object.entries(schemaValue || {}).map(([key, text]) => {
 				return (
 					<div className={cn("mb-4")} key={key}>
 						<h3 className={cn("text-xs uppercase mb-1")}>{key}</h3>
@@ -77,7 +84,7 @@ const TextFillContent: React.FC<Props> = (props) => {
 							placeholder={text.value}
 							value={text.value}
 							onChange={(e) =>
-								onChangeContentHandle(key, e.target.value)
+								onChangeHandle(key, e.target.value)
 							}
 						/>
 					</div>

@@ -1,6 +1,6 @@
-import { ElementBaseTypes } from "@/components/shared/types/types-components";
+import { ISchemaElementTypes } from "@/components/shared/types/types-components";
 import {
-	ISchemaContentLink,
+	ISchemaContentLinkHrefParams,
 	ISchemaContentText,
 } from "@/components/shared/types/interface-schema-content";
 import {
@@ -8,10 +8,18 @@ import {
 	ISchemaSettingsView,
 } from "@/components/shared/types/interface-schema-settings";
 
+export interface ISchemaElement {
+	id: string;
+	guid: string;
+	type: ISchemaElementTypes;
+	style: Record<string, unknown>;
+	version: string;
+}
+
 export interface IElementSchema {
 	id: string;
 	guid: string;
-	type: ElementBaseTypes;
+	type: ISchemaElementTypes;
 	style: Record<string, unknown>;
 	version: string;
 	settings?: {
@@ -20,21 +28,47 @@ export interface IElementSchema {
 	};
 	content?: {
 		title?: ISchemaContentText;
-		link?: ISchemaContentLink;
+		link?: ISchemaContentLinkHrefParams;
+	};
+}
+
+export interface ISchemaButtonElement extends ISchemaElement {
+	content: {
+		title: ISchemaContentText;
+		link?: ISchemaContentLinkHrefParams;
+	};
+	settings?: {
+		view: ISchemaSettingsView;
+	};
+}
+
+export interface ISchemaTextElement extends ISchemaElement {
+	content: {
+		title: ISchemaContentText;
+	};
+	settings?: {
+		view: ISchemaSettingsView;
+	};
+}
+
+export interface ISchemaTimerElement extends ISchemaElement {
+	settings: {
+		timer: ISchemaSettingsTimer;
+		view: ISchemaSettingsView;
 	};
 }
 
 export interface IButtonElement extends IElementSchema {
 	content: {
 		title: ISchemaContentText;
-		link?: ISchemaContentLink;
+		link?: ISchemaContentLinkHrefParams;
 	};
 }
 
 export interface ITextElement extends IElementSchema {
 	content: {
 		title: ISchemaContentText;
-		link?: ISchemaContentLink;
+		link?: ISchemaContentLinkHrefParams;
 	};
 }
 
@@ -46,3 +80,7 @@ export interface ITimerElement extends IElementSchema {
 
 export type IElementTotal = IButtonElement | ITextElement | ITimerElement;
 export type ISchemaElements = IElementSchema;
+export type ISchemaElementInterfaces =
+	| ISchemaButtonElement
+	| ISchemaTextElement
+	| ISchemaTimerElement;

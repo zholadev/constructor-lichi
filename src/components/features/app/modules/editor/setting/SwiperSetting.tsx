@@ -53,8 +53,8 @@ interface SwiperPaginationThemeTypeData {
 }
 
 interface Props {
-	settingValue: SwiperSettings;
-	onSettingChange: (value: SwiperSettings) => void;
+	settingValue?: SwiperSettings;
+	onSettingChange?: (value: SwiperSettings) => void;
 }
 
 const directionData: SwiperDirectionTypeData[] = [

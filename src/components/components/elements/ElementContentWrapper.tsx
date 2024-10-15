@@ -3,8 +3,8 @@ import { cn } from "@/components/lib/utils";
 import useSchemaElementData from "@/components/shared/hooks/useSchemaElementData";
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import useWidgetActions from "@/components/shared/hooks/actions/useWidgetActions";
-import useElementActions from "@/components/shared/hooks/actions/useElementActions";
+import useWidgetActions from "@/components/features/app/modules/widgets/hooks/useWidgetActions";
+import useElementActions from "@/components/features/app/modules/elements/hooks/useElementActions";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 

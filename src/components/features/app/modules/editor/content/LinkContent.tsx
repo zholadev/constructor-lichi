@@ -3,7 +3,7 @@ import { cn } from "@/components/lib/utils";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { Switch } from "@/components/shared/shadcn/ui/switch";
 import { z } from "zod";
-import { ISchemaContentLink } from "@/components/shared/types/interface-schema-content";
+import { ISchemaContentLinkHrefParams } from "@/components/shared/types/interface-schema-content";
 import { Button } from "@/components/shared/shadcn/ui/button";
 
 const urlSchema = z
@@ -21,9 +21,9 @@ interface ILinkSetting {
 }
 
 interface Props {
-	onSendParams?: (params: ISchemaContentLink) => void;
-	onRemoveParams?: () => void;
-	defaultParams: ILinkSetting;
+	onUpdateSchemaHandle: (data: ISchemaContentLinkHrefParams) => void;
+	onRemoveSchemaHandle: () => void;
+	defaultData: ISchemaContentLinkHrefParams;
 }
 
 const getInternalSrcFromURL = (url: string): string | null => {
@@ -54,11 +54,11 @@ const getInternalSrcFromURL = (url: string): string | null => {
  * @constructor
  */
 const LinkContent: React.FC<Props> = (props) => {
-	const { onSendParams, defaultParams, onRemoveParams } = props;
+	const { onUpdateSchemaHandle, defaultData, onRemoveSchemaHandle } = props;
 
 	const [error, setError] = useState<string | null>(null);
 
-	const [linkSetting, setLinkSetting] = useState<ILinkSetting>({
+	const [schemaValue, setSchemaValue] = useState<ILinkSetting>({
 		active: false,
 		src: "",
 	});
@@ -68,11 +68,11 @@ const LinkContent: React.FC<Props> = (props) => {
 	 * @description Метод для заполнение ссылки и отправки в JSON
 	 * @param e
 	 */
-	const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+	const onChangeLink = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value as URLSchema;
 
 		try {
-			setLinkSetting((prev) => {
+			setSchemaValue((prev) => {
 				return {
 					...prev,
 					src: value,
@@ -80,6 +80,7 @@ const LinkContent: React.FC<Props> = (props) => {
 			});
 			urlSchema.parse(value);
 			setError(null);
+			// eslint-disable-next-line no-shadow
 		} catch (error) {
 			if (error instanceof z.ZodError) {
 				setError(error.errors[0].message);
@@ -87,29 +88,33 @@ const LinkContent: React.FC<Props> = (props) => {
 		}
 	};
 
-	const onConfirmHandle = () => {
-		if (onSendParams) {
-			const getInternalSrc = getInternalSrcFromURL(linkSetting.src);
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных
+	 */
+	const onChangeHandle = () => {
+		if (onUpdateSchemaHandle) {
+			const getInternalSrc = getInternalSrcFromURL(schemaValue.src);
 
-			const updateValues: ISchemaContentLink = {
+			const updateValues: ISchemaContentLinkHrefParams = {
 				href: {
-					src: linkSetting.src,
+					src: schemaValue.src,
 					internal_src: getInternalSrc ?? "",
 				},
 			};
 
-			onSendParams(updateValues);
+			onUpdateSchemaHandle(updateValues);
 		}
 	};
 
 	/**
 	 * @author Zholaman Zhumanov
-	 * @description Метод для переключение
+	 * @description Метод для переключение ссылки
 	 * @param value
 	 * @param key
 	 */
 	const onChangeSettings = (value: boolean, key: keyof ILinkSetting) => {
-		setLinkSetting((prev) => {
+		setSchemaValue((prev) => {
 			return {
 				...prev,
 				[key]: value,
@@ -117,22 +122,24 @@ const LinkContent: React.FC<Props> = (props) => {
 		});
 
 		if (!value) {
-			if (onRemoveParams) onRemoveParams();
+			if (onRemoveSchemaHandle) onRemoveSchemaHandle();
 		}
 
 		setError(null);
 	};
 
 	useEffect(() => {
-		setLinkSetting(() => {
-			const initValue: ILinkSetting = {
-				src: defaultParams?.src,
-				active: !!defaultParams?.src,
-			};
+		if (defaultData) {
+			setSchemaValue(() => {
+				const initValue: ILinkSetting = {
+					src: defaultData.href.src,
+					active: !!defaultData.href.src,
+				};
 
-			return initValue;
-		});
-	}, [defaultParams]);
+				return initValue;
+			});
+		}
+	}, [defaultData]);
 
 	return (
 		<div className={cn("w-full py-2")}>
@@ -146,7 +153,7 @@ const LinkContent: React.FC<Props> = (props) => {
 				>
 					<Switch
 						id="link-active"
-						checked={linkSetting.active}
+						checked={schemaValue.active}
 						onCheckedChange={(value) => {
 							onChangeSettings(value, "active");
 						}}
@@ -154,11 +161,11 @@ const LinkContent: React.FC<Props> = (props) => {
 				</div>
 			</div>
 			<Input
-				value={linkSetting.src}
-				defaultValue={linkSetting.src}
+				value={schemaValue.src}
+				defaultValue={schemaValue.src}
 				placeholder="Введите ссылку"
-				disabled={!linkSetting.active}
-				onChange={onChangeEmail}
+				disabled={!schemaValue.active}
+				onChange={onChangeLink}
 			/>
 			{error && (
 				<p className={cn("text-red-600 text-xs mt-1")}>{error}</p>
@@ -168,8 +175,8 @@ const LinkContent: React.FC<Props> = (props) => {
 				<Button
 					type="button"
 					variant="outline"
-					onClick={onConfirmHandle}
-					disabled={!linkSetting.active}
+					onClick={onChangeHandle}
+					disabled={!schemaValue.active}
 				>
 					Добавить
 				</Button>

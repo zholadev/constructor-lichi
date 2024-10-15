@@ -7,7 +7,7 @@ import { Input } from "@/components/shared/shadcn/ui/input";
 import { DisplayContainerType } from "@/components/shared/types/types";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import useContainerActions from "@/components/shared/hooks/actions/useContainerActions";
+import useContainerActions from "@/components/features/app/modules/container/hooks/useContainerActions";
 import {
 	Select,
 	SelectContent,

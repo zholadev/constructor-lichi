@@ -6,7 +6,7 @@ import {
 } from "@/components/features/app/modules/widgets/types/interface-widget";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
-import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
+import useUpdateWidgetActions from "@/components/features/app/modules/widgets/hooks/useUpdateWidgetActions";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 

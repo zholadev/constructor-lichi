@@ -3,12 +3,12 @@ import Image from "next/image";
 import { cn } from "@/components/lib/utils";
 import { ImageIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
-import { IGalleryImageItem } from "@/components/shared/types/interface";
 import GalleryDialogContainer from "@/components/widgets/gallery/GalleryDialogContainer";
+import { ISchemaContentPhotoData } from "@/components/shared/types/interface-schema-content";
 
 interface Props {
-	imageSrc: IGalleryImageItem;
-	onChange: (imageSrc?: IGalleryImageItem) => void;
+	defaultData: ISchemaContentPhotoData;
+	onUpdateSchemaHandle: (data: ISchemaContentPhotoData) => void;
 }
 
 /**
@@ -23,26 +23,47 @@ interface Props {
  * @constructor
  */
 const ImageContent: React.FC<Props> = (props) => {
-	const { imageSrc, onChange } = props;
+	const { defaultData, onUpdateSchemaHandle } = props;
 
-	const [currentImage, setCurrentImage] = React.useState<IGalleryImageItem>();
+	const [schemaValue, setSchemaValue] =
+		React.useState<ISchemaContentPhotoData>({
+			url: "",
+			size: 0,
+			created: 0,
+			extension: "",
+			info: {
+				width: 0,
+				height: 0,
+				luminance: 0,
+			},
+			name: "",
+			path: "",
+			public_url: "",
+		});
 	const [toggleExpanded, setToggleExpanded] = React.useState(false);
 
 	const toggleExpandedHandle = () => setToggleExpanded(!toggleExpanded);
 
-	const updateDataHandle = (data: IGalleryImageItem) => {
-		setCurrentImage(data);
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для обновления данных
+	 * @param data
+	 */
+	const onChangeHandle = (data: ISchemaContentPhotoData) => {
+		setSchemaValue(data);
 		toggleExpandedHandle();
-		if (onChange) onChange(data);
+		if (onUpdateSchemaHandle) onUpdateSchemaHandle(data);
 	};
 
 	useEffect(() => {
-		setCurrentImage(imageSrc);
-	}, [imageSrc]);
+		if (defaultData) {
+			setSchemaValue(defaultData);
+		}
+	}, [defaultData]);
 
 	return (
 		<div className="w-full h-auto mb-5">
-			{!currentImage ? (
+			{!schemaValue.url ? (
 				<Button
 					type="button"
 					variant="outline"
@@ -58,7 +79,7 @@ const ImageContent: React.FC<Props> = (props) => {
 					)}
 				>
 					<Image
-						src={currentImage.url}
+						src={schemaValue.url}
 						alt=""
 						width={240}
 						height={240}
@@ -70,30 +91,11 @@ const ImageContent: React.FC<Props> = (props) => {
 				</div>
 			)}
 
-			<div className={cn("w-full mt-3")}>
-				{currentImage?.name && (
-					<div className={cn("flex items-center gap-3 mb-2")}>
-						<h3 className={cn("text-gray-500")}>Название: </h3>
-						<h3>{currentImage?.name}</h3>
-					</div>
-				)}
-
-				{currentImage?.info && (
-					<div className={cn("flex items-center gap-3")}>
-						<h3 className={cn("text-gray-500")}>Размеры: </h3>
-						<h3>
-							{currentImage?.info.width} x{" "}
-							{currentImage?.info.height}
-						</h3>
-					</div>
-				)}
-			</div>
-
 			<GalleryDialogContainer
 				toggleExpanded={toggleExpanded}
-				getImage={updateDataHandle}
+				getImage={onChangeHandle}
 				toggleExpandedHandle={toggleExpandedHandle}
-				activeImage={currentImage}
+				activeImage={schemaValue}
 			/>
 		</div>
 	);

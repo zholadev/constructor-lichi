@@ -10,11 +10,15 @@ import {
 } from "@/components/shared/types/types";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import { IElementSchema } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import {
+	IElementSchema,
+	ISchemaElementInterfaces,
+} from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import { ISchemaActiveData } from "@/components/shared/types/interface-schema";
-import { ISchemaWidgetData } from "@/components/features/app/modules/widgets/types/interface-widget";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import { ISchemaContent } from "@/components/shared/types/interface-schema-content";
+import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 
 export interface IActiveElementObserver {
 	type: ActiveElementType;
@@ -32,7 +36,9 @@ export interface IActiveElementObserver {
 	widgetActiveComponentId?: string;
 	widgetActiveElementId?: string;
 	widgetActiveType?: ActiveElementType;
-	widgetActiveData?: ISchemaWidgetData;
+	widgetActiveData: ISchemaActiveData;
+	contentData: ISchemaContent | object;
+	settingData: ISchemaSettings | undefined;
 }
 
 /**
@@ -58,7 +64,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 	 * @author Zholaman Zhumanov
 	 * @description Метод для получения данных контейнера по containerId
 	 */
-	const foundContainerData: ISchemaContainer | null = useMemo(() => {
+	const foundContainerData: ISchemaContainer = useMemo(() => {
 		try {
 			if (editorActiveElement?.containerId) {
 				const containerData = spaceTemplateData.find(
@@ -94,7 +100,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 	 * @author Zholaman Zhumanov
 	 * @description Метод для получения данных компонента по componentId
 	 */
-	const foundComponentData = useMemo(() => {
+	const foundComponentData: ISchemaComponent = useMemo(() => {
 		try {
 			if (editorActiveElement?.componentId) {
 				const componentData = foundContainerData?.components?.find(
@@ -138,7 +144,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 		try {
 			if (editorActiveElement?.elementId) {
 				const elementData = foundComponentData?.elements.find(
-					(element: IElementSchema) =>
+					(element: ISchemaElementInterfaces) =>
 						element?.id === editorActiveElement?.activeId
 				);
 
@@ -175,7 +181,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 		try {
 			if (!spaceTemplateData || !editorActiveElement) return null;
 
-			const type = editorActiveElement.type ?? "none";
+			const type = editorActiveElement.type as ActiveElementType;
 
 			const activeDataFound = {
 				container: foundContainerData,
@@ -194,6 +200,43 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 				component: foundComponentData?.style,
 				element: foundElementData?.style,
 			}[type];
+
+			// const activeContentData: ISchemaContent = {
+			// 	element: foundElementData?.content,
+			// 	component: foundComponentData?.content,
+			// }[type];
+
+			// const activeSettingData: ISchemaSettings = {
+			// 	container: foundComponentData?.settings,
+			// 	component: foundComponentData?.settings,
+			// 	element: foundElementData?.settings,
+			// }[type];
+
+			const activeContentData = (): ISchemaContent | object => {
+				if (type === "component") {
+					return foundComponentData?.content;
+				}
+				if (type === "element") {
+					return foundComponentData?.content;
+				}
+
+				return {};
+			};
+
+
+			const activeSettingData = (): ISchemaSettings | undefined => {
+				if (type === "component") {
+					return foundComponentData?.settings;
+				}
+				if (type === "element") {
+					return foundComponentData?.settings;
+				}
+				if (type === "container") {
+					return foundComponentData?.settings;
+				}
+
+				return {};
+			};
 
 			return {
 				type,
@@ -215,6 +258,8 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 					editorActiveElement.widgetActiveComponentId ?? "",
 				widgetActiveElementId:
 					editorActiveElement.widgetActiveElementId ?? "",
+				contentData: activeContentData(),
+				settingData: activeSettingData(),
 			};
 		} catch (error) {
 			errorHandler("useActiveElementFollowUp", "root", error);

@@ -6,7 +6,7 @@ import usePermission from "@/components/shared/hooks/usePermission";
 import useRemoveActions from "@/components/shared/hooks/actions/useRemoveActions";
 import ActionAddComponentSetting from "@/components/features/app/modules/editor/setting/ActionAddComponentSetting";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
-import useRemoveWidgetActions from "@/components/shared/hooks/actions/useRemoveWidgetActions";
+import useRemoveWidgetActions from "@/components/features/app/modules/widgets/hooks/useRemoveWidgetActions";
 
 /**
  * @author Zholaman Zhumanov

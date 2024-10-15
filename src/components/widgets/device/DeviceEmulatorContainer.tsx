@@ -33,8 +33,9 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 
 	const { editorHeightPropertyAction } = useDispatchAction();
 
-	const { spaceModePlatformType, spaceBottomBarType } =
-		useAppSelector((state) => state.space);
+	const { spaceModePlatformType, spaceBottomBarType } = useAppSelector(
+		(state) => state.space
+	);
 
 	const [size, setSize] = React.useState(null);
 

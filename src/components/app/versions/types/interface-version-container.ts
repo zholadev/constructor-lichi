@@ -9,8 +9,8 @@ import {
 } from "@/components/app/permission/model/containers/v1/permission-container";
 
 interface IComponentsPermission {
-	block?: IPermission | false;
-	swiper?: IPermission | false;
+	block?: IPermission;
+	swiper?: IPermission;
 }
 
 interface IVersionComponentsPermission {
@@ -48,17 +48,13 @@ export const versionContainer: IVersionContainer = {
 			version: "1.0",
 			permission: {
 				swiper: category_list_container_permission_v1,
-				block: false,
 			},
 		},
 	],
 	initial: [
 		{
 			version: "1.0",
-			permission: {
-				block: false,
-				swiper: false,
-			},
+			permission: {},
 		},
 	],
 };

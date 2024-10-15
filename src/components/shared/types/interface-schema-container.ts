@@ -19,8 +19,3 @@ export interface ISchemaContainer {
 		} & ISchemaComponent
 	>;
 }
-
-export type ISchemaContainerComponentWrapper = Array<{
-	id: string;
-	data: ISchemaComponent;
-}>;

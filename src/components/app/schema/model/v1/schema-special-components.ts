@@ -8,7 +8,7 @@ import { ISchemaComponent } from "@/components/shared/types/interface-schema-com
  */
 
 export const saint_laurent_component_schema = (
-	version?: string
+	version: string
 ): ISchemaComponent => {
 	return {
 		guid: uuidv4(),
@@ -29,11 +29,11 @@ export const saint_laurent_component_schema = (
 				darkTheme: true,
 			},
 			element: {
-				positionX: "center",
-				positionY: "bottom",
 				style: {
 					justifyContent: "flex-end",
 					alignItems: "center",
+					gap: 4,
+					flexDirection: "column",
 				},
 			},
 		},

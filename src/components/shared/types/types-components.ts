@@ -14,6 +14,6 @@ export type SchemaComponentTypes =
 	| "saint_laurent"
 	| "none";
 
-export type ISchemaElementTypes = "button" | "text" | "timer"
+export type SchemaElementTypes = "button" | "text" | "timer";
 export type ElementBaseTypes = "button" | "text" | "timer";
 export type ElementBasenameTypes = "Button" | "Text" | "Timer";

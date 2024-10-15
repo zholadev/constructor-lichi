@@ -19,8 +19,9 @@ import CategoryListSetting from "@/components/features/app/modules/editor/settin
 import TimerSetting from "@/components/features/app/modules/editor/setting/TimerSetting";
 import ActionSetting from "@/components/features/app/modules/editor/setting/ActionSetting";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
-import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
+import useUpdateWidgetActions from "@/components/features/app/modules/widgets/hooks/useUpdateWidgetActions";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 
 export type SettingTypes = "view" | "show" | "action" | "swiper";
 
@@ -30,7 +31,7 @@ export type SettingTypes = "view" | "show" | "action" | "swiper";
  * @description
  * @last-updated
  * @update-description
- * @todo
+ * @todo Типизация и рефакторинг
  * @fixme
  * @constructor
  */
@@ -45,33 +46,37 @@ const SettingContainer: React.FC = () => {
 		"action",
 	]);
 
-	const settingDefaultData = useMemo(() => {
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Получаем данные с компонентов и элементов
+	 */
+	const settingDefaultData: ISchemaSettings = useMemo(() => {
 		const widgetActive =
 			activeElementData?.widgetType !== "none" &&
 			dialog.dialogWidget.open;
+
+		const widgetSettingData = activeElementData?.widgetActiveData
+			.settings as ISchemaSettings;
+		const settingData = activeElementData?.activeData
+			.settings as ISchemaSettings;
+
 		return {
-			view: widgetActive
-				? activeElementData?.widgetActiveData?.settings?.view
-				: activeElementData?.activeData?.settings?.view || {},
-			show: widgetActive
-				? activeElementData?.widgetActiveData?.settings?.show
-				: activeElementData?.activeData?.settings?.show || {},
+			view: widgetActive ? widgetSettingData?.view : settingData?.view,
+			show: widgetActive ? widgetSettingData?.show : settingData?.show,
 			swiper: widgetActive
-				? activeElementData?.widgetActiveData?.settings?.swiper
-				: activeElementData?.activeData?.settings?.swiper || {},
-			timer: widgetActive
-				? activeElementData?.widgetActiveData?.settings?.timer
-				: activeElementData?.activeData?.settings?.timer || {},
+				? widgetSettingData?.swiper
+				: settingData?.swiper,
+			timer: widgetActive ? widgetSettingData?.timer : settingData?.timer,
 			element: widgetActive
-				? activeElementData?.widgetActiveData?.settings?.element
-				: activeElementData?.activeData?.settings?.element || {},
+				? widgetSettingData?.element
+				: settingData?.element,
 			categoryList: widgetActive
-				? activeElementData?.widgetActiveData?.settings?.categoryList
-				: activeElementData?.activeData?.settings?.categoryList || {},
+				? widgetSettingData?.categoryList
+				: settingData?.categoryList,
 		};
 	}, [activeElementData, permission]);
 
-	const updateContentHandle = (data: any, path: string) => {
+	const updateSchemaHandle = (data: any, path: string) => {
 		if (
 			activeElementData?.widgetType !== "none" &&
 			dialog.dialogWidget.open
@@ -105,9 +110,9 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<ElementSetting
-							settingValue={settingDefaultData.element}
-							onSettingChange={(data) =>
-								updateContentHandle(data, "settings.element")
+							defaultData={settingDefaultData.element}
+							onUpdateSchemaHandle={(data) =>
+								updateSchemaHandle(data, "settings.element")
 							}
 						/>
 					</AccordionContent>
@@ -126,7 +131,7 @@ const SettingContainer: React.FC = () => {
 						<ViewSetting
 							settingValue={settingDefaultData.view}
 							onSettingChange={(data) =>
-								updateContentHandle(data, "settings.view")
+								updateSchemaHandle(data, "settings.view")
 							}
 						/>
 					</AccordionContent>
@@ -145,7 +150,7 @@ const SettingContainer: React.FC = () => {
 						<ShowSetting
 							settingValue={settingDefaultData.show}
 							onSettingChange={(data) =>
-								updateContentHandle(data, "settings.show")
+								updateSchemaHandle(data, "settings.show")
 							}
 						/>
 					</AccordionContent>
@@ -164,7 +169,7 @@ const SettingContainer: React.FC = () => {
 						<SwiperSetting
 							settingValue={settingDefaultData.swiper}
 							onSettingChange={(data) =>
-								updateContentHandle(data, "settings.swiper")
+								updateSchemaHandle(data, "settings.swiper")
 							}
 						/>
 					</AccordionContent>
@@ -183,7 +188,7 @@ const SettingContainer: React.FC = () => {
 						<CategoryListSetting
 							settingValue={settingDefaultData.categoryList}
 							onSettingChange={(data) =>
-								updateContentHandle(
+								updateSchemaHandle(
 									data,
 									"settings.categoryList"
 								)
@@ -205,10 +210,10 @@ const SettingContainer: React.FC = () => {
 						<TimerSetting
 							settingValue={settingDefaultData.timer}
 							onSettingChange={(data) =>
-								updateContentHandle(data, "settings.timer")
+								updateSchemaHandle(data, "settings.timer")
 							}
 							onSettingChangeStyle={(data, path) => {
-								updateContentHandle(data, path);
+								updateSchemaHandle(data, path);
 							}}
 						/>
 					</AccordionContent>

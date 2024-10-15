@@ -26,7 +26,7 @@ import TypographyStyles from "@/components/features/app/modules/editor/styles/Ty
 import BackgroundStyles from "@/components/features/app/modules/editor/styles/BackgroundStyles";
 import SizeStyles from "@/components/features/app/modules/editor/styles/SizeStyles";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
-import useUpdateWidgetActions from "@/components/shared/hooks/actions/useUpdateWidgetActions";
+import useUpdateWidgetActions from "@/components/features/app/modules/widgets/hooks/useUpdateWidgetActions";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 type AccessTypes =

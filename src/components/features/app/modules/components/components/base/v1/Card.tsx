@@ -4,10 +4,10 @@ import MediaContainer from "@/components/shared/uikit/media/MediaContainer";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
-import styles from "../../../../../../../styles/card.module.sass";
+import styles from "@/components/styles/card.module.sass";
 
-interface Props {
-	componentData: ISchemaComponent;
+interface Props<T extends ISchemaComponent> {
+	componentData: T;
 	containerData: ISchemaContainer;
 	containerId: string;
 	widgetComponent?: boolean;
@@ -24,7 +24,9 @@ interface Props {
  * @param props
  * @constructor
  */
-const Card: React.FC<Props> = (props) => {
+const Card = <T extends ISchemaComponent>(
+	props: Props<T>
+): React.JSX.Element => {
 	const { componentData, containerId, containerData, widgetComponent } =
 		props;
 

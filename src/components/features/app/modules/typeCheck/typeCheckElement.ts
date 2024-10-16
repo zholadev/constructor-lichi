@@ -6,5 +6,5 @@ import {
 export const isCheckSchemaButtonElement = (
 	element: ISchemaElementInterfaces
 ): element is ISchemaButtonElement => {
-	return (element as ISchemaButtonElement).content?.title !== undefined;
+	return (element as ISchemaButtonElement).type === "button";
 };

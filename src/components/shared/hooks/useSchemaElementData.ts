@@ -1,5 +1,5 @@
 import { ElementBaseTypes } from "@/components/shared/types/types-components";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { useMemo } from "react";
@@ -26,7 +26,7 @@ interface LanguageObject {
  */
 export default function useSchemaElementData(): (
 	type: ElementBaseTypes
-) => IElementTotal | null {
+) => ISchemaElementInterfaces | null {
 	const toastMessage = useToastMessage();
 
 	const { languageData } = useAppSelector((state) => state.app);
@@ -50,8 +50,9 @@ export default function useSchemaElementData(): (
 		);
 	}, [languageData]);
 
-	const elementMap: Record<ElementBaseTypes, IElementTotal> = {
+	const elementMap: Record<ElementBaseTypes, ISchemaElementInterfaces> = {
 		button: {
+			// @ts-ignore
 			...button_schema_element(),
 			content: {
 				// @ts-ignore
@@ -61,6 +62,7 @@ export default function useSchemaElementData(): (
 			},
 		},
 		text: {
+			// @ts-ignore
 			...text_schema_element(),
 			content: {
 				// @ts-ignore
@@ -70,11 +72,12 @@ export default function useSchemaElementData(): (
 			},
 		},
 		timer: {
+			// @ts-ignore
 			...timer_schema_element(),
 		},
 	};
 
-	return (type: ElementBaseTypes): IElementTotal | null => {
+	return (type: ElementBaseTypes): ISchemaElementInterfaces | null => {
 		if (!type || !elementMap[type]) {
 			toastMessage("Не найдено тип данных или отсутствует тип!", "error");
 			return null;

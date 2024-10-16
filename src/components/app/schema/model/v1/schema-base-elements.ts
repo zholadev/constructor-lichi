@@ -7,9 +7,16 @@ import {
 import { getFormattedDateSixDaysAhead } from "@/components/shared/utils/utils";
 import { defaultStyles } from "@/components/entities/defStyles/def_styles";
 
+/**
+ * @author Zholaman Zhumanov
+ * @description Схемы для элементов
+ * @todo Типизация
+ * @param version
+ */
 export const button_schema_element = (
 	version: string
 ): ISchemaButtonElement => {
+	// @ts-ignore
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -17,9 +24,6 @@ export const button_schema_element = (
 		version,
 		style: {
 			...defaultStyles.ELEMENT.button,
-		},
-		content: {
-			title: {},
 		},
 		settings: {
 			view: {
@@ -30,6 +34,7 @@ export const button_schema_element = (
 };
 
 export const text_schema_element = (version: string): ISchemaTextElement => {
+	// @ts-ignore
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -37,9 +42,6 @@ export const text_schema_element = (version: string): ISchemaTextElement => {
 		version,
 		style: {
 			...defaultStyles.ELEMENT.text,
-		},
-		content: {
-			title: {},
 		},
 		settings: {
 			view: {

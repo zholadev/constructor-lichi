@@ -9,9 +9,7 @@ import {
 	IComponentBaseAddList,
 	IComponentSpecialAddList,
 } from "@/components/shared/types/interface-templates";
-import {
-	SchemaComponentTypes,
-} from "@/components/shared/types/types-components";
+import { SchemaComponentTypes } from "@/components/shared/types/types-components";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useWidgetActions from "@/components/features/app/modules/widgets/hooks/useWidgetActions";
@@ -27,7 +25,6 @@ import {
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 const baseData: IComponentBaseAddList[] = [
 	{
@@ -81,7 +78,6 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 	const { dialogAddComponentAction, dialogSettingActionAddComponentAction } =
 		useDispatchAction();
 
-	const dialog = useDialogAction();
 	const toastMessage = useToastMessage();
 	const widgetActions = useWidgetActions();
 	const componentActions = useComponentActions();
@@ -152,10 +148,7 @@ const ComponentLibrary: React.FC<IAddBaseComponent> = (props) => {
 		if (dialogSettingActionAddComponentAction)
 			dialogSettingActionAddComponentAction(false);
 
-		if (
-			activeElementData?.widgetType !== "none" &&
-			dialog.dialogWidget.open
-		) {
+		if (activeElementData?.selectWidgetIsEditing) {
 			widgetActions.widgetCreateComponent(
 				getSchemaComponent(
 					componentValue.componentType,

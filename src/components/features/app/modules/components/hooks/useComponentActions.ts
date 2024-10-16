@@ -48,9 +48,9 @@ export default function useComponentActions(): IComponentActions {
 			);
 			return;
 		}
-		const selected = editorSelectAddComponent;
+
 		const updateData = containerUpdateWrapper((component) => {
-			if (component.id === selected.componentId) {
+			if (component.id === editorSelectAddComponent?.componentId) {
 				return {
 					...component,
 					...data,
@@ -83,19 +83,19 @@ export default function useComponentActions(): IComponentActions {
 				return;
 			}
 
-			if (!activeElementData?.activeId) {
+			if (!activeElementData?.selectActiveId) {
 				toastMessage("Вы не выбрали компонент", "error");
 				return;
 			}
 
-			if (!activeElementData?.containerId) {
+			if (!activeElementData?.selectContainerId) {
 				toastMessage("Выбранный контейнер не найден", "error");
 				return;
 			}
 
 			const newBuildData = spaceTemplateData.map(
 				(container: ISchemaContainer) => {
-					if (container.id === activeElementData.containerId) {
+					if (container.id === activeElementData.selectContainerId) {
 						// Добавляем новый компонент
 						const updatedComponents = [
 							...container.components,

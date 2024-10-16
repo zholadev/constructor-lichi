@@ -1,20 +1,18 @@
-import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import useActiveElement from "@/components/shared/hooks/useActiveElement";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface IUpdateContainerWrapper {
-	containerUpdateWrapper: (component: ISchemaComponent) => any;
+	containerUpdateWrapper: (
+		updateFn: (component: ISchemaComponent) => ISchemaComponent
+	) => ISchemaContainer[];
 }
 
 /**
  * @author Zholaman Zhumanov
  * @created 08.10.2024
- * @description
+ * @description Хук для обновления компонентов контейнера
  * @last-updated
  * @update-description
  * @todo
@@ -22,24 +20,20 @@ interface IUpdateContainerWrapper {
  * @constructor
  */
 export default function useUpdateContainerWrapper(): IUpdateContainerWrapper {
-	const toastMessage = useToastMessage();
-	const activeElementHandle = useActiveElement();
-	const dialog = useDialogAction();
-	const { spaceTemplateDataAction } = useDispatchAction();
 	const activeElementData = useActiveElementObserver();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод
+	 * @description Метод для обновления компонентов в контейнере
 	 */
 	const containerUpdateWrapper = (
-		updateFn: (component: ISchemaComponent) => any
-	) => {
+		updateFn: (component: ISchemaComponent) => ISchemaComponent
+	): ISchemaContainer[] => {
+		// Возвращаем новый массив контейнеров с обновленными компонентами
 		return spaceTemplateData.map((container: ISchemaContainer) => {
-			if (container.id === activeElementData?.containerId) {
+			// Проверяем, является ли контейнер активным
+			if (container.id === activeElementData?.selectContainerId) {
 				return {
 					...container,
 					components: container.components.map((component) =>

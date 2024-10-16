@@ -4,7 +4,7 @@ import useActiveElementObserver from "@/components/shared/hooks/useActiveElement
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
 import { errorMessage } from "@/components/shared/constants/text";
 
@@ -45,17 +45,15 @@ export default function useRemoveActions(): IRemoveActions {
 	 * @description Метод для удаления контейнера
 	 */
 	const removeContainer = (id?: string) => {
+		if (!activeElementData?.selectContainerId && !id) {
+			toastMessage(
+				"Произошла ошибка id не найдено, обратитесь разработчику",
+				"error"
+			);
+			return;
+		}
 		try {
-			// Удаления контейнера с id
 			if (id) {
-				if (!id) {
-					toastMessage(
-						"Произошла ошибка id не найдено, обратитесь разработчику",
-						"error"
-					);
-					return;
-				}
-
 				const filteredRemovedData = spaceTemplateData.filter(
 					(container: ISchemaContainer) => container.id !== id
 				);
@@ -74,17 +72,9 @@ export default function useRemoveActions(): IRemoveActions {
 				return;
 			}
 
-			if (!activeElementData?.containerId) {
-				toastMessage(
-					"Произошла ошибка id не найдено, обратитесь разработчику",
-					"error"
-				);
-				return;
-			}
-
 			const filteredRemovedData = spaceTemplateData.filter(
 				(item: ISchemaContainer) =>
-					item.id !== activeElementData?.containerId
+					item.id !== activeElementData?.selectContainerId
 			);
 
 			if (filteredRemovedData) {
@@ -106,7 +96,7 @@ export default function useRemoveActions(): IRemoveActions {
 				`${errorMessage}! removeContainer - useElementActions`,
 				"error"
 			);
-			return errorHandler("useRemoveActions", "removeContainer", error);
+			errorHandler("useRemoveActions", "removeContainer", error);
 		}
 	};
 
@@ -115,22 +105,24 @@ export default function useRemoveActions(): IRemoveActions {
 	 * @description Метод для удаления компонента
 	 */
 	const removeComponent = () => {
+		if (!activeElementData?.selectActiveId) {
+			toastMessage(
+				"Произошла ошибка id не найдено, обратитесь разработчику",
+				"error"
+			);
+			return;
+		}
 		try {
-			if (!activeElementData?.activeId) {
-				toastMessage(
-					"Произошла ошибка id не найдено, обратитесь разработчику",
-					"error"
-				);
-				return;
-			}
-
 			const filteredRemovedData = spaceTemplateData
 				.map((container: ISchemaContainer) => {
-					if (container.id === activeElementData.containerId) {
+					if (
+						container?.id === activeElementData?.selectContainerId
+					) {
 						// Удаляем нужный компонент
 						const filteredComponents = container.components.filter(
 							(component) =>
-								component.id !== activeElementData?.componentId
+								component.id !==
+								activeElementData?.selectComponentId
 						);
 
 						// Если компонентов не осталось, удаляем контейнер
@@ -144,10 +136,7 @@ export default function useRemoveActions(): IRemoveActions {
 							.fill("1fr")
 							.join(" "); // Создаём строку типа "1fr 1fr ...", где количество "1fr" равно количеству компонентов
 
-						if (
-							container.type === "swiper" ||
-							container.type === "category_list_container"
-						) {
+						if (container.type === "category_list_container") {
 							return {
 								...container,
 								style: {
@@ -189,7 +178,7 @@ export default function useRemoveActions(): IRemoveActions {
 				`${errorMessage}! removeComponent - useElementActions`,
 				"error"
 			);
-			return errorHandler("useRemoveActions", "removeComponent", error);
+			errorHandler("useRemoveActions", "removeComponent", error);
 		}
 	};
 
@@ -198,22 +187,21 @@ export default function useRemoveActions(): IRemoveActions {
 	 * @description Метод для удаления элемента с компонента
 	 */
 	const removeElement = () => {
+		if (!activeElementData?.selectActiveId) {
+			toastMessage(
+				"Произошла ошибка id не найдено, обратитесь разработчику",
+				"error"
+			);
+			return;
+		}
 		try {
-			if (!activeElementData?.activeId) {
-				toastMessage(
-					"Произошла ошибка id не найдено, обратитесь разработчику",
-					"error"
-				);
-				return;
-			}
-
 			const filteredRemovedData = containerUpdateWrapper((component) => {
-				if (component?.id === activeElementData?.componentId) {
+				if (component?.id === activeElementData?.selectComponentId) {
 					return {
 						...component,
 						elements: component.elements.filter(
-							(element: IElementTotal) =>
-								element.id !== activeElementData?.activeId
+							(element: ISchemaElementInterfaces) =>
+								element.id !== activeElementData?.selectActiveId
 						),
 					};
 				}
@@ -239,7 +227,7 @@ export default function useRemoveActions(): IRemoveActions {
 				`${errorMessage}! removeElement - useRemoveActions`,
 				"error"
 			);
-			return errorHandler("useRemoveActions", "removeElement", error);
+			errorHandler("useRemoveActions", "removeElement", error);
 		}
 	};
 
@@ -248,21 +236,18 @@ export default function useRemoveActions(): IRemoveActions {
 	 * @description Метод для удаления выбранного элемента с доски
 	 */
 	const remove = () => {
+		if (!activeElementData) {
+			toastMessage("Вы не выбрали компонент! useRemoveActions", "error");
+			return;
+		}
+
+		if (!activeElementData.selectActiveId) {
+			toastMessage("activeId не найден! useRemoveActions", "error");
+			return;
+		}
+
 		try {
-			if (!activeElementData) {
-				toastMessage(
-					"Вы не выбрали компонент! useRemoveActions",
-					"error"
-				);
-				return;
-			}
-
-			if (!activeElementData.activeId) {
-				toastMessage("activeId не найден! useRemoveActions", "error");
-				return;
-			}
-
-			switch (activeElementData?.type) {
+			switch (activeElementData?.selectType) {
 				case "container":
 					removeContainer();
 					break;
@@ -277,7 +262,7 @@ export default function useRemoveActions(): IRemoveActions {
 			}
 		} catch (error) {
 			toastMessage(`${errorMessage}! remove - useRemoveActions`, "error");
-			return errorHandler("useRemoveActions", "removeElement", error);
+			errorHandler("useRemoveActions", "removeElement", error);
 		}
 	};
 

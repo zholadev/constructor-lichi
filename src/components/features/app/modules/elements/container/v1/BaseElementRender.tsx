@@ -1,17 +1,19 @@
 import React from "react";
-import { ISchemaElementTypes } from "@/components/shared/types/types-components";
 import ButtonElement from "@/components/features/app/modules/elements/base/v1/ButtonElement";
 import TextElement from "@/components/features/app/modules/elements/base/v1/TextElement";
 import ElementAction from "@/components/features/app/activeElement/wrappers/v1/element/ElementAction";
 import TimerContainer from "@/components/features/app/modules/elements/base/v1/timer/TimerContainer";
-import { IElementTotal } from "../../types/v1/interface-elements";
+import { SchemaElementTypes } from "@/components/shared/types/types-components";
+import {
+	ISchemaElementInterfaces,
+	ISchemaTimerElement,
+} from "@/components/features/app/modules/elements/types/v1/interface-elements";
 
 interface Props {
-	type: ISchemaElementTypes;
-	data: IElementTotal;
+	type: SchemaElementTypes;
+	data: ISchemaElementInterfaces;
 	containerId: string;
 	componentId: string;
-	timerData?: string | Date;
 	widgetComponent?: boolean;
 }
 
@@ -21,14 +23,13 @@ interface Props {
  * @description Компонент для вывода элементов
  * @last-updated
  * @update-description
- * @todo
+ * @todo types
  * @fixme
  * @param props
  * @constructor
  */
 const BaseElementRender: React.FC<Props> = (props) => {
-	const { type, data, containerId, componentId, timerData, widgetComponent } =
-		props;
+	const { type, data, containerId, componentId, widgetComponent } = props;
 
 	const renderComponents = () => {
 		switch (type) {
@@ -37,11 +38,12 @@ const BaseElementRender: React.FC<Props> = (props) => {
 			case "text":
 				return <TextElement data={data} />;
 			case "timer":
+				const timerData = data as ISchemaTimerElement;
 				return (
 					<TimerContainer
-						data={data}
-						styles={data.style}
-						targetDate={timerData}
+						data={timerData}
+						styles={timerData.style}
+						targetDate={timerData.settings.timer.targetDate}
 					/>
 				);
 			default:

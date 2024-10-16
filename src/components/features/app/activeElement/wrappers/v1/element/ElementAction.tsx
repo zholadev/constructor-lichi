@@ -1,17 +1,17 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import SelectionElementOverlay from "../selection/SelectionElementOverlay";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import SelectionElementOverlay from "../../../selection/SelectionElementOverlay";
 
 interface Props {
 	children: React.ReactNode;
-	data: IElementTotal;
+	data: ISchemaElementInterfaces;
 	containerId: string;
 	componentId: string;
 	widgetComponent?: boolean;
@@ -49,54 +49,53 @@ const ElementAction: React.FC<Props> = (props) => {
 		if (widgetComponent) {
 			if (dialog.dialogWidget.open) {
 				activeElementHandle({
-					activeData: activeElementData?.activeData,
-					containerData: activeElementData?.containerData,
-					containerId: activeElementData?.containerId ?? "",
-					type: activeElementData?.type ?? "none",
-					componentId: activeElementData?.componentId,
-					activeId: activeElementData?.activeId ?? "",
-					widgetType: activeElementData?.widgetType,
-					widgetData: activeElementData?.widgetData,
-					widgetActiveComponentId:
-						activeElementData?.widgetActiveComponentId,
-					widgetActiveElementId: data.id,
-					widgetActiveData: data ?? {},
-					activeStyle: data.style,
-					widgetActiveType: "element",
+					selectActiveData:
+						activeElementData?.selectActiveData ?? null,
+					selectType: activeElementData?.selectType ?? "none",
+					selectComponentId:
+						activeElementData?.selectComponentId ?? "",
+					selectWidgetActiveId: data?.id ?? "",
+					selectActiveId: activeElementData?.selectActiveId ?? "",
+					selectContainerId:
+						activeElementData?.selectContainerId ?? "",
+					selectElementId: activeElementData?.selectElementId ?? "",
+					selectWidgetActiveData: data ?? null,
+					selectWidgetActiveType: "element",
 				});
 			}
 		} else {
 			activeElementHandle({
-				activeData: data,
-				containerId,
-				type: "element",
-				componentId,
-				activeId: data?.id,
-				elementId: data?.id,
-				widgetType: "none",
-				widgetData: {},
-				widgetActiveComponentId: "",
-				widgetActiveData: {},
-				activeStyle: {},
-				widgetActiveType: "none",
+				selectActiveData: data ?? null,
+				selectType: "element",
+				selectComponentId: componentId ?? "",
+				selectWidgetActiveId: "",
+				selectActiveId: data?.id ?? "",
+				selectContainerId: containerId ?? "",
+				selectElementId: "",
+				selectWidgetActiveData: null,
+				selectWidgetActiveType: "none",
 			});
 			editorWidgetActiveElementAction("none");
 			if (dialog.dialogWidget.open) dialog.dialogWidget.toggle();
 		}
 	};
 
+	if (!data) {
+		return null;
+	}
+
 	return (
 		<div
 			className={cn(
 				"cursor-pointer box-border relative",
-				`${(editorActiveElement.elementId === data.id && !previewMode.previewModeEditor) || (activeElementData?.widgetActiveElementId === data.id && !previewMode.previewModeEditor) ? "border-orange-400 border-2" : ""}`
+				`${(editorActiveElement?.selectElementId === data?.id && !previewMode.previewModeEditor) || (activeElementData?.selectWidgetActiveId === data.id && !previewMode.previewModeEditor) ? "border-orange-400 border-2" : ""}`
 			)}
 			onClick={(e) => {
 				e.stopPropagation();
 				onClickHandle();
 			}}
 		>
-			<SelectionElementOverlay id={data.id} />
+			<SelectionElementOverlay id={data?.id} />
 			{children}
 		</div>
 	);

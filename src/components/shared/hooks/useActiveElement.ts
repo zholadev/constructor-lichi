@@ -1,25 +1,19 @@
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import {
-	ActiveElementType,
-	WidgetTypes,
-} from "@/components/shared/types/types";
-import { ISchemaActiveData } from "@/components/shared/types/interface-schema";
-import { ISchemaWidgetData } from "@/components/features/app/modules/widgets/types/interface-widget";
+import { ActiveElementType, SchemaData } from "@/components/shared/types/types";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 
-interface IElementActiveParams {
-	type: ActiveElementType;
-	containerId: string;
-	componentId?: string;
-	elementId?: string;
-	activeId: string;
-	activeData: ISchemaActiveData;
-	widgetData?: ISchemaActiveData;
-	widgetType?: WidgetTypes;
-	widgetActiveComponentId?: string;
-	widgetActiveElementId?: string;
-	widgetActiveType?: ActiveElementType;
-	widgetActiveData?: ISchemaWidgetData;
+interface IActiveElement {
+	selectType: ActiveElementType;
+	selectContainerId: string;
+	selectComponentId: string;
+	selectElementId: string;
+	selectActiveId: string;
+	selectActiveData: SchemaData | null;
+	selectWidgetActiveData: ISchemaComponent | ISchemaElementInterfaces | null;
+	selectWidgetActiveId: string;
+	selectWidgetActiveType: ActiveElementType;
 }
 
 /**
@@ -33,46 +27,56 @@ interface IElementActiveParams {
  * @constructor
  */
 export default function useActiveElement(): (
-	params: IElementActiveParams
-) => void {
+	params: IActiveElement
+) => IActiveElement | null {
 	const { editorActiveElementAction } = useDispatchAction();
 
 	const toastMessage = useToastMessage();
 
 	return ({
-		type,
-		containerId,
-		componentId,
-		elementId,
-		activeId,
-		activeData,
-		widgetData,
-		widgetType,
-		widgetActiveData,
-		widgetActiveComponentId,
-		widgetActiveElementId,
-		widgetActiveType,
-	}: IElementActiveParams) => {
-		if (!activeData || !containerId || !type) {
+		selectType,
+		selectWidgetActiveId,
+		selectActiveId,
+		selectActiveData,
+		selectComponentId,
+		selectElementId,
+		selectContainerId,
+		selectWidgetActiveData,
+		selectWidgetActiveType,
+	}: IActiveElement): IActiveElement | null => {
+		// Проверка на наличие данных
+		if (!selectActiveData || !selectContainerId || !selectType) {
 			toastMessage(
-				"Ошибка! параметр не найдено! useActiveElement",
+				"Ошибка! Параметр не найден! useActiveElement",
 				"error"
 			);
-			return;
+			return null;
 		}
+
+		// Вызов действия для обновления активного элемента
 		editorActiveElementAction({
-			type,
-			containerId,
-			componentId,
-			elementId,
-			activeId,
-			activeData,
-			widgetData,
-			widgetType,
-			widgetActiveData,
-			widgetActiveComponentId,
-			widgetActiveElementId,
-			widgetActiveType,
+			selectType,
+			selectWidgetActiveId,
+			selectActiveId,
+			selectActiveData,
+			selectComponentId,
+			selectElementId,
+			selectContainerId,
+			selectWidgetActiveData,
+			selectWidgetActiveType,
 		});
+
+		// Возвращаем объект элементов
+		return {
+			selectType,
+			selectWidgetActiveId,
+			selectActiveId,
+			selectActiveData,
+			selectComponentId,
+			selectElementId,
+			selectContainerId,
+			selectWidgetActiveData,
+			selectWidgetActiveType,
+		};
 	};
 }

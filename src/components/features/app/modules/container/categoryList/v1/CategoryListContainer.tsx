@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import { cn } from "@/components/lib/utils";
-import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import SwiperCore from "swiper";
 import { Autoplay, Controller, Pagination } from "swiper/modules";

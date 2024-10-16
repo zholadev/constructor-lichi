@@ -101,7 +101,6 @@ const SwiperContainer: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("overflow-hidden block")}>
 			<Swiper
-				// @ts-ignore
 				ref={swiperRef}
 				controller={{ control: null }}
 				{...updatedSwiperSettings}

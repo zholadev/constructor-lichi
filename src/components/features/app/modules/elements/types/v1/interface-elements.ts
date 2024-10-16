@@ -1,4 +1,4 @@
-import { ISchemaElementTypes } from "@/components/shared/types/types-components";
+import { SchemaElementTypes } from "@/components/shared/types/types-components";
 import {
 	ISchemaContentLinkHrefParams,
 	ISchemaContentText,
@@ -11,7 +11,7 @@ import {
 export interface ISchemaElement {
 	id: string;
 	guid: string;
-	type: ISchemaElementTypes;
+	type: SchemaElementTypes;
 	style: Record<string, unknown>;
 	version: string;
 }
@@ -19,7 +19,7 @@ export interface ISchemaElement {
 export interface IElementSchema {
 	id: string;
 	guid: string;
-	type: ISchemaElementTypes;
+	type: SchemaElementTypes;
 	style: Record<string, unknown>;
 	version: string;
 	settings?: {
@@ -44,7 +44,7 @@ export interface ISchemaButtonElement extends ISchemaElement {
 
 export interface ISchemaTextElement extends ISchemaElement {
 	content: {
-		title: ISchemaContentText;
+		title: ISchemaContentText | { ru: { value: string } };
 	};
 	settings?: {
 		view: ISchemaSettingsView;
@@ -57,28 +57,6 @@ export interface ISchemaTimerElement extends ISchemaElement {
 		view: ISchemaSettingsView;
 	};
 }
-
-export interface IButtonElement extends IElementSchema {
-	content: {
-		title: ISchemaContentText;
-		link?: ISchemaContentLinkHrefParams;
-	};
-}
-
-export interface ITextElement extends IElementSchema {
-	content: {
-		title: ISchemaContentText;
-		link?: ISchemaContentLinkHrefParams;
-	};
-}
-
-export interface ITimerElement extends IElementSchema {
-	settings: {
-		timer: ISchemaSettingsTimer;
-	};
-}
-
-export type IElementTotal = IButtonElement | ITextElement | ITimerElement;
 export type ISchemaElements = IElementSchema;
 export type ISchemaElementInterfaces =
 	| ISchemaButtonElement

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ISchemaAnimateParams } from "@/components/shared/types/interface-schema-content";
+import { ISchemaAnimationParams } from "@/components/shared/types/interface-schema-content";
 
 /**
  * @author Zholaman Zhumanov
@@ -14,7 +14,7 @@ import { ISchemaAnimateParams } from "@/components/shared/types/interface-schema
  * @param trigger
  */
 export default function useAnimateClass(
-	animation: ISchemaAnimateParams,
+	animation: ISchemaAnimationParams,
 	trigger: boolean
 ): string {
 	return useMemo(() => {

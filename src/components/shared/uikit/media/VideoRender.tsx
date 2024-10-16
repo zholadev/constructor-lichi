@@ -3,9 +3,11 @@ import styles from "@/components/styles/card.module.sass";
 import ReactPlayer from "react-player";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { IComponentCardVideoSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
+import useDeviceHeightProperty from "@/components/shared/hooks/useDeviceHeightProperty";
 
 interface Props {
 	data: IComponentCardVideoSchema;
+	fullHeight?: boolean;
 }
 
 /**
@@ -20,9 +22,11 @@ interface Props {
  * @constructor
  */
 const VideoRender: React.FC<Props> = (props) => {
-	const { data } = props;
+	const { data, fullHeight } = props;
 
 	const { editorVideoPlay } = useAppSelector((state) => state.editor);
+
+	const heightDeviceProperty = useDeviceHeightProperty();
 
 	const videoSrc = useMemo(() => {
 		return data.content?.video?.videoSrc;
@@ -34,7 +38,16 @@ const VideoRender: React.FC<Props> = (props) => {
 
 	return !videoSrc ? (
 		<figure>
-			<img src={videoPoster} alt="" className={styles.img} />
+			<img
+				src={videoPoster}
+				alt=""
+				style={{
+					height: fullHeight
+						? heightDeviceProperty(fullHeight)
+						: "auto",
+				}}
+				className={styles.img}
+			/>
 		</figure>
 	) : (
 		<ReactPlayer

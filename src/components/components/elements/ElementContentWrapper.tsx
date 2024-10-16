@@ -6,7 +6,6 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import useWidgetActions from "@/components/features/app/modules/widgets/hooks/useWidgetActions";
 import useElementActions from "@/components/features/app/modules/elements/hooks/useElementActions";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 interface Props {
 	children: ReactNode;
@@ -32,7 +31,6 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 	const getElementSchema = useSchemaElementData();
 	const elementActions = useElementActions();
 	const widgetActions = useWidgetActions();
-	const dialog = useDialogAction();
 	const activeElementData = useActiveElementObserver();
 
 	/**
@@ -48,10 +46,7 @@ const ElementContentWrapper: React.FC<Props> = (props) => {
 			return;
 		}
 
-		if (
-			activeElementData?.widgetType !== "none" &&
-			dialog.dialogWidget.open
-		) {
+		if (activeElementData?.selectWidgetIsEditing) {
 			widgetActions.widgetAddElement(element);
 			return;
 		}

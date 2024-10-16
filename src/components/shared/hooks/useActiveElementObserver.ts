@@ -3,42 +3,28 @@
 import { useMemo } from "react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import {
-	ActiveElementType,
-	TotalComponentTypes,
-	WidgetTypes,
-} from "@/components/shared/types/types";
+import { ActiveElementType, SchemaData } from "@/components/shared/types/types";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import {
-	IElementSchema,
-	ISchemaElementInterfaces,
-} from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
-import { ISchemaActiveData } from "@/components/shared/types/interface-schema";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import { ISchemaContent } from "@/components/shared/types/interface-schema-content";
-import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 
 export interface IActiveElementObserver {
-	type: ActiveElementType;
-	containerId: string;
-	componentId: string;
-	elementId: string;
-	activeId: string;
-	activeData: ISchemaActiveData;
-	activeStyle: Record<string, unknown>;
-	componentData: ISchemaComponent;
-	containerData: ISchemaContainer;
-	elementData: IElementSchema;
-	widgetData?: TotalComponentTypes;
-	widgetType?: WidgetTypes;
-	widgetActiveComponentId?: string;
-	widgetActiveElementId?: string;
-	widgetActiveType?: ActiveElementType;
-	widgetActiveData: ISchemaActiveData;
-	contentData: ISchemaContent | object;
-	settingData: ISchemaSettings | undefined;
+	selectType: ActiveElementType;
+	selectContainerId: string;
+	selectComponentId: string;
+	selectElementId: string;
+	selectActiveId: string;
+	selectComponentData: ISchemaComponent | null;
+	selectContainerData: ISchemaContainer | null;
+	selectElementData: ISchemaElementInterfaces | null;
+	selectActiveData: SchemaData | null;
+	selectWidgetData: ISchemaComponent[] | null;
+	selectWidgetActiveType: ActiveElementType;
+	selectWidgetActiveData: ISchemaComponent | ISchemaElementInterfaces | null;
+	selectWidgetIsEditing: boolean;
+	selectWidgetActiveId: string;
 }
 
 /**
@@ -53,224 +39,173 @@ export interface IActiveElementObserver {
  */
 export default function useActiveElementObserver(): IActiveElementObserver | null {
 	const toastMessage = useToastMessage();
-
 	const dialog = useDialogAction();
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorActiveElement, editorAdditionalActiveElement } =
-		useAppSelector((state) => state.editor);
+	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод для получения данных контейнера по containerId
-	 */
-	const foundContainerData: ISchemaContainer = useMemo(() => {
+	const getContainerData = useMemo((): ISchemaContainer | null => {
 		try {
-			if (editorActiveElement?.containerId) {
-				const containerData = spaceTemplateData.find(
-					(container: ISchemaContainer) =>
-						container?.id === editorActiveElement?.containerId
+			if (!editorActiveElement?.selectContainerId) return null;
+			const containerData = spaceTemplateData.find(
+				(container: ISchemaContainer) =>
+					container.id === editorActiveElement.selectContainerId
+			);
+
+			if (!containerData) {
+				toastMessage(
+					"Контейнер с данными не найден! Проверьте корректность containerId. useActiveElementObserver",
+					"error"
 				);
-
-				if (!containerData) {
-					toastMessage(
-						"Контейнер с данными не найден! Проверьте корректность containerId. useActiveElementObserver",
-						"error"
-					);
-					return null;
-				}
-
-				return containerData;
+				return null;
 			}
-			return null;
+
+			return containerData;
 		} catch (error) {
 			toastMessage(
-				"Произошла ошибка в foundContainerData в useActiveElementObserver",
+				"Ошибка в foundContainerData в useActiveElementObserver",
 				"error"
 			);
-			return errorHandler(
+			errorHandler(
 				"useActiveElementObserver",
 				"foundContainerData",
 				error
 			);
+			return null;
 		}
-	}, [editorActiveElement, spaceTemplateData]);
+	}, [editorActiveElement?.selectContainerId, spaceTemplateData]);
 
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод для получения данных компонента по componentId
-	 */
-	const foundComponentData: ISchemaComponent = useMemo(() => {
+	const getComponentData = useMemo((): ISchemaComponent | null => {
 		try {
-			if (editorActiveElement?.componentId) {
-				const componentData = foundContainerData?.components?.find(
-					(component) =>
-						component?.id === editorActiveElement?.componentId
-				);
-
-				// if (!componentData && editorActiveElement?.componentId) {
-				// 	toastMessage(
-				// 		"Компонент с данными не найден! Проверьте корректность componentId. useActiveElementObserver",
-				// 		"error"
-				// 	);
-				// 	return null;
-				// }
-
-				return componentData;
-			}
-			return null;
+			if (!editorActiveElement?.selectComponentId || !getContainerData)
+				return null;
+			const componentData = getContainerData.components?.find(
+				(component) =>
+					component.id === editorActiveElement.selectComponentId
+			);
+			return componentData || null;
 		} catch (error) {
 			toastMessage(
-				"Произошла ошибка в foundComponentData  в useActiveElementObserver",
+				"Ошибка в foundComponentData в useActiveElementObserver",
 				"error"
 			);
-			return errorHandler(
+			errorHandler(
 				"useActiveElementObserver",
-				"foundContainerData",
+				"foundComponentData",
 				error
 			);
+			return null;
 		}
-	}, [
-		foundContainerData,
-		editorActiveElement,
-		editorActiveElement?.componentId,
-	]);
+	}, [editorActiveElement?.selectComponentId, getContainerData]);
 
-	/**
-	 * @author Zholaman Zhumanov
-	 * @description Метод для получения данных с элемента по elementId
-	 */
-	const foundElementData = useMemo(() => {
+	const getElementData = useMemo((): ISchemaElementInterfaces | null => {
 		try {
-			if (editorActiveElement?.elementId) {
-				const elementData = foundComponentData?.elements.find(
-					(element: ISchemaElementInterfaces) =>
-						element?.id === editorActiveElement?.activeId
+			if (!editorActiveElement?.selectElementId || !getComponentData)
+				return null;
+			const elementData = getComponentData.elements?.find(
+				(element) => element.id === editorActiveElement.selectElementId
+			);
+			if (!elementData) {
+				toastMessage(
+					"Элемент с данными не найден! Проверьте корректность elementId. useActiveElementObserver",
+					"error"
 				);
-
-				if (!elementData && editorActiveElement?.elementId) {
-					toastMessage(
-						"Элемент с данными не найден! Проверьте корректность elementId. useActiveElementObserver",
-						"error"
-					);
-					return null;
-				}
-
-				return elementData;
 			}
-			return null;
+			return elementData || null;
 		} catch (error) {
 			toastMessage(
-				"Произошла ошибка в foundElementData в useActiveElementObserver",
+				"Ошибка в foundElementData в useActiveElementObserver",
 				"error"
 			);
-			return errorHandler(
-				"useActiveElementObserver",
-				"foundContainerData",
-				error
-			);
+			errorHandler("useActiveElementObserver", "foundElementData", error);
+			return null;
+		}
+	}, [editorActiveElement?.elementId, getComponentData]);
+
+	const getActiveData = useMemo((): SchemaData | null => {
+		if (!editorActiveElement) return null;
+		switch (editorActiveElement.selectType) {
+			case "component":
+				return getComponentData;
+			case "container":
+				return getContainerData;
+			case "element":
+				return getElementData;
+			default:
+				return null;
 		}
 	}, [
-		spaceTemplateData,
-		foundComponentData,
-		foundContainerData,
 		editorActiveElement,
+		getComponentData,
+		getContainerData,
+		getElementData,
 	]);
+
+	const getActiveWidgetData = useMemo((): ISchemaComponent | null => {
+		try {
+			// Проверка на наличие widgetActiveId и компонентов
+			if (!editorActiveElement?.widgetActiveId || !getComponentData)
+				return null;
+
+			// Проверка на наличие widgets и data
+			const widgetComponents =
+				getComponentData?.widgets?.data?.components;
+			if (!widgetComponents || !Array.isArray(widgetComponents))
+				return null;
+
+			// Поиск нужного виджета
+			const widgetData = widgetComponents.find(
+				(widget: ISchemaComponent) => {
+					return (
+						widget?.id === editorActiveElement?.selectWidgetActiveId
+					);
+				}
+			);
+
+			return widgetData || null;
+		} catch (error) {
+			toastMessage(
+				"Ошибка в foundComponentData в useActiveElementObserver",
+				"error"
+			);
+			errorHandler(
+				"useActiveElementObserver",
+				"foundComponentData",
+				error
+			);
+			return null;
+		}
+	}, [editorActiveElement?.componentId, getComponentData]);
 
 	return useMemo((): IActiveElementObserver | null => {
-		try {
-			if (!spaceTemplateData || !editorActiveElement) return null;
+		if (!editorActiveElement) return null;
 
-			const type = editorActiveElement.type as ActiveElementType;
-
-			const activeDataFound = {
-				container: foundContainerData,
-				component: foundComponentData,
-				element: foundElementData,
-			}[type];
-
-			const activeIdFound = {
-				container: foundContainerData?.id,
-				component: foundComponentData?.id,
-				element: foundElementData?.id,
-			}[type];
-
-			const activeStyleFound = {
-				container: foundContainerData?.style,
-				component: foundComponentData?.style,
-				element: foundElementData?.style,
-			}[type];
-
-			// const activeContentData: ISchemaContent = {
-			// 	element: foundElementData?.content,
-			// 	component: foundComponentData?.content,
-			// }[type];
-
-			// const activeSettingData: ISchemaSettings = {
-			// 	container: foundComponentData?.settings,
-			// 	component: foundComponentData?.settings,
-			// 	element: foundElementData?.settings,
-			// }[type];
-
-			const activeContentData = (): ISchemaContent | object => {
-				if (type === "component") {
-					return foundComponentData?.content;
-				}
-				if (type === "element") {
-					return foundComponentData?.content;
-				}
-
-				return {};
-			};
-
-
-			const activeSettingData = (): ISchemaSettings | undefined => {
-				if (type === "component") {
-					return foundComponentData?.settings;
-				}
-				if (type === "element") {
-					return foundComponentData?.settings;
-				}
-				if (type === "container") {
-					return foundComponentData?.settings;
-				}
-
-				return {};
-			};
-
-			return {
-				type,
-				activeData: activeDataFound,
-				activeId: activeIdFound,
-				activeStyle: activeStyleFound,
-				containerData: foundContainerData,
-				componentId: foundComponentData?.id ?? "",
-				componentData: foundComponentData ?? {},
-				containerId: editorActiveElement?.containerId ?? "",
-				widgetData: foundComponentData?.widgets?.data || {},
-				widgetType: !dialog.dialogWidget.open
-					? "none"
-					: (foundComponentData?.widgets?.type ?? "none"),
-				widgetActiveData: editorActiveElement?.widgetActiveData ?? {},
-				widgetActiveType:
-					editorActiveElement.widgetActiveType ?? "none",
-				widgetActiveComponentId:
-					editorActiveElement.widgetActiveComponentId ?? "",
-				widgetActiveElementId:
-					editorActiveElement.widgetActiveElementId ?? "",
-				contentData: activeContentData(),
-				settingData: activeSettingData(),
-			};
-		} catch (error) {
-			errorHandler("useActiveElementFollowUp", "root", error);
-			return null;
-		}
+		return {
+			selectType: editorActiveElement?.selectType as ActiveElementType,
+			selectComponentId: getComponentData?.id ?? "",
+			selectContainerId: getContainerData?.id ?? "",
+			selectElementId: getElementData?.id ?? "",
+			selectActiveId: editorActiveElement?.selectActiveId ?? "",
+			selectComponentData: getComponentData ?? null,
+			selectContainerData: getContainerData ?? null,
+			selectElementData: getElementData ?? null,
+			selectActiveData: getActiveData ?? null,
+			selectWidgetData:
+				getComponentData?.widgets?.data?.components ?? null,
+			selectWidgetActiveData: getActiveWidgetData ?? null,
+			selectWidgetActiveType:
+				editorActiveElement?.selectWidgetActiveType ?? "none",
+			selectWidgetIsEditing:
+				(getComponentData?.widgets?.data && dialog.dialogWidget.open) ||
+				false,
+			selectWidgetActiveId:
+				editorActiveElement?.selectWidgetActiveId ?? "",
+		};
 	}, [
 		editorActiveElement,
-		spaceTemplateData,
-		editorAdditionalActiveElement,
-		foundContainerData,
-		foundComponentData,
-		foundElementData,
+		getComponentData,
+		getContainerData,
+		getElementData,
+		getActiveData,
 	]);
 }

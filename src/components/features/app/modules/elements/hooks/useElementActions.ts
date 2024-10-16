@@ -1,4 +1,4 @@
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
@@ -7,7 +7,7 @@ import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpda
 import { errorMessage } from "@/components/shared/constants/text";
 
 interface IElementActions {
-	elementCreate: (data: IElementTotal) => unknown;
+	elementCreate: (data: ISchemaElementInterfaces) => void;
 }
 
 /**
@@ -31,7 +31,7 @@ export default function useElementActions(): IElementActions {
 	 * @description Метод для добавления элемента в компонент
 	 * @param data
 	 */
-	const elementCreate = (data: IElementTotal) => {
+	const elementCreate = (data: ISchemaElementInterfaces): void => {
 		try {
 			if (!data) {
 				toastMessage(
@@ -41,7 +41,7 @@ export default function useElementActions(): IElementActions {
 				return;
 			}
 
-			if (!activeElementData?.activeId) {
+			if (!activeElementData?.selectActiveId) {
 				toastMessage(
 					"Вы не выбрали активный элемент в elementCreate - useElementActions",
 					"error"
@@ -49,13 +49,13 @@ export default function useElementActions(): IElementActions {
 				return;
 			}
 
-			if (!activeElementData?.componentId) {
+			if (!activeElementData?.selectComponentId) {
 				toastMessage("componentId не найден", "error");
 				return;
 			}
 
 			const updateData = containerUpdateWrapper((component) => {
-				if (component.id === activeElementData?.componentId) {
+				if (component?.id === activeElementData?.selectComponentId) {
 					return {
 						...component,
 						elements: [...component.elements, data],
@@ -76,7 +76,7 @@ export default function useElementActions(): IElementActions {
 				`${errorMessage}! elementCreate - useElementActions`,
 				"error"
 			);
-			return errorHandler("useElementActions", "elementCreate", error);
+			errorHandler("useElementActions", "elementCreate", error);
 		}
 	};
 

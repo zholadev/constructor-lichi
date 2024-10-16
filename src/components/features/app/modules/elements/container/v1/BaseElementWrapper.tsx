@@ -1,5 +1,5 @@
-import React from "react";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import React, { useMemo } from "react";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import BaseElementRender from "@/components/features/app/modules/elements/container/v1/BaseElementRender";
 import styles from "@/components/styles/card.module.sass";
 import { cn } from "@/components/lib/utils";
@@ -7,7 +7,7 @@ import { ISchemaComponent } from "@/components/shared/types/interface-schema-com
 
 interface Props {
 	containerId: string;
-	elementData: IElementTotal[];
+	elementData: ISchemaElementInterfaces[];
 	componentData: ISchemaComponent;
 	staticElement?: boolean;
 	widgetComponent?: boolean;
@@ -33,6 +33,14 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 		widgetComponent,
 	} = props;
 
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Получаем стили с настроек element.style из компонента
+	 */
+	const style = useMemo((): object => {
+		return componentData?.settings?.element?.style ?? {};
+	}, [componentData]);
+
 	if (!elementData) {
 		return null;
 	}
@@ -45,7 +53,7 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 					? styles.element_wrapper_static
 					: styles.element_wrapper
 			)}
-			style={{ ...componentData?.settings?.element?.style }}
+			style={style}
 		>
 			{elementData.map((element) => {
 				return (
@@ -56,7 +64,6 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 						containerId={containerId}
 						componentId={componentData.id}
 						widgetComponent={widgetComponent}
-						timerData={element?.settings?.timer?.targetDate}
 					/>
 				);
 			})}

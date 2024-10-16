@@ -50,35 +50,30 @@ const SettingContainer: React.FC = () => {
 	 * @author Zholaman Zhumanov
 	 * @description Получаем данные с компонентов и элементов
 	 */
-	const settingDefaultData: ISchemaSettings = useMemo(() => {
-		const widgetActive =
-			activeElementData?.widgetType !== "none" &&
-			dialog.dialogWidget.open;
+	const settingDefaultData = useMemo((): ISchemaSettings | null => {
+		try {
+			const settingData: ISchemaSettings | null =
+				activeElementData?.selectWidgetIsEditing
+					? (activeElementData?.selectWidgetActiveData?.settings ??
+						null)
+					: (activeElementData?.selectActiveData?.settings ?? null);
 
-		const widgetSettingData = activeElementData?.widgetActiveData
-			.settings as ISchemaSettings;
-		const settingData = activeElementData?.activeData
-			.settings as ISchemaSettings;
-
-		return {
-			view: widgetActive ? widgetSettingData?.view : settingData?.view,
-			show: widgetActive ? widgetSettingData?.show : settingData?.show,
-			swiper: widgetActive
-				? widgetSettingData?.swiper
-				: settingData?.swiper,
-			timer: widgetActive ? widgetSettingData?.timer : settingData?.timer,
-			element: widgetActive
-				? widgetSettingData?.element
-				: settingData?.element,
-			categoryList: widgetActive
-				? widgetSettingData?.categoryList
-				: settingData?.categoryList,
-		};
+			return {
+				view: settingData?.view,
+				show: settingData?.show,
+				swiper: settingData?.swiper,
+				timer: settingData?.timer,
+				element: settingData?.element,
+				categoryList: settingData?.categoryList,
+			};
+		} catch (error) {
+			return null;
+		}
 	}, [activeElementData, permission]);
 
 	const updateSchemaHandle = (data: any, path: string) => {
 		if (
-			activeElementData?.widgetType !== "none" &&
+			activeElementData?.selectWidgetIsEditing &&
 			dialog.dialogWidget.open
 		) {
 			updateWidgetActions.update(data, path);
@@ -87,7 +82,7 @@ const SettingContainer: React.FC = () => {
 		updateActions.update(data, path);
 	};
 
-	if (!permission.panel.setting) {
+	if (!permission?.panel.setting) {
 		return (
 			<h2 className={cn("w-full text-center text-xs")}>Нет доступа!</h2>
 		);
@@ -100,7 +95,7 @@ const SettingContainer: React.FC = () => {
 			value={defaultExpanded}
 			onValueChange={(value: SettingTypes[]) => setExpanded(value)}
 		>
-			{permission.setting.element && (
+			{permission?.setting?.element && (
 				<AccordionItem value="timer">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -110,7 +105,7 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<ElementSetting
-							defaultData={settingDefaultData.element}
+							defaultData={settingDefaultData?.element}
 							onUpdateSchemaHandle={(data) =>
 								updateSchemaHandle(data, "settings.element")
 							}
@@ -119,7 +114,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.view.root && (
+			{permission?.setting?.view?.root && (
 				<AccordionItem value="view">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -129,7 +124,7 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<ViewSetting
-							settingValue={settingDefaultData.view}
+							settingValue={settingDefaultData?.view}
 							onSettingChange={(data) =>
 								updateSchemaHandle(data, "settings.view")
 							}
@@ -138,7 +133,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.show.root && (
+			{permission?.setting?.show?.root && (
 				<AccordionItem value="show">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -148,7 +143,7 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<ShowSetting
-							settingValue={settingDefaultData.show}
+							settingValue={settingDefaultData?.show}
 							onSettingChange={(data) =>
 								updateSchemaHandle(data, "settings.show")
 							}
@@ -157,7 +152,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.swiper.root && (
+			{permission?.setting?.swiper?.root && (
 				<AccordionItem value="swiper">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -167,7 +162,7 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<SwiperSetting
-							settingValue={settingDefaultData.swiper}
+							settingValue={settingDefaultData?.swiper}
 							onSettingChange={(data) =>
 								updateSchemaHandle(data, "settings.swiper")
 							}
@@ -176,7 +171,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.categoryList && (
+			{permission?.setting?.categoryList && (
 				<AccordionItem value="categoryList">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -186,7 +181,7 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<CategoryListSetting
-							settingValue={settingDefaultData.categoryList}
+							settingValue={settingDefaultData?.categoryList}
 							onSettingChange={(data) =>
 								updateSchemaHandle(
 									data,
@@ -198,7 +193,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.timer && (
+			{permission?.setting?.timer && (
 				<AccordionItem value="timer">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>
@@ -208,7 +203,7 @@ const SettingContainer: React.FC = () => {
 					</AccordionTrigger>
 					<AccordionContent>
 						<TimerSetting
-							settingValue={settingDefaultData.timer}
+							settingValue={settingDefaultData?.timer}
 							onSettingChange={(data) =>
 								updateSchemaHandle(data, "settings.timer")
 							}
@@ -220,7 +215,7 @@ const SettingContainer: React.FC = () => {
 				</AccordionItem>
 			)}
 
-			{permission.setting.action.root && (
+			{permission?.setting?.action?.root && (
 				<AccordionItem value="action">
 					<AccordionTrigger>
 						<div className={cn("flex items-center gap-1")}>

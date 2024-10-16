@@ -127,41 +127,39 @@ export default function usePermission(): IPermission {
 	 * @description Получаем тип глобального элемента
 	 */
 	const typeActiveElement: ActiveElementType = useMemo(() => {
-		return activeElementData?.widgetType !== "none"
-			? activeElementData?.widgetActiveType
-			: (activeElementData?.type ?? "none");
+		return activeElementData?.selectWidgetIsEditing
+			? activeElementData?.selectWidgetActiveType
+			: (activeElementData?.selectType ?? "none");
 	}, [activeElementData]);
 
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Получаем тип элемента
 	 */
-	const typeElementActive: SchemaElementTypes = useMemo(() => {
-		return activeElementData?.widgetType !== "none"
-			? activeElementData?.widgetActiveData?.type
-			: (activeElementData?.activeData?.type ?? "none");
+	const typeElementActive = useMemo((): SchemaElementTypes | string => {
+		return activeElementData?.selectWidgetIsEditing
+			? (activeElementData?.selectWidgetActiveData?.type ?? "none")
+			: (activeElementData?.selectWidgetActiveData?.type ?? "none");
 	}, [activeElementData]);
 
-	const typeComponentActive: SchemaComponentTypes = useMemo(() => {
-		return activeElementData?.widgetType !== "none"
-			? activeElementData?.widgetActiveData?.type
-			: (activeElementData?.activeData?.type ?? "none");
+	const typeComponentActive = useMemo((): SchemaComponentTypes | string => {
+		return activeElementData?.selectWidgetIsEditing
+			? (activeElementData?.selectWidgetActiveData?.type ?? "none")
+			: (activeElementData?.selectWidgetActiveData?.type ?? "none");
 	}, [activeElementData]);
 
-	const typeContainerActive: IContainerType = useMemo(() => {
-		return activeElementData?.widgetType !== "none"
-			? activeElementData?.widgetActiveData?.type
-			: (activeElementData?.activeData?.type ?? "none");
+	const typeContainerActive = useMemo((): IContainerType => {
+		return activeElementData?.selectContainerData?.type ?? "initial";
 	}, [activeElementData]);
 
-	const activeTypeVersion: string = useMemo(() => {
-		return activeElementData?.widgetType !== "none"
-			? activeElementData?.widgetActiveData?.version
-			: (activeElementData?.activeData?.version ?? "");
+	const activeTypeVersion = useMemo((): string => {
+		return activeElementData?.selectWidgetIsEditing
+			? (activeElementData?.selectWidgetActiveData?.version ?? "")
+			: (activeElementData?.selectWidgetActiveData?.version ?? "");
 	}, [activeElementData]);
 
-	const activeDisplayBlockType: DisplayContainerType = useMemo(() => {
-		return activeElementData?.activeData?.display ?? "block";
+	const activeDisplayBlockType = useMemo((): DisplayContainerType => {
+		return activeElementData?.selectContainerData?.display ?? "block";
 	}, [activeElementData]);
 
 	/**

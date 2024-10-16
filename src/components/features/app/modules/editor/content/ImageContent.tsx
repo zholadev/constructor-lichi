@@ -7,8 +7,8 @@ import GalleryDialogContainer from "@/components/widgets/gallery/GalleryDialogCo
 import { ISchemaContentPhotoData } from "@/components/shared/types/interface-schema-content";
 
 interface Props {
-	defaultData: ISchemaContentPhotoData;
-	onUpdateSchemaHandle: (data: ISchemaContentPhotoData) => void;
+	defaultData?: ISchemaContentPhotoData;
+	onUpdateSchemaHandle?: (data: ISchemaContentPhotoData) => void;
 }
 
 /**

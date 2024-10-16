@@ -23,7 +23,7 @@ const findComponentPermission = (
  * @param versionComponent
  */
 export const permissionGetComponents = (
-	type: SchemaComponentTypes,
+	type: SchemaComponentTypes | string,
 	versionComponent: string
 ): IPermission => {
 	switch (type) {

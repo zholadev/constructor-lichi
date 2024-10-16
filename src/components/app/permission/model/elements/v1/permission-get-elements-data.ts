@@ -1,4 +1,4 @@
-import { ElementBaseTypes } from "@/components/shared/types/types-components";
+import { SchemaElementTypes } from "@/components/shared/types/types-components";
 import {
 	button_component_permission,
 	text_component_permission,
@@ -8,7 +8,7 @@ import { basePermission } from "@/components/shared/hooks/usePermission";
 import { IPermission } from "@/components/app/permission/types/interface-permission";
 
 export const permissionGetElementsData = (
-	type: ElementBaseTypes
+	type: SchemaElementTypes | string
 ): IPermission => {
 	switch (type) {
 		case "button":

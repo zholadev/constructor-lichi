@@ -120,7 +120,6 @@ const SaintLaurentSwiperContainer: React.FC<Props> = (props) => {
 			)}
 		>
 			<Swiper
-				// @ts-ignore
 				ref={swiperRef}
 				controller={{ control: null }}
 				{...updatedSwiperSettings}

@@ -9,24 +9,22 @@ type GenericObject = Record<string, any>;
  * @param path
  * @param value
  * @param save
- * @param remove
  */
 export function updateObjectByPath(
 	obj: GenericObject,
 	path: string,
 	value: any,
-	save = false,
-	remove = false
+	save = false
 ): void {
 	try {
-		const keys = path?.split("."); // Разбиваем строку пути на массив ключей
+		const keys = path?.split(".");
 		let current = obj;
 
-		// Проходим по объекту, создавая отсутствующие ключи
+		// eslint-disable-next-line no-plusplus
 		for (let i = 0; i < keys.length - 1; i++) {
 			const key = keys[i];
 			if (!current[key]) {
-				current[key] = {}; // Создаем объект, если ключ отсутствует
+				current[key] = {};
 			}
 			current = current[key];
 		}
@@ -38,30 +36,32 @@ export function updateObjectByPath(
 			typeof current[lastKey] === "object" &&
 			current[lastKey] !== null
 		) {
-			console.log("save")
-			// Если save: true, объединяем старые значения с новыми, если старое значение — объект
 			current[lastKey] = { ...current[lastKey], ...value };
 		} else {
-			// Иначе просто присваиваем новое значение
 			current[lastKey] = value;
+		}
+	} catch (error) {
+		errorHandler("useEditorEvent", "updateObjectByPath", error);
+	}
+}
+
+export function removeObjectByPath(obj: GenericObject, path: string): void {
+	try {
+		const keys = path?.split(".");
+		let current = obj;
+
+		// eslint-disable-next-line no-plusplus
+		for (let i = 0; i < keys.length - 1; i++) {
+			const key = keys[i];
+			if (!current[key]) {
+				current[key] = {};
+			}
+			current = current[key];
 		}
 
-		if (remove) {
-			// Если флаг удаления, удаляем последний ключ
-			console.log("current[lastKey]", current[lastKey], current, obj)
-			delete current[lastKey];
-			console.log("remove")
-		} else if (
-			save &&
-			typeof current[lastKey] === "object" &&
-			current[lastKey] !== null
-		) {
-			// Если save: true, объединяем старые значения с новыми
-			current[lastKey] = { ...current[lastKey], ...value };
-		} else {
-			// Иначе просто присваиваем новое значение
-			current[lastKey] = value;
-		}
+		const lastKey = keys[keys.length - 1];
+
+		delete current[lastKey];
 	} catch (error) {
 		errorHandler("useEditorEvent", "updateObjectByPath", error);
 	}
@@ -78,6 +78,7 @@ export function deleteObjectByPath(obj: GenericObject, path: string): void {
 	let current = obj;
 
 	// Проходим по объекту, доходя до предпоследнего уровня
+	// eslint-disable-next-line no-plusplus
 	for (let i = 0; i < keys.length - 1; i++) {
 		const key = keys[i];
 		if (!current[key]) {

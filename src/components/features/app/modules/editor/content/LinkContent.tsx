@@ -21,9 +21,9 @@ interface ILinkSetting {
 }
 
 interface Props {
-	onUpdateSchemaHandle: (data: ISchemaContentLinkHrefParams) => void;
-	onRemoveSchemaHandle: () => void;
-	defaultData: ISchemaContentLinkHrefParams;
+	onUpdateSchemaHandle?: (data: ISchemaContentLinkHrefParams) => void;
+	onRemoveSchemaHandle?: () => void;
+	defaultData?: ISchemaContentLinkHrefParams;
 }
 
 const getInternalSrcFromURL = (url: string): string | null => {

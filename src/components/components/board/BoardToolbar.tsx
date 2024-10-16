@@ -87,9 +87,16 @@ const BoardToolbar: React.FC = () => {
 							e.stopPropagation();
 
 							if (dialog.dialogWidget.open) {
-								//@ts-ignore
 								activeElementHandle({
-									widgetType: "none",
+									selectActiveData: null,
+									selectType: "none",
+									selectComponentId: "",
+									selectWidgetActiveId: "",
+									selectActiveId: "",
+									selectContainerId: "",
+									selectElementId: "",
+									selectWidgetActiveData: null,
+									selectWidgetActiveType: "none",
 								});
 							}
 

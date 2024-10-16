@@ -2,11 +2,11 @@ import React from "react";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
-import SelectionElementOverlay from "@/components/features/app/activeElement/wrappers/v1/selection/SelectionElementOverlay";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
+import SelectionElementOverlay from "../../../selection/SelectionElementOverlay";
 
 interface Props {
 	children: React.ReactNode;
@@ -39,11 +39,15 @@ const ContainerAction: React.FC<Props> = (props) => {
 	const onClickHandle = () => {
 		if (previewMode.previewModeEditor) return;
 		activeElementHandle({
-			activeData: containerData,
-			containerId,
-			type: "container",
-			componentId: containerData?.id,
-			activeId: containerId,
+			selectActiveData: containerData ?? null,
+			selectType: "container",
+			selectComponentId: containerData?.id ?? "",
+			selectWidgetActiveId: "",
+			selectActiveId: containerData?.id ?? "",
+			selectContainerId: containerId ?? "",
+			selectElementId: "",
+			selectWidgetActiveData: null,
+			selectWidgetActiveType: "none",
 		});
 		editorWidgetActiveElementAction("none");
 		if (dialog.dialogWidget.open) dialog.dialogWidget.toggle();
@@ -53,7 +57,7 @@ const ContainerAction: React.FC<Props> = (props) => {
 		<div className={cn("size-full relative")}>
 			<div
 				className={cn(
-					`${editorActiveElement?.activeId === containerId && !previewMode.previewModeEditor ? "border-emerald-400 border-2 box-border" : "border-box"}`,
+					`${editorActiveElement?.selectActiveId === containerId && !previewMode.previewModeEditor ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					"min-h-[10px]"
 				)}
 				onDoubleClick={onClickHandle}

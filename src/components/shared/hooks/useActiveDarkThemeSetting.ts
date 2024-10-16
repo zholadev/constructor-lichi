@@ -13,19 +13,20 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
  * @fixme
  * @constructor
  */
-export default function useActiveDarkThemeSetting(): boolean {
+export default function useActiveDarkThemeSetting(): boolean | undefined {
 	const activeElementData = useActiveElementObserver();
 
 	const { spaceModeTheme } = useAppSelector((state) => state?.space);
 
-	return useMemo(() => {
+	return useMemo((): boolean | undefined => {
 		try {
 			return (
 				spaceModeTheme === "dark" &&
-				activeElementData.data?.settings?.view?.darkTheme
+				activeElementData?.selectActiveData?.settings?.view?.darkTheme
 			);
 		} catch (error) {
 			errorHandler("useActiveDarkThemeSetting", "memo", error);
+			return false;
 		}
 	}, [activeElementData, spaceModeTheme]);
 }

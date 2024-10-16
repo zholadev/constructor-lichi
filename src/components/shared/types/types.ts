@@ -1,6 +1,6 @@
-import { IComponentCardSchema } from "@/components/features/app/modules/components/types/v1/interface-components";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
-import { ITemplateBaseSchema } from "@/components/shared/types/interface-templates";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import { ISchemaElements } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 
 export type ThemeType = "light" | "dark" | "system";
 export type ToastType = "success" | "info" | "warning" | "error";
@@ -29,7 +29,4 @@ export type IContainerType =
 export type ISaintLaurentComponentType = "single" | "duo";
 export type WidgetTypes = "stories" | "none";
 
-export type TotalComponentTypes =
-	| IComponentCardSchema
-	| IElementTotal
-	| ITemplateBaseSchema;
+export type SchemaData = ISchemaComponent | ISchemaContainer | ISchemaElements;

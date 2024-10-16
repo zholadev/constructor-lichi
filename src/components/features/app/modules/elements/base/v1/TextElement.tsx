@@ -1,10 +1,10 @@
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
-import { IElementTotal } from "../../types/v1/interface-elements";
+import { ISchemaElementInterfaces } from "../../types/v1/interface-elements";
 
 interface Props {
-	data: IElementTotal;
+	data: ISchemaElementInterfaces;
 }
 
 /**

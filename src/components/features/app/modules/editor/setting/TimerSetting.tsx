@@ -135,6 +135,7 @@ const TimerSetting: React.FC<Props> = (props) => {
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления стили для units таймера
+	 * @param key
 	 * @param value
 	 */
 	const onChangeStyleHandle = (

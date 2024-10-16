@@ -5,10 +5,11 @@ import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
 import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import {
 	deepCopy,
 	deleteMultiplePaths,
+	removeObjectByPath,
 	updateObjectByPath,
 } from "@/components/shared/utils/schema-helpers";
 import { errorMessage } from "@/components/shared/constants/text";
@@ -16,7 +17,8 @@ import { errorMessage } from "@/components/shared/constants/text";
 interface IUpdateActions {
 	update: (
 		data: unknown,
-		pathString: string | string[],
+		pathString: string,
+		pathMultiString: string[],
 		removeObj?: boolean,
 		removeKey?: boolean,
 		save?: boolean
@@ -44,7 +46,8 @@ export default function useUpdateActions(): IUpdateActions {
 
 	const update = (
 		newValue: unknown,
-		pathString: string | string[],
+		pathString: string,
+		pathMultiString: string[],
 		removeObj: boolean = false,
 		removeKey: boolean = false,
 		save: boolean = true
@@ -58,44 +61,39 @@ export default function useUpdateActions(): IUpdateActions {
 				return;
 			}
 
-			if (!activeElementData?.activeId) {
+			if (!activeElementData?.selectActiveId) {
 				toastMessage("activeId не найден в updateComponent", "error");
 				return;
 			}
 
 			const updateObjectByPathHandle = (
 				data: any,
-				save: boolean,
-				remove?: boolean
+				path: string,
+				saveData: boolean
 			) => {
-				return updateObjectByPath(
-					data,
-					pathString,
-					newValue,
-					save,
-					remove
-				);
+				return updateObjectByPath(data, path, newValue, saveData);
 			};
 
 			const updateDataHandle = (
-				container: ISchemaContainer,
-				save: boolean,
-				remove?: boolean
+				data: any,
+				path: string,
+				saveData: boolean
 			) => {
-				updateObjectByPathHandle(container, save, remove);
+				updateObjectByPathHandle(data, path, saveData);
 
-				if (removeObj) {
-					toastMessage("Успешно удалено!", "success");
-				} else {
-					toastMessage(
-						`Успешно обновлено! ${activeElementData.type}`,
-						"success"
-					);
-				}
+				toastMessage(
+					`Успешно обновлено! ${activeElementData?.selectType}`,
+					"success"
+				);
 			};
 
-			const removeKeyDataHandle = (container: ISchemaContainer) => {
-				deleteMultiplePaths(container, pathString);
+			const removeObjectHandle = (data: any, path: string) => {
+				removeObjectByPath(data, path);
+				toastMessage("Успешно удалено!", "success");
+			};
+
+			const removeKeyDataHandle = (data: any) => {
+				deleteMultiplePaths(data, pathMultiString);
 				toastMessage("Успешно удалено!", "success");
 			};
 
@@ -108,20 +106,24 @@ export default function useUpdateActions(): IUpdateActions {
 					return spaceTemplateData.map(
 						(container: ISchemaContainer) => {
 							if (
-								container.id === activeElementData.containerId
+								container?.id ===
+								activeElementData?.selectContainerId
 							) {
 								const updatedContainer = deepCopy(container);
 
 								if (removeObj) {
-									updateDataHandle(
+									removeObjectHandle(
 										updatedContainer,
-										false,
-										true
+										pathString
 									);
 								} else if (removeKey) {
 									removeKeyDataHandle(updatedContainer);
 								} else {
-									updateDataHandle(updatedContainer, true);
+									updateDataHandle(
+										updatedContainer,
+										pathString,
+										true
+									);
 								}
 
 								return {
@@ -152,16 +154,24 @@ export default function useUpdateActions(): IUpdateActions {
 			const componentUpdateHandle = () => {
 				try {
 					return containerUpdateWrapper((component) => {
-						if (component?.id === activeElementData?.componentId) {
+						if (
+							component?.id ===
+							activeElementData?.selectComponentId
+						) {
 							const updatedComponent = deepCopy(component);
-							console.log("updatedComponent", updatedComponent);
 							if (removeObj) {
-								console.log("removeObj");
-								updateDataHandle(updatedComponent, true, true);
+								removeObjectByPath(
+									updatedComponent,
+									pathString
+								);
 							} else if (removeKey) {
 								removeKeyDataHandle(updatedComponent);
 							} else {
-								updateDataHandle(updatedComponent, save);
+								updateDataHandle(
+									updatedComponent,
+									pathString,
+									save
+								);
 							}
 
 							return {
@@ -191,21 +201,24 @@ export default function useUpdateActions(): IUpdateActions {
 			const elementUpdateHandle = () => {
 				try {
 					return containerUpdateWrapper((component) => {
-						if (component.id === activeElementData?.componentId) {
+						if (
+							component?.id ===
+							activeElementData?.selectComponentId
+						) {
 							const updatedComponent = deepCopy(component);
 
 							const elementIndex =
 								updatedComponent.elements.findIndex(
-									(el: IElementTotal) =>
-										el.id === activeElementData.activeId
+									(el: ISchemaElementInterfaces) =>
+										el.id ===
+										activeElementData.selectActiveId
 								);
 
 							if (elementIndex !== -1) {
 								if (removeObj) {
-									updateDataHandle(
+									removeObjectHandle(
 										updatedComponent.elements[elementIndex],
-										true,
-										true
+										pathString
 									);
 								} else if (removeKey) {
 									removeKeyDataHandle(
@@ -214,6 +227,7 @@ export default function useUpdateActions(): IUpdateActions {
 								} else {
 									updateDataHandle(
 										updatedComponent.elements[elementIndex],
+										pathString,
 										save
 									);
 								}
@@ -241,13 +255,13 @@ export default function useUpdateActions(): IUpdateActions {
 				}
 			};
 
-			if (activeElementData.type === "container") {
+			if (activeElementData?.selectType === "container") {
 				const newUpdateContent = containerUpdateHandle();
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
-			} else if (activeElementData.type === "component") {
+			} else if (activeElementData?.selectType === "component") {
 				const newUpdateContent = componentUpdateHandle();
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
-			} else if (activeElementData.type === "element") {
+			} else if (activeElementData?.selectType === "element") {
 				const newUpdateContent = elementUpdateHandle();
 				if (newUpdateContent) spaceTemplateDataAction(newUpdateContent);
 			} else {

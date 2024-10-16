@@ -31,7 +31,7 @@ const ActionSetting: React.FC = () => {
 	 * @description Метод для удаления компонентов, элементов и контейнеров
 	 */
 	const removeClickHandle = () => {
-		if (activeElementData?.widgetType !== "none") {
+		if (activeElementData?.selectWidgetIsEditing) {
 			removeWidgetActions.removeWidget();
 			return;
 		}

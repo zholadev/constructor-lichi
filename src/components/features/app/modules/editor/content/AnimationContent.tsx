@@ -18,9 +18,9 @@ import {
 import { Button } from "@/components/shared/shadcn/ui/button";
 
 interface Props {
-	defaultData: ISchemaAnimationParams;
-	onUpdateSchemaHandle: (value: ISchemaAnimationParams) => void;
-	onRemoveSchemaHandle: () => void;
+	defaultData?: ISchemaAnimationParams;
+	onUpdateSchemaHandle?: (value: ISchemaAnimationParams) => void;
+	onRemoveSchemaHandle?: () => void;
 }
 
 interface IAnimationData {

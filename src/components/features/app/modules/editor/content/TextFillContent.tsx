@@ -6,8 +6,8 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ISchemaContentTextParams } from "@/components/shared/types/interface-schema-content";
 
 interface Props {
-	onUpdateSchemaHandle: (data: ISchemaContentTextParams) => void;
-	defaultData: ISchemaContentTextParams;
+	onUpdateSchemaHandle?: (data: ISchemaContentTextParams) => void;
+	defaultData?: ISchemaContentTextParams;
 }
 
 /**

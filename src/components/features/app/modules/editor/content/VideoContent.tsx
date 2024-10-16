@@ -16,8 +16,8 @@ import {
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 interface Props {
-	onUpdateSchemaHandle: (data: ISchemaContentVideoParams) => void;
-	defaultData: ISchemaContentVideoParams;
+	onUpdateSchemaHandle?: (data: ISchemaContentVideoParams) => void;
+	defaultData?: ISchemaContentVideoParams;
 }
 
 /**

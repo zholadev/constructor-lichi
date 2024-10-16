@@ -41,7 +41,7 @@ const MediaContainer: React.FC<Props> = (props) => {
 	 * @description Получаем тип контента для вывода
 	 */
 	const contentType = useMemo(() => {
-		return componentData.settings.view.contentType;
+		return componentData?.settings?.view?.contentType;
 	}, [componentData]);
 
 	return (

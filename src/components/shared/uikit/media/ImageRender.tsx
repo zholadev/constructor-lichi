@@ -6,7 +6,7 @@ import useDeviceHeightProperty from "@/components/shared/hooks/useDeviceHeightPr
 
 interface Props {
 	imageData: ISchemaContentPhoto;
-	fullHeight: boolean;
+	fullHeight?: boolean;
 }
 
 /**
@@ -21,7 +21,7 @@ interface Props {
  * @constructor
  */
 const ImageRender: React.FC<Props> = (props) => {
-	const { imageData, fullHeight } = props;
+	const { imageData, fullHeight = false } = props;
 
 	const getImage = useGetImageContent(imageData);
 

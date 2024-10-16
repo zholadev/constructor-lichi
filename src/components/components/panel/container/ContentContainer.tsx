@@ -47,28 +47,33 @@ const ContentContainer: React.FC = () => {
 
 	const [defaultExpanded, setExpanded] = React.useState<string[]>([""]);
 
-	// @ts-ignore
-	const contentActiveData: ISchemaContent = useMemo(() => {
+	const contentActiveData = useMemo((): ISchemaContent | null => {
 		try {
-			const content =
-				activeElementData?.widgetType === "stories"
+			const contentData: ISchemaContent | null =
+				activeElementData?.selectWidgetIsEditing
 					? // @ts-ignore
-						activeElementData?.widgetActiveData?.content
+						(activeElementData?.selectWidgetActiveData?.content ??
+						null)
 					: // @ts-ignore
-						activeElementData?.activeData?.content;
+						(activeElementData?.selectActiveData?.content ?? null);
+
+			if (!contentData) {
+				return null;
+			}
 
 			return {
-				link: content?.link ?? { url: null, active: false },
-				photo: content?.photo,
-				video: content?.video ?? { videoSrc: "", poster: null },
-				title: content?.title ?? {},
-				stories: content?.stories ?? false,
-				animation: content.animation ?? {},
+				link: contentData?.link ?? { url: null, active: false },
+				photo: contentData?.photo,
+				video: contentData?.video ?? { videoSrc: "", poster: null },
+				title: contentData?.title ?? {},
+				animation: contentData.animation ?? {},
 			};
 		} catch (error) {
 			if (error instanceof Error) {
 				errorHandler("SettingContainer", "contentActiveData", error);
 			}
+
+			return null;
 		}
 	}, [activeElementData]);
 
@@ -79,7 +84,7 @@ const ContentContainer: React.FC = () => {
 	 */
 	const removeSchemaDataHandle = (pathString: string) => {
 		if (
-			activeElementData?.widgetType !== "none" &&
+			activeElementData?.selectWidgetIsEditing &&
 			dialog.dialogWidget.open
 		) {
 			updateWidgetActions.update({}, pathString, true);
@@ -100,7 +105,7 @@ const ContentContainer: React.FC = () => {
 			return;
 		}
 		if (
-			activeElementData?.widgetType !== "none" &&
+			activeElementData?.selectWidgetIsEditing &&
 			dialog.dialogWidget.open
 		) {
 			updateWidgetActions.update(data, path);
@@ -142,7 +147,7 @@ const ContentContainer: React.FC = () => {
 						<AccordionContent>
 							<Accordion type="multiple" className="w-full">
 								{Object.entries(
-									contentActiveData.photo || {}
+									contentActiveData?.photo || {}
 								).map(([key, value], index: number) => {
 									return (
 										<AccordionItem value={key} key={index}>
@@ -198,7 +203,7 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<VideoContent
-								defaultData={contentActiveData.video}
+								defaultData={contentActiveData?.video}
 								onUpdateSchemaHandle={(data) => {
 									updateSchemaHandle(data, "content.video");
 								}}
@@ -221,7 +226,7 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<LinkContent
-								defaultData={contentActiveData.link}
+								defaultData={contentActiveData?.link}
 								onUpdateSchemaHandle={(data) => {
 									updateSchemaHandle(data, "content.link");
 								}}
@@ -270,7 +275,7 @@ const ContentContainer: React.FC = () => {
 						</AccordionTrigger>
 						<AccordionContent>
 							<AnimationContent
-								defaultData={contentActiveData.animation}
+								defaultData={contentActiveData?.animation}
 								onUpdateSchemaHandle={(data) => {
 									updateSchemaHandle(
 										data,

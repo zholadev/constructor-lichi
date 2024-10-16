@@ -38,7 +38,6 @@ const ApiDataProvider: React.FC<Props> = (props) => {
 		await apiFetchHandler(apiMethodSchemaLangList, false, {
 			onGetData: (params: IRequestApiParams) => {
 				if (params.success) {
-					// @ts-ignore
 					languageDataAction(params.data?.list);
 				}
 			},
@@ -53,7 +52,6 @@ const ApiDataProvider: React.FC<Props> = (props) => {
 		await apiFetchHandler(apiMethodSchemaListShops, false, {
 			onGetData: (params: IRequestApiParams) => {
 				if (params.success) {
-					// @ts-ignore
 					shopsDataAction(params.data?.list);
 				}
 			},

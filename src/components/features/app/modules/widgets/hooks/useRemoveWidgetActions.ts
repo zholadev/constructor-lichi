@@ -1,13 +1,10 @@
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import useActiveElement from "@/components/shared/hooks/useActiveElement";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { deepCopy } from "@/components/shared/utils/schema-helpers";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import {ISchemaElementInterfaces} from "@/components/features/app/modules/elements/types/v1/interface-elements";
 
 interface IRemoveWidgetActions {
 	removeWidget: () => void;
@@ -25,13 +22,8 @@ interface IRemoveWidgetActions {
  */
 export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 	const toastMessage = useToastMessage();
-	const activeElementHandle = useActiveElement();
-	const dialog = useDialogAction();
 	const { spaceTemplateDataAction } = useDispatchAction();
 	const activeElementData = useActiveElementObserver();
-
-	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
 	const { containerUpdateWrapper } = useUpdateContainerWrapper();
 
@@ -41,16 +33,16 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 	 */
 	const removeComponent = () => {
 		const updatedData = containerUpdateWrapper((component) => {
-			if (component.id === activeElementData?.componentId) {
+			if (component.id === activeElementData?.selectComponentId) {
 				const updatedComponent = deepCopy(component);
 
 				// Check and update stories if they exist
-				if (updatedComponent?.widgets?.data) {
+				if (updatedComponent?.widgets?.data?.components) {
 					const updatedStoriesComponents =
-						updatedComponent.widgets.data.filter(
+						updatedComponent.widgets.data.components.filter(
 							(widget) =>
 								widget.id !==
-								activeElementData?.widgetActiveComponentId
+								activeElementData?.selectWidgetActiveId
 						);
 
 					// Return updated component with updated stories
@@ -76,31 +68,34 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 	 */
 	const removeElement = () => {
 		const updatedData = containerUpdateWrapper((component) => {
-			if (component.id === activeElementData?.componentId) {
+			if (component.id === activeElementData?.selectComponentId) {
 				const updatedComponent = deepCopy(component);
 
 				// Check and update elements if they exist in stories
-				if (updatedComponent.widgets?.data) {
+				if (updatedComponent?.widgets?.data?.components) {
 					const updatedStoriesComponents =
-						updatedComponent.widgets.data.map((widget) => {
-							if (
-								widget.id ===
-								activeElementData.widgetActiveComponentId
-							) {
-								const updatedElements = widget.elements.filter(
-									(el: IElementTotal) =>
-										el.id !==
-										activeElementData.widgetActiveElementId
-								);
+						updatedComponent.widgets.data.components.map(
+							(widget) => {
+								if (
+									widget.id ===
+									activeElementData.selectWidgetActiveId
+								) {
+									const updatedElements =
+										widget.elements.filter(
+											(el: ISchemaElementInterfaces) =>
+												el.id !==
+												activeElementData.selectWidgetElementId
+										);
 
-								// Return storyComponent with updated elements
-								return {
-									...widget,
-									elements: updatedElements,
-								};
+									// Return storyComponent with updated elements
+									return {
+										...widget,
+										elements: updatedElements,
+									};
+								}
+								return widget;
 							}
-							return widget;
-						});
+						);
 
 					return {
 						...component,
@@ -132,12 +127,12 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 				return;
 			}
 
-			if (!activeElementData.activeId) {
+			if (!activeElementData?.selectActiveId) {
 				toastMessage("activeId не найден useRemoveActions", "error");
 				return;
 			}
 
-			switch (activeElementData?.widgetActiveType) {
+			switch (activeElementData?.selectWidgetActiveType) {
 				case "element":
 					removeElement();
 					break;

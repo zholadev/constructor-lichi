@@ -1,6 +1,9 @@
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
-import { ISchemaElements } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import {
+	ISchemaElementInterfaces,
+	ISchemaElements,
+} from "@/components/features/app/modules/elements/types/v1/interface-elements";
 
 export type ThemeType = "light" | "dark" | "system";
 export type ToastType = "success" | "info" | "warning" | "error";
@@ -29,4 +32,8 @@ export type IContainerType =
 export type ISaintLaurentComponentType = "single" | "duo";
 export type WidgetTypes = "stories" | "none";
 
-export type SchemaData = ISchemaComponent | ISchemaContainer | ISchemaElements;
+export type SchemaData =
+	| ISchemaComponent
+	| ISchemaContainer
+	| ISchemaElements
+	| ISchemaElementInterfaces;

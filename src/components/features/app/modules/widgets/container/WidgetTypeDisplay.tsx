@@ -1,7 +1,8 @@
 import React from "react";
 import { WidgetTypes } from "@/components/features/app/modules/widgets/types/interface-widget";
-import StoriesContent from "../stories/StoriesContent";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
+import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import StoriesContent from "../stories/StoriesContent";
 
 /**
  * @author Zholaman Zhumanov
@@ -16,6 +17,8 @@ import useActiveElementObserver from "@/components/shared/hooks/useActiveElement
 const WidgetTypeDisplay: React.FC = () => {
 	const activeElementData = useActiveElementObserver();
 
+	const widgetData = activeElementData?.selectActiveData as ISchemaComponent;
+
 	const renderWidget = (type: WidgetTypes) => {
 		switch (type) {
 			case "stories":
@@ -27,7 +30,7 @@ const WidgetTypeDisplay: React.FC = () => {
 		}
 	};
 
-	return renderWidget(activeElementData?.activeData?.widgets?.type);
+	return renderWidget(widgetData?.widgets?.type ?? "none");
 };
 
 export default WidgetTypeDisplay;

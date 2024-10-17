@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useTimerCountdown from "@/components/shared/hooks/useTimerCountdown";
-import {
-	IElementTotal,
-	ITimerElement,
-} from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { ISchemaTimerElement } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import TimerDisplay from "./TimerDisplay";
 
 interface Props {
 	targetDate: string | Date;
-	styles?: React.CSSProperties;
-	data: IElementTotal & ITimerElement;
+	styles: Record<string, unknown>;
+	data: ISchemaTimerElement;
 }
 
 /**
@@ -18,7 +15,7 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo Removed // @ts-ignore
+ * @todo
  * @fixme
  * @param props
  * @constructor
@@ -26,9 +23,8 @@ interface Props {
 const TimerContainer: React.FC<Props> = (props) => {
 	const { targetDate, styles, data } = props;
 
-	const [targetDateState, setTargetDateState] = useState<string | Date>();
+	const [targetDateState, setTargetDateState] = useState<string | Date>("");
 
-	// @ts-ignore
 	const { countdownTime } = useTimerCountdown(targetDateState);
 
 	useEffect(() => {

@@ -132,7 +132,6 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			case "container":
 				return getContainerData;
 			case "element":
-				// @ts-ignore
 				return getElementData;
 			default:
 				return null;

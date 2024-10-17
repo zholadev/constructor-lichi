@@ -26,7 +26,7 @@ export interface IElementSchema {
 		view: ISchemaSettingsView;
 		timer?: ISchemaSettingsTimer;
 	};
-	content?: {
+	content: {
 		title?: ISchemaContentText;
 		link?: ISchemaContentLinkHrefParams;
 	};

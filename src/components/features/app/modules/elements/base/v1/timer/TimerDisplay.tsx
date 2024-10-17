@@ -8,7 +8,7 @@ interface Props {
 	hours: string;
 	minutes: string;
 	seconds: string;
-	style?: React.CSSProperties;
+	style: Record<string, unknown>;
 	darkThemeSetting: boolean;
 	counterStyle: Record<string, unknown>;
 	unitStyle: Record<string, unknown>;

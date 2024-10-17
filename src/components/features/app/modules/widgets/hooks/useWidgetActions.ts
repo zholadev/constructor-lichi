@@ -1,4 +1,4 @@
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
@@ -9,7 +9,7 @@ import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpda
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 interface IWidgetActions {
-	widgetAddElement: (data: IElementTotal) => void;
+	widgetAddElement: (data: ISchemaElementInterfaces) => void;
 	widgetCreateComponent: (data: ISchemaComponent) => void;
 }
 
@@ -36,7 +36,7 @@ export default function useWidgetActions(): IWidgetActions {
 	 * @description Метод для добавления элемента в компонент виджета
 	 * @param data
 	 */
-	const widgetAddElement = (data: IElementTotal) => {
+	const widgetAddElement = (data: ISchemaElementInterfaces) => {
 		try {
 			if (!data) {
 				toastMessage(
@@ -51,40 +51,40 @@ export default function useWidgetActions(): IWidgetActions {
 				return;
 			}
 
-			if (!activeElementData.widgetActiveComponentId) {
+			if (!activeElementData?.selectWidgetActiveId) {
 				toastMessage("widgetActiveComponentId не найден", "error");
 				return;
 			}
 
 			const updateData = containerUpdateWrapper((component) => {
 				// Находим нужный компонент по id
-				if (component.id === activeElementData.componentId) {
+				if (component?.id === activeElementData?.selectComponentId) {
 					// Проверяем, есть ли stories и components внутри stories
-					if (component.widgets?.data) {
-						const updatedComponents = component.widgets.data.map(
-							(widgetItem) => {
-								if (
-									widgetItem?.id ===
-									activeElementData.widgetActiveComponentId
-								) {
-									return {
-										...widgetItem,
-										elements: [
-											...widgetItem?.elements,
-											data,
-										],
-									};
+					if (component.widgets?.data?.components) {
+						const updatedComponents =
+							component.widgets.data.components.map(
+								(widgetItem) => {
+									if (
+										widgetItem?.id ===
+										activeElementData?.selectWidgetActiveId
+									) {
+										return {
+											...widgetItem,
+											elements: [
+												...widgetItem.elements,
+												data,
+											],
+										};
+									}
+									return widgetItem;
 								}
-								return widgetItem;
-							}
-						);
+							);
 
-						// Обновляем компонент с новым массивом components в stories
 						return {
 							...component,
 							widgets: {
 								...component.widgets,
-								data: updatedComponents, // Обновляем components в stories
+								data: updatedComponents,
 							},
 						};
 					}
@@ -121,24 +121,21 @@ export default function useWidgetActions(): IWidgetActions {
 				return;
 			}
 
-			if (!activeElementData?.activeId) {
+			if (!activeElementData?.selectActiveId) {
 				toastMessage("Вы не выбрали компонент", "error");
 				return;
 			}
 
-			if (!activeElementData?.containerId) {
+			if (!activeElementData?.selectContainerId) {
 				toastMessage("Выбранный контейнер не найден", "error");
 				return;
 			}
 
 			const updateData = containerUpdateWrapper((component) => {
-				// Проверяем, является ли этот компонент тем, который нужно обновить
-				if (component?.id === activeElementData.componentId) {
-					// Проверяем, есть ли поле content и stories
-					if (component?.widgets?.type) {
-						// Обновляем stories.components
-						const updatedStoriesComponents = [
-							...component.widgets.data,
+				if (component?.id === activeElementData?.selectComponentId) {
+					if (component?.widgets?.data?.components) {
+						const updateComponents = [
+							...component.widgets.data.components,
 							{
 								...data,
 								id: uuidv4(),
@@ -149,7 +146,9 @@ export default function useWidgetActions(): IWidgetActions {
 							...component,
 							widgets: {
 								...component.widgets,
-								data: updatedStoriesComponents, // Обновляем массив components в stories
+								data: {
+									components: updateComponents,
+								},
 							},
 						};
 					}

@@ -51,8 +51,8 @@ const WidgetSelect: React.FC = () => {
 	 * @description Метод для удаления виджета с компонента
 	 */
 	const removeWidget = () => {
-		updateActions.update({}, "widgets", true, false);
-		updateWidgetActions.update({}, "widgets", true, false);
+		updateActions.update({}, "widgets", [""], true, false);
+		updateWidgetActions.update({}, "widgets", [""], true, false);
 	};
 
 	return (
@@ -70,14 +70,14 @@ const WidgetSelect: React.FC = () => {
 						<Button
 							key={widget.type}
 							variant={
-								activeElementData?.activeData?.widgets?.type ===
-								widget.type
+								activeElementData?.selectWidgetActiveData
+									?.type === widget.type
 									? "default"
 									: "secondary"
 							}
 							disabled={
-								activeElementData?.activeData?.widgets?.type ===
-								widget.type
+								activeElementData?.selectWidgetActiveData
+									?.type === widget.type
 							}
 							onClick={() => onChangeHandle(widget.type)}
 						>

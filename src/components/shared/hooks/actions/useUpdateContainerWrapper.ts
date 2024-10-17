@@ -5,7 +5,7 @@ import { ISchemaComponent } from "@/components/shared/types/interface-schema-com
 
 interface IUpdateContainerWrapper {
 	containerUpdateWrapper: (
-		updateFn: (component: ISchemaComponent) => ISchemaComponent
+		updateFn: (component: ISchemaComponent) => any
 	) => ISchemaContainer[];
 }
 
@@ -28,7 +28,7 @@ export default function useUpdateContainerWrapper(): IUpdateContainerWrapper {
 	 * @description Метод для обновления компонентов в контейнере
 	 */
 	const containerUpdateWrapper = (
-		updateFn: (component: ISchemaComponent) => ISchemaComponent
+		updateFn: (component: ISchemaComponent) => any
 	): ISchemaContainer[] => {
 		// Возвращаем новый массив контейнеров с обновленными компонентами
 		return spaceTemplateData.map((container: ISchemaContainer) => {

@@ -1,9 +1,11 @@
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { ISchemaContentPhoto } from "@/components/shared/types/interface-schema-content";
+import {
+	ISchemaContentPhoto,
+	ISchemaContentPhotoData,
+} from "@/components/shared/types/interface-schema-content";
 import { useMemo } from "react";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import { DeviceType } from "@/components/shared/types/types";
-import { IGalleryImageItem } from "@/components/shared/types/interface";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 
 /**
@@ -17,8 +19,8 @@ import useToastMessage from "@/components/shared/hooks/useToastMessage";
  * @constructor
  */
 export default function useGetImageContent(
-	imageData: ISchemaContentPhoto
-): IGalleryImageItem | null {
+	imageData: ISchemaContentPhoto | null
+): ISchemaContentPhotoData | null {
 	const toastMessage = useToastMessage();
 
 	const { spaceModeDeviceType } = useAppSelector((state) => state.space);
@@ -37,8 +39,9 @@ export default function useGetImageContent(
 		}
 	}, [spaceModeDeviceType]);
 
-	return useMemo(() => {
+	return useMemo((): ISchemaContentPhotoData | null => {
 		try {
+			if (!imageData) return null;
 			return imageData.photo?.[typeDeviceForImage];
 		} catch (error) {
 			toastMessage(

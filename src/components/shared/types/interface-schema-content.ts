@@ -74,8 +74,12 @@ export interface ISchemaContentVideo {
 
 export type ISchemaContentTextParams = Record<string, Record<"value", string>>;
 
+export interface ISchemaContentTextValue {
+	[key: string]: { value: string };
+}
+
 export interface ISchemaContentText {
-	title: Record<string, Record<"value", string>>;
+	title: ISchemaContentTextValue;
 }
 
 export interface ISchemaContentLinkHrefParams {
@@ -95,9 +99,9 @@ export interface ISchemaAnimationContent {
 }
 
 export interface ISchemaContent {
-	photo: ISchemaContentPhotoTriple;
-	video: ISchemaContentVideoParams;
-	title: ISchemaContentTextParams;
-	link: ISchemaContentLinkHrefParams;
-	animation: ISchemaAnimationParams;
+	photo?: ISchemaContentPhotoTriple;
+	video?: ISchemaContentVideoParams;
+	title?: ISchemaContentTextValue;
+	link?: ISchemaContentLinkHrefParams;
+	animation?: ISchemaAnimationParams;
 }

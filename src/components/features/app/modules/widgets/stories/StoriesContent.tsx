@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import { Button } from "@/components/shared/shadcn/ui/button";
-import { Cross1Icon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import BaseComponentRender from "../../components/container/v1/BaseComponentRender";
 import useActiveElementObserver from "../../../../../shared/hooks/useActiveElementObserver";
@@ -34,7 +32,11 @@ const StoriesContent: React.FC = () => {
 		dialog.dialogWidget.toggle();
 	};
 
-	if (!activeElementData?.componentId) {
+	const widgetListData = useMemo(() => {
+		return activeElementData?.selectWidgetData ?? [];
+	}, [activeElementData]);
+
+	if (!activeElementData?.selectComponentId) {
 		return null;
 	}
 
@@ -45,15 +47,6 @@ const StoriesContent: React.FC = () => {
 					"w-full p-3 relative bg-white rounded-md overflow-hidden"
 				)}
 			>
-				{/*<div*/}
-				{/*	className={cn(*/}
-				{/*		"w-full absolute right-4 top-4 flex justify-end"*/}
-				{/*	)}*/}
-				{/*>*/}
-				{/*	<Button variant="ghost" onClick={closeStoriesHandle}>*/}
-				{/*		<Cross1Icon width={20} height={20} />*/}
-				{/*	</Button>*/}
-				{/*</div>*/}
 				<div className={cn("grid grid-cols-3")}>
 					<div
 						className={cn(
@@ -66,7 +59,7 @@ const StoriesContent: React.FC = () => {
 							speed={400}
 							controller={{ control: null }}
 						>
-							{activeElementData.activeData.widgets?.data?.map(
+							{widgetListData?.map(
 								(
 									component: ISchemaComponent,
 									index: number
@@ -88,8 +81,9 @@ const StoriesContent: React.FC = () => {
 												componentId={component.id}
 												type={component?.type}
 												componentData={component}
+												// @ts-ignore
 												containerData={
-													activeElementData.containerData
+													activeElementData?.selectContainerData
 												}
 											/>
 										</SwiperSlide>

@@ -1,10 +1,10 @@
 import React from "react";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import { ISchemaElementInterfaces } from "../../types/v1/interface-elements";
 
 interface Props {
 	data: ISchemaElementInterfaces;
+	title: string;
 }
 
 /**
@@ -19,9 +19,7 @@ interface Props {
  * @constructor
  */
 const TextElement: React.FC<Props> = (props) => {
-	const { data } = props;
-
-	const { spaceModeLanguage } = useAppSelector((state) => state.space);
+	const { data, title } = props;
 
 	const styleFormatted = useStylesFormatted();
 
@@ -35,7 +33,7 @@ const TextElement: React.FC<Props> = (props) => {
 				...styleFormatted(data.style, !data.settings?.view?.darkTheme),
 			}}
 		>
-			{data?.content?.title?.[spaceModeLanguage]?.value}
+			{title ?? "Default Title"}
 		</h2>
 	);
 };

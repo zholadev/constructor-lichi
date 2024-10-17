@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
 	DeviceEmulator,
 	DeviceFrameset,
@@ -37,7 +37,9 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 		(state) => state.space
 	);
 
-	const [size, setSize] = React.useState(null);
+	const [size, setSize] = useState<{ width: number; height: number } | null>(
+		null
+	);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -48,25 +50,29 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 			const platform = spaceModePlatformType as PlatformType;
 			const bottomBarType = spaceBottomBarType as BottomBarTypes;
 
-			const height =
+			const adjustedHeight =
 				platform === "app" && bottomBarType === "default"
 					? size.height - 63
 					: size.height;
 
-			editorHeightPropertyAction(`${height}px`);
+			editorHeightPropertyAction(`${adjustedHeight}px`);
 		}
-	}, [size, spaceModePlatformType, spaceBottomBarType]);
+	}, [
+		size,
+		spaceModePlatformType,
+		spaceBottomBarType,
+		editorHeightPropertyAction,
+	]);
 
 	return (
 		<Suspense fallback={<div>Идет загрузка доски!</div>}>
 			<DeviceEmulator
+				// @ts-ignore
 				banDevices={devices}
-				defaultValue={devices[0]}
 				langscape={false}
 				onChange={(event) => setSize(event)}
 			>
 				{(props: DeviceFramesetProps) => {
-					console.log("props", props);
 					return (
 						<DeviceFrameset landscape="false" {...props}>
 							{children}

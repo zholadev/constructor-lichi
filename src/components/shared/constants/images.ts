@@ -48,13 +48,23 @@ interface IActionData {
 }
 
 interface IImagesData {
-	ICON: Record<string, string>;
+	ICON: {
+		headerSmLogo: string;
+		headerSmLogoLight: string;
+		headerLogo: string;
+		headerLogoLight: string;
+	};
 	ACTION: IActionData;
 	THUMBNAIL: Record<string, ImageImport[]>;
-	LOGO: Record<string, string>;
+	LOGO: {
+		headerSmLogo: string;
+		headerSmLogoLight: string;
+		headerLogo: string;
+		headerLogoLight: string;
+	};
 }
 
-export const IMAGES: IImagesData = {
+export const IMAGES: any = {
 	ICON: {
 		folder: notFolder,
 		folderBasic,

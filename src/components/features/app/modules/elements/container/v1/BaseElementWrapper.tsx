@@ -58,8 +58,8 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 			{elementData.map((element) => {
 				return (
 					<BaseElementRender
-						data={element}
 						key={element.id}
+						elementData={element}
 						type={element.type}
 						containerId={containerId}
 						componentId={componentData.id}

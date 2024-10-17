@@ -5,9 +5,10 @@ import { ISchemaContainer } from "@/components/shared/types/interface-schema-con
 import { useInView } from "react-intersection-observer";
 import useAnimateClass from "@/components/shared/hooks/useAnimateClass";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
+import { ISchemaContentPhoto } from "@/components/shared/types/interface-schema-content";
 
 interface Props {
-	componentData: ISchemaComponent;
+	componentData?: ISchemaComponent;
 	containerData: ISchemaContainer;
 	imgAutoHeight?: boolean;
 }
@@ -44,13 +45,17 @@ const MediaContainer: React.FC<Props> = (props) => {
 		return componentData?.settings?.view?.contentType;
 	}, [componentData]);
 
+	if (!componentData) {
+		return null;
+	}
+
 	return (
 		<div ref={ref} className={animateType}>
 			{contentType === "video" ? (
 				<VideoRender data={componentData} />
 			) : (
 				<ImageRender
-					imageData={componentData.content}
+					imageData={componentData?.content as ISchemaContentPhoto}
 					fullHeight={
 						containerData?.settings?.view?.heightFull &&
 						!imgAutoHeight

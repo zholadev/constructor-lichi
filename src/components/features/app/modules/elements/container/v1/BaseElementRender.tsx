@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import ButtonElement from "@/components/features/app/modules/elements/base/v1/ButtonElement";
 import TextElement from "@/components/features/app/modules/elements/base/v1/TextElement";
 import ElementAction from "@/components/features/app/activeElement/wrappers/v1/element/ElementAction";
@@ -8,10 +8,12 @@ import {
 	ISchemaElementInterfaces,
 	ISchemaTimerElement,
 } from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { useAppSelector } from "@/components/app/store/hooks/hooks";
+import { ISchemaContentText } from "@/components/shared/types/interface-schema-content";
 
 interface Props {
 	type: SchemaElementTypes;
-	data: ISchemaElementInterfaces;
+	elementData: ISchemaElementInterfaces;
 	containerId: string;
 	componentId: string;
 	widgetComponent?: boolean;
@@ -29,16 +31,30 @@ interface Props {
  * @constructor
  */
 const BaseElementRender: React.FC<Props> = (props) => {
-	const { type, data, containerId, componentId, widgetComponent } = props;
+	const { type, elementData, containerId, componentId, widgetComponent } =
+		props;
+
+	const { spaceModeLanguage } = useAppSelector((state) => state.space);
+
+	const title = useMemo((): string => {
+		const spaceModeLanguageKey =
+			spaceModeLanguage as keyof ISchemaContentText;
+
+		// @ts-ignore
+		return elementData?.content?.title?.[spaceModeLanguageKey]?.value ?? "";
+	}, [elementData, spaceModeLanguage]);
+
+	const timerData = useMemo(() => {
+		return elementData as ISchemaTimerElement;
+	}, [elementData]);
 
 	const renderComponents = () => {
 		switch (type) {
 			case "button":
-				return <ButtonElement data={data} />;
+				return <ButtonElement data={elementData} title={title} />;
 			case "text":
-				return <TextElement data={data} />;
+				return <TextElement data={elementData} title={title} />;
 			case "timer":
-				const timerData = data as ISchemaTimerElement;
 				return (
 					<TimerContainer
 						data={timerData}
@@ -53,7 +69,7 @@ const BaseElementRender: React.FC<Props> = (props) => {
 
 	return (
 		<ElementAction
-			data={data}
+			data={elementData}
 			widgetComponent={widgetComponent}
 			containerId={containerId}
 			componentId={componentId}

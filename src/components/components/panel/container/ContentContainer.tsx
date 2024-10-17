@@ -60,11 +60,19 @@ const ContentContainer: React.FC = () => {
 			}
 
 			return {
-				link: contentData?.link ?? { url: null, active: false },
+				link: contentData?.link ?? {
+					href: { src: "", internal_src: "" },
+				},
 				photo: contentData?.photo,
-				video: contentData?.video ?? { videoSrc: "", poster: null },
+				video: contentData?.video ?? {
+					videoSrc: "",
+					poster: { url: "" },
+				},
 				title: contentData?.title ?? {},
-				animation: contentData.animation ?? {},
+				animation: contentData.animation ?? {
+					type: "none",
+					observer: true,
+				},
 			};
 		} catch (error) {
 			if (error instanceof Error) {

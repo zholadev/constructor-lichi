@@ -8,7 +8,7 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-const spacingStyles: Record<DivideSpacing, string> = {
+const spacingStyles: Record<string, string> = {
 	smail: "my-3",
 	medium: "my-5",
 	large: "my-8",

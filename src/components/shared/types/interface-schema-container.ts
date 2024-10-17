@@ -19,3 +19,13 @@ export interface ISchemaContainer {
 		} & ISchemaComponent
 	>;
 }
+
+export interface ISchemaBaseContainer {
+	id: string;
+	guid: string;
+	type: IContainerType;
+	version: string;
+	display: DisplayContainerType;
+	style: Record<string, unknown>;
+	settings: ISchemaSettings;
+}

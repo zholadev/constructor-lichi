@@ -21,7 +21,7 @@ import { IRequestApiParams } from "@/components/shared/types/interface-app";
 
 interface Props {
 	settingValue?: ISchemaSettingCategoryListParams;
-	onSettingChange?: (value: ISchemaSettingCategoryListParams) => void;
+	onUpdateSchemaHandle?: (value: ISchemaSettingCategoryListParams) => void;
 }
 
 interface Country {
@@ -64,7 +64,7 @@ const categoryDefaultData: ISchemaSettingCategoryListParams = {
  * @constructor
  */
 const CategoryListSetting: React.FC<Props> = (props) => {
-	const { settingValue, onSettingChange } = props;
+	const { settingValue, onUpdateSchemaHandle } = props;
 
 	const toastMessage = useToastMessage();
 	const { apiFetchHandler, loading } = useApiRequest();
@@ -98,7 +98,7 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 	 * @description Функция который подтверждает добавление шаблона в доску
 	 */
 	const onConfirmHandle = () => {
-		if (!onSettingChange) {
+		if (!onUpdateSchemaHandle) {
 			toastMessage(
 				"Метод для сохранения не передан в компонент!",
 				"error"
@@ -106,7 +106,7 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 			return;
 		}
 
-		onSettingChange(categoryParamsSetting);
+		onUpdateSchemaHandle(categoryParamsSetting);
 	};
 
 	/**

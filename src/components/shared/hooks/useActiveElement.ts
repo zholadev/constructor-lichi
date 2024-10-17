@@ -14,6 +14,7 @@ interface IActiveElement {
 	selectWidgetActiveData: ISchemaComponent | ISchemaElementInterfaces | null;
 	selectWidgetActiveId: string;
 	selectWidgetActiveType: ActiveElementType;
+	selectWidgetComponentId: string;
 }
 
 /**
@@ -43,6 +44,7 @@ export default function useActiveElement(): (
 		selectContainerId,
 		selectWidgetActiveData,
 		selectWidgetActiveType,
+		selectWidgetComponentId,
 	}: IActiveElement): IActiveElement | null => {
 		// Проверка на наличие данных
 		if (!selectActiveData || !selectContainerId || !selectType) {
@@ -77,6 +79,7 @@ export default function useActiveElement(): (
 			selectContainerId,
 			selectWidgetActiveData,
 			selectWidgetActiveType,
+			selectWidgetComponentId,
 		};
 	};
 }

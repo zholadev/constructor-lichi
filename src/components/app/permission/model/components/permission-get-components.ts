@@ -53,6 +53,6 @@ export const permissionGetComponents = (
 				versionComponent
 			);
 		default:
-			return basePermission; // Если тип компонента не найден, возвращаем базовые разрешения
+			return basePermission;
 	}
 };

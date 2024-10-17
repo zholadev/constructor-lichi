@@ -32,7 +32,6 @@ const Navigator: React.FC = () => {
 						key={container.id}
 						data={container}
 						containerId={container.id}
-						activeId={container.id}
 					/>
 				);
 			})}

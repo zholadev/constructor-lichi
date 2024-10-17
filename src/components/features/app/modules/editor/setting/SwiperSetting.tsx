@@ -54,7 +54,7 @@ interface SwiperPaginationThemeTypeData {
 
 interface Props {
 	settingValue?: SwiperSettings;
-	onSettingChange?: (value: SwiperSettings) => void;
+	onUpdateSchemaHandle?: (value: SwiperSettings) => void;
 }
 
 const directionData: SwiperDirectionTypeData[] = [
@@ -130,7 +130,7 @@ const paginationPositionData: SwiperPaginationPositionTypeData[] = [
  * @constructor
  */
 const SwiperSetting: React.FC<Props> = (props) => {
-	const { settingValue, onSettingChange } = props;
+	const { settingValue, onUpdateSchemaHandle } = props;
 
 	const [swiperSettings, setSwiperSettings] = useState<SwiperSettings>({
 		pagination: false,
@@ -167,7 +167,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 					},
 				};
 
-				if (onSettingChange) onSettingChange(updateValues);
+				if (onUpdateSchemaHandle) onUpdateSchemaHandle(updateValues);
 
 				return updateValues;
 			});
@@ -180,7 +180,7 @@ const SwiperSetting: React.FC<Props> = (props) => {
 				[key]: value,
 			};
 
-			if (onSettingChange) onSettingChange(updateValues);
+			if (onUpdateSchemaHandle) onUpdateSchemaHandle(updateValues);
 
 			return updateValues;
 		});

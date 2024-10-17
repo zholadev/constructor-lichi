@@ -139,13 +139,13 @@ export default function usePermission(): IPermission {
 	const typeElementActive = useMemo((): SchemaElementTypes | string => {
 		return activeElementData?.selectWidgetIsEditing
 			? (activeElementData?.selectWidgetActiveData?.type ?? "none")
-			: (activeElementData?.selectWidgetActiveData?.type ?? "none");
+			: (activeElementData?.selectElementData?.type ?? "none");
 	}, [activeElementData]);
 
 	const typeComponentActive = useMemo((): SchemaComponentTypes | string => {
 		return activeElementData?.selectWidgetIsEditing
 			? (activeElementData?.selectWidgetActiveData?.type ?? "none")
-			: (activeElementData?.selectWidgetActiveData?.type ?? "none");
+			: (activeElementData?.selectComponentData?.type ?? "none");
 	}, [activeElementData]);
 
 	const typeContainerActive = useMemo((): IContainerType => {
@@ -155,7 +155,7 @@ export default function usePermission(): IPermission {
 	const activeTypeVersion = useMemo((): string => {
 		return activeElementData?.selectWidgetIsEditing
 			? (activeElementData?.selectWidgetActiveData?.version ?? "")
-			: (activeElementData?.selectWidgetActiveData?.version ?? "");
+			: (activeElementData?.selectContainerData?.version ?? "");
 	}, [activeElementData]);
 
 	const activeDisplayBlockType = useMemo((): DisplayContainerType => {

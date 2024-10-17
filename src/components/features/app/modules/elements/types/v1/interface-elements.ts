@@ -44,7 +44,7 @@ export interface ISchemaButtonElement extends ISchemaElement {
 
 export interface ISchemaTextElement extends ISchemaElement {
 	content: {
-		title: ISchemaContentText | { ru: { value: string } };
+		title: ISchemaContentText;
 	};
 	settings?: {
 		view: ISchemaSettingsView;

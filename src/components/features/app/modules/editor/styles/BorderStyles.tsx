@@ -61,10 +61,18 @@ type StyleKeys =
 	| "borderBottom";
 
 interface Props {
-	onStyleChange?: (value: unknown, path?: string, type?: string) => void;
-	styles?: Record<string, unknown>;
+	onUpdateSchemaHandle?: (
+		value: unknown,
+		path?: string,
+		type?: string
+	) => void;
+	styles?: Record<string, unknown> | null;
 	hideTitle?: boolean;
-	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
+	onRemoveSchemaHandle?: (
+		type: string,
+		pathKey: string,
+		pathMultiKeys: string[]
+	) => void;
 }
 
 const parseBorderStyle = (border: string) => {
@@ -205,7 +213,7 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
  * @constructor
  */
 const BorderStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
+	const { onUpdateSchemaHandle, styles, hideTitle, onRemoveSchemaHandle } = props;
 
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
@@ -236,9 +244,9 @@ const BorderStyles: React.FC<Props> = (props) => {
 	 * @author Zholaman Zhumanov
 	 * @description Метод для удаления всех стилей которые относится к модулю Position
 	 */
-	const removeStylesHandle = (valueKeys: string[]) => {
-		if (onRemoveStylesChange) {
-			onRemoveStylesChange("removeKey", valueKeys);
+	const removeStylesHandle = (patMultiString: string[]) => {
+		if (onRemoveSchemaHandle) {
+			onRemoveSchemaHandle("removeKey", "", patMultiString);
 		}
 	};
 
@@ -314,7 +322,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 
 			setStyleValues(updatedValues);
 
-			if (onStyleChange) {
+			if (onUpdateSchemaHandle) {
 				const getBorderType = () => {
 					if (updatedValues.borderRight) return "borderRight";
 					if (updatedValues.borderLeft) return "borderLeft";
@@ -368,7 +376,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 					buildBorderStyles
 				);
 
-				onStyleChange(buildNewStyle);
+				onUpdateSchemaHandle(buildNewStyle);
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -380,7 +388,6 @@ const BorderStyles: React.FC<Props> = (props) => {
 	useEffect(() => {
 		if (styles) {
 			const defaultStyles = computeInitialStyles(styles);
-			// console.log("styles", styles, defaultStyles)
 			setStyleValues(defaultStyles);
 		}
 	}, [styles]);

@@ -15,10 +15,14 @@ interface IStylesValues {
 }
 
 interface Props {
-	onStyleChange?: (values: IStylesValues) => void;
-	styles?: IStylesValues;
+	onUpdateSchemaHandle?: (values: IStylesValues) => void;
+	styles?: IStylesValues | null;
 	hideTitle?: boolean;
-	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
+	onRemoveSchemaHandle: (
+		type: string,
+		pathKey: string,
+		pathMultiKeys: string[]
+	) => void;
 }
 
 /**
@@ -33,7 +37,8 @@ interface Props {
  * @constructor
  */
 const BackgroundStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
+	const { onUpdateSchemaHandle, styles, hideTitle, onRemoveSchemaHandle } =
+		props;
 
 	const toastMessage = useToastMessage();
 	const permission = usePermission();
@@ -50,7 +55,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 	 * @param value
 	 * @param key
 	 */
-	const onChangeStyleHandle = (value: string, key: keyof IStylesValues) => {
+	const onChangeHandle = (value: string, key: keyof IStylesValues) => {
 		try {
 			if (!value) {
 				toastMessage("ValueError: value is not defined", "error");
@@ -63,28 +68,28 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 					[key]: value,
 				};
 
-				if (onStyleChange) {
-					onStyleChange(updateValues);
+				if (onUpdateSchemaHandle) {
+					onUpdateSchemaHandle(updateValues);
 				}
 
 				return updateValues;
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				errorHandler("sizeStyles", "onChangeStyleHandle", error);
+				errorHandler("sizeStyles", "onChangeHandle", error);
 			}
 		}
 	};
 
-	const debouncedHandleInput = useDebounce(onChangeStyleHandle, 1000);
+	const debouncedHandleInput = useDebounce(onChangeHandle, 1000);
 
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для удаления всех стилей которые относится к модулю Position
 	 */
 	const removeStylesHandle = () => {
-		if (onRemoveStylesChange) {
-			onRemoveStylesChange("removeKey", [
+		if (onRemoveSchemaHandle) {
+			onRemoveSchemaHandle("removeKey", "", [
 				"style.backgroundColor",
 				"style.backgroundColorDark",
 			]);
@@ -92,14 +97,13 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (styles) {
-			let defaultStyle = {
-				backgroundColor: styles.backgroundColor || "#ffffff",
-				backgroundColorDark: styles?.backgroundColorDark || "#181a1b",
-			};
+		if (!styles) return;
+		let defaultStyle = {
+			backgroundColor: styles?.backgroundColor || "#ffffff",
+			backgroundColorDark: styles?.backgroundColorDark || "#181a1b",
+		};
 
-			setStylesValues(defaultStyle);
-		}
+		setStylesValues(defaultStyle);
 	}, [styles]);
 
 	return (
@@ -145,7 +149,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 								}
 								type="color"
 								onChange={(e) => {
-									onChangeStyleHandle(
+									onChangeHandle(
 										e.target.value,
 										activeDarkTheme
 											? "backgroundColorDark"

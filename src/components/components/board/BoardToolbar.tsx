@@ -97,6 +97,7 @@ const BoardToolbar: React.FC = () => {
 									selectElementId: "",
 									selectWidgetActiveData: null,
 									selectWidgetActiveType: "none",
+									selectWidgetComponentId: "",
 								});
 							}
 

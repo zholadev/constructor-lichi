@@ -103,8 +103,9 @@ export function deleteObjectByPath(obj: GenericObject, path: string): void {
  */
 export function deleteMultiplePaths(
 	obj: GenericObject,
-	paths: string | string[]
+	paths?: string | string[]
 ): void {
+	if (!paths) return;
 	if (typeof paths === "string") {
 		paths = [paths]; // Convert to an array if a single path is passed
 	}

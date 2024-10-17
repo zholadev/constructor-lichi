@@ -26,8 +26,6 @@ const TemplateAddTypeDisplay: React.FC<Props> = (props) => {
 		switch (type) {
 			case "container":
 				return <TemplateAddBaseContainer />;
-			case "swiper":
-				return <TemplateAddBaseContainer />;
 			case "saint_laurent_container":
 				return <TemplateAddSaintLaurentContainer />;
 			case "category_list_container":

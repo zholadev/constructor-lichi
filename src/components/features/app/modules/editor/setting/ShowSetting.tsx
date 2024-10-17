@@ -36,7 +36,7 @@ const showSiteTypeData: IShowSiteType[] = [
 
 interface Props {
 	settingValue?: ISchemaSettingsShow;
-	onSettingChange?: (value: ISchemaSettingsShow) => void;
+	onUpdateSchemaHandle?: (value: ISchemaSettingsShow) => void;
 }
 
 /**
@@ -51,7 +51,7 @@ interface Props {
  * @constructor
  */
 const ShowSetting: React.FC<Props> = (props) => {
-	const { settingValue, onSettingChange } = props;
+	const { settingValue, onUpdateSchemaHandle } = props;
 
 	const permission = usePermission();
 
@@ -83,7 +83,7 @@ const ShowSetting: React.FC<Props> = (props) => {
 				[key]: value,
 			};
 
-			if (onSettingChange) onSettingChange(updateValues);
+			if (onUpdateSchemaHandle) onUpdateSchemaHandle(updateValues);
 
 			return updateValues;
 		});

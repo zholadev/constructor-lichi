@@ -61,6 +61,7 @@ const ElementAction: React.FC<Props> = (props) => {
 					selectElementId: activeElementData?.selectElementId ?? "",
 					selectWidgetActiveData: data ?? null,
 					selectWidgetActiveType: "element",
+					selectWidgetComponentId: data.id ?? "",
 				});
 			}
 		} else {
@@ -71,9 +72,10 @@ const ElementAction: React.FC<Props> = (props) => {
 				selectWidgetActiveId: "",
 				selectActiveId: data?.id ?? "",
 				selectContainerId: containerId ?? "",
-				selectElementId: "",
+				selectElementId: data?.id ?? "",
 				selectWidgetActiveData: null,
 				selectWidgetActiveType: "none",
+				selectWidgetComponentId: "",
 			});
 			editorWidgetActiveElementAction("none");
 			if (dialog.dialogWidget.open) dialog.dialogWidget.toggle();

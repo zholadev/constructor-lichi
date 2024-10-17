@@ -37,7 +37,7 @@ const containerValueDefaultState: ITemplateAddSaintLaurent = {
 	componentType: "single",
 	versionContainer:
 		versionContainer.saint_laurent_container?.[0]?.version ?? "0.1",
-	versionComponent: versionComponents.saint_laurent?.[0]?.version,
+	versionComponent: versionComponents.saint_laurent?.[0]?.version ?? "",
 	countComponent: 1,
 };
 
@@ -248,6 +248,7 @@ const TemplateAddSaintLaurentContainer: React.FC = () => {
 					type="number"
 					maxLength={12}
 					minLength={1}
+					disabled={containerValue.blockType === "block"}
 					value={containerValue.countComponent}
 					className={cn("mb-4 max-w-[300px]")}
 					onChange={(e) => {

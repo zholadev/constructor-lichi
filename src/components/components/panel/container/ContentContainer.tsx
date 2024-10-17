@@ -23,7 +23,6 @@ import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions
 import useUpdateWidgetActions from "@/components/features/app/modules/widgets/hooks/useUpdateWidgetActions";
 import AnimationContent from "@/components/features/app/modules/editor/content/AnimationContent";
 import { Framer } from "lucide-react";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { ISchemaContent } from "@/components/shared/types/interface-schema-content";
 
@@ -38,7 +37,6 @@ import { ISchemaContent } from "@/components/shared/types/interface-schema-conte
  * @constructor
  */
 const ContentContainer: React.FC = () => {
-	const dialog = useDialogAction();
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
 	const updateActions = useUpdateActions();
@@ -79,22 +77,6 @@ const ContentContainer: React.FC = () => {
 
 	/**
 	 * @author Zholaman Zhumanov
-	 * @description Метод для удаления контента
-	 * @param pathString
-	 */
-	const removeSchemaDataHandle = (pathString: string) => {
-		if (
-			activeElementData?.selectWidgetIsEditing &&
-			dialog.dialogWidget.open
-		) {
-			updateWidgetActions.update({}, pathString, true);
-			return;
-		}
-		updateActions.update({}, pathString, true);
-	};
-
-	/**
-	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления данных контента
 	 * @param data
 	 * @param path
@@ -104,14 +86,24 @@ const ContentContainer: React.FC = () => {
 			toastMessage("ValueError: data or path is not defined!", "error");
 			return;
 		}
-		if (
-			activeElementData?.selectWidgetIsEditing &&
-			dialog.dialogWidget.open
-		) {
+		if (activeElementData?.selectWidgetIsEditing) {
 			updateWidgetActions.update(data, path);
 			return;
 		}
 		updateActions.update(data, path);
+	};
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для удаления контента
+	 * @param pathString
+	 */
+	const removeSchemaDataHandle = (pathString: string) => {
+		if (activeElementData?.selectWidgetIsEditing) {
+			updateWidgetActions.update({}, pathString);
+			return;
+		}
+		updateActions.update({}, pathString);
 	};
 
 	/**

@@ -27,7 +27,6 @@ import BackgroundStyles from "@/components/features/app/modules/editor/styles/Ba
 import SizeStyles from "@/components/features/app/modules/editor/styles/SizeStyles";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
 import useUpdateWidgetActions from "@/components/features/app/modules/widgets/hooks/useUpdateWidgetActions";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
 
 type AccessTypes =
 	| "position"
@@ -67,7 +66,6 @@ const StylesContainer: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	const dialog = useDialogAction();
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
 	const updateActions = useUpdateActions();
@@ -80,12 +78,12 @@ const StylesContainer: React.FC = () => {
 	 * @author Zholaman Zhumanov
 	 * @description Метод для получения стиля активного компонента
 	 */
-	const styleActiveData: Record<string, unknown> = useMemo(() => {
-		return activeElementData?.activeStyle ?? {};
+	const styleActiveData: Record<string, unknown> | null = useMemo(() => {
+		return activeElementData?.selectActiveData?.style ?? null;
 	}, [editorActiveElement, spaceTemplateData, activeElementData]);
 
 	const activeUpdateTypeData = useMemo(() => {
-		return editorActiveElement.type ?? "";
+		return activeElementData?.selectType ?? "";
 	}, [editorActiveElement, spaceTemplateData, activeElementData]);
 
 	const filterContentKeys = (
@@ -106,7 +104,7 @@ const StylesContainer: React.FC = () => {
 	 * @param path
 	 * @param save
 	 */
-	const onUpdateHandle = (
+	const updateSchemaHandle = (
 		value: unknown,
 		path: string = "style",
 		save: boolean = true
@@ -119,46 +117,39 @@ const StylesContainer: React.FC = () => {
 			return;
 		}
 
-		if (
-			activeElementData?.widgetType !== "none" &&
-			dialog.dialogWidget.open
-		) {
-			updateWidgetActions.update(value, path, false, false, save);
+		if (activeElementData?.selectWidgetIsEditing) {
+			updateWidgetActions.update(value, path, [""], false, false, save);
 			return;
 		}
 
-		updateActions.update(value, path, false, false, save);
+		updateActions.update(value, path, [""], false, false, save);
 	};
 
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для удаления стили
 	 * @param type
-	 * @param valueKeys
+	 * @param pathKey
+	 * @param pathMultiKeys
 	 */
-	const removeStylesHandle = (
-		type?: string,
-		// @ts-ignore
-		valueKeys: string | string[]
+	const removeSchemaDataHandle = (
+		type: string,
+		pathKey: string,
+		pathMultiKeys: string[]
 	) => {
 		if (type === "removeKey") {
-			if (
-				activeElementData?.widgetType !== "none" &&
-				dialog.dialogWidget.open
-			) {
-				updateWidgetActions.update({}, valueKeys, false, true);
+			if (activeElementData?.selectWidgetIsEditing) {
+				updateWidgetActions.update({}, pathKey, [""], false, true);
+				updateWidgetActions.update({}, pathKey, [""], false, true);
 				return;
 			}
-			updateActions.update({}, valueKeys, false, true);
+			updateActions.update({}, pathKey, [""], false, true);
 		} else if (type === "removeObj") {
-			if (
-				activeElementData?.widgetType !== "none" &&
-				dialog.dialogWidget.open
-			) {
-				updateWidgetActions.update({}, valueKeys, true, false);
+			if (activeElementData?.selectWidgetIsEditing) {
+				updateWidgetActions.update({}, "", pathMultiKeys, true, false);
 				return;
 			}
-			updateActions.update({}, valueKeys, true, false);
+			updateActions.update({}, "", pathMultiKeys, true, false);
 		}
 	};
 
@@ -199,7 +190,7 @@ const StylesContainer: React.FC = () => {
 							<GridContainerStyles
 								hideTitle
 								styles={styleActiveData}
-								onStyleChange={onUpdateHandle}
+								onUpdateSchemaHandle={updateSchemaHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -219,8 +210,8 @@ const StylesContainer: React.FC = () => {
 							<PositionStyles
 								hideTitle
 								styles={styleActiveData}
-								onStyleChange={onUpdateHandle}
-								onRemoveStylesChange={removeStylesHandle}
+								onUpdateSchemaHandle={updateSchemaHandle}
+								onRemoveSchemaHandle={removeSchemaDataHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -238,8 +229,8 @@ const StylesContainer: React.FC = () => {
 							<SizeStyles
 								hideTitle
 								styles={styleActiveData}
-								onStyleChange={onUpdateHandle}
-								onRemoveStylesChange={removeStylesHandle}
+								onUpdateSchemaHandle={updateSchemaHandle}
+								onRemoveSchemaHandle={removeSchemaDataHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -258,9 +249,10 @@ const StylesContainer: React.FC = () => {
 						<AccordionContent>
 							<SpacingStyles
 								hideTitle
+								// @ts-ignore
 								styles={styleActiveData}
-								onStyleChange={onUpdateHandle}
-								onRemoveStylesChange={removeStylesHandle}
+								onUpdateSchemaHandle={updateSchemaHandle}
+								onRemoveSchemaHandle={removeSchemaDataHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -278,10 +270,10 @@ const StylesContainer: React.FC = () => {
 							<BorderStyles
 								hideTitle
 								styles={styleActiveData}
-								onStyleChange={(...params) =>
-									onUpdateHandle(...params, "style", false)
+								onUpdateSchemaHandle={(data) =>
+									updateSchemaHandle(data, "style", false)
 								}
-								onRemoveStylesChange={removeStylesHandle}
+								onRemoveSchemaHandle={removeSchemaDataHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -300,9 +292,10 @@ const StylesContainer: React.FC = () => {
 						<AccordionContent>
 							<TypographyStyles
 								hideTitle
+								// @ts-ignore
 								styles={styleActiveData}
-								onStyleChange={onUpdateHandle}
-								onRemoveStylesChange={removeStylesHandle}
+								onUpdateSchemaHandle={updateSchemaHandle}
+								onRemoveSchemaHandle={removeSchemaDataHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -319,9 +312,10 @@ const StylesContainer: React.FC = () => {
 						<AccordionContent>
 							<BackgroundStyles
 								hideTitle
+								// @ts-ignore
 								styles={styleActiveData}
-								onStyleChange={onUpdateHandle}
-								onRemoveStylesChange={removeStylesHandle}
+								onUpdateSchemaHandle={updateSchemaHandle}
+								onRemoveSchemaHandle={removeSchemaDataHandle}
 							/>
 						</AccordionContent>
 					</AccordionItem>
@@ -333,7 +327,9 @@ const StylesContainer: React.FC = () => {
 					<Button
 						variant="outline"
 						className={cn("w-full")}
-						onClick={() => removeStylesHandle("removeObj", "style")}
+						onClick={() =>
+							removeSchemaDataHandle("removeObj", "style", [""])
+						}
 					>
 						Очистить все стили
 					</Button>

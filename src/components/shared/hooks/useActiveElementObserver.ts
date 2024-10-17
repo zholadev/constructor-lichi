@@ -25,6 +25,8 @@ export interface IActiveElementObserver {
 	selectWidgetActiveData: ISchemaComponent | ISchemaElementInterfaces | null;
 	selectWidgetIsEditing: boolean;
 	selectWidgetActiveId: string;
+	selectWidgetComponentId: string;
+	selectWidgetElementId: string;
 }
 
 /**
@@ -130,6 +132,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			case "container":
 				return getContainerData;
 			case "element":
+				// @ts-ignore
 				return getElementData;
 			default:
 				return null;
@@ -157,8 +160,52 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			const widgetData = widgetComponents.find(
 				(widget: ISchemaComponent) => {
 					return (
-						widget?.id === editorActiveElement?.selectWidgetActiveId
+						widget?.id ===
+						editorActiveElement?.selectWidgetComponentId
 					);
+				}
+			);
+
+			return widgetData || null;
+		} catch (error) {
+			toastMessage(
+				"Ошибка в foundComponentData в useActiveElementObserver",
+				"error"
+			);
+			errorHandler(
+				"useActiveElementObserver",
+				"foundComponentData",
+				error
+			);
+			return null;
+		}
+	}, [editorActiveElement?.componentId, getComponentData]);
+
+	const getActiveElementData = useMemo((): ISchemaComponent | null => {
+		try {
+			// Проверка на наличие widgetActiveId и компонентов
+			if (!editorActiveElement?.widgetActiveId || !getComponentData)
+				return null;
+
+			// Проверка на наличие widgets и data
+			const widgetComponents =
+				getComponentData?.widgets?.data?.components;
+			if (!widgetComponents || !Array.isArray(widgetComponents))
+				return null;
+
+			// Поиск нужного виджета
+			const widgetData = widgetComponents.find(
+				(widget: ISchemaComponent) => {
+					if (widget.id === editorActiveElement?.selectComponentId) {
+						if (widget.elements) {
+							widget.elements.map((widgetElement) => {
+								return (
+									widgetElement.id ===
+									editorActiveElement?.selectWidgetActiveId
+								);
+							});
+						}
+					}
 				}
 			);
 
@@ -200,6 +247,9 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 				false,
 			selectWidgetActiveId:
 				editorActiveElement?.selectWidgetActiveId ?? "",
+			selectWidgetComponentId:
+				editorActiveElement?.selectWidgetComponentId ?? "",
+			selectWidgetElementId: getActiveElementData?.id ?? "",
 		};
 	}, [
 		editorActiveElement,

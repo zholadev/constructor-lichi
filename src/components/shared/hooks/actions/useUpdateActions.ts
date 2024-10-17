@@ -18,7 +18,7 @@ interface IUpdateActions {
 	update: (
 		data: unknown,
 		pathString: string,
-		pathMultiString: string[],
+		pathMultiString?: string[],
 		removeObj?: boolean,
 		removeKey?: boolean,
 		save?: boolean
@@ -47,7 +47,7 @@ export default function useUpdateActions(): IUpdateActions {
 	const update = (
 		newValue: unknown,
 		pathString: string,
-		pathMultiString: string[],
+		pathMultiString?: string[],
 		removeObj: boolean = false,
 		removeKey: boolean = false,
 		save: boolean = true

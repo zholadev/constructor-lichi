@@ -4,20 +4,17 @@ import React from "react";
 import { cn } from "@/components/lib/utils";
 import { ButtonIcon, Component1Icon, LayersIcon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
-import { IElementTotal } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
-import { ActiveElementType } from "@/components/shared/types/types";
+import { ActiveElementType, SchemaData } from "@/components/shared/types/types";
 import { GalleryThumbnailsIcon } from "lucide-react";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import { formattedName } from "@/components/shared/utils/utils";
 
 interface Props {
 	type: ActiveElementType;
 	containerId: string;
 	componentId?: string;
-	elementId?: string;
-	activeId: string;
-	data: ISchemaContainer | ISchemaComponent | IElementTotal;
+	data: SchemaData;
 }
 
 /**
@@ -32,7 +29,7 @@ interface Props {
  * @constructor
  */
 const NavigatorLayer: React.FC<Props> = (props) => {
-	const { type, containerId, data, activeId, elementId, componentId } = props;
+	const { type, containerId, data, componentId } = props;
 
 	const { editorNavigatorHoverIdAction } = useDispatchAction();
 
@@ -41,33 +38,19 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 	const onMouseOverHandle = (id: string | null) =>
 		editorNavigatorHoverIdAction(id);
 
-	const formattedName = (name: string) => {
-		if (typeof name === "string") {
-			return name.replace(/_/g, " ");
-		}
-
-		return name;
-	};
-
 	const onClickHandle = () => {
-		if (type === "element") {
-			activeElementHandle({
-				activeData: data,
-				containerId,
-				type,
-				componentId,
-				activeId,
-				elementId,
-			});
-			return;
-		}
-
 		activeElementHandle({
-			activeData: data,
-			containerId,
-			type,
-			componentId,
-			activeId,
+			selectActiveData: data ?? null,
+			selectType: type,
+			selectComponentId:
+				type === "component" ? (data?.id ?? "") : (componentId ?? ""),
+			selectWidgetActiveId: "",
+			selectActiveId: data?.id ?? "",
+			selectContainerId: containerId ?? "",
+			selectElementId: "",
+			selectWidgetActiveData: null,
+			selectWidgetActiveType: "none",
+			selectWidgetComponentId: "",
 		});
 	};
 
@@ -99,40 +82,32 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 				<span>{getIconsRender()}</span>{" "}
 				{formattedName(data?.type) ?? "Выберите компонент"}
 			</div>
-			{data?.components &&
-				data?.components.map((component: ISchemaComponent) => {
-					return (
-						<div
-							className={cn("w-full flex flex-col")}
-							key={component.id}
-						>
-							<NavigatorLayer
-								containerId={containerId}
-								data={component}
-								type="component"
-								componentId={component?.id}
-								activeId={component?.id}
-							/>
+			{"components" in data &&
+				data.components &&
+				data.components.map((component: ISchemaComponent) => (
+					<div
+						className={cn("w-full flex flex-col")}
+						key={component.id}
+					>
+						<NavigatorLayer
+							containerId={containerId}
+							data={component}
+							type="component"
+							componentId={component?.id}
+						/>
 
-							{component?.elements &&
-								component?.elements.map((element) => (
-									<div
-										className={cn("pl-3")}
-										key={element.id}
-									>
-										<NavigatorLayer
-											containerId={containerId}
-											data={element}
-											type="element"
-											componentId={component?.id}
-											activeId={element?.id}
-											elementId={element?.id}
-										/>
-									</div>
-								))}
-						</div>
-					);
-				})}
+						{component.elements?.map((element) => (
+							<div className={cn("pl-3")} key={element.id}>
+								<NavigatorLayer
+									containerId={containerId}
+									data={element}
+									type="element"
+									componentId={component?.id}
+								/>
+							</div>
+						))}
+					</div>
+				))}
 		</div>
 	);
 };

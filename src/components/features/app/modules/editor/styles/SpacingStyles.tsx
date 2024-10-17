@@ -22,10 +22,17 @@ interface IStylesValues {
 }
 
 interface Props {
-	onStyleChange?: (values: { margin: number[]; padding: number[] }) => void;
-	styles?: { margin: number[]; padding: number[] };
+	onUpdateSchemaHandle?: (values: {
+		margin: number[];
+		padding: number[];
+	}) => void;
+	styles?: { margin: number[]; padding: number[] } | null;
 	hideTitle?: boolean;
-	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
+	onRemoveSchemaHandle: (
+		type: string,
+		pathKey: string,
+		pathMultiKeys: string[]
+	) => void;
 }
 
 function convertToCssArray(styles: {
@@ -96,7 +103,8 @@ function convertToObject(styles: { margin: number[]; padding: number[] }) {
  * @constructor
  */
 const SpacingStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
+	const { onRemoveSchemaHandle, styles, hideTitle, onUpdateSchemaHandle } =
+		props;
 
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
@@ -117,22 +125,13 @@ const SpacingStyles: React.FC<Props> = (props) => {
 	 * @author Zholaman Zhumanov
 	 * @description Метод для обновления значение стилей
 	 * @param value
-	 * @param type
+	 * @param key
 	 * @param side
 	 */
-	const onChangeStylesHandle = (
-		value: string,
-		type: SpacingType,
-		side: Sides
-	) => {
+	const onChangeHandle = (value: string, key: SpacingType, side: Sides) => {
 		try {
-			if (!value) {
-				toastMessage("ValueError: value is not defined", "error");
-				return;
-			}
-
-			if (!type) {
-				toastMessage("TypeError: type is not defined", "error");
+			if (!value || !key) {
+				toastMessage("ValueError: value | key is not defined", "error");
 				return;
 			}
 
@@ -141,22 +140,22 @@ const SpacingStyles: React.FC<Props> = (props) => {
 			setStylesValues((prev) => {
 				const updateValues = {
 					...prev,
-					[type]: {
-						...prev[type],
+					[key]: {
+						...prev[key],
 						[side]: newValue,
 					},
 				};
 
-				if (onStyleChange) {
+				if (onUpdateSchemaHandle) {
 					const covertSpacing = convertToCssArray(updateValues);
-					onStyleChange(covertSpacing);
+					onUpdateSchemaHandle(covertSpacing);
 				}
 
 				return updateValues;
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				errorHandler("layoutStyles", "onChangeJustifyHandle", error);
+				errorHandler("layoutStyles", "onChangeHandle", error);
 			}
 		}
 	};
@@ -166,8 +165,8 @@ const SpacingStyles: React.FC<Props> = (props) => {
 	 * @description Метод для удаления всех стилей которые относится к модулю Position
 	 */
 	const removeStylesHandle = () => {
-		if (onRemoveStylesChange) {
-			onRemoveStylesChange("removeKey", [
+		if (onRemoveSchemaHandle) {
+			onRemoveSchemaHandle("removeKey", "", [
 				"style.padding",
 				"style.margin",
 			]);
@@ -193,7 +192,7 @@ const SpacingStyles: React.FC<Props> = (props) => {
 						type="number"
 						placeholder={`${side}`}
 						onChange={(e) =>
-							onChangeStylesHandle(e.target.value, type, side)
+							onChangeHandle(e.target.value, type, side)
 						}
 					/>
 				</div>

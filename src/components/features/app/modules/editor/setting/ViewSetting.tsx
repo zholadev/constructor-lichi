@@ -41,7 +41,7 @@ const viewContentTypeData: IViewContent[] = [
 
 interface Props {
 	settingValue?: ISchemaSettingsView;
-	onSettingChange?: (value: ISchemaSettingsView) => void;
+	onUpdateSchemaHandle?: (value: ISchemaSettingsView) => void;
 }
 
 /**
@@ -56,7 +56,7 @@ interface Props {
  * @constructor
  */
 const ViewSetting: React.FC<Props> = (props) => {
-	const { settingValue, onSettingChange } = props;
+	const { settingValue, onUpdateSchemaHandle } = props;
 
 	const activeElementData = useActiveElementObserver();
 	const permission = usePermission();
@@ -92,7 +92,7 @@ const ViewSetting: React.FC<Props> = (props) => {
 				[key]: value,
 			};
 
-			if (onSettingChange) onSettingChange(updateValues);
+			if (onUpdateSchemaHandle) onUpdateSchemaHandle(updateValues);
 
 			return updateValues;
 		});
@@ -103,11 +103,25 @@ const ViewSetting: React.FC<Props> = (props) => {
 	 * @description Получаем есть ли оба контента в схеме данных
 	 */
 	const isContentType: boolean = useMemo(() => {
-		const videoContent = activeElementData?.contentData
-			?.video as ISchemaContentVideoParams;
-		const imageContent = activeElementData?.contentData
-			?.photo as ISchemaContentPhotoTriple;
-		return !!(videoContent && imageContent) ?? false;
+		const isWidget: boolean =
+			activeElementData?.selectWidgetIsEditing ?? false;
+
+		const contentData = isWidget
+			? // @ts-ignore
+				activeElementData?.selectWidgetActiveData?.content
+			: // @ts-ignore
+				activeElementData?.selectActiveData?.content;
+
+		if (!contentData) return false;
+
+		const videoContent = contentData?.video as
+			| ISchemaContentVideoParams
+			| undefined;
+		const imageContent = contentData?.photo as
+			| ISchemaContentPhotoTriple
+			| undefined;
+
+		return !!(videoContent && imageContent);
 	}, [activeElementData]);
 
 	useEffect(() => {

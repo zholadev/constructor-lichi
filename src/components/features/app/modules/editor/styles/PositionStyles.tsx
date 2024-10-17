@@ -45,10 +45,14 @@ interface IStylesValues {
 }
 
 interface Props {
-	onStyleChange?: (values: IStylesValues) => void;
-	styles?: React.CSSProperties;
+	onUpdateSchemaHandle?: (values: IStylesValues) => void;
+	styles?: React.CSSProperties | null;
 	hideTitle?: boolean;
-	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
+	onRemoveSchemaHandle: (
+		type: string,
+		pathKey: string,
+		pathMultiKeys: string[]
+	) => void;
 }
 
 /**
@@ -57,13 +61,14 @@ interface Props {
  * @description
  * @last-updated
  * @update-description
- * @todo type, onStyleChange
+ * @todo type, onUpdateSchemaHandle
  * @fixme
  * @param props
  * @constructor
  */
 const PositionStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
+	const { onUpdateSchemaHandle, styles, hideTitle, onRemoveSchemaHandle } =
+		props;
 
 	const permission = usePermission();
 
@@ -81,7 +86,7 @@ const PositionStyles: React.FC<Props> = (props) => {
 	 * @param key
 	 * @param value
 	 */
-	const onChangeStylesHandle = (
+	const onChangeHandle = (
 		key: keyof IStylesValues,
 		value: JustifyContent | AlignItems
 	) => {
@@ -97,15 +102,15 @@ const PositionStyles: React.FC<Props> = (props) => {
 					[key]: value,
 				};
 
-				if (onStyleChange) {
-					onStyleChange(updateValues);
+				if (onUpdateSchemaHandle) {
+					onUpdateSchemaHandle(updateValues);
 				}
 
 				return updateValues;
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				errorHandler("layoutStyles", "onChangeStylesHandle", error);
+				errorHandler("layoutStyles", "onChangeHandle", error);
 			}
 		}
 	};
@@ -115,8 +120,8 @@ const PositionStyles: React.FC<Props> = (props) => {
 	 * @description Метод для удаления всех стилей которые относится к модулю Position
 	 */
 	const removeStylesHandle = () => {
-		if (onRemoveStylesChange) {
-			onRemoveStylesChange("removeKey", [
+		if (onRemoveSchemaHandle) {
+			onRemoveSchemaHandle("removeKey", "", [
 				"style.display",
 				"style.justifyContent",
 				"style.alignItems",
@@ -193,14 +198,13 @@ const PositionStyles: React.FC<Props> = (props) => {
 	];
 
 	useEffect(() => {
-		if (styles) {
-			setStylesValues({
-				display: "flex",
-				justifyContent:
-					(styles.justifyContent as JustifyContent) || "flex-start",
-				alignItems: (styles.alignItems as AlignItems) || "flex-start",
-			});
-		}
+		if (!styles) return;
+		setStylesValues({
+			display: "flex",
+			justifyContent:
+				(styles.justifyContent as JustifyContent) || "flex-start",
+			alignItems: (styles.alignItems as AlignItems) || "flex-start",
+		});
 	}, [styles]);
 
 	return (
@@ -248,7 +252,7 @@ const PositionStyles: React.FC<Props> = (props) => {
 														: ""
 												)}
 												onClick={() => {
-													onChangeStylesHandle(
+													onChangeHandle(
 														"justifyContent",
 														content.value
 													);
@@ -293,7 +297,7 @@ const PositionStyles: React.FC<Props> = (props) => {
 														: ""
 												)}
 												onClick={() => {
-													onChangeStylesHandle(
+													onChangeHandle(
 														"alignItems",
 														content.value
 													);

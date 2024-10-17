@@ -17,3 +17,7 @@ export const getFormattedDateSixDaysAhead = (
 
 	return `${day} ${month} ${year}`;
 };
+
+export const formattedName = (name: string): string => {
+	return name.replace(/_/g, " ");
+};

@@ -80,10 +80,14 @@ interface IFontStyleData {
 }
 
 interface Props {
-	onStyleChange?: (values: CSSProperties) => void;
-	styles?: IStylesValues;
+	onUpdateSchemaHandle?: (values: CSSProperties) => void;
+	styles?: Record<string, string | number> | null;
 	hideTitle?: boolean;
-	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
+	onRemoveSchemaHandle?: (
+		type: string,
+		pathKey: string,
+		pathMultiKeys: string[]
+	) => void;
 	hideRemove?: boolean;
 }
 
@@ -188,7 +192,9 @@ const textAlignOptions: Array<{ value: TextAlign; icon: React.ReactNode }> = [
 	},
 ];
 
-const extractStyles = (styles: IStylesValues): IStylesValues => {
+const extractStyles = (
+	styles: Record<string, number | string>
+): IStylesValues => {
 	let defaultStyles: IStylesValues = {
 		fontFamily: "Futura PT",
 		fontSize: 16,
@@ -207,13 +213,13 @@ const extractStyles = (styles: IStylesValues): IStylesValues => {
 		textAlign: (styles.textAlign as TextAlign) || defaultStyles.textAlign,
 		fontWeight:
 			(styles.fontWeight as FontWeights) || defaultStyles.fontWeight,
-		color: styles.color || defaultStyles.color,
 		fontStyle:
 			(styles.fontStyle as FontStylesType) || defaultStyles.fontStyle,
 		textDecoration:
 			(styles.textDecoration as TextDecoration) ||
 			defaultStyles.textDecoration,
-		colorDark: styles.colorDark || defaultStyles.colorDark,
+		color: (styles.color as string) || defaultStyles.color,
+		colorDark: (styles.colorDark as string) || defaultStyles.colorDark,
 	};
 };
 
@@ -230,10 +236,10 @@ const extractStyles = (styles: IStylesValues): IStylesValues => {
  */
 const TypographyStyles: React.FC<Props> = (props) => {
 	const {
-		onStyleChange,
+		onUpdateSchemaHandle,
 		styles,
 		hideTitle,
-		onRemoveStylesChange,
+		onRemoveSchemaHandle,
 		hideRemove,
 	} = props;
 
@@ -257,8 +263,8 @@ const TypographyStyles: React.FC<Props> = (props) => {
 	 * @description Метод для удаления всех стилей которые относится к модулю Position
 	 */
 	const removeStylesHandle = () => {
-		if (onRemoveStylesChange) {
-			onRemoveStylesChange("removeKey", [
+		if (onRemoveSchemaHandle) {
+			onRemoveSchemaHandle("removeKey", "", [
 				"style.fontFamily",
 				"style.fontSize",
 				"style.textAlign",
@@ -339,8 +345,8 @@ const TypographyStyles: React.FC<Props> = (props) => {
 					[key]: value,
 				};
 
-				if (onStyleChange) {
-					onStyleChange(updateValues);
+				if (onUpdateSchemaHandle) {
+					onUpdateSchemaHandle(updateValues);
 				}
 
 				return updateValues;
@@ -367,10 +373,9 @@ const TypographyStyles: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (styles) {
-			const getStyles = extractStyles(styles);
-			setStylesValues(getStyles);
-		}
+		if (!styles) return;
+		const getStyles = extractStyles(styles);
+		setStylesValues(getStyles);
 	}, [styles]);
 
 	return (

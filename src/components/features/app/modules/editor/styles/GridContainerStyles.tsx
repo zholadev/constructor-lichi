@@ -11,22 +11,10 @@ interface IStyles {
 }
 
 interface Props {
-	onStyleChange?: (values: CSSProperties) => void;
-	styles?: Record<string, string>;
+	onUpdateSchemaHandle?: (values: CSSProperties) => void;
+	styles?: any;
 	hideTitle?: boolean;
 }
-
-const extractNumberGap = (value: string): Record<string, number> => {
-	const numberValue = parseFloat(value);
-	return { gap: numberValue };
-};
-
-const addUnit = (
-	value: number,
-	unit: string = "px"
-): Record<string, unknown> => {
-	return { gap: `${value}${unit}` };
-};
 
 /**
  * @author Zholaman Zhumanov
@@ -40,7 +28,7 @@ const addUnit = (
  * @constructor
  */
 const GridContainerStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle } = props;
+	const { onUpdateSchemaHandle, styles, hideTitle } = props;
 
 	const permission = usePermission();
 
@@ -56,7 +44,7 @@ const GridContainerStyles: React.FC<Props> = (props) => {
 	 * @param value
 	 * @param key
 	 */
-	const onChangeStylesHandle = (value: number, key: keyof IStyles) => {
+	const onChangeHandle = (value: number, key: keyof IStyles) => {
 		try {
 			if (!value || !key) {
 				toastMessage("ValueError: value is not defined", "error");
@@ -69,9 +57,8 @@ const GridContainerStyles: React.FC<Props> = (props) => {
 					[key]: value,
 				};
 
-				if (onStyleChange) {
-					const convertStyle = addUnit(value);
-					onStyleChange(convertStyle);
+				if (onUpdateSchemaHandle) {
+					onUpdateSchemaHandle(updateValues);
 				}
 
 				return updateValues;
@@ -82,11 +69,8 @@ const GridContainerStyles: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (styles) {
-			const reverseConvertObj = extractNumberGap(styles.gap);
-			// @ts-ignore
-			setStylesValues(reverseConvertObj);
-		}
+		if (!styles) return;
+		setStylesValues(styles);
 	}, [styles]);
 
 	return (
@@ -111,7 +95,7 @@ const GridContainerStyles: React.FC<Props> = (props) => {
 							value={stylesValue.gap}
 							type="number"
 							onChange={(e) =>
-								onChangeStylesHandle(
+								onChangeHandle(
 									parseFloat(e.target.value),
 									"gap"
 								)

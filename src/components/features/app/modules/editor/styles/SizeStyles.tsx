@@ -16,10 +16,14 @@ interface IStyleValues {
 type StyleKeys = keyof IStyleValues;
 
 interface Props {
-	onStyleChange?: (value: IStyleValues) => void;
-	styles?: React.CSSProperties;
+	onUpdateSchemaHandle?: (value: IStyleValues) => void;
+	styles?: React.CSSProperties | null;
 	hideTitle?: boolean;
-	onRemoveStylesChange: (type: string, valueKeys: string[]) => void;
+	onRemoveSchemaHandle: (
+		type: string,
+		pathKey: string,
+		pathMultiKeys: string[]
+	) => void;
 }
 
 /**
@@ -34,7 +38,7 @@ interface Props {
  * @constructor
  */
 const SizeStyles: React.FC<Props> = (props) => {
-	const { onStyleChange, styles, hideTitle, onRemoveStylesChange } = props;
+	const { onUpdateSchemaHandle, styles, hideTitle, onRemoveSchemaHandle } = props;
 
 	const permission = usePermission();
 
@@ -52,7 +56,7 @@ const SizeStyles: React.FC<Props> = (props) => {
 	 * @param value
 	 * @param type
 	 */
-	const onChangeSizeHandle = (value: string, type: StyleKeys) => {
+	const onChangeHandle = (value: string, type: StyleKeys) => {
 		try {
 			if (!value) {
 				toastMessage("ValueError: value is not defined", "error");
@@ -72,15 +76,15 @@ const SizeStyles: React.FC<Props> = (props) => {
 					[type]: newValue,
 				};
 
-				if (onStyleChange) {
-					onStyleChange(newUpdateValues);
+				if (onUpdateSchemaHandle) {
+					onUpdateSchemaHandle(newUpdateValues);
 				}
 
 				return newUpdateValues;
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				errorHandler("sizeStyles", "onChangeSizeHandle", error);
+				errorHandler("sizeStyles", "onChangeHandle", error);
 			}
 		}
 	};
@@ -90,8 +94,8 @@ const SizeStyles: React.FC<Props> = (props) => {
 	 * @description Метод для удаления всех стилей которые относится к модулю Position
 	 */
 	const removeStylesHandle = () => {
-		if (onRemoveStylesChange) {
-			onRemoveStylesChange("removeKey", [
+		if (onRemoveSchemaHandle) {
+			onRemoveSchemaHandle("removeKey", "", [
 				"style.height",
 				"style.width",
 				"styles.widthFull",
@@ -149,7 +153,7 @@ const SizeStyles: React.FC<Props> = (props) => {
 						value={sizeValues.width}
 						type="number"
 						onChange={(e) => {
-							onChangeSizeHandle(e.target.value, "width");
+							onChangeHandle(e.target.value, "width");
 						}}
 					/>
 				</div>
@@ -172,7 +176,7 @@ const SizeStyles: React.FC<Props> = (props) => {
 						value={sizeValues.height}
 						type="number"
 						onChange={(e) => {
-							onChangeSizeHandle(e.target.value, "height");
+							onChangeHandle(e.target.value, "height");
 						}}
 					/>
 				</div>

@@ -6,7 +6,10 @@ import { ISchemaSettingCategoryListParams } from "@/components/shared/types/inte
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
-import { ISchemaContainer } from "@/components/shared/types/interface-schema-container";
+import {
+	ISchemaBaseContainer,
+	ISchemaContainer,
+} from "@/components/shared/types/interface-schema-container";
 import { v4 as uuidv4 } from "uuid";
 import { defaultSettings } from "@/components/entities/defSettings/def_settings";
 import { saint_laurent_component_schema } from "@/components/app/schema/model/v1/schema-special-components";
@@ -51,6 +54,53 @@ export default function useContainerActions(): IContainerActions {
 
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 
+	const generateStyles = (
+		blockType: DisplayContainerType,
+		commonStyles: Record<string, unknown>,
+		templateColumns?: string
+	): Record<string, unknown> => {
+		if (blockType === "block") {
+			return {
+				...commonStyles,
+				display: "grid",
+				gap: 2,
+				gridTemplateColumns: templateColumns || "",
+			};
+		}
+		if (blockType === "swiper") {
+			return {
+				...commonStyles,
+				display: "block",
+			};
+		}
+		return commonStyles;
+	};
+
+	const validateInputs = (
+		version: string,
+		blockType: DisplayContainerType
+	) => {
+		if (!version) {
+			toastMessage("Вы не выбрали версию контейнера!", "error");
+			return false;
+		}
+		if (!blockType) {
+			toastMessage("Вы не выбрали тип блока!", "error");
+			return false;
+		}
+		return true;
+	};
+
+	const getCommonStyles = (): Record<string, unknown> => ({
+		margin: [0, 0, 2, 0],
+		backgroundColor: "#ffffff",
+		backgroundColorDark: "#181a1b",
+	});
+
+	const createChildren = (count: number): Array<{ id: string }> => {
+		return Array.from({ length: count }, () => ({ id: uuidv4() }));
+	};
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Функция для добавления обычных контейнеров в доску
@@ -61,78 +111,29 @@ export default function useContainerActions(): IContainerActions {
 		version: string,
 		cb: () => void
 	) => {
-		if (!version) {
-			toastMessage("Вы не выбрали версию контейнера!", "error");
-			return;
-		}
+		if (!validateInputs(version, blockType)) return;
 
-		if (!blockType) {
-			toastMessage("Вы не выбрали тип блока!", "error");
-			return;
-		}
-
-		const createTemplateColumns = () =>
-			Array(countColumn).fill("1fr").join(" ");
-
-		const generateStyles = () => {
-			const commonStyles = {
-				margin: "0 0 2px 0",
-				backgroundColor: "#ffffff",
-				backgroundColorDark: "rgb(24, 26, 27)",
-			};
-
-			if (blockType === "block") {
-				return {
-					...commonStyles,
-					display: "grid",
-					gap: "2px",
-					gridTemplateColumns: createTemplateColumns() ?? "",
-				};
-			}
-			if (blockType === "swiper") {
-				return {
-					...commonStyles,
-					display: "block",
-				};
-			}
-
-			return commonStyles;
-		};
-
-		const generateSettings = () => {
-			if (blockType === "block") {
-				return {
-					...defaultSettings.CONTAINERS.container.block,
-				};
-			}
-			if (blockType === "swiper") {
-				return {
-					...defaultSettings.CONTAINERS.container.swiper,
-				};
-			}
-		};
-
-		const createChildren = () => {
-			return Array.from({ length: countColumn }, () => ({
-				id: uuidv4(),
-			}));
-		};
-
+		const templateColumns = Array(countColumn).fill("1fr").join(" ");
 		const newTemplate: ISchemaContainer = {
 			id: uuidv4(),
 			guid: uuidv4(),
 			type: "container",
 			version,
-			style: generateStyles(),
+			style: generateStyles(
+				blockType,
+				getCommonStyles(),
+				templateColumns
+			),
 			display: blockType,
 			// @ts-ignore
-			components: createChildren(),
-			// @ts-ignore
-			settings: generateSettings(),
+			components: createChildren(countColumn),
+			settings:
+				blockType === "block"
+					? defaultSettings.CONTAINERS.container.block
+					: defaultSettings.CONTAINERS.container.swiper,
 		};
 
 		spaceTemplateDataAction([...spaceTemplateData, newTemplate]);
-
 		if (cb) cb();
 	};
 
@@ -154,22 +155,12 @@ export default function useContainerActions(): IContainerActions {
 		countComponent: number,
 		cb: () => void
 	) => {
-		if (!versionContainer) {
-			toastMessage("Вы не выбрали версию контейнера!", "error");
-			return;
-		}
+		if (!validateInputs(versionContainer, type)) return;
 
-		if (!type) {
-			toastMessage("Вы не выбрали тип контейнера!", "error");
-			return;
-		}
+		const staticCount = componentType === "duo" ? 2 : 1;
+		const templateColumns = Array(staticCount).fill("1fr").join(" ");
 
-		const componentCount: number = componentType === "duo" ? 2 : 1;
-
-		const createTemplateColumns = () =>
-			Array(componentCount).fill("1fr").join(" ");
-
-		const generateStyles = () => {
+		const generateStylesSaint = (): Record<string, unknown> => {
 			const commonStyles = {
 				margin: "0 0 2px 0",
 				backgroundColor: "#ffffff",
@@ -180,47 +171,15 @@ export default function useContainerActions(): IContainerActions {
 				return {
 					...commonStyles,
 					display: "grid",
-					gap: "60px",
+					gap: 60,
 					justifyContent: "center",
 					alignItems: "center",
-					gridTemplateColumns: createTemplateColumns() ?? "",
-				};
-			}
-			if (type === "swiper") {
-				return {
-					...commonStyles,
+					gridTemplateColumns: templateColumns ?? "",
 				};
 			}
 
+			// For swiper or other types
 			return commonStyles;
-		};
-
-		const generateSettings = () => {
-			if (type === "block") {
-				return {
-					...defaultSettings.CONTAINERS.saint_laurent_container.block,
-				};
-			}
-			if (type === "swiper") {
-				return {
-					...defaultSettings.CONTAINERS.saint_laurent_container
-						.swiper,
-				};
-			}
-		};
-
-		const createChildren = () => {
-			if (type === "swiper") {
-				return Array.from({ length: countComponent }, () => ({
-					...saint_laurent_component_schema(versionComponent),
-					id: uuidv4(),
-				}));
-			}
-
-			return Array.from({ length: componentCount }, () => ({
-				...saint_laurent_component_schema(versionComponent),
-				id: uuidv4(),
-			}));
 		};
 
 		const newTemplate: ISchemaContainer = {
@@ -229,14 +188,21 @@ export default function useContainerActions(): IContainerActions {
 			type: "saint_laurent_container",
 			version: versionContainer,
 			display: type,
-			style: generateStyles(),
-			components: createChildren(),
-			// @ts-ignore
-			settings: generateSettings(),
+			style: generateStylesSaint(),
+			components: Array.from(
+				{ length: type === "swiper" ? countComponent : staticCount },
+				() => ({
+					...saint_laurent_component_schema(versionComponent),
+					id: uuidv4(),
+				})
+			),
+			settings:
+				type === "block"
+					? defaultSettings.CONTAINERS.saint_laurent_container.block
+					: defaultSettings.CONTAINERS.saint_laurent_container.swiper,
 		};
 
 		spaceTemplateDataAction([...spaceTemplateData, newTemplate]);
-
 		if (cb) cb();
 	};
 
@@ -254,37 +220,15 @@ export default function useContainerActions(): IContainerActions {
 		version: string,
 		cb: () => void
 	) => {
-		if (!version) {
-			toastMessage("Вы не выбрали версию контейнера!", "error");
-			return;
-		}
+		if (!validateInputs(version, blockType)) return;
 
-		if (!blockType) {
-			toastMessage("Вы не выбрали тип контейнера!", "error");
-			return;
-		}
-
-		const generateStyles = () => {
-			const commonStyles = {
-				margin: "0 0 2px 0",
-				backgroundColor: "#ffffff",
-				backgroundColorDark: "#181a1b",
-			};
-
-			return {
-				...commonStyles,
-				display: "block",
-			};
-		};
-
-		const newTemplate: ISchemaContainer = {
+		const newTemplate: ISchemaBaseContainer = {
 			id: uuidv4(),
 			guid: uuidv4(),
 			type: "category_list_container",
 			version,
-			style: generateStyles(),
 			display: "swiper",
-			// @ts-ignore
+			style: generateStyles(blockType, getCommonStyles()),
 			settings: {
 				...defaultSettings.CONTAINERS.category_list_container,
 				categoryList: params || {},
@@ -292,7 +236,6 @@ export default function useContainerActions(): IContainerActions {
 		};
 
 		spaceTemplateDataAction([...spaceTemplateData, newTemplate]);
-
 		if (cb) cb();
 	};
 

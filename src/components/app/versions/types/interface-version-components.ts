@@ -9,9 +9,11 @@ import { IPermission } from "@/components/app/permission/types/interface-permiss
 import { saint_laurent_component_permission_v1 } from "@/components/features/app/modules/components/permission/v1/permission-special-components";
 
 type IVersionComponentsPermission = Record<"permission", IPermission>;
-type IVersionComponents = Record<
-	SchemaComponentTypes,
-	Array<Record<"version", string> & IVersionComponentsPermission>
+type IVersionComponents = Partial<
+	Record<
+		SchemaComponentTypes,
+		Array<Record<"version", string> & IVersionComponentsPermission>
+	>
 >;
 
 export const versionComponents: IVersionComponents = {
@@ -34,7 +36,7 @@ export const versionComponents: IVersionComponents = {
 		},
 	],
 	album_outside: [
-	{
+		{
 			version: "1.0",
 			permission: album_outside_component_permission_v1,
 		},
@@ -44,11 +46,5 @@ export const versionComponents: IVersionComponents = {
 			version: "1.0",
 			permission: saint_laurent_component_permission_v1,
 		},
-	],
-	none: [
-		{
-			version: "1.0",
-			permission: {},
-		},
-	],
+	]
 };

@@ -50,6 +50,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 	 */
 	const onClickHandle = () => {
 		if (previewMode.previewModeEditor) return;
+		// if (!data?.type) return;
 		if (widgetComponent) {
 			if (dialog.dialogWidget.open) {
 				activeElementHandle({
@@ -65,9 +66,11 @@ const ComponentAction: React.FC<Props> = (props) => {
 					selectElementId: activeElementData?.selectElementId ?? "",
 					selectWidgetActiveData: data ?? null,
 					selectWidgetActiveType: "component",
+					selectWidgetComponentId: data.id ?? "",
 				});
 			}
 		} else {
+			console.log("work")
 			activeElementHandle({
 				selectActiveData: data ?? null,
 				selectType: "component",
@@ -78,6 +81,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 				selectElementId: "",
 				selectWidgetActiveData: null,
 				selectWidgetActiveType: "none",
+				selectWidgetComponentId: "",
 			});
 			editorWidgetActiveElementAction("none");
 			if (dialog.dialogWidget.open) dialog.dialogWidget.toggle();

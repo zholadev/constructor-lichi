@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+	CSSProperties,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import { ISchemaSettingsTimer } from "@/components/shared/types/interface-schema-settings";
 import { cn } from "@/components/lib/utils";
 import { Popover, PopoverTrigger } from "@/components/shared/shadcn/ui/popover";
@@ -25,8 +31,11 @@ import { defaultSettings } from "@/components/entities/defSettings/def_settings"
 
 interface Props {
 	settingValue?: ISchemaSettingsTimer;
-	onSettingChange?: (value: ISchemaSettingsTimer) => void;
-	onSettingChangeStyle?: (value: ISchemaSettingsTimer, path: string) => void;
+	onUpdateSchemaHandle?: (value: ISchemaSettingsTimer) => void;
+	onUpdateSchemaStyleHandle?: (
+		value: ISchemaSettingsTimer,
+		path: string
+	) => void;
 }
 
 type TimeStyleUnit = "counter" | "unit";
@@ -80,7 +89,8 @@ const filterStyleForUnits = (data: ISchemaSettingsTimer): any => {
  * @constructor
  */
 const TimerSetting: React.FC<Props> = (props) => {
-	const { settingValue, onSettingChange, onSettingChangeStyle } = props;
+	const { settingValue, onUpdateSchemaHandle, onUpdateSchemaStyleHandle } =
+		props;
 
 	const toastMessage = useToastMessage();
 
@@ -105,7 +115,7 @@ const TimerSetting: React.FC<Props> = (props) => {
 	 * @param key
 	 * @param value
 	 */
-	const onSettingUpdateHandle = (
+	const onChangeHandle = (
 		key: keyof ISchemaSettingsTimer,
 		value: string | Date
 	) => {
@@ -123,9 +133,9 @@ const TimerSetting: React.FC<Props> = (props) => {
 				[key]: value,
 			};
 
-			if (onSettingChange) {
+			if (onUpdateSchemaHandle) {
 				const convertData = convertDateForSend(updateValues);
-				onSettingChange(convertData);
+				onUpdateSchemaHandle(convertData);
 			}
 
 			return updateValues;
@@ -138,69 +148,57 @@ const TimerSetting: React.FC<Props> = (props) => {
 	 * @param key
 	 * @param value
 	 */
-	const onChangeStyleHandle = (
-		key: TimeStyleUnit,
-		value: Record<any, unknown>
-	) => {
-		setSettingValue((prevState) => {
-			const updateValues = {
-				...prevState,
-				[key]: {
-					style: {
-						...prevState?.[key]?.style,
-						...value,
+	const onChangeStyleHandle = useCallback(
+		(key: TimeStyleUnit, value: CSSProperties) => {
+			setSettingValue((prevState) => {
+				const updatedValues = {
+					...prevState,
+					[key]: {
+						style: { ...prevState[key].style, ...value },
 					},
-				},
-			};
+				};
 
-			if (onSettingChangeStyle) {
-				const filterData = filterStyleForUnits(updateValues);
+				if (onUpdateSchemaStyleHandle) {
+					const filteredData = filterStyleForUnits(updatedValues);
+					onUpdateSchemaStyleHandle(
+						filteredData[timeStyleUnitType],
+						`settings.timer.${timeStyleUnitType}`
+					);
+				}
 
-				onSettingChangeStyle(
-					filterData?.[timeStyleUnitType],
-					`settings.timer.${timeStyleUnitType}`
-				);
-			}
-
-			return updateValues;
-		});
-	};
-
+				return updatedValues;
+			});
+		},
+		[onUpdateSchemaStyleHandle, timeStyleUnitType]
+	);
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для получения активного стиля units
 	 */
-	const currentUnitStyle: Record<string, unknown> = useMemo(() => {
-		if (timeStyleUnitType === "counter") {
-			return timerSettingValue?.counter?.style ?? {};
-		}
-		if (timeStyleUnitType === "unit") {
-			return timerSettingValue?.unit?.style ?? {};
-		}
-		return {};
-	}, [timeStyleUnitType, timerSettingValue, defaultSettings]);
+	const currentUnitStyle = useMemo(() => {
+		return timeStyleUnitType === "counter"
+			? timerSettingValue.counter.style
+			: timerSettingValue.unit.style;
+	}, [timeStyleUnitType, timerSettingValue]);
 
-	const convertTimerToFullDate: any = useCallback(() => {
+	const convertTimerToFullDate = useCallback(() => {
 		try {
-			if (typeof timerSettingValue.targetTime !== "string")
-				return new Date();
-
 			const timerString = timerSettingValue.targetTime;
+			if (typeof timerString !== "string") return new Date();
 
 			const [hours, minutes, seconds] = timerString
 				.split(":")
 				.map(Number);
-
-			// Создаем новую дату (например, сегодня) и устанавливаем время
 			const currentDate = new Date();
 			return setSeconds(
 				setMinutes(setHours(currentDate, hours), minutes),
 				seconds
 			);
 		} catch (error) {
-			errorHandler("timerSetting", "convertTimerToFullData", error);
+			errorHandler("timerSetting", "convertTimerToFullDate", error);
+			return new Date();
 		}
-	}, [timerSettingValue]);
+	}, [timerSettingValue.targetTime]);
 
 	useEffect(() => {
 		if (settingValue) {
@@ -240,9 +238,13 @@ const TimerSetting: React.FC<Props> = (props) => {
 						>
 							<Calendar
 								mode="single"
-								selected={timerSettingValue.targetDate}
-								onSelect={(value) =>
-									onSettingUpdateHandle("targetDate", value)
+								selected={
+									timerSettingValue.targetDate
+										? new Date(timerSettingValue.targetDate)
+										: undefined
+								}
+								onSelect={(value: Date | undefined) =>
+									onChangeHandle("targetDate", value || "")
 								}
 								initialFocus
 							/>
@@ -252,12 +254,14 @@ const TimerSetting: React.FC<Props> = (props) => {
 							<div className={cn("px-3 mt-3")}>
 								<TimePicker
 									date={convertTimerToFullDate()}
-									setDate={(value) =>
-										onSettingUpdateHandle(
-											"targetTime",
-											format(value, "HH:mm:ss")
-										)
-									}
+									setDate={(value) => {
+										if (value) {
+											onChangeHandle(
+												"targetTime",
+												format(value, "HH:mm:ss")
+											);
+										}
+									}}
 								/>
 							</div>
 						</PopoverContent>
@@ -298,12 +302,12 @@ const TimerSetting: React.FC<Props> = (props) => {
 
 				<TypographyStyles
 					hideTitle
+					// @ts-ignore
 					styles={currentUnitStyle}
-					onStyleChange={(data) => {
+					onUpdateSchemaHandle={(data) => {
 						onChangeStyleHandle(timeStyleUnitType, data);
 					}}
 					hideRemove
-					// onRemoveStylesChange={removeStylesHandle}
 				/>
 			</div>
 		</div>

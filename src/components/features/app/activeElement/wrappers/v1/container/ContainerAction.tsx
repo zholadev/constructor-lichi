@@ -48,6 +48,7 @@ const ContainerAction: React.FC<Props> = (props) => {
 			selectElementId: "",
 			selectWidgetActiveData: null,
 			selectWidgetActiveType: "none",
+			selectWidgetComponentId: "",
 		});
 		editorWidgetActiveElementAction("none");
 		if (dialog.dialogWidget.open) dialog.dialogWidget.toggle();

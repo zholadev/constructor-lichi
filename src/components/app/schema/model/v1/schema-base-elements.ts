@@ -16,7 +16,6 @@ import { defaultStyles } from "@/components/entities/defStyles/def_styles";
 export const button_schema_element = (
 	version: string
 ): ISchemaButtonElement => {
-	// @ts-ignore
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),
@@ -34,7 +33,6 @@ export const button_schema_element = (
 };
 
 export const text_schema_element = (version: string): ISchemaTextElement => {
-	// @ts-ignore
 	return {
 		id: uuidv4(),
 		guid: uuidv4(),

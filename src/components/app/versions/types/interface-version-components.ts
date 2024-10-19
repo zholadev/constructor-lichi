@@ -46,5 +46,5 @@ export const versionComponents: IVersionComponents = {
 			version: "1.0",
 			permission: saint_laurent_component_permission_v1,
 		},
-	]
+	],
 };

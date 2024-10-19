@@ -98,7 +98,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 				)}
 				onClick={onClickHandle}
 			>
-				<SelectionElementOverlay id={data.id} />
+				<SelectionElementOverlay id={data?.id ?? ""} />
 				{children}
 			</div>
 		</div>

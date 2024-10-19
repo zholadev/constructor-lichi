@@ -4,7 +4,7 @@ import useActiveElementObserver from "@/components/shared/hooks/useActiveElement
 import { deepCopy } from "@/components/shared/utils/schema-helpers";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import useUpdateContainerWrapper from "@/components/shared/hooks/actions/useUpdateContainerWrapper";
-import {ISchemaElementInterfaces} from "@/components/features/app/modules/elements/types/v1/interface-elements";
+import { ISchemaElementInterfaces } from "@/components/features/app/modules/elements/types/v1/interface-elements";
 
 interface IRemoveWidgetActions {
 	removeWidget: () => void;
@@ -78,13 +78,13 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 							(widget) => {
 								if (
 									widget.id ===
-									activeElementData.selectWidgetActiveId
+									activeElementData?.selectWidgetActiveId
 								) {
 									const updatedElements =
 										widget.elements.filter(
 											(el: ISchemaElementInterfaces) =>
 												el.id !==
-												activeElementData.selectWidgetElementId
+												activeElementData?.selectWidgetElementId
 										);
 
 									// Return storyComponent with updated elements

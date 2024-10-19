@@ -4,7 +4,7 @@ import { getRandomImageSchema } from "@/components/app/schema/schema-image-data"
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 
 /**
- * @todo Removed // @ts-ignore
+ * @todo Removed
  */
 
 export const saint_laurent_component_schema = (
@@ -19,11 +19,9 @@ export const saint_laurent_component_schema = (
 		},
 		elements: [],
 		content: {
-			// @ts-ignore
 			photo: getRandomImageSchema(),
 		},
 		settings: {
-			// @ts-ignore
 			view: {
 				contentType: "image",
 				darkTheme: true,

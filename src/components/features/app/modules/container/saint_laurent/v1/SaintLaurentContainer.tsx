@@ -82,7 +82,7 @@ const SaintLaurentContainer: React.FC<Props> = (props) => {
 							type="saint_laurent"
 							componentIndex={index}
 							containerData={containerData}
-							componentId={component.id}
+							componentId={component.id ?? ""}
 							componentData={component}
 							componentLen={componentsData?.length}
 						/>

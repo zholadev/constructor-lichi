@@ -72,7 +72,7 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 	return (
 		<div className={cn("pl-3")}>
 			<div
-				onMouseMove={() => onMouseOverHandle(data?.id)}
+				onMouseMove={() => onMouseOverHandle(data?.id ?? null)}
 				onClick={onClickHandle}
 				onMouseLeave={() => onMouseOverHandle(null)}
 				className={cn(

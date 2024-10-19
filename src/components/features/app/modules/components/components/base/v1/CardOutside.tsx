@@ -46,8 +46,8 @@ const CardOutside: React.FC<Props> = (props) => {
 			/>
 
 			<BaseElementWrapper
-				containerId={containerId}
-				elementData={componentData.elements}
+				containerId={containerId ?? ""}
+				elementData={componentData.elements ?? []}
 				componentData={componentData}
 				staticElement
 				widgetComponent={widgetComponent}

@@ -66,8 +66,8 @@ const StylesContainer: React.FC = () => {
 	const { spaceTemplateData } = useAppSelector((state) => state.space);
 	const { editorActiveElement } = useAppSelector((state) => state.editor);
 
-	const permission = usePermission();
 	const toastMessage = useToastMessage();
+	const permission = usePermission();
 	const updateActions = useUpdateActions();
 	const activeElementData = useActiveElementObserver();
 	const updateWidgetActions = useUpdateWidgetActions();

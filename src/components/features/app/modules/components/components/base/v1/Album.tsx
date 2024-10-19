@@ -47,7 +47,7 @@ const Album: React.FC<Props> = (props) => {
 
 			<BaseElementWrapper
 				containerId={containerId}
-				elementData={componentData.elements}
+				elementData={componentData.elements ?? []}
 				componentData={componentData}
 				widgetComponent={widgetComponent}
 			/>

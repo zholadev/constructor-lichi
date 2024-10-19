@@ -17,11 +17,9 @@ export const card_component_schema = (version: string): ISchemaComponent => {
 		},
 		elements: [],
 		content: {
-			// @ts-ignore
 			photo: getRandomImageSchema(),
 		},
 		settings: {
-			// @ts-ignore
 			view: {
 				contentType: "image",
 				darkTheme: true,
@@ -50,11 +48,9 @@ export const card_outside_component_schema = (
 		},
 		elements: [],
 		content: {
-			// @ts-ignore
 			photo: getRandomImageSchema(),
 		},
 		settings: {
-			// @ts-ignore
 			view: {
 				contentType: "image",
 				darkTheme: true,
@@ -81,7 +77,6 @@ export const album_component_schema = (version: string): ISchemaComponent => {
 		},
 		elements: [],
 		content: {
-			// @ts-ignore
 			photo: getRandomImageSchema("album"),
 		},
 		settings: {
@@ -113,11 +108,9 @@ export const album_outside_component_schema = (
 		},
 		elements: [],
 		content: {
-			// @ts-ignore
 			photo: getRandomImageSchema("album"),
 		},
 		settings: {
-			// @ts-ignore
 			view: {
 				contentType: "image",
 				darkTheme: true,

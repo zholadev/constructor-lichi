@@ -30,11 +30,11 @@ const VideoRender: React.FC<Props> = (props) => {
 
 	const videoSrc = useMemo(() => {
 		return data.content?.video?.videoSrc;
-	}, [data.content.video]);
+	}, [data]);
 
 	const videoPoster = useMemo(() => {
 		return data.content?.video?.poster?.url;
-	}, [data.content.video]);
+	}, [data]);
 
 	return !videoSrc ? (
 		<figure>

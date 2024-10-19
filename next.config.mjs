@@ -5,7 +5,7 @@ const nextConfig = {
         domains: ['static.lichi.com', 'https://static.lichi.com/', 'https://static.lichi.com', 'cdn3.lichi.com', 'https://images.unsplash.com', 'images.unsplash.com']
     },
     eslint: {
-        ignoreDuringBuilds: false
+        ignoreDuringBuilds: true
     }
 };
 

@@ -33,7 +33,7 @@ export interface IElementSchema {
 }
 
 export interface ISchemaButtonElement extends ISchemaElement {
-	content: {
+	content?: {
 		title: ISchemaContentText;
 		link?: ISchemaContentLinkHrefParams;
 	};
@@ -43,7 +43,7 @@ export interface ISchemaButtonElement extends ISchemaElement {
 }
 
 export interface ISchemaTextElement extends ISchemaElement {
-	content: {
+	content?: {
 		title: ISchemaContentText;
 	};
 	settings?: {

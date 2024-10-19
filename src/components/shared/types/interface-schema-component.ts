@@ -5,13 +5,13 @@ import { ISchemaSettings } from "@/components/shared/types/interface-schema-sett
 import { ISchemaWidgetData } from "@/components/features/app/modules/widgets/types/interface-widget";
 
 export interface ISchemaComponent {
-	id: string;
+	id?: string;
 	guid: string;
 	type: SchemaComponentTypes;
 	version: string;
 	style: Record<string, unknown>;
 	elements: ISchemaElementInterfaces[];
-	content: ISchemaContent;
+	content?: ISchemaContent;
 	settings?: ISchemaSettings;
 	widgets?: ISchemaWidgetData;
 }

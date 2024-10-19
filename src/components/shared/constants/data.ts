@@ -1,5 +1,6 @@
-export const deviceMobileBanList = ["iPad Mini", "MacBook Pro"];
-export const deviceTabletBanList = [
+import { DeviceName } from "@/components/shared/types/interface-app";
+
+export const deviceTabletList: DeviceName[] = [
 	"iPhone X",
 	"iPhone 8",
 	"iPhone 8 Plus",
@@ -13,7 +14,7 @@ export const deviceTabletBanList = [
 	"HTC One",
 	"MacBook Pro",
 ];
-export const deviceLaptopBanList = [
+export const deviceDesktopList: DeviceName[] = [
 	"iPhone X",
 	"iPhone 8",
 	"iPhone 8 Plus",
@@ -27,3 +28,4 @@ export const deviceLaptopBanList = [
 	"HTC One",
 	"iPad Mini",
 ];
+export const deviceMobileList: DeviceName[] = ["iPad Mini", "MacBook Pro"];

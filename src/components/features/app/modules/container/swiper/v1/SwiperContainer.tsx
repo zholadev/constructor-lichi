@@ -132,7 +132,7 @@ const SwiperContainer: React.FC<Props> = (props) => {
 								containerData={containerData}
 								componentData={component}
 								type={component?.type}
-								componentId={component.id}
+								componentId={component.id ?? ""}
 							/>
 						</SwiperSlide>
 					);

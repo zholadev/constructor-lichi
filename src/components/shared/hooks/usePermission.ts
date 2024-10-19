@@ -191,6 +191,7 @@ export default function usePermission(): IPermission {
 		typeContainerActive,
 		typeComponentActive,
 		typeElementActive,
+		activeElementData,
 	]);
 
 	return currentPermission || basePermission;

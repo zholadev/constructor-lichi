@@ -78,7 +78,7 @@ const StoriesContent: React.FC = () => {
 											<BaseComponentRender
 												widgetComponent
 												key={component.id}
-												componentId={component.id}
+												componentId={component.id ?? ""}
 												type={component?.type}
 												componentData={component}
 												// @ts-ignore

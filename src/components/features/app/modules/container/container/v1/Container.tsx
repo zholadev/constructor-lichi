@@ -49,7 +49,7 @@ const Container: React.FC<Props> = (props) => {
 						containerData={container}
 						componentData={component}
 						type={component?.type}
-						componentId={component.id}
+						componentId={component.id ?? ""}
 					/>
 				);
 			})}

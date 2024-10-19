@@ -75,7 +75,7 @@ const SaintLaurent: React.FC<Props> = (props) => {
 
 					<BaseElementWrapper
 						containerId={containerId}
-						elementData={componentData.elements}
+						elementData={componentData.elements ?? []}
 						componentData={componentData}
 						staticElement
 					/>

@@ -1,20 +1,17 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import {
-	DeviceEmulator,
-	DeviceFrameset,
-	DeviceFramesetProps,
-} from "react-device-frameset";
+import React, { useEffect, useState } from "react";
+import { DeviceFrameset } from "react-device-frameset";
 import "react-device-frameset/styles/marvel-devices.min.css";
 import "react-device-frameset/styles/device-emulator.min.css";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { BottomBarTypes, PlatformType } from "@/components/shared/types/types";
+import { DeviceName } from "@/components/shared/types/interface-app";
 
 interface Props {
 	children: React.ReactNode;
-	devices?: string[];
+	devices: DeviceName[];
 }
 
 /**
@@ -28,7 +25,7 @@ interface Props {
  * @param props
  * @constructor
  */
-const DeviceEmulatorContainer: React.FC<Props> = (props) => {
+const DeviceEmulatorContainer: React.FC<Props> = (props): React.JSX.Element => {
 	const { children, devices } = props;
 
 	const { editorHeightPropertyAction } = useDispatchAction();
@@ -37,9 +34,9 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 		(state) => state.space
 	);
 
-	const [size, setSize] = useState<{ width: number; height: number } | null>(
-		null
-	);
+	const [size, setSize] = useState<{ height: number | null }>({
+		height: null,
+	});
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -65,22 +62,17 @@ const DeviceEmulatorContainer: React.FC<Props> = (props) => {
 	]);
 
 	return (
-		<Suspense fallback={<div>Идет загрузка доски!</div>}>
-			<DeviceEmulator
-				// @ts-ignore
-				banDevices={devices}
-				langscape={false}
-				onChange={(event) => setSize(event)}
-			>
-				{(props: DeviceFramesetProps) => {
-					return (
-						<DeviceFrameset landscape="false" {...props}>
-							{children}
-						</DeviceFrameset>
-					);
-				}}
-			</DeviceEmulator>
-		</Suspense>
+		// <DeviceEmulator
+		// 	banDevices={devices}
+		// 	langscape={false}
+		// 	onChange={(event) => setSize(event)}
+		// >
+		// 	{(props: DeviceFramesetProps) => {
+		// 		return (
+		<DeviceFrameset device="MacBook Pro">{children}</DeviceFrameset>
+		// )
+		// 	}}
+		// </DeviceEmulator>
 	);
 };
 

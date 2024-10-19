@@ -62,7 +62,7 @@ const BaseElementWrapper: React.FC<Props> = (props) => {
 						elementData={element}
 						type={element.type}
 						containerId={containerId}
-						componentId={componentData.id}
+						componentId={componentData.id ?? ""}
 						widgetComponent={widgetComponent}
 					/>
 				);

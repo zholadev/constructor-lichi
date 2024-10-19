@@ -1,6 +1,4 @@
-import {
-	ElementBaseTypes,
-} from "@/components/shared/types/types-components";
+import { ElementBaseTypes } from "@/components/shared/types/types-components";
 
 export const versionElementBase: Record<
 	ElementBaseTypes,

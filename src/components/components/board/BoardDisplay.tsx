@@ -4,9 +4,9 @@ import { DeviceType } from "@/components/shared/types/types";
 import BoardContainer from "@/components/components/board/BoardContainer";
 import { cn } from "@/components/lib/utils";
 import {
-	deviceLaptopBanList,
-	deviceMobileBanList,
-	deviceTabletBanList,
+	deviceDesktopList,
+	deviceMobileList,
+	deviceTabletList,
 } from "@/components/shared/constants/data";
 import DeviceEmulatorContainer from "@/components/widgets/device/DeviceEmulatorContainer";
 import BottomBarDefault from "@/components/components/bottomBar/BottomBarDefault";
@@ -34,7 +34,7 @@ const BoardDisplay: React.FC = () => {
 				return (
 					<DeviceEmulatorContainer
 						key="laptop"
-						devices={deviceLaptopBanList}
+						devices={deviceDesktopList}
 					>
 						<BoardContainer />
 					</DeviceEmulatorContainer>
@@ -43,7 +43,7 @@ const BoardDisplay: React.FC = () => {
 				return (
 					<DeviceEmulatorContainer
 						key="tablet"
-						devices={deviceTabletBanList}
+						devices={deviceTabletList}
 					>
 						<BoardContainer />
 						{spaceModePlatformType === "app" && (
@@ -55,7 +55,7 @@ const BoardDisplay: React.FC = () => {
 				return (
 					<DeviceEmulatorContainer
 						key="mobile"
-						devices={deviceMobileBanList}
+						devices={deviceMobileList}
 					>
 						<BoardContainer />
 						{spaceModePlatformType === "app" && (

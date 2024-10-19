@@ -49,7 +49,7 @@ const Card = <T extends ISchemaComponent>(
 
 			<BaseElementWrapper
 				containerId={containerId}
-				elementData={componentData.elements}
+				elementData={componentData.elements ?? []}
 				componentData={componentData}
 				widgetComponent={widgetComponent}
 			/>

@@ -19,6 +19,7 @@ import { ProductV1 } from "@/components/features/app/modules/components/types/v1
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import { IRequestApiParams } from "@/components/shared/types/interface-app";
+import useDeviceHeightProperty from "@/components/shared/hooks/useDeviceHeightProperty";
 
 SwiperCore.use([Controller, Autoplay, Pagination]);
 
@@ -56,6 +57,7 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 
 	const styleFormatted = useStylesFormatted();
 	const previewMode = usePreviewMode();
+	const heightDeviceProperty = useDeviceHeightProperty();
 
 	const [productListData, setProductDataList] = useState<ProductV1[]>([]);
 
@@ -146,6 +148,9 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 				{...updatedSwiperSettings}
 				pagination={swiperSettings.pagination}
 				style={{
+					height: heightDeviceProperty(
+						containerData.settings?.view?.heightFull ?? false
+					),
 					...styleFormatted(
 						swiperStyles,
 						!containerData.settings?.view?.darkTheme

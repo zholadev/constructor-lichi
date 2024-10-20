@@ -1,16 +1,21 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server"; // Импорт типов Next.js
+import type { NextRequest } from "next/server";
 
-export function middleware(req: NextRequest): NextResponse {
+export function middleware(req: NextRequest): NextResponse | any {
 	const auth = req.headers.get("authorization");
 
 	if (auth) {
-		const [user, pass] = Buffer.from(auth.split(" ")[1], "base64")
-			.toString()
-			.split(":");
+		const [, base64Credentials] = auth.split(" ");
+		if (base64Credentials) {
+			const credentials = Buffer.from(
+				base64Credentials,
+				"base64"
+			).toString();
+			const [user, pass] = credentials.split(":");
 
-		if (user === "xyzDev" && pass === "xyzDev") {
-			return NextResponse.next();
+			if (user === "xyzDev" && pass === "xyzDev") {
+				return NextResponse.next();
+			}
 		}
 	}
 

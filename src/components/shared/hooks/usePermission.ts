@@ -131,7 +131,6 @@ export default function usePermission(): IPermission {
 			? activeElementData?.selectWidgetActiveType
 			: (activeElementData?.selectType ?? "none");
 	}, [activeElementData, editorActiveElement]);
-	console.log("typeActiveElement", typeActiveElement)
 
 	/**
 	 * @author Zholaman Zhumanov

@@ -1,5 +1,21 @@
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 
+// Вспомогательная функция для проверки и добавления "px"
+const addPxToStyle = (value: unknown) =>
+	typeof value === "number" ? `${value}px` : value;
+
+// Вспомогательная функция для обработки массивов значений (например, margin или padding)
+const formatArrayWithPx = (values: unknown) =>
+	Array.isArray(values)
+		? values.map((value) => `${value}px`).join(" ")
+		: values;
+
+// Вспомогательная функция для обработки массивов значений (например, margin или padding)
+const formatArrayWithFr = (values: unknown) =>
+	Array.isArray(values)
+		? values.map((value) => `${value}fr`).join(" ")
+		: values;
+
 /**
  * @author Zholaman Zhumanov
  * @created 30.09.2024
@@ -20,48 +36,40 @@ export default function useStylesFormatted(): (
 		componentStyles: Record<string, unknown>,
 		skipDarkStyles?: boolean
 	) => {
-		let updatedStyles: Record<string, unknown> = {};
+		const updatedStyles: Record<string, unknown> = {};
 
+		// eslint-disable-next-line no-restricted-syntax
 		for (const key in componentStyles) {
 			if (componentStyles.hasOwnProperty(key)) {
+				const value = componentStyles[key];
+
 				// Если активна темная тема и существует свойство, заканчивающееся на "Dark"
 				if (
 					spaceModeTheme === "dark" &&
 					!skipDarkStyles &&
 					key.endsWith("Dark")
 				) {
-					// Заменяем стандартное свойство на темное, удаляя "Dark" из ключа
-					updatedStyles[key.slice(0, -4)] = componentStyles[key];
+					updatedStyles[key.slice(0, -4)] = value;
 				} else if (!key.endsWith("Dark")) {
-					// Проверяем и преобразуем `fontSize` к строке с "px"
-					if (
-						key === "fontSize" &&
-						typeof componentStyles[key] === "number"
-					) {
-						updatedStyles[key] = `${componentStyles[key]}px`;
-					}
-					// Проверяем и преобразуем `margin` к строке с "px"
-					else if (
-						key === "margin" &&
-						Array.isArray(componentStyles[key])
-					) {
-						const marginArray = componentStyles[key] as number[];
-						updatedStyles[key] = marginArray
-							.map((value) => `${value}px`)
-							.join(" ");
-					}
-					// Проверяем и преобразуем `padding` к строке с "px"
-					else if (
-						key === "padding" &&
-						Array.isArray(componentStyles[key])
-					) {
-						const paddingArray = componentStyles[key] as number[];
-						updatedStyles[key] = paddingArray
-							.map((value) => `${value}px`)
-							.join(" ");
-					} else {
-						// Если свойство не относится к темным, `fontSize`, `margin` или `padding`, просто добавляем его как есть
-						updatedStyles[key] = componentStyles[key];
+					switch (key) {
+						case "fontSize":
+						case "borderRadius":
+						case "borderTopRightRadius":
+						case "borderTopLeftRadius":
+						case "borderBottomLeftRadius":
+						case "borderBottomRightRadius":
+						case "gap":
+							updatedStyles[key] = addPxToStyle(value);
+							break;
+						case "margin":
+						case "padding":
+							updatedStyles[key] = formatArrayWithPx(value);
+							break;
+						case "gridTemplateColumns":
+							updatedStyles[key] = formatArrayWithFr(value);
+							break;
+						default:
+							updatedStyles[key] = value;
 					}
 				}
 			}

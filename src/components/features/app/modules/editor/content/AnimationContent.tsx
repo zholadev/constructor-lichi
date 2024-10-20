@@ -111,7 +111,13 @@ const AnimationContent: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (!defaultData) return;
+		if (!defaultData) {
+			setSchemaValue({
+				observer: true,
+				type: "none",
+			});
+			return;
+		}
 		setSchemaValue(defaultData);
 	}, [defaultData]);
 

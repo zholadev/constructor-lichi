@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { cn } from "@/components/lib/utils";
 import {
 	Accordion,
@@ -13,9 +13,7 @@ import {
 	PaddingIcon,
 	SizeIcon,
 } from "@radix-ui/react-icons";
-import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
-import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveElementObserver from "@/components/shared/hooks/useActiveElementObserver";
 import GridContainerStyles from "@/components/features/app/modules/editor/styles/GridContainerStyles";
@@ -27,30 +25,6 @@ import BackgroundStyles from "@/components/features/app/modules/editor/styles/Ba
 import SizeStyles from "@/components/features/app/modules/editor/styles/SizeStyles";
 import useUpdateActions from "@/components/shared/hooks/actions/useUpdateActions";
 import useUpdateWidgetActions from "@/components/features/app/modules/widgets/hooks/useUpdateWidgetActions";
-
-type AccessTypes =
-	| "position"
-	| "size"
-	| "spacing"
-	| "border"
-	| "typography"
-	| "fill"
-	| "grid";
-type ContentKeys = AccessTypes;
-
-interface Content {
-	style?: Record<string, unknown>;
-}
-
-const accessTypes: AccessTypes[] = [
-	"position",
-	"size",
-	"spacing",
-	"border",
-	"typography",
-	"fill",
-	"grid",
-];
 
 /**
  * @author Zholaman Zhumanov
@@ -125,17 +99,17 @@ const StylesContainer: React.FC = () => {
 	) => {
 		if (type === "removeKey") {
 			if (activeElementData?.selectWidgetIsEditing) {
-				updateWidgetActions.update({}, pathKey, [""], false, true);
-				updateWidgetActions.update({}, pathKey, [""], false, true);
+				updateWidgetActions.update({}, "", pathMultiKeys, false, true);
+				updateWidgetActions.update({}, "", pathMultiKeys, false, true);
 				return;
 			}
-			updateActions.update({}, pathKey, [""], false, true);
+			updateActions.update({}, "", pathMultiKeys, false, true);
 		} else if (type === "removeObj") {
 			if (activeElementData?.selectWidgetIsEditing) {
-				updateWidgetActions.update({}, "", pathMultiKeys, true, false);
+				updateWidgetActions.update({}, pathKey, [""], true, false);
 				return;
 			}
-			updateActions.update({}, "", pathMultiKeys, true, false);
+			updateActions.update({}, pathKey, [""], true, false);
 		}
 	};
 
@@ -296,20 +270,6 @@ const StylesContainer: React.FC = () => {
 					</AccordionItem>
 				)}
 			</Accordion>
-
-			{permission.panel.styles && (
-				<div className={cn("w-full mt-10")}>
-					<Button
-						variant="outline"
-						className={cn("w-full")}
-						onClick={() =>
-							removeSchemaDataHandle("removeObj", "style", [""])
-						}
-					>
-						Очистить все стили
-					</Button>
-				</div>
-			)}
 		</div>
 	);
 };

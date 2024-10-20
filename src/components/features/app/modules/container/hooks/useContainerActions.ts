@@ -57,7 +57,7 @@ export default function useContainerActions(): IContainerActions {
 	const generateStyles = (
 		blockType: DisplayContainerType,
 		commonStyles: Record<string, unknown>,
-		templateColumns?: string
+		templateColumns?: number[]
 	): Record<string, unknown> => {
 		if (blockType === "block") {
 			return {
@@ -113,7 +113,7 @@ export default function useContainerActions(): IContainerActions {
 	) => {
 		if (!validateInputs(version, blockType)) return;
 
-		const templateColumns = Array(countColumn).fill("1fr").join(" ");
+		const templateColumns = Array(countColumn).fill(1);
 		const newTemplate: ISchemaContainer = {
 			id: uuidv4(),
 			guid: uuidv4(),
@@ -158,11 +158,11 @@ export default function useContainerActions(): IContainerActions {
 		if (!validateInputs(versionContainer, type)) return;
 
 		const staticCount = componentType === "duo" ? 2 : 1;
-		const templateColumns = Array(staticCount).fill("1fr").join(" ");
+		const templateColumns = Array(staticCount).fill(1);
 
 		const generateStylesSaint = (): Record<string, unknown> => {
 			const commonStyles = {
-				margin: "0 0 2px 0",
+				margin: [0, 0, 2, 0],
 				backgroundColor: "#ffffff",
 				backgroundColorDark: "#181a1b",
 			};
@@ -178,7 +178,6 @@ export default function useContainerActions(): IContainerActions {
 				};
 			}
 
-			// For swiper or other types
 			return commonStyles;
 		};
 

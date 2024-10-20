@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
 import { Input } from "@/components/shared/shadcn/ui/input";
-import { Slider } from "@/components/shared/shadcn/ui/slider";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import {
@@ -20,7 +19,6 @@ import {
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
 import ColorPaletteCustom from "@/components/shared/uikit/palette/ColorPaletteCustom";
-import RangeCustom from "@/components/shared/uikit/range/RangeCustom";
 
 type BorderStyleType = "solid" | "dashed" | "dotted";
 
@@ -97,6 +95,11 @@ const borderTypesList = [
 	"style.borderRightDark",
 	"style.borderTopDark",
 	"style.borderBottomDark",
+	"style.borderRadius",
+	"borderTopLeftRadius",
+	"borderBottomLeftRadius",
+	"borderTopRightRadius",
+	"borderBottomRightRadius",
 ];
 
 const defaultValues: IStyleValues = {
@@ -184,11 +187,6 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 		);
 	}
 
-	if (styles?.borderBottomLeftRadius) {
-		defaultValues.borderBottomLeftRadius = parseFloat(
-			styles.borderBottomLeftRadius.toString()
-		);
-	}
 	if (styles?.borderTopRightRadius) {
 		defaultValues.borderTopRightRadius = parseFloat(
 			styles.borderTopRightRadius.toString()
@@ -197,6 +195,11 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 	if (styles?.borderBottomLeftRadius) {
 		defaultValues.borderBottomLeftRadius = parseFloat(
 			styles.borderBottomLeftRadius.toString()
+		);
+	}
+	if (styles?.borderBottomRightRadius) {
+		defaultValues.borderBottomRightRadius = parseFloat(
+			styles.borderBottomRightRadius.toString()
 		);
 	}
 
@@ -318,39 +321,58 @@ const BorderStyles: React.FC<Props> = (props) => {
 
 				const getBorderOptions = `${updatedValues.borderWidth}px ${updatedValues.borderStyle} ${updatedValues.borderColor}`;
 
+				let baseStyle: Record<string, unknown> = {};
+
 				const borderRadiusCorner = {
 					...{
 						...(updatedValues.borderTopLeftRadius &&
 							!updatedValues.borderRadius[0] && {
-								borderTopLeftRadius: `${updatedValues.borderTopLeftRadius}px`,
+								borderTopLeftRadius:
+									updatedValues.borderTopLeftRadius,
 							}),
 					},
 					...{
 						...(updatedValues.borderTopRightRadius &&
 							!updatedValues.borderRadius[0] && {
-								borderTopRightRadius: `${updatedValues.borderTopRightRadius}px`,
+								borderTopRightRadius:
+									updatedValues.borderTopRightRadius,
 							}),
 					},
 					...{
 						...(updatedValues.borderBottomLeftRadius &&
 							!updatedValues.borderRadius[0] && {
-								borderBottomLeftRadius: `${updatedValues.borderBottomLeftRadius}px`,
+								borderBottomLeftRadius:
+									updatedValues.borderBottomLeftRadius,
 							}),
 					},
 					...{
 						...(updatedValues.borderBottomRightRadius &&
 							!updatedValues.borderRadius[0] && {
-								borderBottomRightRadius: `${updatedValues.borderBottomRightRadius}px`,
+								borderBottomRightRadius:
+									updatedValues.borderBottomRightRadius,
 							}),
 					},
 				};
 
+				if (updatedValues.borderWidth) {
+					baseStyle.borderWidth = updatedValues.borderWidth;
+				}
+				if (updatedValues.borderStyle) {
+					baseStyle.borderStyle = updatedValues.borderStyle;
+				}
+				if (updatedValues.borderColor) {
+					baseStyle.borderColor = updatedValues.borderColor;
+				}
+
 				const buildBorderStyles = {
 					...(borderType && { [borderType]: getBorderOptions }),
-					...(updatedValues.borderRadius[0] && {
-						borderRadius: `${updatedValues.borderRadius[0]}px`,
+					...(updatedValues.borderRadius?.[0] && {
+						borderRadius: updatedValues.borderRadius?.[0],
 					}),
-					...borderRadiusCorner,
+					...(!Array.isArray(updatedValues.borderRadius?.[0]) && {
+						...borderRadiusCorner,
+					}),
+					...baseStyle,
 				};
 
 				const buildNewStyle = updateStyleWithBorder(
@@ -372,6 +394,8 @@ const BorderStyles: React.FC<Props> = (props) => {
 		if (styles) {
 			const defaultStyles = computeInitialStyles(styles);
 			setStyleValues(defaultStyles);
+		} else {
+			setStyleValues(defaultValues);
 		}
 	}, [styles]);
 
@@ -476,18 +500,11 @@ const BorderStyles: React.FC<Props> = (props) => {
 						>
 							Width
 						</Label>
-						<RangeCustom
-							outputRange={styleValues.borderWidth}
-							onOutputRangeChange={(value) => {
-								onChangeStyleHandle("borderWidth", value);
-							}}
-						/>
 						<Input
-							maxLength={20}
-							minLength={1}
+							minLength={0}
 							type="number"
 							className={cn(
-								"w-[60px] border-0 focus-visible:ring-0"
+								"w-full border-0 focus-visible:ring-0"
 							)}
 							value={styleValues.borderWidth?.[0]}
 							onChange={(e) => {
@@ -514,18 +531,11 @@ const BorderStyles: React.FC<Props> = (props) => {
 							)}
 						>
 							<CornersIcon width={30} height={30} />
-							<RangeCustom
-								outputRange={styleValues.borderRadius}
-								onOutputRangeChange={(value) => {
-									onChangeStyleHandle("borderRadius", value);
-								}}
-							/>
 							<Input
-								maxLength={20}
-								minLength={1}
 								type="number"
+								minLength={0}
 								className={cn(
-									"w-[60px] border-0 focus-visible:ring-0"
+									"w-full border-0 focus-visible:ring-0"
 								)}
 								value={styleValues.borderRadius?.[0]}
 								onChange={(e) => {
@@ -556,6 +566,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 										className={cn(
 											`border-0 text-${corner.float} focus-visible:ring-0`
 										)}
+										minLength={0}
 										value={styleValues[
 											corner.value
 										].toString()}
@@ -563,9 +574,10 @@ const BorderStyles: React.FC<Props> = (props) => {
 										onChange={(e) => {
 											const convertToValueNumber =
 												parseFloat(e.target.value);
-											onChangeStyleHandle(corner.value, [
-												convertToValueNumber,
-											]);
+											onChangeStyleHandle(
+												corner.value,
+												convertToValueNumber
+											);
 										}}
 									/>
 									{corner.float === "right" && corner.icon}

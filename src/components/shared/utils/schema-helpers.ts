@@ -47,23 +47,38 @@ export function updateObjectByPath(
 
 export function removeObjectByPath(obj: GenericObject, path: string): void {
 	try {
-		const keys = path?.split(".");
+		if (!path) {
+			throw new Error("Path is required");
+		}
+
+		const keys = path.split(".");
 		let current = obj;
 
+		// Traverse through the object to the second-to-last key
 		// eslint-disable-next-line no-plusplus
 		for (let i = 0; i < keys.length - 1; i++) {
 			const key = keys[i];
+
+			// If the path does not exist, we stop since there is nothing to delete
 			if (!current[key]) {
-				current[key] = {};
+				console.warn(
+					`Path does not exist: ${keys.slice(0, i + 1).join(".")}`
+				);
+				return;
 			}
+
 			current = current[key];
 		}
 
+		// Delete the key at the end of the path
 		const lastKey = keys[keys.length - 1];
-
-		delete current[lastKey];
+		if (lastKey in current) {
+			delete current[lastKey];
+		} else {
+			console.warn(`Key "${lastKey}" does not exist in the object`);
+		}
 	} catch (error) {
-		errorHandler("useEditorEvent", "updateObjectByPath", error);
+		errorHandler("removeObjectByPath", "removeObjectByPath", error);
 	}
 }
 
@@ -105,7 +120,9 @@ export function deleteMultiplePaths(
 	obj: GenericObject,
 	paths?: string | string[]
 ): void {
-	if (!paths) return;
+	if (!paths) {
+		throw new Error("paths is required");
+	}
 	if (typeof paths === "string") {
 		paths = [paths]; // Convert to an array if a single path is passed
 	}

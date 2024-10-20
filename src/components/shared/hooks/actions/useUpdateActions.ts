@@ -160,7 +160,7 @@ export default function useUpdateActions(): IUpdateActions {
 						) {
 							const updatedComponent = deepCopy(component);
 							if (removeObj) {
-								removeObjectByPath(
+								removeObjectHandle(
 									updatedComponent,
 									pathString
 								);

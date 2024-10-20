@@ -204,6 +204,11 @@ const SpacingStyles: React.FC<Props> = (props) => {
 		if (styles?.margin || styles?.padding) {
 			const reverseConvertObj = convertToObject(styles);
 			setStylesValues(reverseConvertObj);
+		} else {
+			setStylesValues({
+				margin: { top: 0, left: 0, bottom: 0, right: 0 },
+				padding: { top: 0, left: 0, bottom: 0, right: 0 },
+			});
 		}
 	}, [styles]);
 

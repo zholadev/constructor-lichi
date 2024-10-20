@@ -22,6 +22,8 @@ const RangeCustom: React.FC<Props> = (props) => {
 	const { outputRange = [0], onOutputRangeChange } = props;
 	const [range, setRange] = useState<number | number[]>(outputRange);
 
+	console.log(outputRange)
+
 	const onChangeComplete = () => {
 		// @ts-ignore
 		if (onOutputRangeChange) onOutputRangeChange(range);

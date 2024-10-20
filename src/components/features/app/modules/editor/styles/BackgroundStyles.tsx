@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { Label } from "@/components/shared/shadcn/ui/label";
-import { Input } from "@/components/shared/shadcn/ui/input";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
-import useDebounce from "@/components/shared/hooks/useDebounce";
 import usePermission from "@/components/shared/hooks/usePermission";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
+import ColorPaletteCustom from "@/components/shared/uikit/palette/ColorPaletteCustom";
 
 interface IStylesValues {
 	backgroundColor: string;
@@ -81,8 +80,6 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	const debouncedHandleInput = useDebounce(onChangeHandle, 1000);
-
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для удаления всех стилей которые относится к модулю Position
@@ -135,42 +132,16 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 						>
 							Background Color
 						</Label>
-						<div
-							className={cn(
-								"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
-							)}
-						>
-							<Input
-								className={cn("border-0 p-0")}
-								value={
+						<div className={cn("grid mt-2 p-1 border rounded-md")}>
+							<ColorPaletteCustom
+								outputColor={
 									activeDarkTheme
 										? stylesValues.backgroundColorDark
 										: stylesValues.backgroundColor
 								}
-								type="color"
-								onChange={(e) => {
+								onOutputColorChange={(color) => {
 									onChangeHandle(
-										e.target.value,
-										activeDarkTheme
-											? "backgroundColorDark"
-											: "backgroundColor"
-									);
-								}}
-							/>
-
-							<Input
-								className={cn(
-									"col-span-2 border-0 focus-visible:ring-0"
-								)}
-								value={
-									activeDarkTheme
-										? stylesValues.backgroundColorDark
-										: stylesValues.backgroundColor
-								}
-								type="text"
-								onChange={(e) => {
-									debouncedHandleInput(
-										e.target.value,
+										color,
 										activeDarkTheme
 											? "backgroundColorDark"
 											: "backgroundColor"

@@ -22,6 +22,7 @@ import {
 import { ItalicIcon, UnderlineIcon } from "lucide-react";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
+import ColorPaletteCustom from "@/components/shared/uikit/palette/ColorPaletteCustom";
 
 type FontFamilyTypes =
 	| "Futura PT"
@@ -612,47 +613,17 @@ const TypographyStyles: React.FC<Props> = (props) => {
 							Color
 						</Label>
 
-						<div
-							className={cn(
-								"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
-							)}
-						>
-							<Input
-								className={cn("border-0 p-0")}
-								defaultValue={
+						<div className={cn("grid mt-2 p-1 border rounded-md")}>
+							<ColorPaletteCustom
+								outputColor={
 									activeDarkTheme
 										? stylesValues.colorDark
 										: stylesValues.color
 								}
-								type="color"
-								value={
-									activeDarkTheme
-										? stylesValues.colorDark
-										: stylesValues.color
-								}
-								onChange={onChangeColorInput}
-								onBlur={onMouseUpHandle}
-							/>
-
-							<Input
-								className={cn(
-									"col-span-2 border-0 focus-visible:ring-0"
-								)}
-								defaultValue={
-									activeDarkTheme
-										? stylesValues.colorDark
-										: stylesValues.color
-								}
-								type="text"
-								value={
-									activeDarkTheme
-										? stylesValues.colorDark
-										: stylesValues.color
-								}
-								onChange={(e) => {
+								onOutputColorChange={(color) => {
 									onChangeStyleHandle(
 										activeDarkTheme ? "colorDark" : "color",
-										e.target.value
+										color
 									);
 								}}
 							/>

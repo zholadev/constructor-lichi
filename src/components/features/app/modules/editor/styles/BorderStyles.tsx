@@ -19,6 +19,8 @@ import {
 } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
+import ColorPaletteCustom from "@/components/shared/uikit/palette/ColorPaletteCustom";
+import RangeCustom from "@/components/shared/uikit/range/RangeCustom";
 
 type BorderStyleType = "solid" | "dashed" | "dotted";
 
@@ -97,29 +99,29 @@ const borderTypesList = [
 	"style.borderBottomDark",
 ];
 
-const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
-	const defaultValues: IStyleValues = {
-		borderWidth: [1],
-		borderBottomLeftRadius: 0,
-		borderBottomRightRadius: 0,
-		borderTopLeftRadius: 0,
-		borderTopRightRadius: 0,
-		borderRadius: [0],
-		borderColor: "#000000",
-		borderEnabled: false,
-		borderStyle: "solid",
-		border: true,
-		borderLeft: false,
-		borderRight: false,
-		borderTop: false,
-		borderBottom: false,
-		borderDark: true,
-		borderLeftDark: false,
-		borderRightDark: false,
-		borderTopDark: false,
-		borderBottomDark: false,
-	};
+const defaultValues: IStyleValues = {
+	borderWidth: [0],
+	borderBottomLeftRadius: 0,
+	borderBottomRightRadius: 0,
+	borderTopLeftRadius: 0,
+	borderTopRightRadius: 0,
+	borderRadius: [0],
+	borderColor: "#000000",
+	borderEnabled: false,
+	borderStyle: "solid",
+	border: true,
+	borderLeft: false,
+	borderRight: false,
+	borderTop: false,
+	borderBottom: false,
+	borderDark: true,
+	borderLeftDark: false,
+	borderRightDark: false,
+	borderTopDark: false,
+	borderBottomDark: false,
+};
 
+const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
 	const isBorderStyle =
 		styles?.border ||
 		styles?.borderLeft ||
@@ -213,32 +215,13 @@ const computeInitialStyles = (styles?: React.CSSProperties): IStyleValues => {
  * @constructor
  */
 const BorderStyles: React.FC<Props> = (props) => {
-	const { onUpdateSchemaHandle, styles, hideTitle, onRemoveSchemaHandle } = props;
+	const { onUpdateSchemaHandle, styles, hideTitle, onRemoveSchemaHandle } =
+		props;
 
 	const permission = usePermission();
 	const toastMessage = useToastMessage();
 
-	const [styleValues, setStyleValues] = useState<IStyleValues>({
-		borderWidth: [1],
-		borderBottomLeftRadius: 0,
-		borderBottomRightRadius: 0,
-		borderTopLeftRadius: 0,
-		borderTopRightRadius: 0,
-		borderRadius: [0],
-		borderColor: "#000000",
-		borderEnabled: false,
-		borderStyle: "solid",
-		border: true,
-		borderLeft: false,
-		borderRight: false,
-		borderTop: false,
-		borderBottom: false,
-		borderDark: true,
-		borderLeftDark: false,
-		borderRightDark: false,
-		borderTopDark: false,
-		borderBottomDark: false,
-	});
+	const [styleValues, setStyleValues] = useState<IStyleValues>(defaultValues);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -493,11 +476,9 @@ const BorderStyles: React.FC<Props> = (props) => {
 						>
 							Width
 						</Label>
-						<Slider
-							value={styleValues.borderWidth}
-							max={20}
-							step={1}
-							onValueChange={(value) => {
+						<RangeCustom
+							outputRange={styleValues.borderWidth}
+							onOutputRangeChange={(value) => {
 								onChangeStyleHandle("borderWidth", value);
 							}}
 						/>
@@ -533,11 +514,9 @@ const BorderStyles: React.FC<Props> = (props) => {
 							)}
 						>
 							<CornersIcon width={30} height={30} />
-							<Slider
-								value={styleValues.borderRadius}
-								max={20}
-								step={1}
-								onValueChange={(value) => {
+							<RangeCustom
+								outputRange={styleValues.borderRadius}
+								onOutputRangeChange={(value) => {
 									onChangeStyleHandle("borderRadius", value);
 								}}
 							/>
@@ -606,32 +585,13 @@ const BorderStyles: React.FC<Props> = (props) => {
 						</Label>
 						<div
 							className={cn(
-								"grid mt-2 grid-cols-3 gap-3 p-1 border rounded-md"
+								"grid mt-2 grid-cols-1 gap-3 p-1 border rounded-md"
 							)}
 						>
-							<Input
-								className={cn("border-0 p-0")}
-								value={styleValues.borderColor}
-								type="color"
-								onChange={(e) => {
-									onChangeStyleHandle(
-										"borderColor",
-										e.target.value
-									);
-								}}
-							/>
-
-							<Input
-								className={cn(
-									"col-span-2 border-0 focus-visible:ring-0"
-								)}
-								value={styleValues.borderColor}
-								type="text"
-								onChange={(e) => {
-									onChangeStyleHandle(
-										"borderColor",
-										e.target.value
-									);
+							<ColorPaletteCustom
+								outputColor={styleValues.borderColor}
+								onOutputColorChange={(color) => {
+									onChangeStyleHandle("borderColor", color);
 								}}
 							/>
 						</div>

@@ -67,7 +67,6 @@ const BoardContainer: React.FC = () => {
 
 	useMemo(() => {
 		console.log("spaceTemplateData", spaceTemplateData);
-		console.log("permission", permission);
 		console.log("activeElementData", activeElementData);
 	}, [spaceTemplateData, activeElementData]);
 

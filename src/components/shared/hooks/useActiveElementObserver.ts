@@ -75,7 +75,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			);
 			return null;
 		}
-	}, [editorActiveElement?.selectContainerId, spaceTemplateData]);
+	}, [editorActiveElement, spaceTemplateData]);
 
 	const getComponentData = useMemo((): ISchemaComponent | null => {
 		try {
@@ -98,7 +98,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			);
 			return null;
 		}
-	}, [editorActiveElement?.selectComponentId, getContainerData]);
+	}, [editorActiveElement, getContainerData]);
 
 	const getElementData = useMemo((): ISchemaElementInterfaces | null => {
 		try {
@@ -122,7 +122,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			errorHandler("useActiveElementObserver", "foundElementData", error);
 			return null;
 		}
-	}, [editorActiveElement?.elementId, getComponentData]);
+	}, [editorActiveElement, getComponentData]);
 
 	const getActiveData = useMemo((): SchemaData | null => {
 		if (!editorActiveElement) return null;
@@ -178,7 +178,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			);
 			return null;
 		}
-	}, [editorActiveElement?.componentId, getComponentData]);
+	}, [editorActiveElement, getComponentData]);
 
 	const getActiveElementData = useMemo((): ISchemaComponent | null => {
 		try {
@@ -221,7 +221,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 			);
 			return null;
 		}
-	}, [editorActiveElement?.componentId, getComponentData]);
+	}, [editorActiveElement, getComponentData]);
 
 	return useMemo((): IActiveElementObserver | null => {
 		if (!editorActiveElement) return null;
@@ -256,5 +256,7 @@ export default function useActiveElementObserver(): IActiveElementObserver | nul
 		getContainerData,
 		getElementData,
 		getActiveData,
+		getActiveWidgetData,
+		getActiveElementData,
 	]);
 }

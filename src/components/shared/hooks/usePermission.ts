@@ -130,7 +130,8 @@ export default function usePermission(): IPermission {
 		return activeElementData?.selectWidgetIsEditing
 			? activeElementData?.selectWidgetActiveType
 			: (activeElementData?.selectType ?? "none");
-	}, [activeElementData]);
+	}, [activeElementData, editorActiveElement]);
+	console.log("typeActiveElement", typeActiveElement)
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -140,27 +141,27 @@ export default function usePermission(): IPermission {
 		return activeElementData?.selectWidgetIsEditing
 			? (activeElementData?.selectWidgetActiveData?.type ?? "none")
 			: (activeElementData?.selectElementData?.type ?? "none");
-	}, [activeElementData]);
+	}, [activeElementData, editorActiveElement]);
 
 	const typeComponentActive = useMemo((): SchemaComponentTypes | string => {
 		return activeElementData?.selectWidgetIsEditing
 			? (activeElementData?.selectWidgetActiveData?.type ?? "none")
 			: (activeElementData?.selectComponentData?.type ?? "none");
-	}, [activeElementData]);
+	}, [activeElementData, editorActiveElement]);
 
 	const typeContainerActive = useMemo((): IContainerType => {
 		return activeElementData?.selectContainerData?.type ?? "initial";
-	}, [activeElementData]);
+	}, [activeElementData, editorActiveElement]);
 
 	const activeTypeVersion = useMemo((): string => {
 		return activeElementData?.selectWidgetIsEditing
 			? (activeElementData?.selectWidgetActiveData?.version ?? "")
 			: (activeElementData?.selectContainerData?.version ?? "");
-	}, [activeElementData]);
+	}, [activeElementData, editorActiveElement]);
 
 	const activeDisplayBlockType = useMemo((): DisplayContainerType => {
 		return activeElementData?.selectContainerData?.display ?? "block";
-	}, [activeElementData]);
+	}, [activeElementData, editorActiveElement]);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -192,6 +193,8 @@ export default function usePermission(): IPermission {
 		typeComponentActive,
 		typeElementActive,
 		activeElementData,
+		activeDisplayBlockType,
+		activeTypeVersion,
 	]);
 
 	return currentPermission || basePermission;

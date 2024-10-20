@@ -63,9 +63,6 @@ const accessTypes: AccessTypes[] = [
  * @constructor
  */
 const StylesContainer: React.FC = () => {
-	const { spaceTemplateData } = useAppSelector((state) => state.space);
-	const { editorActiveElement } = useAppSelector((state) => state.editor);
-
 	const toastMessage = useToastMessage();
 	const permission = usePermission();
 	const updateActions = useUpdateActions();
@@ -80,22 +77,11 @@ const StylesContainer: React.FC = () => {
 	 */
 	const styleActiveData: Record<string, unknown> | null = useMemo(() => {
 		return activeElementData?.selectActiveData?.style ?? null;
-	}, [editorActiveElement, spaceTemplateData, activeElementData]);
+	}, [permission, activeElementData]);
 
 	const activeUpdateTypeData = useMemo(() => {
 		return activeElementData?.selectType ?? "";
-	}, [editorActiveElement, spaceTemplateData, activeElementData]);
-
-	const filterContentKeys = (
-		content: Content,
-		accessTypes: AccessTypes[]
-	) => {
-		const filteredKeys: ContentKeys[] = Object.keys(content)
-			.filter((key) => accessTypes.includes(key as AccessTypes))
-			.map((key) => key as ContentKeys);
-
-		setExpanded(filteredKeys);
-	};
+	}, [permission, activeElementData]);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -152,17 +138,6 @@ const StylesContainer: React.FC = () => {
 			updateActions.update({}, "", pathMultiKeys, true, false);
 		}
 	};
-
-	useEffect(() => {
-		if (editorActiveElement.componentData) {
-			if (editorActiveElement.componentData.content) {
-				filterContentKeys(
-					editorActiveElement.componentData.content,
-					accessTypes
-				);
-			}
-		}
-	}, [editorActiveElement]);
 
 	if (!permission.panel.styles) {
 		return (

@@ -60,8 +60,6 @@ const NavigatorLayer: React.FC<Props> = (props) => {
 				return <LayersIcon />;
 			case "element":
 				return <ButtonIcon />;
-			case "swiper":
-				return <GalleryThumbnailsIcon />;
 			case "component":
 				return <Component1Icon />;
 			default:

@@ -22,7 +22,7 @@ import {
 import { ItalicIcon, UnderlineIcon } from "lucide-react";
 import usePermission from "@/components/shared/hooks/usePermission";
 import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
-import ColorPaletteCustom from "@/components/shared/uikit/palette/ColorPaletteCustom";
+import ColorFullCustom from "@/components/shared/uikit/palette/ColorFullCustom";
 
 type FontFamilyTypes =
 	| "Futura PT"
@@ -193,34 +193,39 @@ const textAlignOptions: Array<{ value: TextAlign; icon: React.ReactNode }> = [
 	},
 ];
 
+const typographyDefStyles: IStylesValues = {
+	fontFamily: "Futura PT",
+	fontSize: 16,
+	textAlign: "left",
+	fontWeight: "400",
+	color: "#000000",
+	fontStyle: "normal",
+	textDecoration: "initial",
+	colorDark: "#ffffff",
+};
+
 const extractStyles = (
 	styles: Record<string, number | string>
 ): IStylesValues => {
-	let defaultStyles: IStylesValues = {
-		fontFamily: "Futura PT",
-		fontSize: 16,
-		textAlign: "left",
-		fontWeight: "400",
-		color: "#000000",
-		fontStyle: "normal",
-		textDecoration: "initial",
-		colorDark: "#ffffff",
-	};
-
 	return {
 		fontFamily:
-			(styles.fontFamily as FontFamilyTypes) || defaultStyles.fontFamily,
-		fontSize: (styles.fontSize as number) || defaultStyles.fontSize,
-		textAlign: (styles.textAlign as TextAlign) || defaultStyles.textAlign,
+			(styles.fontFamily as FontFamilyTypes) ||
+			typographyDefStyles.fontFamily,
+		fontSize: (styles.fontSize as number) || typographyDefStyles.fontSize,
+		textAlign:
+			(styles.textAlign as TextAlign) || typographyDefStyles.textAlign,
 		fontWeight:
-			(styles.fontWeight as FontWeights) || defaultStyles.fontWeight,
+			(styles.fontWeight as FontWeights) ||
+			typographyDefStyles.fontWeight,
 		fontStyle:
-			(styles.fontStyle as FontStylesType) || defaultStyles.fontStyle,
+			(styles.fontStyle as FontStylesType) ||
+			typographyDefStyles.fontStyle,
 		textDecoration:
 			(styles.textDecoration as TextDecoration) ||
-			defaultStyles.textDecoration,
-		color: (styles.color as string) || defaultStyles.color,
-		colorDark: (styles.colorDark as string) || defaultStyles.colorDark,
+			typographyDefStyles.textDecoration,
+		color: (styles.color as string) || typographyDefStyles.color,
+		colorDark:
+			(styles.colorDark as string) || typographyDefStyles.colorDark,
 	};
 };
 
@@ -248,16 +253,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 	const toastMessage = useToastMessage();
 	const activeDarkTheme = useActiveDarkThemeSetting();
 
-	const [stylesValues, setStylesValues] = useState<IStylesValues>({
-		fontFamily: "Futura PT",
-		fontSize: 16,
-		textAlign: "left",
-		fontWeight: "400",
-		color: "#000000",
-		fontStyle: "normal",
-		textDecoration: "initial",
-		colorDark: "#ffffff",
-	});
+	const [stylesValues, setStylesValues] = useState<IStylesValues>(typographyDefStyles);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -359,22 +355,11 @@ const TypographyStyles: React.FC<Props> = (props) => {
 		}
 	};
 
-	const onChangeColorInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setStylesValues((prevState) => {
-			return {
-				...prevState,
-				color: e.target.value,
-			};
-		});
-	};
-
-	const onMouseUpHandle = () => {
-		onChangeStyleHandle("color", stylesValues.color);
-		onChangeStyleHandle("colorDark", stylesValues.colorDark);
-	};
-
 	useEffect(() => {
-		if (!styles) return;
+		if (!styles) {
+			setStylesValues(typographyDefStyles);
+			return;
+		}
 		const getStyles = extractStyles(styles);
 		setStylesValues(getStyles);
 	}, [styles]);
@@ -614,7 +599,7 @@ const TypographyStyles: React.FC<Props> = (props) => {
 						</Label>
 
 						<div className={cn("grid mt-2 p-1 border rounded-md")}>
-							<ColorPaletteCustom
+							<ColorFullCustom
 								outputColor={
 									activeDarkTheme
 										? stylesValues.colorDark

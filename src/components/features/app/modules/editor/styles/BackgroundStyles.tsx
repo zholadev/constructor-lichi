@@ -6,7 +6,7 @@ import { errorHandler } from "@/components/entities/errorHandler/errorHandler";
 import usePermission from "@/components/shared/hooks/usePermission";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useActiveDarkThemeSetting from "@/components/shared/hooks/useActiveDarkThemeSetting";
-import ColorPaletteCustom from "@/components/shared/uikit/palette/ColorPaletteCustom";
+import ColorFullCustom from "@/components/shared/uikit/palette/ColorFullCustom";
 
 interface IStylesValues {
 	backgroundColor: string;
@@ -133,7 +133,7 @@ const BackgroundStyles: React.FC<Props> = (props) => {
 							Background Color
 						</Label>
 						<div className={cn("grid mt-2 p-1 border rounded-md")}>
-							<ColorPaletteCustom
+							<ColorFullCustom
 								outputColor={
 									activeDarkTheme
 										? stylesValues.backgroundColorDark

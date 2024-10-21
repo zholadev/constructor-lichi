@@ -18,7 +18,7 @@ import {
 } from "@radix-ui/react-icons";
 import { Button } from "@/components/shared/shadcn/ui/button";
 import usePermission from "@/components/shared/hooks/usePermission";
-import ColorPaletteCustom from "@/components/shared/uikit/palette/ColorPaletteCustom";
+import ColorFullCustom from "@/components/shared/uikit/palette/ColorFullCustom";
 
 type BorderStyleType = "solid" | "dashed" | "dotted";
 
@@ -600,7 +600,7 @@ const BorderStyles: React.FC<Props> = (props) => {
 								"grid mt-2 grid-cols-1 gap-3 p-1 border rounded-md"
 							)}
 						>
-							<ColorPaletteCustom
+							<ColorFullCustom
 								outputColor={styleValues.borderColor}
 								onOutputColorChange={(color) => {
 									onChangeStyleHandle("borderColor", color);

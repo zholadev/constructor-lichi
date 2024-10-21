@@ -50,14 +50,14 @@ const TreeItem: React.FC<Props> = (props) => {
 				>
 					{isOpen ? (
 						<Image
-							src={IMAGES.ICON.folderIconsOpenStaticIcon?.src}
+							src={IMAGES.ICON.folderIconsOpenStatic?.src}
 							width={20}
 							height={18}
 							alt="folder"
 						/>
 					) : (
 						<Image
-							src={IMAGES.ICON.folderIconsStaticIcon}
+							src={IMAGES.ICON.folderIconsOpenStatic?.src}
 							width={20}
 							height={18}
 							alt="folder"

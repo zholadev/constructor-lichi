@@ -18,7 +18,7 @@ const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
 };
 
 const sanitizeHex = (hex: string): string => {
-	const cleanedHex = hex.replace(/[^A-Fa-f0-9]/g, '');
+	const cleanedHex = hex.replace(/[^A-Fa-f0-9]/g, "");
 
 	if (cleanedHex.length === 3 || cleanedHex.length === 6) {
 		return `#${cleanedHex}`;

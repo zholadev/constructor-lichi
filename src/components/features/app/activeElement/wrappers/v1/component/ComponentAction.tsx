@@ -50,7 +50,6 @@ const ComponentAction: React.FC<Props> = (props) => {
 	 */
 	const onClickHandle = () => {
 		if (previewMode.previewModeEditor) return;
-		// if (!data?.type) return;
 		if (widgetComponent) {
 			if (dialog.dialogWidget.open) {
 				activeElementHandle({
@@ -66,11 +65,10 @@ const ComponentAction: React.FC<Props> = (props) => {
 					selectElementId: activeElementData?.selectElementId ?? "",
 					selectWidgetActiveData: data ?? null,
 					selectWidgetActiveType: "component",
-					selectWidgetComponentId: data.id ?? "",
+					selectWidgetComponentId: data?.id ?? "",
 				});
 			}
 		} else {
-			console.log("work")
 			activeElementHandle({
 				selectActiveData: data ?? null,
 				selectType: "component",
@@ -92,7 +90,7 @@ const ComponentAction: React.FC<Props> = (props) => {
 		<div className={cn("relative select-none")}>
 			<div
 				className={cn(
-					`${(editorActiveElement?.selectComponentId === data?.id && !previewMode.previewModeEditor) || (activeElementData?.selectWidgetActiveId === data.id && !previewMode.previewModeEditor) ? "border-emerald-400 border-2 box-border" : "border-box"}`,
+					`${(editorActiveElement?.selectComponentId === data?.id && !previewMode.previewModeEditor) || (activeElementData?.selectWidgetComponentId === data.id && !previewMode.previewModeEditor) ? "border-emerald-400 border-2 box-border" : "border-box"}`,
 					styles.card,
 					cls
 				)}

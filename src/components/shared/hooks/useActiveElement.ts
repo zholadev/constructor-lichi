@@ -15,6 +15,7 @@ interface IActiveElement {
 	selectWidgetActiveId: string;
 	selectWidgetActiveType: ActiveElementType;
 	selectWidgetComponentId: string;
+	selectWidgetElementId?: string;
 }
 
 /**
@@ -45,6 +46,7 @@ export default function useActiveElement(): (
 		selectWidgetActiveData,
 		selectWidgetActiveType,
 		selectWidgetComponentId,
+		selectWidgetElementId,
 	}: IActiveElement): IActiveElement | null => {
 		// Проверка на наличие данных
 		if (!selectActiveData || !selectContainerId || !selectType) {
@@ -66,6 +68,8 @@ export default function useActiveElement(): (
 			selectContainerId,
 			selectWidgetActiveData,
 			selectWidgetActiveType,
+			selectWidgetComponentId,
+			selectWidgetElementId,
 		});
 
 		// Возвращаем объект элементов
@@ -80,6 +84,7 @@ export default function useActiveElement(): (
 			selectWidgetActiveData,
 			selectWidgetActiveType,
 			selectWidgetComponentId,
+			selectWidgetElementId,
 		};
 	};
 }

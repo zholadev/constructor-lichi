@@ -52,7 +52,6 @@ const SpacePageContainer: React.FC = () => {
 			</div>
 
 			<SchemaView />
-			<WidgetContainer />
 			<DialogCreateDirectory />
 			<DialogUploadFile />
 			<TemplateAddDialog />

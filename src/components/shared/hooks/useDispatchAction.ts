@@ -89,7 +89,7 @@ import {
 	ISchemaPageData,
 	ISchemaTotalData,
 } from "@/components/shared/types/interface-schema";
-import {WidgetTypes} from "@/components/features/app/modules/widgets/types/interface-widget";
+import { WidgetTypes } from "@/components/features/app/modules/widgets/types/interface-widget";
 
 export default function useDispatchAction(): any {
 	const dispatch = useAppDispatch();

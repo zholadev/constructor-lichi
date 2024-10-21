@@ -4,6 +4,8 @@ import { cn } from "@/components/lib/utils";
 import styles from "@/components/styles/widget.module.sass";
 import WidgetTypeDisplay from "@/components/features/app/modules/widgets/container/WidgetTypeDisplay";
 import WidgetSelect from "@/components/features/app/modules/widgets/container/WidgetSelect";
+import { Cross1Icon } from "@radix-ui/react-icons";
+import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 
 /**
  * @author Zholaman Zhumanov
@@ -17,6 +19,12 @@ import WidgetSelect from "@/components/features/app/modules/widgets/container/Wi
  */
 const WidgetContainer: React.FC = () => {
 	const dialog = useDialogAction();
+	const { editorWidgetActiveElementAction } = useDispatchAction();
+
+	const closeStoriesHandle = () => {
+		editorWidgetActiveElementAction("none");
+		dialog.dialogWidget.toggle();
+	};
 
 	return (
 		<div
@@ -24,6 +32,13 @@ const WidgetContainer: React.FC = () => {
 				`${styles.widget} ${dialog.dialogWidget.open ? styles.active : ""}`
 			)}
 		>
+			<button
+				type="button"
+				onClick={closeStoriesHandle}
+				className={cn(`${styles.close}`)}
+			>
+				<Cross1Icon />
+			</button>
 			<div className={cn("w-full grid h-full grid-cols-3")}>
 				<div className={cn("col-span-2")}>
 					<WidgetTypeDisplay />

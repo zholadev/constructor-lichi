@@ -9,6 +9,7 @@ import BoardToolbar from "@/components/components/board/BoardToolbar";
 import BoardDraggingDisplay from "@/components/components/board/BoardDraggingDisplay";
 import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import usePreviewMode from "@/components/shared/hooks/usePreviewMode";
+import WidgetContainer from "@/components/features/app/modules/widgets/container/WidgetContainer";
 
 /**
  * @author Zholaman Zhumanov
@@ -52,6 +53,7 @@ const WhiteBoard: React.FC = () => {
 			}}
 		>
 			<BoardToolbar />
+			<WidgetContainer />
 			<div
 				style={{
 					...styleFormatted({

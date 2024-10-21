@@ -3,8 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { cn } from "@/components/lib/utils";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
-import useDialogAction from "@/components/shared/hooks/useDialogAction";
-import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import BaseComponentRender from "../../components/container/v1/BaseComponentRender";
 import useActiveElementObserver from "../../../../../shared/hooks/useActiveElementObserver";
 import StoriesAddButton from "./StoriesAddButton";
@@ -20,17 +18,9 @@ import StoriesAddButton from "./StoriesAddButton";
  * @constructor
  */
 const StoriesContent: React.FC = () => {
-	const dialog = useDialogAction();
-	const { editorAdditionalActiveElementAction } = useDispatchAction();
-
 	const activeElementData = useActiveElementObserver();
 
 	const { editorSwiperIndexShow } = useAppSelector((state) => state.editor);
-
-	const closeStoriesHandle = () => {
-		editorAdditionalActiveElementAction("none");
-		dialog.dialogWidget.toggle();
-	};
 
 	const widgetListData = useMemo(() => {
 		return activeElementData?.selectWidgetData ?? [];

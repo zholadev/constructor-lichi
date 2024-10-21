@@ -50,7 +50,9 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 						...component,
 						widgets: {
 							...component.widgets,
-							data: updatedStoriesComponents,
+							data: {
+								components: updatedStoriesComponents,
+							},
 						},
 					};
 				}
@@ -78,7 +80,7 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 							(widget) => {
 								if (
 									widget.id ===
-									activeElementData?.selectWidgetActiveId
+									activeElementData?.selectWidgetComponentId
 								) {
 									const updatedElements =
 										widget.elements.filter(
@@ -101,7 +103,9 @@ export default function useRemoveWidgetActions(): IRemoveWidgetActions {
 						...component,
 						widgets: {
 							...component.widgets,
-							data: updatedStoriesComponents,
+							data: {
+								components: updatedStoriesComponents,
+							},
 						},
 					};
 				}

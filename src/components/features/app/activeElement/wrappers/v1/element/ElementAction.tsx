@@ -61,7 +61,9 @@ const ElementAction: React.FC<Props> = (props) => {
 					selectElementId: activeElementData?.selectElementId ?? "",
 					selectWidgetActiveData: data ?? null,
 					selectWidgetActiveType: "element",
-					selectWidgetComponentId: data.id ?? "",
+					selectWidgetComponentId:
+						activeElementData?.selectWidgetComponentId ?? "",
+					selectWidgetElementId: data?.id ?? null,
 				});
 			}
 		} else {
@@ -90,7 +92,7 @@ const ElementAction: React.FC<Props> = (props) => {
 		<div
 			className={cn(
 				"cursor-pointer box-border relative",
-				`${(editorActiveElement?.selectElementId === data?.id && !previewMode.previewModeEditor) || (activeElementData?.selectWidgetActiveId === data.id && !previewMode.previewModeEditor) ? "border-orange-400 border-2" : ""}`
+				`${(editorActiveElement?.selectElementId === data?.id && !previewMode.previewModeEditor) || (activeElementData?.selectWidgetElementId === data.id && !previewMode.previewModeEditor) ? "border-orange-400 border-2" : ""}`
 			)}
 			onClick={(e) => {
 				e.stopPropagation();

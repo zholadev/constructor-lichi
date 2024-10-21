@@ -43,7 +43,10 @@ const WidgetSelect: React.FC = () => {
 	 */
 	const onChangeHandle = (value: WidgetTypes) => {
 		editorWidgetActiveElementAction(value);
-		updateActions.update({ type: value, data: [] }, "widgets");
+		updateActions.update(
+			{ type: value, data: { components: [] } },
+			"widgets"
+		);
 	};
 
 	/**

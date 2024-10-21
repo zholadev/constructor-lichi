@@ -142,7 +142,9 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 								...component,
 								widgets: {
 									...component.widgets,
-									data: updatedStoriesComponents,
+									data: {
+										components: updatedStoriesComponents,
+									},
 								},
 							};
 						}
@@ -168,7 +170,7 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 									(widget) => {
 										if (
 											widget.id ===
-											activeElementData.selectWidgetActiveId
+											activeElementData.selectWidgetComponentId
 										) {
 											// Находим элемент в storyComponent.data.elements
 											const elementIndex =
@@ -229,7 +231,9 @@ export default function useUpdateWidgetActions(): IUpdateWidgetActions {
 								...component,
 								widgets: {
 									...component.widgets,
-									data: updatedStoriesComponents,
+									data: {
+										components: updatedStoriesComponents,
+									},
 								},
 							};
 						}

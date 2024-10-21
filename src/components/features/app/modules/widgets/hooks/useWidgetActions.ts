@@ -84,7 +84,9 @@ export default function useWidgetActions(): IWidgetActions {
 							...component,
 							widgets: {
 								...component.widgets,
-								data: updatedComponents,
+								data: {
+									components: updatedComponents,
+								},
 							},
 						};
 					}

@@ -1,5 +1,14 @@
-import React, { useEffect } from "react";
-import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
+import React, {
+	CSSProperties,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
+import {
+	ISchemaSettingCategoryListParams,
+	ISchemaSettingsTimer,
+} from "@/components/shared/types/interface-schema-settings";
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { cn } from "@/components/lib/utils";
 import {
@@ -18,10 +27,18 @@ import {
 import { Button } from "@/components/shared/shadcn/ui/button";
 import useToastMessage from "@/components/shared/hooks/useToastMessage";
 import { IRequestApiParams } from "@/components/shared/types/interface-app";
+import TypographyStyles from "@/components/features/app/modules/editor/styles/TypographyStyles";
+import SpacingStyles from "@/components/features/app/modules/editor/styles/SpacingStyles";
+
+type CategoryElementType = "name" | "price";
 
 interface Props {
 	settingValue?: ISchemaSettingCategoryListParams;
 	onUpdateSchemaHandle?: (value: ISchemaSettingCategoryListParams) => void;
+	onUpdateSchemaStyleHandle?: (
+		value: ISchemaSettingsTimer,
+		path: string
+	) => void;
 }
 
 interface Country {
@@ -45,11 +62,57 @@ interface Category {
 	type: string;
 }
 
+interface ICategoryElement {
+	id: number;
+	name: string;
+	value: CategoryElementType;
+}
+
+const categoryElementsData: ICategoryElement[] = [
+	{
+		id: 1,
+		name: "Название",
+		value: "name",
+	},
+	{
+		id: 2,
+		name: "Цена",
+		value: "price",
+	},
+];
+
 const categoryDefaultData: ISchemaSettingCategoryListParams = {
 	shop: 1,
 	category: "new",
 	limit: 11,
-	cardType: "card",
+	card: {
+		type: "card",
+		elements: {
+			name: {
+				style: {},
+			},
+			price: {
+				style: {},
+			},
+		},
+	},
+};
+
+const filterStyleForElements = (
+	data: ISchemaSettingCategoryListParams,
+	type: CategoryElementType
+): any => {
+	const { card } = data;
+
+	if (!type) {
+		throw new Error("Type is required");
+	}
+
+	return {
+		style: {
+			...card.elements[type].style,
+		},
+	};
 };
 
 /**
@@ -64,14 +127,17 @@ const categoryDefaultData: ISchemaSettingCategoryListParams = {
  * @constructor
  */
 const CategoryListSetting: React.FC<Props> = (props) => {
-	const { settingValue, onUpdateSchemaHandle } = props;
+	const { settingValue, onUpdateSchemaHandle, onUpdateSchemaStyleHandle } =
+		props;
 
 	const toastMessage = useToastMessage();
 	const { apiFetchHandler, loading } = useApiRequest();
 
-	const [countryList, setCountryList] = React.useState<Country[]>([]);
-	const [categoryList, setCategoryList] = React.useState<Category[]>([]);
+	const [countryList, setCountryList] = useState<Country[]>([]);
+	const [categoryList, setCategoryList] = useState<Category[]>([]);
 
+	const [currentElementType, setCurrentElementType] =
+		useState<CategoryElementType>("name");
 	const [categoryParamsSetting, setCategoryParamsSetting] =
 		React.useState<ISchemaSettingCategoryListParams>(categoryDefaultData);
 
@@ -92,6 +158,52 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 			};
 		});
 	};
+
+	/**
+	 * @author Zholaman Zhumanov
+	 * @description Метод для получения активного стиля elements
+	 */
+	const currentElementStyle = useMemo(() => {
+		return currentElementType === "price"
+			? categoryParamsSetting.card.elements.price.style
+			: categoryParamsSetting.card.elements.name.style;
+	}, [currentElementType, categoryParamsSetting]);
+
+	const onChangeStyleHandle = useCallback(
+		(key: CategoryElementType, value: any) => {
+			setCategoryParamsSetting((prevState) => {
+				const updatedValues = {
+					...prevState,
+					card: {
+						type: prevState.card.type,
+						elements: {
+							...prevState.card.elements,
+							[key]: {
+								style: {
+									...prevState.card.elements[key].style,
+									...value,
+								},
+							},
+						},
+					},
+				};
+
+				if (onUpdateSchemaStyleHandle) {
+					const filteredData = filterStyleForElements(
+						updatedValues,
+						currentElementType
+					);
+					onUpdateSchemaStyleHandle(
+						filteredData,
+						`settings.categoryList.card.elements.${currentElementType}`
+					);
+				}
+
+				return updatedValues;
+			});
+		},
+		[onUpdateSchemaStyleHandle, currentElementType]
+	);
 
 	/**
 	 * @author Zholaman Zhumanov
@@ -147,41 +259,132 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		fetchGetSiteInfo();
-	}, [settingValue]);
+	}, []);
 
 	useEffect(() => {
 		fetchGetCategoryList();
-	}, [settingValue]);
+	}, [settingValue?.category, settingValue?.shop, settingValue?.limit]);
 
 	useEffect(() => {
 		if (settingValue) {
 			setCategoryParamsSetting(settingValue);
+		} else {
+			setCategoryParamsSetting(categoryDefaultData);
 		}
 	}, [settingValue]);
 
 	return (
-		<div className="w-full">
-			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
-				<h3>Выберите страну</h3>
-				<div className={cn("w-full")}>
+		<div className={cn("w-full px-1")}>
+			<div className={cn("w-full mb-5")}>
+				<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
+					<h3>Выберите страну</h3>
+					<div className={cn("w-full")}>
+						<Select
+							defaultValue={categoryParamsSetting.shop.toString()}
+							value={categoryParamsSetting.shop.toString()}
+							disabled={countryList?.length === 0 || loading}
+							onValueChange={(value) =>
+								onChangeHandle("shop", value)
+							}
+						>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Выберите" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									{countryList.map((country) => {
+										return (
+											<SelectItem
+												key={country.id}
+												value={country.id.toString()}
+											>
+												{country.name?.ru}
+											</SelectItem>
+										);
+									})}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</div>
+				</div>
+
+				<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
+					<h3>Выберите категорию</h3>
+					<div className={cn("w-full")}>
+						<Select
+							defaultValue={categoryParamsSetting.category}
+							value={categoryParamsSetting.category}
+							disabled={categoryList?.length === 0 || loading}
+							onValueChange={(value) =>
+								onChangeHandle("category", value)
+							}
+						>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Выберите" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									{categoryList?.map((category) => {
+										return (
+											<SelectItem
+												key={category.id}
+												value={category.url}
+											>
+												{category.name}
+											</SelectItem>
+										);
+									})}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</div>
+				</div>
+
+				<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
+					<h3>Количество вывода</h3>
+					<div className={cn("w-full")}>
+						<Input
+							type="number"
+							value={categoryParamsSetting.limit}
+							onChange={(e) =>
+								onChangeHandle("limit", e.target.value)
+							}
+						/>
+					</div>
+				</div>
+
+				<div className={cn("mt-5 flex items-center justify-end gap-2")}>
+					<Button onClick={onConfirmHandle} type="button">
+						Сохранить
+					</Button>
+				</div>
+			</div>
+
+			<div className={cn("w-full")}>
+				<h3 className={cn("uppercase text-xs mb-3 text-gray-500")}>
+					Стили
+				</h3>
+
+				<div className={cn("w-full mb-5")}>
 					<Select
-						defaultValue={categoryParamsSetting.shop.toString()}
-						value={categoryParamsSetting.shop.toString()}
-						disabled={countryList?.length === 0 || loading}
-						onValueChange={(value) => onChangeHandle("shop", value)}
+						defaultValue={currentElementType}
+						value={currentElementType}
+						onValueChange={(value: CategoryElementType) =>
+							setCurrentElementType(value)
+						}
 					>
 						<SelectTrigger className="w-full">
-							<SelectValue placeholder="Выберите" />
+							<SelectValue placeholder="Выберите тип" />
 						</SelectTrigger>
 						<SelectContent>
 							<SelectGroup>
-								{countryList.map((country) => {
+								{categoryElementsData.map((element, index) => {
 									return (
 										<SelectItem
-											key={country.id}
-											value={country.id.toString()}
+											key={index}
+											value={element.value}
 										>
-											{country.name?.ru}
+											{element.name}
 										</SelectItem>
 									);
 								})}
@@ -189,57 +392,25 @@ const CategoryListSetting: React.FC<Props> = (props) => {
 						</SelectContent>
 					</Select>
 				</div>
-			</div>
 
-			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
-				<h3>Выберите категорию</h3>
-				<div className={cn("w-full")}>
-					<Select
-						defaultValue={categoryParamsSetting.category}
-						value={categoryParamsSetting.category}
-						disabled={categoryList?.length === 0 || loading}
-						onValueChange={(value) =>
-							onChangeHandle("category", value)
-						}
-					>
-						<SelectTrigger className="w-full">
-							<SelectValue placeholder="Выберите" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								{categoryList?.map((category) => {
-									return (
-										<SelectItem
-											key={category.id}
-											value={category.url}
-										>
-											{category.name}
-										</SelectItem>
-									);
-								})}
-							</SelectGroup>
-						</SelectContent>
-					</Select>
-				</div>
-			</div>
+				<TypographyStyles
+					hideTitle
+					// @ts-ignore
+					styles={currentElementStyle}
+					onUpdateSchemaHandle={(data) => {
+						onChangeStyleHandle(currentElementType, data);
+					}}
+					hideRemove
+				/>
 
-			<div className="grid grid-cols-1 gap-3 mb-7 mt-4">
-				<h3>Количество вывода</h3>
-				<div className={cn("w-full")}>
-					<Input
-						type="number"
-						value={categoryParamsSetting.limit}
-						onChange={(e) =>
-							onChangeHandle("limit", e.target.value)
-						}
-					/>
-				</div>
-			</div>
-
-			<div className={cn("mt-5 flex items-center justify-end gap-2")}>
-				<Button onClick={onConfirmHandle} type="button">
-					Сохранить
-				</Button>
+				<SpacingStyles
+					hideTitle
+					// @ts-ignore
+					styles={currentElementStyle}
+					onUpdateSchemaHandle={(data) => {
+						onChangeStyleHandle(currentElementType, data);
+					}}
+				/>
 			</div>
 		</div>
 	);

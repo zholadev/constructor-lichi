@@ -183,6 +183,9 @@ const SettingContainer: React.FC = () => {
 									"settings.categoryList"
 								)
 							}
+							onUpdateSchemaStyleHandle={(data, path) => {
+								updateSchemaHandle(data, path);
+							}}
 						/>
 					</AccordionContent>
 				</AccordionItem>

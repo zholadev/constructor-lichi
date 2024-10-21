@@ -216,18 +216,24 @@ const SpacingStyles: React.FC<Props> = (props) => {
 		<div className={cn("w-full flex flex-col")}>
 			{!hideTitle && <h3>Spacing</h3>}
 
-			<div className={cn("flex flex-row gap-2 items-center justify-end")}>
-				<div className={cn("flex flex-row items-center gap-2")}>
-					<Button
-						type="button"
-						variant="ghost"
-						className={cn("text-xs")}
-						onClick={removeStylesHandle}
-					>
-						Очистить
-					</Button>
+			{removeStylesHandle && (
+				<div
+					className={cn(
+						"flex flex-row gap-2 items-center justify-end"
+					)}
+				>
+					<div className={cn("flex flex-row items-center gap-2")}>
+						<Button
+							type="button"
+							variant="ghost"
+							className={cn("text-xs")}
+							onClick={removeStylesHandle}
+						>
+							Очистить
+						</Button>
+					</div>
 				</div>
-			</div>
+			)}
 
 			{permission.styles.spacing.margin && (
 				<>

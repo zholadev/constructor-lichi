@@ -17,7 +17,6 @@ export type ActiveElementType =
 	| "component"
 	| "element"
 	| "container"
-	| "swiper"
 	| "none";
 
 export type ImageType = "card" | "album";

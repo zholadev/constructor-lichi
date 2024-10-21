@@ -90,7 +90,6 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 		categoryListParams.category,
 		categoryListParams.shop,
 		categoryListParams.limit,
-		categoryListParams.cardType,
 	]);
 
 	useEffect(() => {
@@ -180,11 +179,21 @@ const CategoryListContainer: React.FC<Props> = (props) => {
 										{index}
 									</span>
 								)}
-								{categoryListParams.cardType ===
+								{categoryListParams.card.type ===
 								"card_outside" ? (
-									<CategoryCardOutside product={product} />
+									<CategoryCardOutside
+										product={product}
+										elements={
+											categoryListParams.card.elements
+										}
+									/>
 								) : (
-									<CategoryCard product={product} />
+									<CategoryCard
+										product={product}
+										elements={
+											categoryListParams.card.elements
+										}
+									/>
 								)}
 							</SwiperSlide>
 						);

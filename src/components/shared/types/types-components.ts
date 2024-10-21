@@ -14,6 +14,7 @@ export type SchemaComponentTypes =
 	| "saint_laurent"
 	| "none";
 
+export type SchemaSpecialElements = "category_list_name" | "category_list_price";
 export type SchemaElementTypes = "button" | "text" | "timer";
 export type ElementBaseTypes = "button" | "text" | "timer";
 export type ElementBasenameTypes = "Button" | "Text" | "Timer";

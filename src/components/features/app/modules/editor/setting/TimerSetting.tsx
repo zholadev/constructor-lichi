@@ -27,7 +27,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/shared/shadcn/ui/select";
-import { defaultSettings } from "@/components/entities/defSettings/def_settings";
 
 interface Props {
 	settingValue?: ISchemaSettingsTimer;
@@ -171,6 +170,7 @@ const TimerSetting: React.FC<Props> = (props) => {
 		},
 		[onUpdateSchemaStyleHandle, timeStyleUnitType]
 	);
+
 	/**
 	 * @author Zholaman Zhumanov
 	 * @description Метод для получения активного стиля units

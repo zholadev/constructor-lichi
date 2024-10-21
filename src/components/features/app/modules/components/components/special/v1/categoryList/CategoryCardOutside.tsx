@@ -1,9 +1,12 @@
 import React from "react";
+import { ISchemaSettingCategoryListElementsParams } from "@/components/shared/types/interface-schema-settings";
+import useStylesFormatted from "@/components/shared/hooks/useStylesFormatted";
 import styles from "./category-card-v1.module.sass";
 import { ProductV1 } from "../../../../types/v1/interface-category-list";
 
 interface Props {
 	product: ProductV1;
+	elements: ISchemaSettingCategoryListElementsParams;
 }
 
 /**
@@ -18,7 +21,9 @@ interface Props {
  * @constructor
  */
 const CategoryCardOutside: React.FC<Props> = (props) => {
-	const { product } = props;
+	const { product, elements } = props;
+
+	const styleFormatted = useStylesFormatted();
 
 	return (
 		<div className={styles.category_card}>
@@ -30,8 +35,22 @@ const CategoryCardOutside: React.FC<Props> = (props) => {
 			</div>
 
 			<div className={styles.info_block_outside}>
-				<h3 className={styles.name}>{product.name}</h3>
-				<div className={styles.price}>{product?.format_price?.[2]}</div>
+				<h3
+					className={styles.name}
+					style={{
+						...styleFormatted(elements.name.style),
+					}}
+				>
+					{product.name}
+				</h3>
+				<div
+					className={styles.price}
+					style={{
+						...styleFormatted(elements.price.style),
+					}}
+				>
+					{product?.format_price?.[2]}
+				</div>
 			</div>
 		</div>
 	);

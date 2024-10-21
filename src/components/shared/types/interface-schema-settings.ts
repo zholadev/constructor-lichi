@@ -66,11 +66,25 @@ export interface ISchemaSettingsElement {
 	};
 }
 
+export interface ISchemaSettingCategoryListElementsParams {
+	name: {
+		style: Record<string, unknown>;
+	};
+	price: {
+		style: Record<string, unknown>;
+	};
+}
+
+export type CategoryListCardType = "card" | "card_outside";
+
 export interface ISchemaSettingCategoryListParams {
 	shop: number;
 	category: string;
 	limit: number;
-	cardType: "card" | "card_outside";
+	card: {
+		type: CategoryListCardType;
+		elements: ISchemaSettingCategoryListElementsParams;
+	};
 }
 
 export interface ISchemaSettings {

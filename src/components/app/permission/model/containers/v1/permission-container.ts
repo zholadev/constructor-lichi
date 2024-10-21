@@ -198,7 +198,7 @@ export const category_list_container_permission_v1: IPermission = {
 	styles: {
 		...baseContainerPermission.styles,
 		typography: {
-			root: true,
+			root: false,
 			fontSize: true,
 			fontFamily: true,
 			color: true,

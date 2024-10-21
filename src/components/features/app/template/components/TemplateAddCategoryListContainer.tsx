@@ -16,12 +16,16 @@ import {
 	apiMethodSiteCategoryList,
 	apiMethodSiteSiteInfo,
 } from "@/components/shared/backend/requests/site/requests";
-import { ISchemaSettingCategoryListParams } from "@/components/shared/types/interface-schema-settings";
+import {
+	CategoryListCardType,
+	ISchemaSettingCategoryListParams
+} from "@/components/shared/types/interface-schema-settings";
 import { Input } from "@/components/shared/shadcn/ui/input";
 import { ImageIcon } from "@radix-ui/react-icons";
 import useContainerActions from "@/components/features/app/modules/container/hooks/useContainerActions";
 import { versionContainer } from "@/components/app/versions/types/interface-version-container";
 import { IRequestApiParams } from "@/components/shared/types/interface-app";
+import { defaultStyles } from "@/components/entities/defStyles/def_styles";
 
 interface Country {
 	id: number;
@@ -52,7 +56,21 @@ const categoryDefaultData: ITemplateAddCategoryList = {
 	shop: 1,
 	category: "new",
 	limit: 11,
-	cardType: "card",
+	card: {
+		type: "card",
+		elements: {
+			name: {
+				style: {
+					...defaultStyles.SPECIALS?.category_list_name,
+				},
+			},
+			price: {
+				style: {
+					...defaultStyles.SPECIALS?.category_list_price,
+				},
+			},
+		},
+	},
 	version: versionContainer.category_list_container?.[0]?.version,
 };
 
@@ -96,9 +114,19 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 	 */
 	const onChangeHandle = (
 		key: keyof ITemplateAddCategoryList,
-		value: string | number
+		value: string | number | CategoryListCardType
 	) => {
 		setCategoryParamsSetting((prevState) => {
+			if (key === "card") {
+				return {
+					...prevState,
+					card: {
+						...prevState.card,
+						type: value as CategoryListCardType,
+						elements: prevState.card.elements,
+					},
+				};
+			}
 			return {
 				...prevState,
 				[key]: value,
@@ -161,7 +189,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 				shop: categoryParamsSetting.shop,
 				category: categoryParamsSetting.category,
 				limit: categoryParamsSetting.limit,
-				cardType: categoryParamsSetting.cardType,
+				card: categoryParamsSetting.card,
 			},
 			categoryParamsSetting.version,
 			toggleDialogHandle
@@ -284,7 +312,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 			<div className="grid grid-cols-2 gap-3 mb-7 mt-4">
 				<Button
 					variant={
-						categoryParamsSetting.cardType === "card"
+						categoryParamsSetting.card.type === "card"
 							? "default"
 							: "outline"
 					}
@@ -292,7 +320,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 						"p-3 text-xs border w-full h-[120px] flex flex-col"
 					)}
 					onClick={() => {
-						onChangeHandle("cardType", "card");
+						onChangeHandle("card", "card");
 					}}
 				>
 					<ImageIcon width={60} height={60} className={cn("mb-3")} />{" "}
@@ -300,7 +328,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 				</Button>
 				<Button
 					variant={
-						categoryParamsSetting.cardType === "card_outside"
+						categoryParamsSetting.card.type === "card_outside"
 							? "default"
 							: "outline"
 					}
@@ -308,7 +336,7 @@ const TemplateAddCategoryListContainer: React.FC = () => {
 						"p-3 text-xs border w-full h-[120px] flex flex-col"
 					)}
 					onClick={() => {
-						onChangeHandle("cardType", "card_outside");
+						onChangeHandle("card", "card_outside");
 					}}
 				>
 					<ImageIcon width={60} height={60} className={cn("mb-3")} />{" "}

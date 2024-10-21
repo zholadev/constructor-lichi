@@ -1,6 +1,7 @@
 import {
 	SchemaComponentTypes,
 	ElementBaseTypes,
+	SchemaSpecialElements,
 } from "@/components/shared/types/types-components";
 import { IContainerType } from "@/components/shared/types/types";
 
@@ -16,6 +17,7 @@ interface IDefaultStyles {
 	ELEMENT: Record<ElementBaseTypes, Record<string, unknown>>;
 	COMPONENTS: Record<SchemaComponentTypes, Record<string, unknown>>;
 	CONTAINERS: Record<IContainerType, Record<string, unknown>>;
+	SPECIALS?: Record<SchemaSpecialElements, Record<string, unknown>>;
 }
 
 // @ts-ignore
@@ -84,6 +86,23 @@ export const defaultStyles: IDefaultStyles = {
 			color: commonStyles.defaultColor,
 			colorDark: commonStyles.darkColor,
 			fontFamily: commonStyles.fontFamily,
+		},
+	},
+	SPECIALS: {
+		category_list_name: {
+			margin: [0, 0, 20, 0],
+			color: "#000000",
+			colorDark: "#000000",
+			fontFamily: "Futura PT",
+			fontSize: 14,
+			textTransform: "uppercase",
+		},
+		category_list_price: {
+			color: "#000000",
+			colorDark: "#000000",
+			fontSize: 14,
+			fontFamily: "Futura PT",
+			textTransform: "uppercase",
 		},
 	},
 };

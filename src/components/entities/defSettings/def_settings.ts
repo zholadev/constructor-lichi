@@ -1,7 +1,5 @@
 import { ISchemaSettings } from "@/components/shared/types/interface-schema-settings";
 
-// @todo переделать
-
 interface IDefaultSettings {
 	CONTAINERS: {
 		container: {
@@ -103,7 +101,7 @@ export const defaultSettings: IDefaultSettings = {
 		category_list_container: {
 			view: {
 				darkTheme: true,
-				heightFull: true,
+				heightFull: false,
 				navbarThemeMode: false,
 			},
 			show: {
@@ -129,5 +127,5 @@ export const defaultSettings: IDefaultSettings = {
 				mousewheel: false,
 			},
 		},
-	}
+	},
 };

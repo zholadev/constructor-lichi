@@ -6,7 +6,6 @@ import { ButtonIcon, Component1Icon, LayersIcon } from "@radix-ui/react-icons";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
 import useActiveElement from "@/components/shared/hooks/useActiveElement";
 import { ActiveElementType, SchemaData } from "@/components/shared/types/types";
-import { GalleryThumbnailsIcon } from "lucide-react";
 import { ISchemaComponent } from "@/components/shared/types/interface-schema-component";
 import { formattedName } from "@/components/shared/utils/utils";
 

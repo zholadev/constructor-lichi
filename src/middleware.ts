@@ -7,10 +7,7 @@ export function middleware(req: NextRequest): NextResponse | any {
 	if (auth) {
 		const [, base64Credentials] = auth.split(" ");
 		if (base64Credentials) {
-			const credentials = Buffer.from(
-				base64Credentials,
-				"base64"
-			).toString();
+			const credentials = atob(base64Credentials);
 			const [user, pass] = credentials.split(":");
 
 			if (user === "xyzDev" && pass === "xyzDev") {
@@ -25,8 +22,6 @@ export function middleware(req: NextRequest): NextResponse | any {
 			"WWW-Authenticate": "Basic realm='Secure Area'",
 		},
 	});
-
-	return NextResponse.next();
 }
 
 export const config = {

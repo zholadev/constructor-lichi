@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { DeviceFrameset } from "react-device-frameset";
+import {
+	DeviceEmulator,
+	DeviceFrameset,
+	DeviceFramesetProps,
+} from "react-device-frameset";
 import "react-device-frameset/styles/marvel-devices.min.css";
 import "react-device-frameset/styles/device-emulator.min.css";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";
@@ -10,7 +14,7 @@ import { BottomBarTypes, PlatformType } from "@/components/shared/types/types";
 import { DeviceName } from "@/components/shared/types/interface-app";
 
 interface Props {
-	children: React.ReactNode;
+	children: (props: DeviceFramesetProps) => React.ReactNode;
 	devices: DeviceName[];
 }
 
@@ -25,7 +29,7 @@ interface Props {
  * @param props
  * @constructor
  */
-const DeviceEmulatorContainer: React.FC<Props> = (props): React.JSX.Element => {
+const DeviceEmulatorContainer: React.FC<Props> = (props): React.ReactNode => {
 	const { children, devices } = props;
 
 	const { editorHeightPropertyAction } = useDispatchAction();
@@ -62,17 +66,13 @@ const DeviceEmulatorContainer: React.FC<Props> = (props): React.JSX.Element => {
 	]);
 
 	return (
-		// <DeviceEmulator
-		// 	banDevices={devices}
-		// 	langscape={false}
-		// 	onChange={(event) => setSize(event)}
-		// >
-		// 	{(props: DeviceFramesetProps) => {
-		// 		return (
-		<DeviceFrameset device="MacBook Pro">{children}</DeviceFrameset>
-		// )
-		// 	}}
-		// </DeviceEmulator>
+		<DeviceEmulator
+			banDevices={devices}
+			langscape={false}
+			onChange={(event) => setSize(event)}
+		>
+			{props => (<DeviceFrameset {...props}>{children}</DeviceFrameset>)}
+		</DeviceEmulator>
 	);
 };
 

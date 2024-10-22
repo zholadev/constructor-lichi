@@ -1,3 +1,5 @@
+"use client";
+
 import useApiRequest from "@/components/shared/hooks/useApiRequest";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import useDispatchAction from "@/components/shared/hooks/useDispatchAction";

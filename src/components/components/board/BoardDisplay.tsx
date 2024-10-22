@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useAppSelector } from "@/components/app/store/hooks/hooks";
 import { DeviceType } from "@/components/shared/types/types";
@@ -26,7 +28,7 @@ const BoardDisplay: React.FC = () => {
 		(state) => state.space
 	);
 
-	const renderBoardType = (): React.JSX.Element => {
+	const renderBoardType = () => {
 		switch (spaceModeDeviceType as DeviceType) {
 			case "desktop":
 				return <BoardContainer />;
@@ -34,33 +36,59 @@ const BoardDisplay: React.FC = () => {
 				return (
 					<DeviceEmulatorContainer
 						key="laptop"
+						type="laptop"
 						devices={deviceDesktopList}
 					>
 						<BoardContainer />
+						{/* {(props) => { */}
+						{/*	return <BoardContainer {...props} />; */}
+						{/* }} */}
 					</DeviceEmulatorContainer>
 				);
 			case "tablet":
 				return (
 					<DeviceEmulatorContainer
 						key="tablet"
+						type="tablet"
 						devices={deviceTabletList}
 					>
 						<BoardContainer />
 						{spaceModePlatformType === "app" && (
 							<BottomBarDefault />
 						)}
+						{/* {(props) => { */}
+						{/*	return ( */}
+						{/*		<> */}
+						{/*			<BoardContainer {...props} /> */}
+						{/*			{spaceModePlatformType === "app" && ( */}
+						{/*				<BottomBarDefault /> */}
+						{/*			)} */}
+						{/*		</> */}
+						{/*	); */}
+						{/* }} */}
 					</DeviceEmulatorContainer>
 				);
 			case "mobile":
 				return (
 					<DeviceEmulatorContainer
 						key="mobile"
+						type="mobile"
 						devices={deviceMobileList}
 					>
 						<BoardContainer />
 						{spaceModePlatformType === "app" && (
 							<BottomBarDefault />
 						)}
+						{/* {(props) => { */}
+						{/*	return ( */}
+						{/*		<> */}
+						{/*			<BoardContainer {...props} /> */}
+						{/*			{spaceModePlatformType === "app" && ( */}
+						{/*				<BottomBarDefault /> */}
+						{/*			)} */}
+						{/*		</> */}
+						{/*	); */}
+						{/* }} */}
 					</DeviceEmulatorContainer>
 				);
 			default:
